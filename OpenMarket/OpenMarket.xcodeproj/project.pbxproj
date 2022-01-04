@@ -121,12 +121,12 @@
 			isa = PBXGroup;
 			children = (
 				63D97B682783F754009E2516 /* Model */,
-				63D97B6B2783F7F1009E2516 /* Resource */,
-				63D97B6A2783F7DC009E2516 /* Support */,
 				63D97B692783F7BE009E2516 /* View */,
 				63D97B672783F749009E2516 /* Controller */,
-				63D97B652783F72E009E2516 /* SceneDelegate */,
 				63D97B642783F71E009E2516 /* AppDelegate */,
+				63D97B652783F72E009E2516 /* SceneDelegate */,
+				63D97B6B2783F7F1009E2516 /* Resource */,
+				63D97B6A2783F7DC009E2516 /* Support */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
