@@ -18,8 +18,8 @@ struct Product: Codable {
     let bargainPrice: Double
     let discountedPrice: Double
     let stock: Int
-    let createdAt: String
-    let issuedAt: String
+    let createdAt: Date
+    let issuedAt: Date
     
     var currencyCode: Currency {
         return Currency(currencyCode: currency) ?? .krw
