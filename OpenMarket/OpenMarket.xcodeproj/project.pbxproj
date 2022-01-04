@@ -37,6 +37,70 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		63D97B642783F71E009E2516 /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
+			);
+			path = AppDelegate;
+			sourceTree = "<group>";
+		};
+		63D97B652783F72E009E2516 /* SceneDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
+			);
+			path = SceneDelegate;
+			sourceTree = "<group>";
+		};
+		63D97B662783F73E009E2516 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB10025BEF61C00C9924E /* Main.storyboard */,
+				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
+			);
+			path = Storyboard;
+			sourceTree = "<group>";
+		};
+		63D97B672783F749009E2516 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		63D97B682783F754009E2516 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		63D97B692783F7BE009E2516 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				63D97B662783F73E009E2516 /* Storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		63D97B6A2783F7DC009E2516 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB10825BEF61D00C9924E /* Info.plist */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		63D97B6B2783F7F1009E2516 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
@@ -56,13 +120,13 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
-				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
-				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
-				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
-				C70FB10025BEF61C00C9924E /* Main.storyboard */,
-				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
-				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
-				C70FB10825BEF61D00C9924E /* Info.plist */,
+				63D97B682783F754009E2516 /* Model */,
+				63D97B6B2783F7F1009E2516 /* Resource */,
+				63D97B6A2783F7DC009E2516 /* Support */,
+				63D97B692783F7BE009E2516 /* View */,
+				63D97B672783F749009E2516 /* Controller */,
+				63D97B652783F72E009E2516 /* SceneDelegate */,
+				63D97B642783F71E009E2516 /* AppDelegate */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
