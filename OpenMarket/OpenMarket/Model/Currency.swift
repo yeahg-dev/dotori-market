@@ -7,12 +7,8 @@
 
 import Foundation
 
-enum Currency: String {
+enum Currency: String, Codable {
     
     case krw = "KRW"
     case usd = "USD"
-    
-    init?(currencyCode: String) {
-        self.init(rawValue: currencyCode)
-    }
 }

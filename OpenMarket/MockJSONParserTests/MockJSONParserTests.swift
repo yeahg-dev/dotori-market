@@ -36,7 +36,7 @@ class MockJSONParserTests: XCTestCase {
     }
     
     func test_mockJSON_currencyCode_연산프로퍼티_검증() {
-        let result = sut.pages[1].currencyCode
+        let result = sut.pages[1].currency
         let expectation = Currency.krw
         XCTAssertEqual(result, expectation)
     }

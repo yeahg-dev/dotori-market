@@ -10,10 +10,10 @@ import Foundation
 struct Product: Codable {
     
     let id: Int
-    let vendorId: Int
+    let vendorID: Int
     let name: String
     let thumbnail: String
-    private let currency: String
+    let currency: Currency
     let price: Double
     let bargainPrice: Double
     let discountedPrice: Double
@@ -21,7 +21,13 @@ struct Product: Codable {
     let createdAt: Date
     let issuedAt: Date
     
-    var currencyCode: Currency {
-        return Currency(currencyCode: currency) ?? .krw
+    private enum CodingKeys: String, CodingKey {
+        
+        case vendorID = "vendor_id"
+        case bargainPrice = "bargain_price"
+        case discountedPrice = "discounted_price"
+        case createdAt = "created_at"
+        case issuedAt = "issued_at"
+        case id, name, thumbnail, currency, price, stock
     }
 }
