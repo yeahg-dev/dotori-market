@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Product: Codable {
+struct Product: Codable, APIResponse {
     
     let id: Int
     let vendorID: Int

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProductsListPage: Codable {
+struct ProductsListPage: Codable, APIResponse {
     
     let pageNo: Int
     let itemsPerPage: Int

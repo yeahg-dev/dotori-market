@@ -15,16 +15,24 @@ enum HTTPMethod: String {
     case delete = "DELETE"
 }
 
-protocol APIRequest {
+protocol APIRequest: APIRequestInfoOwner {
 
-    associatedtype APIResponse: Decodable
-    
     var method: HTTPMethod { get }
     var baseURLString: String { get }
     var path: String { get }
-    var query: [String: Int] { get }
+    var query: [String: Int]? { get }
     var body: Data? { get }
-    var headers: [String: String] { get }
-    var responseType: APIResponse.Type { get }
+    var headers: [String: String]? { get }
+}
 
+protocol APIResponse where Self: Decodable { }
+
+struct HealthCheckerRequest: APIRequest {
+
+    var method: HTTPMethod = .get
+    var baseURLString: String
+    var path: String = "/healthChecker"
+    var query: [String : Int]?
+    var body: Data?
+    var headers: [String : String]?
 }
