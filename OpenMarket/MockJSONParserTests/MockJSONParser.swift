@@ -17,7 +17,6 @@ enum MockJSONParser<T: Decodable> {
         let decoder = JSONDecoder()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SS"
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
         decoder.dateDecodingStrategy = .formatted(dateFormatter)
         
         let decodedData = try? decoder.decode(T.self, from: dataAsset.data)
