@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		639358D22786C5B500412958 /* APIURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639358D12786C5B500412958 /* APIURL.swift */; };
 		63A2029927853300003A1112 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A2029827853300003A1112 /* Image.swift */; };
 		63A2029B278533E7003A1112 /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A2029A278533E7003A1112 /* Vendor.swift */; };
 		63A2029D2785447E003A1112 /* ProductDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A2029C2785447E003A1112 /* ProductDetail.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		639358D12786C5B500412958 /* APIURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIURL.swift; sourceTree = "<group>"; };
 		63A2029827853300003A1112 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		63A2029A278533E7003A1112 /* Vendor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
 		63A2029C2785447E003A1112 /* ProductDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetail.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 			children = (
 				63A202B42785C390003A1112 /* APIRequest.swift */,
 				C10797812785D7F800B16C62 /* APIRequestInfoOwner.swift */,
+				639358D12786C5B500412958 /* APIURL.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -309,6 +312,7 @@
 				63D97B6F27842307009E2516 /* Currency.swift in Sources */,
 				63A2029D2785447E003A1112 /* ProductDetail.swift in Sources */,
 				C10797822785D7F800B16C62 /* APIRequestInfoOwner.swift in Sources */,
+				639358D22786C5B500412958 /* APIURL.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				63D97B6D278419C0009E2516 /* Product.swift in Sources */,
 				C10797202784214200B16C62 /* ProductsListPage.swift in Sources */,
