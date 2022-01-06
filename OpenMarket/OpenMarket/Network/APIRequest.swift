@@ -15,24 +15,30 @@ enum HTTPMethod: String {
     case delete = "DELETE"
 }
 
-//protocol APIRequest: APIRequestInfoOwner {
-//
-//    var method: HTTPMethod { get }
-//    var baseURLString: String { get }
-//    var path: String { get }
-//    var query: [String: Int]? { get }
-//    var body: Data? { get }
-//    var headers: [String: String]? { get }
-//}
-//
-protocol APIResponse where Self: Decodable { }
-
-//struct HealthCheckerRequest: APIRequest {
-//
-//    var method: HTTPMethod = .get
-//    var baseURLString: String
-//    var path: String = "/healthChecker"
-//    var query: [String : Int]?
-//    var body: Data?
-//    var headers: [String : String]?
-//}
+enum APIRequest {
+    
+    static func requestHealthChecker() {
+        guard let url = APIURL.healthChecker.url else { return }
+        let request = URLRequest(url: url)
+        execute(request: request, nil)
+    }
+    
+    static func execute(request: URLRequest, _ completion: ((Result<Data, Error>) -> Void)?) {
+        let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion?(.failure(error))
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                      completion?(.failure(APIError.invalidResponseDate))
+                      return
+                  }
+            
+            guard let data = data else { return }
+            completion?(.success(data))
+        }
+        dataTask.resume()
+    }
+}

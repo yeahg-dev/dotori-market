@@ -34,7 +34,7 @@ enum APIURL {
         case .productDetail(let productID):
             return URL(string: Self.apiHost + "api/products/\(productID)")
         case .productsListPage(let pageNo, let itemsPerPage):
-            var urlComponents  = URLComponents(string: Self.apiHost + "api/products")
+            var urlComponents = URLComponents(string: Self.apiHost + "api/products")
             let pageNo = URLQueryItem(name: "page_no", value: "\(pageNo)")
             let itemsPerPage = URLQueryItem(name: "items_per_page", value: "\(itemsPerPage)")
             urlComponents?.queryItems = [pageNo, itemsPerPage]

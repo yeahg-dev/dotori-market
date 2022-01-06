@@ -17,7 +17,7 @@
 		C10797202784214200B16C62 /* ProductsListPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C107971F2784214200B16C62 /* ProductsListPage.swift */; };
 		C10797552784477900B16C62 /* MockJSONParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10797542784477900B16C62 /* MockJSONParserTests.swift */; };
 		C107975C2784478C00B16C62 /* MockJSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C107975B2784478C00B16C62 /* MockJSONParser.swift */; };
-		C10797822785D7F800B16C62 /* APIRequestInfoOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10797812785D7F800B16C62 /* APIRequestInfoOwner.swift */; };
+		C10797B02786DF4D00B16C62 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10797AF2786DF4D00B16C62 /* APIError.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -48,7 +48,7 @@
 		C10797522784477900B16C62 /* MockJSONParserTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MockJSONParserTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C10797542784477900B16C62 /* MockJSONParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockJSONParserTests.swift; sourceTree = "<group>"; };
 		C107975B2784478C00B16C62 /* MockJSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockJSONParser.swift; sourceTree = "<group>"; };
-		C10797812785D7F800B16C62 /* APIRequestInfoOwner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequestInfoOwner.swift; sourceTree = "<group>"; };
+		C10797AF2786DF4D00B16C62 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -81,8 +81,8 @@
 			isa = PBXGroup;
 			children = (
 				63A202B42785C390003A1112 /* APIRequest.swift */,
-				C10797812785D7F800B16C62 /* APIRequestInfoOwner.swift */,
 				639358D12786C5B500412958 /* APIURL.swift */,
+				C10797AF2786DF4D00B16C62 /* APIError.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -142,13 +142,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		63D97B6A2783F7DC009E2516 /* Support */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Support;
-			sourceTree = "<group>";
-		};
 		63D97B6B2783F7F1009E2516 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -194,7 +187,6 @@
 				63D97B672783F749009E2516 /* Controller */,
 				63D97B642783F71E009E2516 /* AppDelegate */,
 				63D97B6B2783F7F1009E2516 /* Resource */,
-				63D97B6A2783F7DC009E2516 /* Support */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
@@ -311,9 +303,9 @@
 				63A2029927853300003A1112 /* Image.swift in Sources */,
 				63D97B6F27842307009E2516 /* Currency.swift in Sources */,
 				63A2029D2785447E003A1112 /* ProductDetail.swift in Sources */,
-				C10797822785D7F800B16C62 /* APIRequestInfoOwner.swift in Sources */,
 				639358D22786C5B500412958 /* APIURL.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
+				C10797B02786DF4D00B16C62 /* APIError.swift in Sources */,
 				63D97B6D278419C0009E2516 /* Product.swift in Sources */,
 				C10797202784214200B16C62 /* ProductsListPage.swift in Sources */,
 				63A2029B278533E7003A1112 /* Vendor.swift in Sources */,
