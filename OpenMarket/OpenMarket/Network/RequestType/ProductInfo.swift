@@ -13,9 +13,19 @@ struct NewProductInfo: Encodable {
     let descriptions: String
     let price: Double
     let currency: Currency
-    let discountedPrice: Double?
-    let stock: Int?
+    let discountedPrice: Double
+    let stock: Int
     let secret: String
+    
+    init(name: String, descriptions: String, price: Double, currency: Currency, discountedPrice: Double = 0, stock: Int = 0, secret: String) {
+        self.name = name
+        self.descriptions = descriptions
+        self.price = price
+        self.currency = currency
+        self.discountedPrice = discountedPrice
+        self.stock = stock
+        self.secret = secret
+    }
 }
 
 struct EditProductInfo: Encodable {
@@ -25,7 +35,18 @@ struct EditProductInfo: Encodable {
     let thumbnailID: String?
     let price: Double?
     let currency: Currency?
-    let discountedPrice: Double = 0
-    let stock: Int = 0
+    let discountedPrice: Double
+    let stock: Int
     let secret: String
+    
+    init(name: String?, descriptions: String?, thumbnailID: String?, price: Double?, currency: Currency?, discountedPrice: Double = 0, stock: Int = 0, secret: String) {
+        self.name = name
+        self.descriptions = descriptions
+        self.thumbnailID = thumbnailID
+        self.price = price
+        self.currency = currency
+        self.discountedPrice = discountedPrice
+        self.stock = stock
+        self.secret = secret
+    }
 }
