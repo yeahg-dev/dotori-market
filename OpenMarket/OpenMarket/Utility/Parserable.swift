@@ -12,7 +12,11 @@ protocol Parserable { }
 extension Parserable {
 
     static func decode<T: Decodable>(from data: Data) -> T? {
-        guard let data = try? JSONDecoder().decode(T.self, from: data) else {
+        let decoder = JSONDecoder()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SS"
+        decoder.dateDecodingStrategy = .formatted(dateFormatter)
+        guard let data = try? decoder.decode(T.self, from: data) else {
             return nil
         }
         return data
