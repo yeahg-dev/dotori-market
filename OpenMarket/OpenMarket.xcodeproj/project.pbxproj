@@ -97,11 +97,11 @@
 		63A202B32785C310003A1112 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				63D660E62787F86700A450DE /* Extension */,
-				639358D32786EC8A00412958 /* RequestType */,
 				63A202B42785C390003A1112 /* APIRequest.swift */,
 				639358D12786C5B500412958 /* APIURL.swift */,
 				C10797AF2786DF4D00B16C62 /* APIError.swift */,
+				639358D32786EC8A00412958 /* RequestType */,
+				63D660E62787F86700A450DE /* Extension */,
 			);
 			path = Network;
 			sourceTree = "<group>";
