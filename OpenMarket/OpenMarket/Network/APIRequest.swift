@@ -52,7 +52,7 @@ enum APIRequest {
         body: EditProductInfo,
         _ completion: @escaping Handler
     ) {
-        guard let url = APIURL.productInfoEdit(productID: productID).url else { return }
+        guard let url = APIURL.productInfoEdit(productID).url else { return }
         var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.patch.rawValue
         request.addValue(identifier, forHTTPHeaderField: "identifier")
@@ -70,7 +70,7 @@ enum APIRequest {
         secret: String,
         _ completion: @escaping Handler
     ) {
-        guard let url = APIURL.productSecret(productID: productID).url else { return }
+        guard let url = APIURL.productSecret(productID).url else { return }
         var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.post.rawValue
         request.addValue(identifier, forHTTPHeaderField: "identifier")
@@ -78,6 +78,21 @@ enum APIRequest {
         
         let body = parser.encode(from: secret)
         request.httpBody = body
+        
+        execute(request: request, completion)
+    }
+    
+    static func requestProductDeletion(
+        identifier: String,
+        productID: Int,
+        productSecret: String,
+        _ completion: @escaping Handler
+    ) {
+        guard let url = APIURL.productDeletion(productID, productSecret).url else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethod.delete.rawValue
+        request.addValue(identifier, forHTTPHeaderField: "identifier")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
         execute(request: request, completion)
     }

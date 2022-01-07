@@ -13,11 +13,11 @@ enum APIURL {
 
     case healthChecker
     case productRegistration
-    case productInfoEdit(productID: Int)
-    case productSecret(productID: Int)
-    case productDeletion(productID: Int, productSecret: String)
-    case productDetail(productID: Int)
-    case productsListPage(pageNo: Int, itemsPerPage: Int)
+    case productInfoEdit(_ productID: Int)
+    case productSecret(_ productID: Int)
+    case productDeletion(_ productID: Int, _ productSecret: String)
+    case productDetail(_ productID: Int)
+    case productsListPage(_ pageNo: Int, _ itemsPerPage: Int)
 
     var url: URL? {
         switch self {
