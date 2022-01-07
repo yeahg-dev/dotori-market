@@ -97,6 +97,18 @@ enum APIRequest {
         execute(request: request, completion)
     }
     
+    static func requestProductDetail(
+        productID: Int,
+        _ completion: @escaping Handler
+    ) {
+        guard let url = APIURL.productDetail(productID).url else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethod.get.rawValue
+        request.addValue("multipart/form-data", forHTTPHeaderField: "Content-Type")
+        
+        execute(request: request, completion)
+    }
+    
     static func execute(request: URLRequest, _ completion: Handler?) {
         let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
