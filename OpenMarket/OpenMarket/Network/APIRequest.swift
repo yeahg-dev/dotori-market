@@ -15,11 +15,10 @@ enum HTTPMethod: String {
     case delete = "DELETE"
 }
 
-enum APIRequest {
+enum APIRequest: Parserable {
     
     typealias Handler = (Result<Data, Error>) -> Void
     
-    static let parser = Parser()
     static let boundary = "--\(UUID().uuidString)"
     
     static func requestHealthChecker() {
@@ -58,7 +57,7 @@ enum APIRequest {
         request.addValue(identifier, forHTTPHeaderField: "identifier")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let body = parser.encode(from: body)
+        let body = encode(from: body)
         request.httpBody = body
         
         execute(request: request, completion)
@@ -76,7 +75,7 @@ enum APIRequest {
         request.addValue(identifier, forHTTPHeaderField: "identifier")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let body = parser.encode(from: secret)
+        let body = encode(from: secret)
         request.httpBody = body
         
         execute(request: request, completion)
@@ -146,7 +145,7 @@ enum APIRequest {
         let lineBreak = "\r\n"
         
         let params = "Content-Disposition: form-data; name=\"params\"\(lineBreak)"
-        guard let encodedProductInfo = parser.encode(from: productInfo) else {
+        guard let encodedProductInfo = encode(from: productInfo) else {
             return nil
         }
         body.appendString(params)
