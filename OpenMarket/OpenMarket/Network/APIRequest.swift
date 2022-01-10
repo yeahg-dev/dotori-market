@@ -29,13 +29,14 @@ enum APIRequest: APIRequestProtocol {
         images: [ImageFile],
         _ completion: @escaping Handler
     ) {
+        let boundary = Self.boundary
         guard let url = APIURL.productRegistration.url else { return }
         var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.post.rawValue
         request.addValue(identifier, forHTTPHeaderField: "identifier")
         request.addValue("multipart/form-data; boundary=\(boundary)" , forHTTPHeaderField: "Content-Type")
         
-        let body = createBody(params: params, images: images)
+        let body = createBody(params: params, images: images, boundary: boundary)
         request.httpBody = body
         
         execute(request: request, completion)

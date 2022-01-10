@@ -36,25 +36,32 @@ extension APIRequestProtocol {
         dataTask.resume()
     }
     
-    static func createBody(params productInfo: NewProductInfo, images: [ImageFile]) -> Data? {
+    static func createBody(params productInfo: NewProductInfo, images: [ImageFile], boundary: String) -> Data? {
         var body = Data()
+        let boundary = boundary
         let lineBreak = "\r\n"
-        
-        let params = "Content-Disposition: form-data; name=\"params\"\(lineBreak)"
+        let params = "Content-Disposition: form-data; name=\"params\""
         guard let encodedProductInfo = encode(from: productInfo) else {
             return nil
         }
-        body.appendString(params)
+        
+        body.append(boundary + lineBreak)
+        body.append(params + lineBreak)
+        body.append("Content-Type: application/json" + lineBreak)
+        body.append(lineBreak)
         body.append(encodedProductInfo)
-        body.appendString("\(lineBreak)\(lineBreak)")
+        body.append(lineBreak + lineBreak)
 
         images.forEach { imageFile in
-            body.appendString("Content-Disposition: form-data; name=\(imageFile.key); filename=\(imageFile.fileName)\(lineBreak)")
-            body.appendString("Content-Type: \(imageFile.type.description)\(lineBreak)")
-            body.appendString("\(imageFile.data)\(lineBreak)")
+            body.append(boundary + lineBreak)
+            body.append("Content-Disposition: form-data; name=\(imageFile.key); filename=\(imageFile.fileName)" + lineBreak)
+            body.append("Content-Type: " + imageFile.type.description + lineBreak)
+            body.append(lineBreak)
+            body.append(imageFile.data)
+            body.append(lineBreak + lineBreak)
         }
         
-        body.appendString("\(boundary)--")
+        body.append(boundary + "--")
         return body
     }
 }
