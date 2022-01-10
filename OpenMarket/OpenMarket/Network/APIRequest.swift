@@ -17,9 +17,9 @@ enum HTTPMethod: String {
 
 final class APIRequest: APIRequestProtocol {
     
-    private let jsonParser: JsonCodable
+    private let jsonParser: JSONCodable
     
-    init(jsonParser: JsonCodable = JsonCodable()) {
+    init(jsonParser: JSONCodable = JSONCodable()) {
         self.jsonParser = jsonParser
     }
     

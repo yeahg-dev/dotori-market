@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct JsonCodable {
+struct JSONCodable {
     
     private let decoder = JSONDecoder()
     private let encoder = JSONEncoder()

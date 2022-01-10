@@ -20,7 +20,7 @@
 		C10797202784214200B16C62 /* ProductsListPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C107971F2784214200B16C62 /* ProductsListPage.swift */; };
 		C10797552784477900B16C62 /* MockJSONParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10797542784477900B16C62 /* MockJSONParserTests.swift */; };
 		C10797B02786DF4D00B16C62 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10797AF2786DF4D00B16C62 /* APIError.swift */; };
-		C10797B52787143F00B16C62 /* JsonCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10797B42787143F00B16C62 /* JsonCodable.swift */; };
+		C10797B52787143F00B16C62 /* JSONCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10797B42787143F00B16C62 /* JSONCodable.swift */; };
 		C1C9EF43278828A00000ED6A /* APIRequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C9EF42278828A00000ED6A /* APIRequestProtocol.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -55,7 +55,7 @@
 		C10797522784477900B16C62 /* MockJSONParserTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MockJSONParserTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C10797542784477900B16C62 /* MockJSONParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockJSONParserTests.swift; sourceTree = "<group>"; };
 		C10797AF2786DF4D00B16C62 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
-		C10797B42787143F00B16C62 /* JsonCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonCodable.swift; sourceTree = "<group>"; };
+		C10797B42787143F00B16C62 /* JSONCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONCodable.swift; sourceTree = "<group>"; };
 		C1C9EF42278828A00000ED6A /* APIRequestProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequestProtocol.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -189,7 +189,7 @@
 		C10797B3278713C700B16C62 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				C10797B42787143F00B16C62 /* JsonCodable.swift */,
+				C10797B42787143F00B16C62 /* JSONCodable.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -343,7 +343,7 @@
 				63D660E52787F09400A450DE /* ImageFile.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C10797B02786DF4D00B16C62 /* APIError.swift in Sources */,
-				C10797B52787143F00B16C62 /* JsonCodable.swift in Sources */,
+				C10797B52787143F00B16C62 /* JSONCodable.swift in Sources */,
 				63D97B6D278419C0009E2516 /* Product.swift in Sources */,
 				C10797202784214200B16C62 /* ProductsListPage.swift in Sources */,
 				63A2029B278533E7003A1112 /* Vendor.swift in Sources */,

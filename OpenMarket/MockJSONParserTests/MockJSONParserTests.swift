@@ -11,7 +11,7 @@ import XCTest
 class MockJSONParserTests: XCTestCase {
 
     var sut: ProductsListPage!
-    let jsonParser = JsonCodable()
+    let jsonParser = JSONCodable()
     let mockJSONName = "products"
     
     override func setUpWithError() throws {

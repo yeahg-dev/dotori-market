@@ -41,7 +41,7 @@ extension APIRequestProtocol {
         let boundary = boundary
         let lineBreak = "\r\n"
         let params = "Content-Disposition: form-data; name=\"params\""
-        guard let encodedProductInfo = JsonCodable().encode(from: productInfo) else {
+        guard let encodedProductInfo = JSONCodable().encode(from: productInfo) else {
             return nil
         }
         
