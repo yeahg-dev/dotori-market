@@ -15,7 +15,7 @@ enum HTTPMethod: String {
     case delete = "DELETE"
 }
 
-final class APIRequest: APIRequestProtocol {
+struct APIRequest: APIRequestProtocol {
     
     private let jsonParser: JSONCodable
     
