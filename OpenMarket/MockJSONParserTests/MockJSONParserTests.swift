@@ -11,11 +11,12 @@ import XCTest
 class MockJSONParserTests: XCTestCase {
 
     var sut: ProductsListPage!
+    let jsonParser = JsonCodable()
     let mockJSONName = "products"
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sut = MockJSONParser<ProductsListPage>.decode(from: mockJSONName)
+        sut = jsonParser.decode(from: mockJSONName)
     }
     
     override func tearDownWithError() throws {

@@ -7,17 +7,17 @@
 
 import Foundation
 
-protocol APIRequestProtocol: Parserable { }
+protocol APIRequestProtocol { }
 
 extension APIRequestProtocol {
     
     typealias Handler = (Result<Data, Error>) -> Void
     
-    static var boundary: String {
+    var boundary: String {
         return "--\(UUID().uuidString)"
     }
     
-    static func execute(request: URLRequest, _ completion: Handler?) {
+    func execute(request: URLRequest, _ completion: Handler?) {
         let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 completion?(.failure(error))
@@ -36,12 +36,12 @@ extension APIRequestProtocol {
         dataTask.resume()
     }
     
-    static func createBody(params productInfo: NewProductInfo, images: [ImageFile], boundary: String) -> Data? {
+    func createBody(params productInfo: NewProductInfo, images: [ImageFile], boundary: String) -> Data? {
         var body = Data()
         let boundary = boundary
         let lineBreak = "\r\n"
         let params = "Content-Disposition: form-data; name=\"params\""
-        guard let encodedProductInfo = encode(from: productInfo) else {
+        guard let encodedProductInfo = JsonCodable().encode(from: productInfo) else {
             return nil
         }
         

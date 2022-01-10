@@ -15,21 +15,27 @@ enum HTTPMethod: String {
     case delete = "DELETE"
 }
 
-enum APIRequest: APIRequestProtocol {
+final class APIRequest: APIRequestProtocol {
     
-    static func requestHealthChecker() {
+    private let jsonParser: JsonCodable
+    
+    init(jsonParser: JsonCodable = JsonCodable()) {
+        self.jsonParser = jsonParser
+    }
+    
+    func requestHealthChecker() {
         guard let url = APIURL.healthChecker.url else { return }
         let request = URLRequest(url: url)
         execute(request: request, nil)
     }
     
-    static func requestProductRegistration(
+    func requestProductRegistration(
         identifier: String,
         params: NewProductInfo,
         images: [ImageFile],
         _ completion: @escaping Handler
     ) {
-        let boundary = Self.boundary
+        let boundary = boundary
         guard let url = APIURL.productRegistration.url else { return }
         var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.post.rawValue
@@ -42,7 +48,7 @@ enum APIRequest: APIRequestProtocol {
         execute(request: request, completion)
     }
     
-    static func requestProductEdit(
+    func requestProductEdit(
         identifier: String,
         productID: Int,
         body: EditProductInfo,
@@ -54,13 +60,13 @@ enum APIRequest: APIRequestProtocol {
         request.addValue(identifier, forHTTPHeaderField: "identifier")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let body = encode(from: body)
+        let body = jsonParser.encode(from: body)
         request.httpBody = body
         
         execute(request: request, completion)
     }
     
-    static func requestProductSecret(
+    func requestProductSecret(
         identifier: String,
         productID: Int,
         secret: String,
@@ -72,13 +78,13 @@ enum APIRequest: APIRequestProtocol {
         request.addValue(identifier, forHTTPHeaderField: "identifier")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let body = encode(from: secret)
+        let body = jsonParser.encode(from: secret)
         request.httpBody = body
         
         execute(request: request, completion)
     }
     
-    static func requestProductDeletion(
+    func requestProductDeletion(
         identifier: String,
         productID: Int,
         productSecret: String,
@@ -93,7 +99,7 @@ enum APIRequest: APIRequestProtocol {
         execute(request: request, completion)
     }
     
-    static func requestProductDetail(
+    func requestProductDetail(
         productID: Int,
         _ completion: @escaping Handler
     ) {
@@ -105,7 +111,7 @@ enum APIRequest: APIRequestProtocol {
         execute(request: request, completion)
     }
     
-    static func requestProductsListPage(
+    func requestProductsListPage(
         pageNo: Int,
         itemsPerPage: Int,
         _ completion: @escaping Handler
