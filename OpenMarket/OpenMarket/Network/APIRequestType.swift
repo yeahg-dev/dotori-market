@@ -25,7 +25,7 @@ struct HealthCheckerRequest: APIRequest {
 }
 
 // MARK: - 상품 등록 / POST
-struct ProductRegistrationRequest: APIRequest, APIRequestProtocol {
+struct ProductRegistrationRequest: APIRequest {
     
     private let identifier: String
     private let params: NewProductInfo
@@ -52,6 +52,35 @@ struct ProductRegistrationRequest: APIRequest, APIRequestProtocol {
         self.params = params
         self.images = images
         self.boundary = "--\(UUID().uuidString)"
+    }
+    
+    private func createBody(params productInfo: NewProductInfo, images: [ImageFile], boundary: String) -> Data? {
+        var body = Data()
+        let boundary = boundary
+        let lineBreak = "\r\n"
+        let params = "Content-Disposition: form-data; name=\"params\""
+        guard let encodedProductInfo = JSONCodable().encode(from: productInfo) else {
+            return nil
+        }
+        
+        body.append(boundary + lineBreak)
+        body.append(params + lineBreak)
+        body.append("Content-Type: application/json" + lineBreak)
+        body.append(lineBreak)
+        body.append(encodedProductInfo)
+        body.append(lineBreak + lineBreak)
+
+        images.forEach { imageFile in
+            body.append(boundary + lineBreak)
+            body.append("Content-Disposition: form-data; name=\(imageFile.key); filename=\(imageFile.fileName)" + lineBreak)
+            body.append("Content-Type: " + imageFile.type.description + lineBreak)
+            body.append(lineBreak)
+            body.append(imageFile.data)
+            body.append(lineBreak + lineBreak)
+        }
+        
+        body.append(boundary + "--")
+        return body
     }
 }
 

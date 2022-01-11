@@ -23,7 +23,7 @@
 		C10797B52787143F00B16C62 /* JSONCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10797B42787143F00B16C62 /* JSONCodable.swift */; };
 		C19123FE278D5C3700171DEB /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19123FD278D5C3700171DEB /* HTTPMethod.swift */; };
 		C1912400278D5E9400171DEB /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19123FF278D5E9300171DEB /* APIRequest.swift */; };
-		C1C9EF43278828A00000ED6A /* APIRequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C9EF42278828A00000ED6A /* APIRequestProtocol.swift */; };
+		C1C9EF43278828A00000ED6A /* APIExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C9EF42278828A00000ED6A /* APIExecutor.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -60,7 +60,7 @@
 		C10797B42787143F00B16C62 /* JSONCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONCodable.swift; sourceTree = "<group>"; };
 		C19123FD278D5C3700171DEB /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		C19123FF278D5E9300171DEB /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
-		C1C9EF42278828A00000ED6A /* APIRequestProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequestProtocol.swift; sourceTree = "<group>"; };
+		C1C9EF42278828A00000ED6A /* APIExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIExecutor.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -102,7 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				C19123FF278D5E9300171DEB /* APIRequest.swift */,
-				C1C9EF42278828A00000ED6A /* APIRequestProtocol.swift */,
+				C1C9EF42278828A00000ED6A /* APIExecutor.swift */,
 				63A202B42785C390003A1112 /* APIRequestType.swift */,
 				639358D12786C5B500412958 /* APIURL.swift */,
 				C19123FD278D5C3700171DEB /* HTTPMethod.swift */,
@@ -354,7 +354,7 @@
 				63D97B6D278419C0009E2516 /* Product.swift in Sources */,
 				C10797202784214200B16C62 /* ProductsListPage.swift in Sources */,
 				63A2029B278533E7003A1112 /* Vendor.swift in Sources */,
-				C1C9EF43278828A00000ED6A /* APIRequestProtocol.swift in Sources */,
+				C1C9EF43278828A00000ED6A /* APIExecutor.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C19123FE278D5C3700171DEB /* HTTPMethod.swift in Sources */,
 				63A202B52785C390003A1112 /* APIRequestType.swift in Sources */,
