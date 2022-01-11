@@ -176,6 +176,7 @@ struct ProductDeletionRequest: APIRequest {
 struct ProductDetailRequest: APIRequest {
     
     private let productID: Int
+    private let boundary: String
     var url: URL? {
         return APIURL.productDetail(productID).url
     }
@@ -183,7 +184,7 @@ struct ProductDetailRequest: APIRequest {
         return .get
     }
     var header: [String: String] {
-        return ["Content-Type": "multipart/form-data"]
+        return ["Content-Type": "multipart/form-data; boundary=\(boundary)"]
     }
     var body: Data? {
         return nil
@@ -191,6 +192,7 @@ struct ProductDetailRequest: APIRequest {
     
     init(productID: Int) {
         self.productID = productID
+        self.boundary = "--\(UUID().uuidString)"
     }
 }
 
@@ -199,6 +201,7 @@ struct ProductsListPageRequest: APIRequest {
     
     private let pageNo: Int
     private let itemsPerPage: Int
+    private let boundary: String
     var url: URL? {
         return APIURL.productsListPage(pageNo, itemsPerPage).url
     }
@@ -206,7 +209,7 @@ struct ProductsListPageRequest: APIRequest {
         return .get
     }
     var header: [String: String] {
-        return ["Content-Type": "multipart/form-data"]
+        return ["Content-Type": "multipart/form-data; boundary=\(boundary)"]
     }
     var body: Data? {
         return nil
@@ -215,5 +218,6 @@ struct ProductsListPageRequest: APIRequest {
     init(pageNo: Int, itemsPerPage: Int) {
         self.pageNo = pageNo
         self.itemsPerPage = itemsPerPage
+        self.boundary = "--\(UUID().uuidString)"
     }
 }
