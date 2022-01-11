@@ -1,6 +1,6 @@
 //
 //  MockJSONParserTests.swift
-//  MockJSONParserTests
+//  OpenMarketNetworkTests
 //
 //  Created by 예거 on 2022/01/04.
 //
