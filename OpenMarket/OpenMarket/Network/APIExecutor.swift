@@ -7,19 +7,9 @@
 
 import Foundation
 
-protocol URLSessionProtocol { }
-
-extension URLSession: URLSessionProtocol { }
-
 struct APIExecutor {
     
     typealias Handler = (Result<Data, Error>) -> Void
-    
-    let session: URLSessionProtocol
-    
-    init(session: URLSessionProtocol = URLSession.shared) {
-        self.session = session
-    }
     
     func execute(_ request: APIRequest, completion: Handler?) {
         guard let url = request.url else { return }
