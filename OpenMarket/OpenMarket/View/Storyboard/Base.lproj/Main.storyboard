@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="N4P-j3-ySf">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="N4P-j3-ySf">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -18,13 +18,65 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="xkw-QD-mv8">
-                                <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="60" id="xkw-QD-mv8" customClass="ProductListViewCell" customModule="OpenMarket" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="44.5" width="414" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xkw-QD-mv8" id="8nm-x3-Aqm">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FeZ-6q-gRf">
+                                            <rect key="frame" x="10" y="4.5" width="62" height="51"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="FeZ-6q-gRf" secondAttribute="height" multiplier="5.5:4.5" id="OXe-ju-UHN"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="가격" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rLz-b6-viO">
+                                            <rect key="frame" x="82" y="34.5" width="30" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="잔여 수량" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F2u-ke-WOI">
+                                            <rect key="frame" x="303" y="4.5" width="64" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nhz-x2-bc4">
+                                            <rect key="frame" x="367" y="-0.5" width="37" height="31"/>
+                                            <state key="normal" title="Button"/>
+                                            <buttonConfiguration key="configuration" style="plain" image="chevron.right" catalog="system">
+                                                <color key="baseForegroundColor" systemColor="systemGrayColor"/>
+                                            </buttonConfiguration>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="제품 이름" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yCK-Dl-Wae">
+                                            <rect key="frame" x="82" y="4.5" width="64" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="yCK-Dl-Wae" firstAttribute="top" secondItem="FeZ-6q-gRf" secondAttribute="top" id="7Re-yq-gVi"/>
+                                        <constraint firstItem="FeZ-6q-gRf" firstAttribute="bottom" secondItem="rLz-b6-viO" secondAttribute="bottom" id="Bun-fg-Dbu"/>
+                                        <constraint firstItem="nhz-x2-bc4" firstAttribute="leading" secondItem="F2u-ke-WOI" secondAttribute="trailing" id="CdW-1f-Y0P"/>
+                                        <constraint firstItem="nhz-x2-bc4" firstAttribute="centerY" secondItem="F2u-ke-WOI" secondAttribute="centerY" id="Dwp-qy-2aE"/>
+                                        <constraint firstItem="rLz-b6-viO" firstAttribute="leading" secondItem="yCK-Dl-Wae" secondAttribute="leading" id="HKB-Um-IZl"/>
+                                        <constraint firstItem="F2u-ke-WOI" firstAttribute="centerY" secondItem="yCK-Dl-Wae" secondAttribute="centerY" id="Hr2-qF-KHr"/>
+                                        <constraint firstAttribute="trailing" secondItem="nhz-x2-bc4" secondAttribute="trailing" constant="10" id="MfW-l3-Zcb"/>
+                                        <constraint firstItem="yCK-Dl-Wae" firstAttribute="leading" secondItem="FeZ-6q-gRf" secondAttribute="trailing" constant="10" id="NpL-Xs-kQW"/>
+                                        <constraint firstItem="FeZ-6q-gRf" firstAttribute="width" secondItem="8nm-x3-Aqm" secondAttribute="width" multiplier="0.15" id="VgL-zN-PJZ"/>
+                                        <constraint firstItem="FeZ-6q-gRf" firstAttribute="leading" secondItem="8nm-x3-Aqm" secondAttribute="leading" constant="10" id="tJ8-YG-O0y"/>
+                                        <constraint firstItem="FeZ-6q-gRf" firstAttribute="centerY" secondItem="8nm-x3-Aqm" secondAttribute="centerY" id="yMC-6B-BbW"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="productName" destination="yCK-Dl-Wae" id="uZ7-0j-kMS"/>
+                                    <outlet property="productPrice" destination="rLz-b6-viO" id="Da7-dA-knh"/>
+                                    <outlet property="productStock" destination="F2u-ke-WOI" id="Pg5-6H-EOL"/>
+                                    <outlet property="productThumbnail" destination="FeZ-6q-gRf" id="2IK-fA-zFJ"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -36,7 +88,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dTe-wE-WKL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-325" y="819"/>
+            <point key="canvasLocation" x="-326.08695652173918" y="818.97321428571422"/>
         </scene>
         <!--Item-->
         <scene sceneID="yjs-ki-GQF">
@@ -107,7 +159,9 @@
                                 <action selector="switchViewController:" destination="LAD-DO-y0V" eventType="valueChanged" id="MXR-Rn-qlU"/>
                             </connections>
                         </segmentedControl>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="1Iu-sC-pvI"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="1Iu-sC-pvI">
+                            <color key="tintColor" systemColor="systemIndigoColor"/>
+                        </barButtonItem>
                     </navigationItem>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="MF0-cU-r8Q">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
@@ -127,8 +181,15 @@
         </scene>
     </scenes>
     <resources>
+        <image name="chevron.right" catalog="system" width="96" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemIndigoColor">
+            <color red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
