@@ -12,9 +12,14 @@ class TabBarViewController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tabBar.isHidden = true
         configureViewSegmentedControl()
     }
-
+    
+    @IBAction private func switchViewController(_ sender: UISegmentedControl) {
+        selectedIndex = sender.selectedSegmentIndex
+    }
+    
     private func configureViewSegmentedControl() {
         viewSegmentedControl.setTitle("LIST", forSegmentAt: 0)
         viewSegmentedControl.setTitle("GRID", forSegmentAt: 1)
