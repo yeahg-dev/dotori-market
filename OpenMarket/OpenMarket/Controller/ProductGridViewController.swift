@@ -2,12 +2,10 @@
 //  ProductGridViewController.swift
 //  OpenMarket
 //
-//  Created by 유재호 on 2022/01/12.
+//  Created by 예거 on 2022/01/12.
 //
 
 import UIKit
-
-private let reuseIdentifier = "Cell"
 
 class ProductGridViewController: UICollectionViewController {
 
