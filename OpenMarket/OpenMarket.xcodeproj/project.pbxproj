@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6308660827901A1A0092991A /* ProductGridViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6308660727901A1A0092991A /* ProductGridViewCell.swift */; };
 		639358D22786C5B500412958 /* APIURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639358D12786C5B500412958 /* APIURL.swift */; };
 		639358D52786ED9600412958 /* ProductInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639358D42786ED9600412958 /* ProductInfo.swift */; };
 		63A2029927853300003A1112 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A2029827853300003A1112 /* Image.swift */; };
@@ -46,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6308660727901A1A0092991A /* ProductGridViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductGridViewCell.swift; sourceTree = "<group>"; };
 		639358D12786C5B500412958 /* APIURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIURL.swift; sourceTree = "<group>"; };
 		639358D42786ED9600412958 /* ProductInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfo.swift; sourceTree = "<group>"; };
 		63A2029827853300003A1112 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				C13DFABA279013C2003A1A2E /* ProductListViewCell.swift */,
+				6308660727901A1A0092991A /* ProductGridViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -369,6 +372,7 @@
 				C70FB0FF25BEF61C00C9924E /* TabBarViewController.swift in Sources */,
 				C10797B02786DF4D00B16C62 /* APIError.swift in Sources */,
 				C10797B52787143F00B16C62 /* JSONCodable.swift in Sources */,
+				6308660827901A1A0092991A /* ProductGridViewCell.swift in Sources */,
 				63D97B6D278419C0009E2516 /* Product.swift in Sources */,
 				C10797202784214200B16C62 /* ProductsListPage.swift in Sources */,
 				63A2029B278533E7003A1112 /* Vendor.swift in Sources */,
