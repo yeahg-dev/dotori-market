@@ -9,9 +9,7 @@ import Foundation
 
 struct APIExecutor {
     
-    typealias Handler = (Result<Data, Error>) -> Void
-    
-    func execute(_ request: APIRequest, completion: Handler?) {
+    func execute<T: Decodable>(_ request: APIRequest, completion: @escaping (Result<T, Error>) -> Void) {
         guard let url = request.url else { return }
         var urlRequest = URLRequest(url: url)
 
@@ -26,21 +24,22 @@ struct APIExecutor {
         executeTask(request: urlRequest, completion)
     }
     
-    private func executeTask(request: URLRequest, _ completion: Handler?) {
+    private func executeTask<T: Decodable>(request: URLRequest, _ completion: @escaping (Result<T, Error>) -> Void ) {
         let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
-                completion?(.failure(error))
+                completion(.failure(error))
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
-                      completion?(.failure(APIError.invalidResponseDate))
+                      completion(.failure(APIError.invalidResponseDate))
                       return
                   }
             
             guard let data = data else { return }
-            completion?(.success(data))
+            let decoded: T = try! JSONDecoder().decode(T.self, from: data)
+            completion(.success(decoded))
         }
         dataTask.resume()
     }
