@@ -122,7 +122,6 @@
 				C19123FD278D5C3700171DEB /* HTTPMethod.swift */,
 				C10797AF2786DF4D00B16C62 /* APIError.swift */,
 				639358D32786EC8A00412958 /* RequestType */,
-				63D660E62787F86700A450DE /* Extension */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -252,6 +251,7 @@
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 				63A202B32785C310003A1112 /* Network */,
 				63D97B682783F754009E2516 /* Model */,
+				63D660E62787F86700A450DE /* Extension */,
 				C10797B3278713C700B16C62 /* Utility */,
 				63D97B692783F7BE009E2516 /* View */,
 				63D97B672783F749009E2516 /* Controller */,
