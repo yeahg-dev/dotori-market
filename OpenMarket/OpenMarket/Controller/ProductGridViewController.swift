@@ -10,9 +10,11 @@ import UIKit
 class ProductGridViewController: UICollectionViewController {
     
     private var initialProductsListPage: ProductsListPage?
-
+    private let flowLayout = UICollectionViewFlowLayout()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureGridLayout()
         
         let request = ProductsListPageRequest(pageNo: 1, itemsPerPage: 20)
         APIExecutor().execute(request) { (result: Result<ProductsListPage, Error>) in
@@ -28,26 +30,14 @@ class ProductGridViewController: UICollectionViewController {
                 return
             }
         }
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Register cell classes
-//        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: ProductGridViewCell.reuseIdentifier)
-        self.collectionView.register(ProductGridViewCell.self, forCellWithReuseIdentifier: ProductGridViewCell.reuseIdentifier)
-
-        // Do any additional setup after loading the view.
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+    
+    private func configureGridLayout() {
+        collectionView.collectionViewLayout = flowLayout
+        let cellWidth = view.bounds.size.width / 2 - 30
+        flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth * 1.5)
+        flowLayout.minimumLineSpacing = .zero
     }
-    */
 
     // MARK: UICollectionViewDataSource
 
