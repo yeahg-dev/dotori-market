@@ -38,7 +38,9 @@ struct APIExecutor {
                   }
             
             guard let data = data else { return }
-            let decoded: T = try! JSONDecoder().decode(T.self, from: data)
+            guard let decoded: T = JSONCodable().decode(from: data) else {
+                return
+            }
             completion(.success(decoded))
         }
         dataTask.resume()
