@@ -8,15 +8,33 @@
 import UIKit
 
 class ProductGridViewController: UICollectionViewController {
+    
+    private var initialProductsListPage: ProductsListPage?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let request = ProductsListPageRequest(pageNo: 1, itemsPerPage: 20)
+        APIExecutor().execute(request) { (result: Result<ProductsListPage, Error>) in
+            switch result {
+            case .success(let productsListPage):
+                self.initialProductsListPage = productsListPage
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            case .failure(let error):
+                // Alert 넣기
+                print("ProductsListPage 통신 중 에러 발생 : \(error)")
+                return
+            }
+        }
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Register cell classes
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: ProductGridViewCell.reuseIdentifier)
+//        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: ProductGridViewCell.reuseIdentifier)
+        self.collectionView.register(ProductGridViewCell.self, forCellWithReuseIdentifier: ProductGridViewCell.reuseIdentifier)
 
         // Do any additional setup after loading the view.
     }
@@ -34,22 +52,42 @@ class ProductGridViewController: UICollectionViewController {
     // MARK: UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
-
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
-        return 0
+        return initialProductsListPage?.pages.count ?? .zero
     }
 
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductGridViewCell.reuseIdentifier, for: indexPath)
-    
-        // Configure the cell
-    
+    override func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: ProductGridViewCell.reuseIdentifier,
+            for: indexPath
+        ) as? ProductGridViewCell else {
+            return ProductGridViewCell()
+        }
+        
+        guard let product = initialProductsListPage?.pages[indexPath.item] else {
+            return cell
+        }
+        
+        cell.productThumbnail.image = getImage(from: product.thumbnail)
+        cell.productName.attributedText = product.attributedName
+        cell.productPrice.attributedText = product.attributedPrice
+        cell.productStock.attributedText = product.attributedStock
+        
         return cell
+    }
+    
+    private func getImage(from url: String) -> UIImage? {
+        guard let url = URL(string: url), let imageData = try? Data(contentsOf: url) else {
+            let defaultImage = UIImage(systemName: "xmark.icloud")
+            return defaultImage?.withTintColor(.systemGray)
+        }
+        return UIImage(data: imageData)
     }
 
     // MARK: UICollectionViewDelegate
