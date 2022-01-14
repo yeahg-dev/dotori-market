@@ -34,9 +34,12 @@ class ProductGridViewController: UICollectionViewController {
     
     private func configureGridLayout() {
         collectionView.collectionViewLayout = flowLayout
-        let cellWidth = view.bounds.size.width / 2 - 30
+        let cellWidth = view.bounds.size.width / 2 - 10
         flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth * 1.5)
-        flowLayout.minimumLineSpacing = .zero
+        flowLayout.minimumLineSpacing = 10
+        flowLayout.minimumInteritemSpacing = 10
+        flowLayout.scrollDirection = .vertical
+        flowLayout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: .zero, right: 5)
     }
 
     // MARK: UICollectionViewDataSource
@@ -64,12 +67,23 @@ class ProductGridViewController: UICollectionViewController {
             return cell
         }
         
+        configureGridContent(of: cell, with: product)
+        configureGridCellLayer(of: cell)
+        
+        return cell
+    }
+    
+    private func configureGridContent(of cell: ProductGridViewCell, with product: Product) {
         cell.productThumbnail.image = getImage(from: product.thumbnail)
         cell.productName.attributedText = product.attributedName
         cell.productPrice.attributedText = product.attributedPrice
         cell.productStock.attributedText = product.attributedStock
-        
-        return cell
+    }
+    
+    private func configureGridCellLayer(of cell: ProductGridViewCell) {
+        cell.layer.borderColor = UIColor.systemGray.cgColor
+        cell.layer.borderWidth = 1
+        cell.layer.cornerRadius = 5
     }
     
     private func getImage(from url: String) -> UIImage? {
@@ -79,36 +93,4 @@ class ProductGridViewController: UICollectionViewController {
         }
         return UIImage(data: imageData)
     }
-
-    // MARK: UICollectionViewDelegate
-
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-    
-    }
-    */
-
 }
