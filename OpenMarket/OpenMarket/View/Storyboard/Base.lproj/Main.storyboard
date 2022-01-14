@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="N4P-j3-ySf">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="N4P-j3-ySf">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -38,7 +38,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="잔여 수량" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F2u-ke-WOI">
-                                            <rect key="frame" x="327.5" y="10" width="64" height="21"/>
+                                            <rect key="frame" x="317.5" y="10" width="64" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -60,7 +60,7 @@
                                         <constraint firstAttribute="bottom" secondItem="FeZ-6q-gRf" secondAttribute="bottom" constant="10" id="1Ok-JS-CG9"/>
                                         <constraint firstItem="yCK-Dl-Wae" firstAttribute="top" secondItem="FeZ-6q-gRf" secondAttribute="top" id="7Re-yq-gVi"/>
                                         <constraint firstItem="FeZ-6q-gRf" firstAttribute="bottom" secondItem="rLz-b6-viO" secondAttribute="bottom" id="Bun-fg-Dbu"/>
-                                        <constraint firstItem="nhz-x2-bc4" firstAttribute="leading" secondItem="F2u-ke-WOI" secondAttribute="trailing" id="CdW-1f-Y0P"/>
+                                        <constraint firstItem="nhz-x2-bc4" firstAttribute="leading" secondItem="F2u-ke-WOI" secondAttribute="trailing" constant="10" id="CdW-1f-Y0P"/>
                                         <constraint firstItem="nhz-x2-bc4" firstAttribute="centerY" secondItem="F2u-ke-WOI" secondAttribute="centerY" id="Dwp-qy-2aE"/>
                                         <constraint firstItem="rLz-b6-viO" firstAttribute="top" relation="greaterThanOrEqual" secondItem="yCK-Dl-Wae" secondAttribute="bottom" constant="9.5" id="F11-Gt-ol9"/>
                                         <constraint firstItem="yCK-Dl-Wae" firstAttribute="top" secondItem="8nm-x3-Aqm" secondAttribute="top" constant="10" id="GSA-eW-coc"/>

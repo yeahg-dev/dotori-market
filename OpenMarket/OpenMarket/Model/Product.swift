@@ -5,7 +5,7 @@
 //  Created by lily on 2022/01/04.
 //
 
-import Foundation
+import UIKit
 
 struct Product: Codable {
     
@@ -29,5 +29,61 @@ struct Product: Codable {
         case createdAt = "created_at"
         case issuedAt = "issued_at"
         case id, name, thumbnail, currency, price, stock
+    }
+}
+
+extension Product {
+    
+    var attributedName: NSAttributedString {
+        return NSAttributedString(
+            string: name,
+            attributes: [.font: UIFont.preferredFont(forTextStyle: .headline)]
+        )
+    }
+    
+    var attributedPrice: NSAttributedString {
+        if discountedPrice == .zero {
+            let originalPrice = NSAttributedString(
+                string: currency.rawValue + .whiteSpace + price.formatted,
+                attributes: [.font: UIFont.preferredFont(forTextStyle: .callout),
+                             .foregroundColor: UIColor.systemGray]
+            )
+            return originalPrice
+        } else {
+            let originalPrice = NSAttributedString(
+                string: currency.rawValue + .whiteSpace + price.formatted,
+                attributes: [.font: UIFont.preferredFont(forTextStyle: .callout),
+                             .foregroundColor: UIColor.systemRed,
+                             .strikethroughStyle: NSUnderlineStyle.single.rawValue]
+            )
+            let bargainPrice = NSAttributedString(
+                string: currency.rawValue + .whiteSpace + bargainPrice.formatted,
+                attributes: [.font: UIFont.preferredFont(forTextStyle: .callout),
+                             .foregroundColor: UIColor.systemGray]
+            )
+            let priceTag = NSMutableAttributedString(attributedString: originalPrice)
+            priceTag.append(.whiteSpace)
+            priceTag.append(bargainPrice)
+            return priceTag
+        }
+    }
+    
+    var attributedStock: NSAttributedString {
+        switch stock {
+        case .zero:
+            let soldOut = NSAttributedString(
+                string: "품절",
+                attributes: [.font: UIFont.preferredFont(forTextStyle: .headline),
+                             .foregroundColor: UIColor.systemYellow]
+            )
+            return soldOut
+        default:
+            let remainStock = NSAttributedString(
+                string: "잔여수량 : \(stock)",
+                attributes: [.font: UIFont.preferredFont(forTextStyle: .body),
+                             .foregroundColor: UIColor.systemGray]
+            )
+            return remainStock
+        }
     }
 }

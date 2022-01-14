@@ -23,6 +23,9 @@
 		C10797B02786DF4D00B16C62 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10797AF2786DF4D00B16C62 /* APIError.swift */; };
 		C10797B52787143F00B16C62 /* JSONCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10797B42787143F00B16C62 /* JSONCodable.swift */; };
 		C13DFABB279013C2003A1A2E /* ProductListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13DFABA279013C2003A1A2E /* ProductListViewCell.swift */; };
+		C13DFABD279126AB003A1A2E /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13DFABC279126AB003A1A2E /* Double+Extension.swift */; };
+		C13DFABF279126C2003A1A2E /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13DFABE279126C2003A1A2E /* String+Extension.swift */; };
+		C13DFAC1279126D9003A1A2E /* NSAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13DFAC0279126D9003A1A2E /* NSAttributedString+Extension.swift */; };
 		C19123FE278D5C3700171DEB /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19123FD278D5C3700171DEB /* HTTPMethod.swift */; };
 		C1912400278D5E9400171DEB /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19123FF278D5E9300171DEB /* APIRequest.swift */; };
 		C1C9EF43278828A00000ED6A /* APIExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C9EF42278828A00000ED6A /* APIExecutor.swift */; };
@@ -64,6 +67,9 @@
 		C10797AF2786DF4D00B16C62 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		C10797B42787143F00B16C62 /* JSONCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONCodable.swift; sourceTree = "<group>"; };
 		C13DFABA279013C2003A1A2E /* ProductListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListViewCell.swift; sourceTree = "<group>"; };
+		C13DFABC279126AB003A1A2E /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
+		C13DFABE279126C2003A1A2E /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		C13DFAC0279126D9003A1A2E /* NSAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		C19123FD278D5C3700171DEB /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		C19123FF278D5E9300171DEB /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		C1C9EF42278828A00000ED6A /* APIExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIExecutor.swift; sourceTree = "<group>"; };
@@ -125,6 +131,9 @@
 			isa = PBXGroup;
 			children = (
 				63D660E72787F87B00A450DE /* Data+Extension.swift */,
+				C13DFABC279126AB003A1A2E /* Double+Extension.swift */,
+				C13DFABE279126C2003A1A2E /* String+Extension.swift */,
+				C13DFAC0279126D9003A1A2E /* NSAttributedString+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -369,6 +378,7 @@
 				639358D22786C5B500412958 /* APIURL.swift in Sources */,
 				63D660E52787F09400A450DE /* ImageFile.swift in Sources */,
 				C1912400278D5E9400171DEB /* APIRequest.swift in Sources */,
+				C13DFABF279126C2003A1A2E /* String+Extension.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* TabBarViewController.swift in Sources */,
 				C10797B02786DF4D00B16C62 /* APIError.swift in Sources */,
 				C10797B52787143F00B16C62 /* JSONCodable.swift in Sources */,
@@ -379,8 +389,10 @@
 				C13DFABB279013C2003A1A2E /* ProductListViewCell.swift in Sources */,
 				C1C9EF43278828A00000ED6A /* APIExecutor.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				C13DFAC1279126D9003A1A2E /* NSAttributedString+Extension.swift in Sources */,
 				C19123FE278D5C3700171DEB /* HTTPMethod.swift in Sources */,
 				63A202B52785C390003A1112 /* APIRequestType.swift in Sources */,
+				C13DFABD279126AB003A1A2E /* Double+Extension.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				C1CBA3D8278F086200BAC0B8 /* ProductGridViewController.swift in Sources */,
 				639358D52786ED9600412958 /* ProductInfo.swift in Sources */,
