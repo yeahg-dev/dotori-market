@@ -16,7 +16,7 @@ class ProductGridViewController: UICollectionViewController {
         // self.clearsSelectionOnViewWillAppear = false
 
         // Register cell classes
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: ProductGridViewCell.reuseIdentifier)
 
         // Do any additional setup after loading the view.
     }
@@ -45,7 +45,7 @@ class ProductGridViewController: UICollectionViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductGridViewCell.reuseIdentifier, for: indexPath)
     
         // Configure the cell
     

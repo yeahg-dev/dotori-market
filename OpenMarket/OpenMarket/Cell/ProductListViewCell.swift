@@ -11,10 +11,10 @@ class ProductListViewCell: UITableViewCell {
     
     static let reuseIdentifier = String(describing: ProductListViewCell.self)
     
-    @IBOutlet private weak var productThumbnail: UIImageView!
-    @IBOutlet private weak var productName: UILabel!
-    @IBOutlet private weak var productPrice: UILabel!
-    @IBOutlet private weak var productStock: UILabel!
+    @IBOutlet weak var productThumbnail: UIImageView!
+    @IBOutlet weak var productName: UILabel!
+    @IBOutlet weak var productPrice: UILabel!
+    @IBOutlet weak var productStock: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
