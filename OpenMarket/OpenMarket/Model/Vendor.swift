@@ -14,7 +14,7 @@ struct Vendor: Codable {
     let createdAt: Date
     let issuedAt: Date
     
-    private enum CodeingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         
         case createdAt = "created_at"
         case issuedAt = "issued_at"

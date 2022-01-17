@@ -9,16 +9,15 @@ import UIKit
 
 struct ImageFile {
     
-    let key: String
     let fileName: String
     let data: Data
     let type: ImageType
     
-    enum ImageType {
+    enum ImageType: String {
         
-        case jpg
-        case jpeg
-        case png
+        case jpg = ".jpg"
+        case jpeg = ".jpeg"
+        case png = ".png"
         
         var description: String {
             switch self {
