@@ -89,7 +89,7 @@ class ProductGridViewController: UICollectionViewController {
     private func getImage(from url: String) -> UIImage? {
         guard let url = URL(string: url), let imageData = try? Data(contentsOf: url) else {
             let defaultImage = UIImage(systemName: "xmark.icloud")
-            return defaultImage?.withTintColor(.systemGray)
+            return defaultImage?.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
         }
         return UIImage(data: imageData)
     }
