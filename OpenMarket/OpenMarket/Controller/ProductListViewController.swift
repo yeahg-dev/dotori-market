@@ -39,7 +39,7 @@ class ProductListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return initialProductsListPage?.pages.count ?? .zero
     }
-
+    
     override func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
@@ -54,13 +54,19 @@ class ProductListViewController: UITableViewController {
         guard let product = initialProductsListPage?.pages[indexPath.row] else {
             return cell
         }
+        
+        configureListContent(of: cell, with: product)
+        
+        return cell
+    }
     
-        cell.productThumbnail.image = getImage(from: product.thumbnail)
+    private func configureListContent(of cell: ProductListViewCell, with product: Product) {
+        DispatchQueue.main.async {
+            cell.productThumbnail.image = self.getImage(from: product.thumbnail)
+        }
         cell.productName.attributedText = product.attributedName
         cell.productPrice.attributedText = product.attributedPrice
         cell.productStock.attributedText = product.attributedStock
-
-        return cell
     }
     
     private func getImage(from url: String) -> UIImage? {

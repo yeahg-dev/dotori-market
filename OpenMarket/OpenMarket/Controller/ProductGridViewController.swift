@@ -74,7 +74,9 @@ class ProductGridViewController: UICollectionViewController {
     }
     
     private func configureGridContent(of cell: ProductGridViewCell, with product: Product) {
-        cell.productThumbnail.image = getImage(from: product.thumbnail)
+        DispatchQueue.main.async {
+            cell.productThumbnail.image = self.getImage(from: product.thumbnail)
+        }
         cell.productName.attributedText = product.attributedName
         cell.productPrice.attributedText = product.attributedPrice
         cell.productStock.attributedText = product.attributedStock
