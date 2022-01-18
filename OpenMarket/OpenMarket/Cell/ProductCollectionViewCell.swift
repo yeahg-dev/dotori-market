@@ -30,10 +30,11 @@ class ProductCollectionViewCell: UICollectionViewCell {
     }
     
     private func getImage(from url: String) -> UIImage? {
-        guard let url = URL(string: url), let imageData = try? Data(contentsOf: url) else {
-            let defaultImage = UIImage(systemName: "xmark.icloud")
-            return defaultImage?.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
+        let cacheKey = NSString(string: url)
+        if let cachedImage = ImageCacheManager.share.object(forKey: cacheKey) {
+            return cachedImage
         }
-        return UIImage(data: imageData)
+        let defaultImage = UIImage(systemName: "xmark.icloud")
+        return defaultImage?.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
     }
 }
