@@ -61,7 +61,7 @@ class ProductCollectinoViewController: UICollectionViewController {
             for: indexPath
         )
         
-        guard let product = initialProductsListPage?.pages[indexPath.item] else {
+        guard let product = initialProductsListPage?.pages[safe: indexPath.item] else {
             return cell
         }
         

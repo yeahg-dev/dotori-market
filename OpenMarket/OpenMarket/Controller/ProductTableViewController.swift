@@ -49,7 +49,7 @@ class ProductTableViewController: UITableViewController {
             for: indexPath
         )
         
-        guard let product = initialProductsListPage?.pages[indexPath.row] else {
+        guard let product = initialProductsListPage?.pages[safe: indexPath.row] else {
             return cell
         }
         

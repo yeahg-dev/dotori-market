@@ -29,6 +29,7 @@
 		C13DFAC1279126D9003A1A2E /* NSAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13DFAC0279126D9003A1A2E /* NSAttributedString+Extension.swift */; };
 		C19123FE278D5C3700171DEB /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19123FD278D5C3700171DEB /* HTTPMethod.swift */; };
 		C1912400278D5E9400171DEB /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19123FF278D5E9300171DEB /* APIRequest.swift */; };
+		C1C4FFAA27969EA400294962 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C4FFA927969EA400294962 /* Array+Extension.swift */; };
 		C1C9EF43278828A00000ED6A /* APIExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C9EF42278828A00000ED6A /* APIExecutor.swift */; };
 		C1CBA3D6278F084000BAC0B8 /* ProductTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CBA3D5278F084000BAC0B8 /* ProductTableViewController.swift */; };
 		C1CBA3D8278F086200BAC0B8 /* ProductCollectinoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CBA3D7278F086200BAC0B8 /* ProductCollectinoViewController.swift */; };
@@ -74,6 +75,7 @@
 		C13DFAC0279126D9003A1A2E /* NSAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		C19123FD278D5C3700171DEB /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		C19123FF278D5E9300171DEB /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
+		C1C4FFA927969EA400294962 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		C1C9EF42278828A00000ED6A /* APIExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIExecutor.swift; sourceTree = "<group>"; };
 		C1CBA3D5278F084000BAC0B8 /* ProductTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTableViewController.swift; sourceTree = "<group>"; };
 		C1CBA3D7278F086200BAC0B8 /* ProductCollectinoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCollectinoViewController.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				63D660E72787F87B00A450DE /* Data+Extension.swift */,
+				C1C4FFA927969EA400294962 /* Array+Extension.swift */,
 				C13DFABC279126AB003A1A2E /* Double+Extension.swift */,
 				C13DFABE279126C2003A1A2E /* String+Extension.swift */,
 				C13DFAC0279126D9003A1A2E /* NSAttributedString+Extension.swift */,
@@ -395,6 +398,7 @@
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C13DFAC1279126D9003A1A2E /* NSAttributedString+Extension.swift in Sources */,
 				C19123FE278D5C3700171DEB /* HTTPMethod.swift in Sources */,
+				C1C4FFAA27969EA400294962 /* Array+Extension.swift in Sources */,
 				63A202B52785C390003A1112 /* APIRequestType.swift in Sources */,
 				C13DFABD279126AB003A1A2E /* Double+Extension.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
