@@ -1,5 +1,5 @@
 //
-//  ProductGridViewController.swift
+//  ProductCollectinoViewController.swift
 //  OpenMarket
 //
 //  Created by 예거 on 2022/01/12.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProductGridViewController: UICollectionViewController {
+class ProductCollectinoViewController: UICollectionViewController {
     
     private var initialProductsListPage: ProductsListPage?
     private let flowLayout = UICollectionViewFlowLayout()
@@ -57,10 +57,10 @@ class ProductGridViewController: UICollectionViewController {
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: ProductGridViewCell.reuseIdentifier,
+            withReuseIdentifier: ProductCollectionViewCell.reuseIdentifier,
             for: indexPath
-        ) as? ProductGridViewCell else {
-            return ProductGridViewCell()
+        ) as? ProductCollectionViewCell else {
+            return ProductCollectionViewCell()
         }
         
         guard let product = initialProductsListPage?.pages[indexPath.item] else {
@@ -73,7 +73,7 @@ class ProductGridViewController: UICollectionViewController {
         return cell
     }
     
-    private func configureGridContent(of cell: ProductGridViewCell, with product: Product) {
+    private func configureGridContent(of cell: ProductCollectionViewCell, with product: Product) {
         DispatchQueue.main.async {
             cell.productThumbnail.image = self.getImage(from: product.thumbnail)
         }
@@ -82,7 +82,7 @@ class ProductGridViewController: UICollectionViewController {
         cell.productStock.attributedText = product.attributedStock
     }
     
-    private func configureGridCellLayer(of cell: ProductGridViewCell) {
+    private func configureGridCellLayer(of cell: ProductCollectionViewCell) {
         cell.layer.borderColor = UIColor.systemGray.cgColor
         cell.layer.borderWidth = 1
         cell.layer.cornerRadius = 5

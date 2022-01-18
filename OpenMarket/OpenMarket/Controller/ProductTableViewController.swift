@@ -1,5 +1,5 @@
 //
-//  ProductListViewController.swift
+//  ProductTableViewController.swift
 //  OpenMarket
 //
 //  Created by 예거 on 2022/01/12.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProductListViewController: UITableViewController {
+class ProductTableViewController: UITableViewController {
     
     private var initialProductsListPage: ProductsListPage?
 
@@ -45,10 +45,10 @@ class ProductListViewController: UITableViewController {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: ProductListViewCell.reuseIdentifier,
+            withIdentifier: ProductTableViewCell.reuseIdentifier,
             for: indexPath
-        ) as? ProductListViewCell else {
-            return ProductListViewCell()
+        ) as? ProductTableViewCell else {
+            return ProductTableViewCell()
         }
         
         guard let product = initialProductsListPage?.pages[indexPath.row] else {
@@ -60,7 +60,7 @@ class ProductListViewController: UITableViewController {
         return cell
     }
     
-    private func configureListContent(of cell: ProductListViewCell, with product: Product) {
+    private func configureListContent(of cell: ProductTableViewCell, with product: Product) {
         DispatchQueue.main.async {
             cell.productThumbnail.image = self.getImage(from: product.thumbnail)
         }

@@ -1,5 +1,5 @@
 //
-//  ProductListViewCell.swift
+//  ProductTableViewCell.swift
 //  OpenMarket
 //
 //  Created by 예거 on 2022/01/13.
@@ -7,9 +7,9 @@
 
 import UIKit
 
-class ProductListViewCell: UITableViewCell {
+class ProductTableViewCell: UITableViewCell {
     
-    static let reuseIdentifier = String(describing: ProductListViewCell.self)
+    static let reuseIdentifier = String(describing: ProductTableViewCell.self)
     
     @IBOutlet weak var productThumbnail: UIImageView!
     @IBOutlet weak var productName: UILabel!

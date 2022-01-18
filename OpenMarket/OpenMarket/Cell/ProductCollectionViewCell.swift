@@ -1,5 +1,5 @@
 //
-//  ProductGridViewCell.swift
+//  ProductCollectionViewCell.swift
 //  OpenMarket
 //
 //  Created by lily on 2022/01/13.
@@ -7,9 +7,9 @@
 
 import UIKit
 
-class ProductGridViewCell: UICollectionViewCell {
+class ProductCollectionViewCell: UICollectionViewCell {
     
-    static let reuseIdentifier = String(describing: ProductGridViewCell.self)
+    static let reuseIdentifier = String(describing: ProductCollectionViewCell.self)
     
     @IBOutlet weak var productThumbnail: UIImageView!
     @IBOutlet weak var productName: UILabel!
