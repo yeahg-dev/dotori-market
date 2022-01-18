@@ -56,12 +56,10 @@ class ProductCollectinoViewController: UICollectionViewController {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: ProductCollectionViewCell.reuseIdentifier,
+        let cell = collectionView.dequeueReusableCell(
+            withClass: ProductCollectionViewCell.self,
             for: indexPath
-        ) as? ProductCollectionViewCell else {
-            return ProductCollectionViewCell()
-        }
+        )
         
         guard let product = initialProductsListPage?.pages[indexPath.item] else {
             return cell
@@ -94,5 +92,16 @@ class ProductCollectinoViewController: UICollectionViewController {
             return defaultImage?.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
         }
         return UIImage(data: imageData)
+    }
+}
+
+private extension UICollectionView {
+    
+    func dequeueReusableCell<T: UICollectionViewCell>(withClass name: T.Type, for indexPath: IndexPath) -> T {
+        guard let cell = dequeueReusableCell(withReuseIdentifier: String(describing: name), for: indexPath) as? T else {
+            fatalError(
+                "Couldn't find UICollectionViewCell for \(String(describing: name)), make sure the cell is registered with collection view")
+        }
+        return cell
     }
 }

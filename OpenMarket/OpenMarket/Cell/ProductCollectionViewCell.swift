@@ -9,8 +9,6 @@ import UIKit
 
 class ProductCollectionViewCell: UICollectionViewCell {
     
-    static let reuseIdentifier = String(describing: ProductCollectionViewCell.self)
-    
     @IBOutlet weak var productThumbnail: UIImageView!
     @IBOutlet weak var productName: UILabel!
     @IBOutlet weak var productPrice: UILabel!

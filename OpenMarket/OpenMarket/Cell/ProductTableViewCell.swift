@@ -9,8 +9,6 @@ import UIKit
 
 class ProductTableViewCell: UITableViewCell {
     
-    static let reuseIdentifier = String(describing: ProductTableViewCell.self)
-    
     @IBOutlet weak var productThumbnail: UIImageView!
     @IBOutlet weak var productName: UILabel!
     @IBOutlet weak var productPrice: UILabel!

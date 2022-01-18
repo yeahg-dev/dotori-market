@@ -44,12 +44,10 @@ class ProductTableViewController: UITableViewController {
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: ProductTableViewCell.reuseIdentifier,
+        let cell = tableView.dequeueReusableCell(
+            withClass: ProductTableViewCell.self,
             for: indexPath
-        ) as? ProductTableViewCell else {
-            return ProductTableViewCell()
-        }
+        )
         
         guard let product = initialProductsListPage?.pages[indexPath.row] else {
             return cell
@@ -75,5 +73,16 @@ class ProductTableViewController: UITableViewController {
             return defaultImage?.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
         }
         return UIImage(data: imageData)
+    }
+}
+
+private extension UITableView {
+    
+    func dequeueReusableCell<T: UITableViewCell>(withClass name: T.Type, for indexPath: IndexPath) -> T {
+        guard let cell = dequeueReusableCell(withIdentifier: String(describing: name), for: indexPath) as? T else {
+            fatalError(
+                "Couldn't find UITableViewCell for \(String(describing: name)), make sure the cell is registered with table view")
+        }
+        return cell
     }
 }
