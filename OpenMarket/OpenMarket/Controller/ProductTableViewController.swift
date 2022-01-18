@@ -53,26 +53,9 @@ class ProductTableViewController: UITableViewController {
             return cell
         }
         
-        configureListContent(of: cell, with: product)
+        cell.configureTableContent(with: product)
         
         return cell
-    }
-    
-    private func configureListContent(of cell: ProductTableViewCell, with product: Product) {
-        DispatchQueue.main.async {
-            cell.productThumbnail.image = self.getImage(from: product.thumbnail)
-        }
-        cell.productName.attributedText = product.attributedName
-        cell.productPrice.attributedText = product.attributedPrice
-        cell.productStock.attributedText = product.attributedStock
-    }
-    
-    private func getImage(from url: String) -> UIImage? {
-        guard let url = URL(string: url), let imageData = try? Data(contentsOf: url) else {
-            let defaultImage = UIImage(systemName: "xmark.icloud")
-            return defaultImage?.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
-        }
-        return UIImage(data: imageData)
     }
 }
 

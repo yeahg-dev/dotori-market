@@ -9,20 +9,25 @@ import UIKit
 
 class ProductTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var productThumbnail: UIImageView!
-    @IBOutlet weak var productName: UILabel!
-    @IBOutlet weak var productPrice: UILabel!
-    @IBOutlet weak var productStock: UILabel!
+    @IBOutlet private weak var productThumbnail: UIImageView!
+    @IBOutlet private weak var productName: UILabel!
+    @IBOutlet private weak var productPrice: UILabel!
+    @IBOutlet private weak var productStock: UILabel!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    func configureTableContent(with product: Product) {
+        DispatchQueue.main.async {
+            self.productThumbnail.image = self.getImage(from: product.thumbnail)
+        }
+        productName.attributedText = product.attributedName
+        productPrice.attributedText = product.attributedPrice
+        productStock.attributedText = product.attributedStock
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    private func getImage(from url: String) -> UIImage? {
+        guard let url = URL(string: url), let imageData = try? Data(contentsOf: url) else {
+            let defaultImage = UIImage(systemName: "xmark.icloud")
+            return defaultImage?.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
+        }
+        return UIImage(data: imageData)
     }
-
 }
