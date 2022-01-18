@@ -65,33 +65,10 @@ class ProductCollectinoViewController: UICollectionViewController {
             return cell
         }
         
-        configureGridContent(of: cell, with: product)
-        configureGridCellLayer(of: cell)
+        cell.configureCollectionContent(with: product)
+        cell.configureCollectionCellLayer()
         
         return cell
-    }
-    
-    private func configureGridContent(of cell: ProductCollectionViewCell, with product: Product) {
-        DispatchQueue.main.async {
-            cell.productThumbnail.image = self.getImage(from: product.thumbnail)
-        }
-        cell.productName.attributedText = product.attributedName
-        cell.productPrice.attributedText = product.attributedPrice
-        cell.productStock.attributedText = product.attributedStock
-    }
-    
-    private func configureGridCellLayer(of cell: ProductCollectionViewCell) {
-        cell.layer.borderColor = UIColor.systemGray.cgColor
-        cell.layer.borderWidth = 1
-        cell.layer.cornerRadius = 5
-    }
-    
-    private func getImage(from url: String) -> UIImage? {
-        guard let url = URL(string: url), let imageData = try? Data(contentsOf: url) else {
-            let defaultImage = UIImage(systemName: "xmark.icloud")
-            return defaultImage?.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
-        }
-        return UIImage(data: imageData)
     }
 }
 
