@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6308660827901A1A0092991A /* ProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6308660727901A1A0092991A /* ProductCollectionViewCell.swift */; };
 		632B9FFD27955A8F0099E121 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632B9FFC27955A8F0099E121 /* NetworkTests.swift */; };
+		634B2B602797FAD10009E6CD /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634B2B5F2797FAD10009E6CD /* UIImageView+Extension.swift */; };
 		639358D22786C5B500412958 /* APIURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639358D12786C5B500412958 /* APIURL.swift */; };
 		639358D52786ED9600412958 /* ProductInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639358D42786ED9600412958 /* ProductInfo.swift */; };
 		63A2029927853300003A1112 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A2029827853300003A1112 /* Image.swift */; };
@@ -55,6 +56,7 @@
 /* Begin PBXFileReference section */
 		6308660727901A1A0092991A /* ProductCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCollectionViewCell.swift; sourceTree = "<group>"; };
 		632B9FFC27955A8F0099E121 /* NetworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
+		634B2B5F2797FAD10009E6CD /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		639358D12786C5B500412958 /* APIURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIURL.swift; sourceTree = "<group>"; };
 		639358D42786ED9600412958 /* ProductInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfo.swift; sourceTree = "<group>"; };
 		63A2029827853300003A1112 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				C13DFABC279126AB003A1A2E /* Double+Extension.swift */,
 				C13DFABE279126C2003A1A2E /* String+Extension.swift */,
 				C13DFAC0279126D9003A1A2E /* NSAttributedString+Extension.swift */,
+				634B2B5F2797FAD10009E6CD /* UIImageView+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -382,6 +385,7 @@
 			files = (
 				63A2029927853300003A1112 /* Image.swift in Sources */,
 				63D660E82787F87B00A450DE /* Data+Extension.swift in Sources */,
+				634B2B602797FAD10009E6CD /* UIImageView+Extension.swift in Sources */,
 				C1CBA3D6278F084000BAC0B8 /* ProductTableViewController.swift in Sources */,
 				63D97B6F27842307009E2516 /* Currency.swift in Sources */,
 				63A2029D2785447E003A1112 /* ProductDetail.swift in Sources */,

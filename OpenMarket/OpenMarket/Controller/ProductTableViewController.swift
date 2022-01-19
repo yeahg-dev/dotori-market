@@ -20,7 +20,6 @@ class ProductTableViewController: UITableViewController {
             case .success(let productsListPage):
                 self.initialProductsListPage = productsListPage
                 DispatchQueue.main.async {
-                    self.downloadImage()
                     self.tableView.reloadData()
                 }
             case .failure(let error):
@@ -57,21 +56,6 @@ class ProductTableViewController: UITableViewController {
         cell.configureTableContent(with: product)
         
         return cell
-    }
-    
-    private func downloadImage() {
-        initialProductsListPage?.pages.forEach({ product in
-            let cacheKey = NSString(string: product.thumbnail)
-            
-            if let _ = ImageCacheManager.share.object(forKey: cacheKey) { return }
-            
-            guard let url = URL(string: product.thumbnail),
-                  let imageData = try? Data(contentsOf: url),
-                  let image = UIImage(data: imageData) else { return }
-            
-            ImageCacheManager.share.setObject(image, forKey: cacheKey)
-            print("💚\(product.name) 이미지 캐시됨!")
-        })
     }
 }
 
