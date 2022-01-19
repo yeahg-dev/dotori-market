@@ -9,25 +9,13 @@ import UIKit
 
 class ProductTableViewController: UITableViewController {
     
-    private var initialProductsListPage: ProductsListPage?
+    private var currentPageNo: Int = .zero
+    private var hasNextPage: Bool = false
+    private var products: [Product] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let request = ProductsListPageRequest(pageNo: 1, itemsPerPage: 20)
-        APIExecutor().execute(request) { (result: Result<ProductsListPage, Error>) in
-            switch result {
-            case .success(let productsListPage):
-                self.initialProductsListPage = productsListPage
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            case .failure(let error):
-                // Alert 넣기
-                print("ProductsListPage 통신 중 에러 발생 : \(error)")
-                return
-            }
-        }
+        downloadProductsListPage(number: 1)
     }
 
     // MARK: - Table view data source
@@ -37,7 +25,7 @@ class ProductTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return initialProductsListPage?.pages.count ?? .zero
+        return products.count
     }
     
     override func tableView(
@@ -49,7 +37,7 @@ class ProductTableViewController: UITableViewController {
             for: indexPath
         )
         
-        guard let product = initialProductsListPage?.pages[safe: indexPath.row] else {
+        guard let product = products[safe: indexPath.row] else {
             return cell
         }
         
@@ -57,7 +45,38 @@ class ProductTableViewController: UITableViewController {
         
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let paginationBuffer = 3
+        guard indexPath.row >= products.count - paginationBuffer,
+              hasNextPage == true else { return }
+        
+        downloadProductsListPage(number: currentPageNo + 1)
+    }
+    
+    // MARK: - Custom function
+    
+    private func downloadProductsListPage(number: Int) {
+        let request = ProductsListPageRequest(pageNo: number, itemsPerPage: 20)
+        APIExecutor().execute(request) { (result: Result<ProductsListPage, Error>) in
+            switch result {
+            case .success(let productsListPage):
+                self.currentPageNo = productsListPage.pageNo
+                self.hasNextPage = productsListPage.hasNext
+                self.products.append(contentsOf: productsListPage.pages)
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            case .failure(let error):
+                // Alert 넣기
+                print("ProductsListPage 통신 중 에러 발생 : \(error)")
+                return
+            }
+        }
+    }
 }
+
+// MARK: - UITableView Extension
 
 private extension UITableView {
     
