@@ -14,6 +14,8 @@ class ProductTableViewCell: UITableViewCell {
     @IBOutlet private weak var productPrice: UILabel?
     @IBOutlet private weak var productStock: UILabel?
     
+    private var cancellableImageTask: Cancellable?
+    
     private let invalidImage: UIImage = {
         let invalidImage = UIImage(systemName: "xmark.icloud") ?? UIImage()
         invalidImage.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
@@ -22,11 +24,12 @@ class ProductTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         productThumbnail?.image = nil
+        cancellableImageTask?.cancel()
     }
     
     func configureTableContent(with product: Product) {
         if let url = URL(string: product.thumbnail) {
-            productThumbnail?.setImage(with: url, invalidImage: invalidImage)
+            cancellableImageTask = productThumbnail?.setImage(with: url, invalidImage: invalidImage)
         }
         productName?.attributedText = product.attributedName
         productPrice?.attributedText = product.attributedPrice

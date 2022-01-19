@@ -7,17 +7,24 @@
 
 import UIKit
 
+protocol Cancellable {
+    
+    func cancel()
+}
+
+extension URLSessionDataTask: Cancellable { }
+
 extension UIImageView {
     
-    func setImage(with url: URL, invalidImage: UIImage) {
+    func setImage(with url: URL, invalidImage: UIImage) -> Cancellable? {
         let cacheKey = url.absoluteString as NSString
         
         if let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey) {
             self.image = cachedImage
-            return
+            return nil
         }
         
-        URLSession.shared.dataTask(with: url) { data, _, error in
+        let task = URLSession.shared.dataTask(with: url) { data, _, error in
             if let _ = error {
                 self.image = invalidImage
                 return
@@ -29,6 +36,8 @@ extension UIImageView {
                     ImageCacheManager.shared.setObject(image, forKey: cacheKey)
                 }
             }
-        }.resume()
+        }
+        task.resume()
+        return task
     }
 }

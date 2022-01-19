@@ -14,6 +14,8 @@ class ProductCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var productPrice: UILabel?
     @IBOutlet private weak var productStock: UILabel?
     
+    private var cancellableImageTask: Cancellable?
+    
     private let invalidImage: UIImage = {
         let invalidImage = UIImage(systemName: "xmark.icloud") ?? UIImage()
         invalidImage.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
@@ -27,9 +29,14 @@ class ProductCollectionViewCell: UICollectionViewCell {
         layer.cornerRadius = 5
     }
     
+    override func prepareForReuse() {
+        productThumbnail?.image = nil
+        cancellableImageTask?.cancel()
+    }
+    
     func configureCollectionContent(with product: Product) {
         if let url = URL(string: product.thumbnail) {
-            productThumbnail?.setImage(with: url, invalidImage: invalidImage)
+            cancellableImageTask = productThumbnail?.setImage(with: url, invalidImage: invalidImage)
         }
         productName?.attributedText = product.attributedName
         productPrice?.attributedText = product.attributedPrice
