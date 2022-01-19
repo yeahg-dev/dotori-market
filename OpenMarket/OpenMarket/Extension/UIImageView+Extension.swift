@@ -26,7 +26,9 @@ extension UIImageView {
         
         let task = URLSession.shared.dataTask(with: url) { data, _, error in
             if let _ = error {
-                self.image = invalidImage
+                DispatchQueue.main.async {
+                    self.image = invalidImage
+                }
                 return
             } else {
                 DispatchQueue.main.async {

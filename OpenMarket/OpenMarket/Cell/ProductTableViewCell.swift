@@ -18,8 +18,7 @@ class ProductTableViewCell: UITableViewCell {
     
     private let invalidImage: UIImage = {
         let invalidImage = UIImage(systemName: "xmark.icloud") ?? UIImage()
-        invalidImage.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
-        return invalidImage
+        return invalidImage.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
     }()
     
     override func prepareForReuse() {
