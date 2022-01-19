@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProductTableViewController: UITableViewController {
+final class ProductTableViewController: UITableViewController {
     
     private var currentPageNo: Int = .zero
     private var hasNextPage: Bool = false

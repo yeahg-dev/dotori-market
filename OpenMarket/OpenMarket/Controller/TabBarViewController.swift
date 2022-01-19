@@ -6,7 +6,7 @@
 
 import UIKit
 
-class TabBarViewController: UITabBarController {
+final class TabBarViewController: UITabBarController {
     
     @IBOutlet private weak var viewSegmentedControl: UISegmentedControl!
     

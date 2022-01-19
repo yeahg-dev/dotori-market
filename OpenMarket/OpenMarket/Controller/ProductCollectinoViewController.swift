@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProductCollectinoViewController: UICollectionViewController {
+final class ProductCollectinoViewController: UICollectionViewController {
     
     private var currentPageNo: Int = .zero
     private var hasNextPage: Bool = false

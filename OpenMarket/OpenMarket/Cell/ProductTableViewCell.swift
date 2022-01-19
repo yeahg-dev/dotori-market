@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProductTableViewCell: UITableViewCell {
+final class ProductTableViewCell: UITableViewCell {
     
     @IBOutlet private weak var productThumbnail: UIImageView?
     @IBOutlet private weak var productName: UILabel?
