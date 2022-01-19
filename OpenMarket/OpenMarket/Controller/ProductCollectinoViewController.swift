@@ -9,27 +9,15 @@ import UIKit
 
 class ProductCollectinoViewController: UICollectionViewController {
     
-    private var initialProductsListPage: ProductsListPage?
+    private var currentPageNo: Int = .zero
+    private var hasNextPage: Bool = false
+    private var products: [Product] = []
     private let flowLayout = UICollectionViewFlowLayout()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureGridLayout()
-        
-        let request = ProductsListPageRequest(pageNo: 1, itemsPerPage: 20)
-        APIExecutor().execute(request) { (result: Result<ProductsListPage, Error>) in
-            switch result {
-            case .success(let productsListPage):
-                self.initialProductsListPage = productsListPage
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
-            case .failure(let error):
-                // Alert 넣기
-                print("ProductsListPage 통신 중 에러 발생 : \(error)")
-                return
-            }
-        }
+        downloadProductsListPage(number: 1)
     }
     
     private func configureGridLayout() {
@@ -49,7 +37,7 @@ class ProductCollectinoViewController: UICollectionViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return initialProductsListPage?.pages.count ?? .zero
+        return products.count
     }
 
     override func collectionView(
@@ -61,7 +49,7 @@ class ProductCollectinoViewController: UICollectionViewController {
             for: indexPath
         )
         
-        guard let product = initialProductsListPage?.pages[safe: indexPath.item] else {
+        guard let product = products[safe: indexPath.item] else {
             return cell
         }
         
@@ -69,7 +57,42 @@ class ProductCollectinoViewController: UICollectionViewController {
         
         return cell
     }
+    
+    override func collectionView(
+        _ collectionView: UICollectionView,
+        willDisplay cell: UICollectionViewCell,
+        forItemAt indexPath: IndexPath
+    ) {
+        let paginationBuffer = 4
+        guard indexPath.item >= products.count - paginationBuffer,
+              hasNextPage == true else { return }
+
+        downloadProductsListPage(number: currentPageNo + 1)
+    }
+    
+    // MARK: - Custom function
+    
+    private func downloadProductsListPage(number: Int) {
+        let request = ProductsListPageRequest(pageNo: number, itemsPerPage: 20)
+        APIExecutor().execute(request) { (result: Result<ProductsListPage, Error>) in
+            switch result {
+            case .success(let productsListPage):
+                self.currentPageNo = productsListPage.pageNo
+                self.hasNextPage = productsListPage.hasNext
+                self.products.append(contentsOf: productsListPage.pages)
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            case .failure(let error):
+                // Alert 넣기
+                print("ProductsListPage 통신 중 에러 발생 : \(error)")
+                return
+            }
+        }
+    }
 }
+
+// MARK: - UITableView Extension
 
 private extension UICollectionView {
     
