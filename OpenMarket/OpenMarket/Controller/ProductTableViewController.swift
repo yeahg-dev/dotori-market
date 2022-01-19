@@ -12,18 +12,20 @@ class ProductTableViewController: UITableViewController {
     private var currentPageNo: Int = .zero
     private var hasNextPage: Bool = false
     private var products: [Product] = []
-
+    private let loadingIndicator = UIActivityIndicatorView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        startloadingIndicator()
         downloadProductsListPage(number: 1)
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return products.count
     }
@@ -60,6 +62,16 @@ class ProductTableViewController: UITableViewController {
     
     // MARK: - Custom function
     
+    private func startloadingIndicator() {
+        view.addSubview(loadingIndicator)
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        let safeArea = view.safeAreaLayoutGuide
+        NSLayoutConstraint.activate([
+            loadingIndicator.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor), loadingIndicator.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor)
+        ])
+        loadingIndicator.startAnimating()
+    }
+    
     private func downloadProductsListPage(number: Int) {
         let request = ProductsListPageRequest(pageNo: number, itemsPerPage: 20)
         APIExecutor().execute(request) { (result: Result<ProductsListPage, Error>) in
@@ -70,6 +82,7 @@ class ProductTableViewController: UITableViewController {
                 self.products.append(contentsOf: productsListPage.pages)
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
+                    self.loadingIndicator.stopAnimating()
                 }
             case .failure(let error):
                 // Alert 넣기

@@ -13,24 +13,16 @@ class ProductCollectinoViewController: UICollectionViewController {
     private var hasNextPage: Bool = false
     private var products: [Product] = []
     private let flowLayout = UICollectionViewFlowLayout()
+    private let loadingIndicator = UIActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        startloadingIndicator()
         configureGridLayout()
         downloadProductsListPage(number: 1)
     }
-    
-    private func configureGridLayout() {
-        collectionView.collectionViewLayout = flowLayout
-        let cellWidth = view.bounds.size.width / 2 - 10
-        flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth * 1.5)
-        flowLayout.minimumLineSpacing = 10
-        flowLayout.minimumInteritemSpacing = 10
-        flowLayout.scrollDirection = .vertical
-        flowLayout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: .zero, right: 5)
-    }
 
-    // MARK: UICollectionViewDataSource
+    // MARK: - UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -75,6 +67,26 @@ class ProductCollectinoViewController: UICollectionViewController {
     
     // MARK: - Custom function
     
+    private func startloadingIndicator() {
+        view.addSubview(loadingIndicator)
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        let safeArea = view.safeAreaLayoutGuide
+        NSLayoutConstraint.activate([
+            loadingIndicator.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor), loadingIndicator.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor)
+        ])
+        loadingIndicator.startAnimating()
+    }
+    
+    private func configureGridLayout() {
+        collectionView.collectionViewLayout = flowLayout
+        let cellWidth = view.bounds.size.width / 2 - 10
+        flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth * 1.5)
+        flowLayout.minimumLineSpacing = 10
+        flowLayout.minimumInteritemSpacing = 10
+        flowLayout.scrollDirection = .vertical
+        flowLayout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: .zero, right: 5)
+    }
+    
     private func downloadProductsListPage(number: Int) {
         let request = ProductsListPageRequest(pageNo: number, itemsPerPage: 20)
         APIExecutor().execute(request) { (result: Result<ProductsListPage, Error>) in
@@ -85,6 +97,7 @@ class ProductCollectinoViewController: UICollectionViewController {
                 self.products.append(contentsOf: productsListPage.pages)
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
+                    self.loadingIndicator.stopAnimating()
                 }
             case .failure(let error):
                 // Alert 넣기
@@ -95,7 +108,7 @@ class ProductCollectinoViewController: UICollectionViewController {
     }
 }
 
-// MARK: - UITableView Extension
+// MARK: - UICollectionView Extension
 
 private extension UICollectionView {
     
