@@ -20,6 +20,13 @@ class ProductCollectionViewCell: UICollectionViewCell {
         return invalidImage
     }()
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        layer.borderColor = UIColor.systemGray.cgColor
+        layer.borderWidth = 1
+        layer.cornerRadius = 5
+    }
+    
     func configureCollectionContent(with product: Product) {
         if let url = URL(string: product.thumbnail) {
             productThumbnail?.setImage(with: url, invalidImage: invalidImage)
@@ -27,11 +34,5 @@ class ProductCollectionViewCell: UICollectionViewCell {
         productName?.attributedText = product.attributedName
         productPrice?.attributedText = product.attributedPrice
         productStock?.attributedText = product.attributedStock
-    }
-   
-    func configureCollectionCellLayer() {
-        self.layer.borderColor = UIColor.systemGray.cgColor
-        self.layer.borderWidth = 1
-        self.layer.cornerRadius = 5
     }
 }

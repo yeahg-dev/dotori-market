@@ -66,7 +66,6 @@ class ProductCollectinoViewController: UICollectionViewController {
         }
         
         cell.configureCollectionContent(with: product)
-        cell.configureCollectionCellLayer()
         
         return cell
     }
