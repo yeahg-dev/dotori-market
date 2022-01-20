@@ -9,8 +9,8 @@ import Foundation
 
 extension Data {
     
-    mutating func append(_ string: String) {
-        guard let data = string.data(using: .utf8) else {
+    mutating func append(_ string: String, using encodingStyle: String.Encoding) {
+        guard let data = string.data(using: encodingStyle) else {
             return
         }
         self.append(data)

@@ -44,7 +44,7 @@ struct ProductRegistrationRequest: APIRequest {
         ]
     }
     var body: Data? {
-        return createBody(params: params, images: images)
+        return createBody(params: params, images: images, encodingStyle: .utf8)
     }
     
     init(identifier: String, params: NewProductInfo, images: [ImageFile]) {
@@ -54,7 +54,11 @@ struct ProductRegistrationRequest: APIRequest {
         self.boundary = UUID().uuidString
     }
     
-    private func createBody(params productInfo: NewProductInfo, images: [ImageFile]) -> Data? {
+    private func createBody(
+        params productInfo: NewProductInfo,
+        images: [ImageFile],
+        encodingStyle: String.Encoding
+    ) -> Data? {
         var body = Data()
         let boundary = "--" + boundary
         let lineBreak = "\r\n"
@@ -62,23 +66,32 @@ struct ProductRegistrationRequest: APIRequest {
             return nil
         }
         
-        body.append(boundary + lineBreak)
-        body.append("Content-Disposition: form-data; name=\"params\"" + lineBreak)
-        body.append("Content-Type: application/json" + lineBreak)
-        body.append(lineBreak)
+        body.append(boundary + lineBreak, using: encodingStyle)
+        body.append(
+            "Content-Disposition: form-data; name=\"params\"" + lineBreak,
+            using: encodingStyle
+        )
+        body.append("Content-Type: application/json" + lineBreak, using: encodingStyle)
+        body.append(lineBreak, using: encodingStyle)
         body.append(encodedProductInfo)
-        body.append(lineBreak + lineBreak)
+        body.append(lineBreak + lineBreak, using: encodingStyle)
 
         images.forEach { imageFile in
-            body.append(boundary + lineBreak)
-            body.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(imageFile.fileName + imageFile.type.rawValue)\"" + lineBreak)
-            body.append("Content-Type: " + imageFile.type.description + lineBreak)
-            body.append(lineBreak)
+            body.append(boundary + lineBreak, using: encodingStyle)
+            body.append(
+                "Content-Disposition: form-data; name=\"images\"; filename=\"\(imageFile.fileName + imageFile.type.rawValue)\"" + lineBreak,
+                using: encodingStyle
+            )
+            body.append(
+                "Content-Type: " + imageFile.type.description + lineBreak,
+                using: encodingStyle
+            )
+            body.append(lineBreak, using: encodingStyle)
             body.append(imageFile.data)
-            body.append(lineBreak + lineBreak)
+            body.append(lineBreak + lineBreak, using: encodingStyle)
         }
         
-        body.append(boundary + "--")
+        body.append(boundary + "--", using: encodingStyle)
         return body
     }
 }
