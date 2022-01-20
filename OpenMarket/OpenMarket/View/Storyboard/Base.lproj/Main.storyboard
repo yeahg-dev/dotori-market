@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="N4P-j3-ySf">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="N4P-j3-ySf">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -103,42 +103,53 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="xjs-rW-bVr">
-                            <size key="itemSize" width="173" height="253"/>
+                            <size key="itemSize" width="170" height="274"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProductCollectionViewCell" id="oFA-1F-c6Z" customClass="ProductCollectionViewCell" customModule="OpenMarket" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="173" height="253"/>
+                                <rect key="frame" x="0.0" y="0.0" width="170" height="274"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="AUw-xU-ObK">
-                                    <rect key="frame" x="0.0" y="0.0" width="173" height="253"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="170" height="274"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="moD-xN-XUW">
-                                            <rect key="frame" x="17.5" y="10" width="138" height="138.5"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" secondItem="moD-xN-XUW" secondAttribute="height" multiplier="1:1" id="QPM-qr-e8g"/>
-                                            </constraints>
-                                        </imageView>
-                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="cY8-vU-vs9">
-                                            <rect key="frame" x="55" y="158.5" width="63.5" height="84.5"/>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="jeo-9q-tvc">
+                                            <rect key="frame" x="17" y="10" width="136" height="254"/>
                                             <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="moD-xN-XUW">
+                                                    <rect key="frame" x="0.0" y="0.0" width="136" height="136"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="moD-xN-XUW" secondAttribute="height" multiplier="1:1" id="QPM-qr-e8g"/>
+                                                    </constraints>
+                                                </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="제품 이름" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uxn-Ut-cRe">
-                                                    <rect key="frame" x="0.0" y="0.0" width="63.5" height="21.5"/>
+                                                    <rect key="frame" x="36.5" y="148" width="63.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="가격" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cbi-O0-iU7">
-                                                    <rect key="frame" x="17" y="31.5" width="29.5" height="21.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <stackView opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" axis="vertical" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Mvc-gf-NXJ">
+                                                    <rect key="frame" x="53.5" y="180.5" width="29.5" height="41"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="가격" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cbi-O0-iU7">
+                                                            <rect key="frame" x="0.0" y="0.0" width="29.5" height="20.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="가격" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kcj-fd-G8M">
+                                                            <rect key="frame" x="0.0" y="20.5" width="29.5" height="20.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="잔여수량" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oou-Hb-Zu6">
-                                                    <rect key="frame" x="2" y="63" width="59" height="21.5"/>
+                                                    <rect key="frame" x="38.5" y="233.5" width="59" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -147,15 +158,13 @@
                                         </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="moD-xN-XUW" firstAttribute="width" secondItem="AUw-xU-ObK" secondAttribute="width" multiplier="0.8" id="7eB-n2-LO0"/>
-                                        <constraint firstItem="cY8-vU-vs9" firstAttribute="top" secondItem="moD-xN-XUW" secondAttribute="bottom" constant="10" id="G21-QK-caJ"/>
-                                        <constraint firstItem="moD-xN-XUW" firstAttribute="centerX" secondItem="AUw-xU-ObK" secondAttribute="centerX" id="QNs-WO-wku"/>
-                                        <constraint firstItem="moD-xN-XUW" firstAttribute="top" secondItem="AUw-xU-ObK" secondAttribute="top" constant="10" id="XLG-9P-BEQ"/>
-                                        <constraint firstItem="cY8-vU-vs9" firstAttribute="centerX" secondItem="AUw-xU-ObK" secondAttribute="centerX" id="bSz-27-Mbu"/>
-                                        <constraint firstAttribute="bottom" secondItem="cY8-vU-vs9" secondAttribute="bottom" constant="10" id="uV8-yD-2VC"/>
+                                        <constraint firstAttribute="bottom" secondItem="jeo-9q-tvc" secondAttribute="bottom" constant="10" id="AHg-8y-4Mm"/>
+                                        <constraint firstItem="jeo-9q-tvc" firstAttribute="top" secondItem="AUw-xU-ObK" secondAttribute="top" constant="10" id="aNn-n2-9un"/>
+                                        <constraint firstItem="jeo-9q-tvc" firstAttribute="centerX" secondItem="AUw-xU-ObK" secondAttribute="centerX" id="hG6-Aa-qwi"/>
+                                        <constraint firstItem="moD-xN-XUW" firstAttribute="width" secondItem="AUw-xU-ObK" secondAttribute="width" multiplier="0.8" id="nWf-WS-jGP"/>
                                     </constraints>
                                 </collectionViewCellContentView>
-                                <size key="customSize" width="173" height="253"/>
+                                <size key="customSize" width="170" height="274"/>
                                 <connections>
                                     <outlet property="productName" destination="Uxn-Ut-cRe" id="JOa-vW-J0a"/>
                                     <outlet property="productPrice" destination="cbi-O0-iU7" id="KzX-nh-uHr"/>

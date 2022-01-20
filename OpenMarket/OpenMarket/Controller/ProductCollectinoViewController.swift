@@ -80,11 +80,11 @@ final class ProductCollectinoViewController: UICollectionViewController {
     private func configureGridLayout() {
         collectionView.collectionViewLayout = flowLayout
         let cellWidth = view.bounds.size.width / 2 - 10
-        flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth * 1.5)
+        flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth * 1.7)
         flowLayout.minimumLineSpacing = 10
         flowLayout.minimumInteritemSpacing = 10
         flowLayout.scrollDirection = .vertical
-        flowLayout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: .zero, right: 5)
+//        flowLayout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: .zero, right: 5)
     }
     
     private func downloadProductsListPage(number: Int) {
