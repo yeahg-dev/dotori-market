@@ -71,20 +71,22 @@ final class ProductCollectinoViewController: UICollectionViewController {
         view.addSubview(loadingIndicator)
         loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
         let safeArea = view.safeAreaLayoutGuide
-        NSLayoutConstraint.activate([
-            loadingIndicator.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor), loadingIndicator.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor)
-        ])
+        NSLayoutConstraint.activate(
+            [loadingIndicator.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor),
+            loadingIndicator.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor)]
+        )
         loadingIndicator.startAnimating()
     }
     
     private func configureGridLayout() {
         collectionView.collectionViewLayout = flowLayout
         let cellWidth = view.bounds.size.width / 2 - 10
-        flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth * 1.7)
+        // FIXME: cell 의 height 값에 intrinsic size 를 부여하는 방법을 찾아서 고쳐야 함!
+        flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth * 1.55)
         flowLayout.minimumLineSpacing = 10
         flowLayout.minimumInteritemSpacing = 10
         flowLayout.scrollDirection = .vertical
-//        flowLayout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: .zero, right: 5)
+        flowLayout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: .zero, right: 5)
     }
     
     private func downloadProductsListPage(number: Int) {

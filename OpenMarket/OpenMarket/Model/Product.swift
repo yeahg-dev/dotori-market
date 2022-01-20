@@ -42,30 +42,36 @@ extension Product {
     }
     
     var attributedPrice: NSAttributedString {
+        let originalPrice: NSAttributedString
         if discountedPrice == .zero {
-            let originalPrice = NSAttributedString(
+            originalPrice = NSAttributedString(
                 string: currency.rawValue + .whiteSpace + price.formatted,
                 attributes: [.font: UIFont.preferredFont(forTextStyle: .callout),
                              .foregroundColor: UIColor.systemGray]
             )
-            return originalPrice
         } else {
-            let originalPrice = NSAttributedString(
+            originalPrice = NSAttributedString(
                 string: currency.rawValue + .whiteSpace + price.formatted,
                 attributes: [.font: UIFont.preferredFont(forTextStyle: .callout),
                              .foregroundColor: UIColor.systemRed,
                              .strikethroughStyle: NSUnderlineStyle.single.rawValue]
             )
-            let bargainPrice = NSAttributedString(
+        }
+        return originalPrice
+    }
+    
+    var attributedBargainPrice: NSAttributedString {
+        let attributedBargainPrice: NSAttributedString
+        if discountedPrice == .zero {
+            attributedBargainPrice = NSAttributedString(string: .empty)
+        } else {
+            attributedBargainPrice = NSAttributedString(
                 string: currency.rawValue + .whiteSpace + bargainPrice.formatted,
                 attributes: [.font: UIFont.preferredFont(forTextStyle: .callout),
                              .foregroundColor: UIColor.systemGray]
             )
-            let priceTag = NSMutableAttributedString(attributedString: originalPrice)
-            priceTag.append(.whiteSpace)
-            priceTag.append(bargainPrice)
-            return priceTag
         }
+        return attributedBargainPrice
     }
     
     var attributedStock: NSAttributedString {

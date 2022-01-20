@@ -10,4 +10,5 @@ import Foundation
 extension String {
     
     static let whiteSpace = " "
+    static let empty = ""
 }
