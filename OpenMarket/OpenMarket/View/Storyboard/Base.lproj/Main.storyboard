@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="N4P-j3-ySf">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="N4P-j3-ySf">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -126,22 +126,22 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="jeo-9q-tvc">
-                                            <rect key="frame" x="17" y="10" width="136" height="254"/>
+                                            <rect key="frame" x="0.0" y="10" width="170" height="254"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="moD-xN-XUW">
-                                                    <rect key="frame" x="0.0" y="0.0" width="136" height="136"/>
+                                                    <rect key="frame" x="17" y="0.0" width="136" height="136"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="moD-xN-XUW" secondAttribute="height" multiplier="1:1" id="QPM-qr-e8g"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="제품 이름" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uxn-Ut-cRe">
-                                                    <rect key="frame" x="36.5" y="146" width="63.5" height="20.5"/>
+                                                    <rect key="frame" x="53.5" y="146" width="63.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <stackView opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" axis="vertical" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Mvc-gf-NXJ">
-                                                    <rect key="frame" x="53.5" y="176.5" width="29.5" height="47"/>
+                                                    <rect key="frame" x="70.5" y="176.5" width="29.5" height="47"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="가격" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cbi-O0-iU7">
                                                             <rect key="frame" x="0.0" y="0.0" width="29.5" height="23.5"/>
@@ -161,7 +161,7 @@
                                                     </constraints>
                                                 </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="잔여수량" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oou-Hb-Zu6">
-                                                    <rect key="frame" x="38.5" y="233.5" width="59" height="20.5"/>
+                                                    <rect key="frame" x="55.5" y="233.5" width="59" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -178,7 +178,9 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="bottom" secondItem="jeo-9q-tvc" secondAttribute="bottom" constant="10" id="AHg-8y-4Mm"/>
+                                        <constraint firstAttribute="trailing" secondItem="jeo-9q-tvc" secondAttribute="trailing" id="IYC-WI-APj"/>
                                         <constraint firstItem="jeo-9q-tvc" firstAttribute="top" secondItem="AUw-xU-ObK" secondAttribute="top" constant="10" id="aNn-n2-9un"/>
+                                        <constraint firstItem="jeo-9q-tvc" firstAttribute="leading" secondItem="AUw-xU-ObK" secondAttribute="leading" id="ems-NM-aIR"/>
                                         <constraint firstItem="jeo-9q-tvc" firstAttribute="centerX" secondItem="AUw-xU-ObK" secondAttribute="centerX" id="hG6-Aa-qwi"/>
                                         <constraint firstItem="moD-xN-XUW" firstAttribute="width" secondItem="AUw-xU-ObK" secondAttribute="width" multiplier="0.8" id="nWf-WS-jGP"/>
                                     </constraints>
