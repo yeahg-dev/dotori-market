@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="N4P-j3-ySf">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="N4P-j3-ySf">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -28,7 +28,7 @@
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FeZ-6q-gRf">
                                             <rect key="frame" x="10" y="10" width="62" height="70"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" secondItem="FeZ-6q-gRf" secondAttribute="height" multiplier="5.5:4.5" id="OXe-ju-UHN"/>
+                                                <constraint firstAttribute="width" secondItem="FeZ-6q-gRf" secondAttribute="height" multiplier="5.5:4.5" priority="750" id="OXe-ju-UHN"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="가격" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rLz-b6-viO">
@@ -63,14 +63,13 @@
                                         <constraint firstItem="nhz-x2-bc4" firstAttribute="leading" secondItem="F2u-ke-WOI" secondAttribute="trailing" constant="10" id="CdW-1f-Y0P"/>
                                         <constraint firstItem="nhz-x2-bc4" firstAttribute="centerY" secondItem="F2u-ke-WOI" secondAttribute="centerY" id="Dwp-qy-2aE"/>
                                         <constraint firstItem="rLz-b6-viO" firstAttribute="top" relation="greaterThanOrEqual" secondItem="yCK-Dl-Wae" secondAttribute="bottom" constant="9.5" id="F11-Gt-ol9"/>
-                                        <constraint firstItem="yCK-Dl-Wae" firstAttribute="top" secondItem="8nm-x3-Aqm" secondAttribute="top" constant="10" id="GSA-eW-coc"/>
                                         <constraint firstItem="rLz-b6-viO" firstAttribute="leading" secondItem="yCK-Dl-Wae" secondAttribute="leading" id="HKB-Um-IZl"/>
-                                        <constraint firstItem="F2u-ke-WOI" firstAttribute="centerY" secondItem="yCK-Dl-Wae" secondAttribute="centerY" id="Hr2-qF-KHr"/>
                                         <constraint firstAttribute="trailing" secondItem="nhz-x2-bc4" secondAttribute="trailing" constant="10" id="MfW-l3-Zcb"/>
                                         <constraint firstItem="yCK-Dl-Wae" firstAttribute="leading" secondItem="FeZ-6q-gRf" secondAttribute="trailing" constant="10" id="NpL-Xs-kQW"/>
                                         <constraint firstAttribute="bottom" secondItem="rLz-b6-viO" secondAttribute="bottom" constant="10" id="NuG-gb-8dZ"/>
                                         <constraint firstItem="FeZ-6q-gRf" firstAttribute="width" secondItem="8nm-x3-Aqm" secondAttribute="width" multiplier="0.15" id="VgL-zN-PJZ"/>
                                         <constraint firstItem="F2u-ke-WOI" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="yCK-Dl-Wae" secondAttribute="trailing" constant="5" id="WwB-hl-HNg"/>
+                                        <constraint firstItem="F2u-ke-WOI" firstAttribute="top" secondItem="FeZ-6q-gRf" secondAttribute="top" id="iid-7d-bJ3"/>
                                         <constraint firstItem="FeZ-6q-gRf" firstAttribute="top" secondItem="8nm-x3-Aqm" secondAttribute="top" constant="10" id="l2R-LS-KZ1"/>
                                         <constraint firstItem="FeZ-6q-gRf" firstAttribute="leading" secondItem="8nm-x3-Aqm" secondAttribute="leading" constant="10" id="tJ8-YG-O0y"/>
                                         <constraint firstItem="FeZ-6q-gRf" firstAttribute="centerY" secondItem="8nm-x3-Aqm" secondAttribute="centerY" id="yMC-6B-BbW"/>
