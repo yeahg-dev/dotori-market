@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="N4P-j3-ySf">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="N4P-j3-ySf">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -272,9 +272,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oNl-Ie-0dW">
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oNl-Ie-0dW">
                                 <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
                                     <navigationItem title="상품등록" id="MHr-vw-xsj">
                                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="TrP-J0-FeD">
@@ -292,6 +291,11 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="rdn-Pj-YIN"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="oNl-Ie-0dW" firstAttribute="leading" secondItem="rdn-Pj-YIN" secondAttribute="leading" id="CNh-VZ-b1r"/>
+                            <constraint firstItem="rdn-Pj-YIN" firstAttribute="trailing" secondItem="oNl-Ie-0dW" secondAttribute="trailing" id="NBN-Ms-XOA"/>
+                            <constraint firstItem="oNl-Ie-0dW" firstAttribute="top" secondItem="rdn-Pj-YIN" secondAttribute="top" id="bmS-Xx-ccQ"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="navigationBar" destination="oNl-Ie-0dW" id="gtd-UD-YKe"/>
