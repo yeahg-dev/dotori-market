@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="N4P-j3-ySf">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="N4P-j3-ySf">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -273,7 +273,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oNl-Ie-0dW">
-                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="724"/>
                                 <items>
                                     <navigationItem title="상품등록" id="MHr-vw-xsj">
                                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="TrP-J0-FeD">
@@ -288,13 +288,56 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jqb-S1-Nx7">
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="dsg-cs-9tM">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="128"/>
+                                        <subviews>
+                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bLQ-YT-Wja">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="128"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="FDq-qz-LZH">
+                                                    <size key="itemSize" width="128" height="128"/>
+                                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                </collectionViewFlowLayout>
+                                                <cells>
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Ljc-LS-T4P">
+                                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="cL3-tQ-INe">
+                                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </collectionViewCellContentView>
+                                                    </collectionViewCell>
+                                                </cells>
+                                            </collectionView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="dsg-cs-9tM" firstAttribute="leading" secondItem="bsQ-zh-7bl" secondAttribute="leading" id="4lg-Lm-3dD"/>
+                                    <constraint firstItem="dsg-cs-9tM" firstAttribute="top" secondItem="bsQ-zh-7bl" secondAttribute="top" id="6Rg-es-oif"/>
+                                    <constraint firstItem="dsg-cs-9tM" firstAttribute="width" secondItem="jqb-S1-Nx7" secondAttribute="width" id="PPN-yX-pIA"/>
+                                    <constraint firstItem="dsg-cs-9tM" firstAttribute="bottom" secondItem="cn5-Ir-Oaa" secondAttribute="bottom" id="PQ9-bY-vzl"/>
+                                    <constraint firstItem="dsg-cs-9tM" firstAttribute="trailing" secondItem="bsQ-zh-7bl" secondAttribute="trailing" id="UqB-1j-2Zo"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="bsQ-zh-7bl"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="cn5-Ir-Oaa"/>
+                            </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="rdn-Pj-YIN"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="jqb-S1-Nx7" firstAttribute="leading" secondItem="rdn-Pj-YIN" secondAttribute="leading" id="2Ye-wQ-6cJ"/>
+                            <constraint firstItem="jqb-S1-Nx7" firstAttribute="top" secondItem="oNl-Ie-0dW" secondAttribute="bottom" id="8SS-JW-B6U"/>
                             <constraint firstItem="oNl-Ie-0dW" firstAttribute="leading" secondItem="rdn-Pj-YIN" secondAttribute="leading" id="CNh-VZ-b1r"/>
                             <constraint firstItem="rdn-Pj-YIN" firstAttribute="trailing" secondItem="oNl-Ie-0dW" secondAttribute="trailing" id="NBN-Ms-XOA"/>
                             <constraint firstItem="oNl-Ie-0dW" firstAttribute="top" secondItem="rdn-Pj-YIN" secondAttribute="top" id="bmS-Xx-ccQ"/>
+                            <constraint firstItem="jqb-S1-Nx7" firstAttribute="trailing" secondItem="rdn-Pj-YIN" secondAttribute="trailing" id="frc-sJ-Zbc"/>
+                            <constraint firstAttribute="bottom" secondItem="jqb-S1-Nx7" secondAttribute="bottom" id="pLd-Qe-e7Q"/>
                         </constraints>
                     </view>
                     <connections>
@@ -303,7 +346,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zdz-2S-o0K" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="838" y="70"/>
+            <point key="canvasLocation" x="837.68115942028987" y="69.642857142857139"/>
         </scene>
     </scenes>
     <resources>
