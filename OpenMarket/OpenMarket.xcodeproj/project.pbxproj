@@ -34,6 +34,7 @@
 		C1912400278D5E9400171DEB /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19123FF278D5E9300171DEB /* APIRequest.swift */; };
 		C1C4FFAA27969EA400294962 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C4FFA927969EA400294962 /* Array+Extension.swift */; };
 		C1C4FFAC2796CABD00294962 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C4FFAB2796CABD00294962 /* ImageCacheManager.swift */; };
+		C1C4FFB2279A7AFB00294962 /* ProductRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C4FFB1279A7AFB00294962 /* ProductRegistrationViewController.swift */; };
 		C1C9EF43278828A00000ED6A /* APIExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C9EF42278828A00000ED6A /* APIExecutor.swift */; };
 		C1CBA3D6278F084000BAC0B8 /* ProductTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CBA3D5278F084000BAC0B8 /* ProductTableViewController.swift */; };
 		C1CBA3D8278F086200BAC0B8 /* ProductCollectinoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CBA3D7278F086200BAC0B8 /* ProductCollectinoViewController.swift */; };
@@ -84,6 +85,7 @@
 		C19123FF278D5E9300171DEB /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		C1C4FFA927969EA400294962 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		C1C4FFAB2796CABD00294962 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
+		C1C4FFB1279A7AFB00294962 /* ProductRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegistrationViewController.swift; sourceTree = "<group>"; };
 		C1C9EF42278828A00000ED6A /* APIExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIExecutor.swift; sourceTree = "<group>"; };
 		C1CBA3D5278F084000BAC0B8 /* ProductTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTableViewController.swift; sourceTree = "<group>"; };
 		C1CBA3D7278F086200BAC0B8 /* ProductCollectinoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCollectinoViewController.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				C70FB0FE25BEF61C00C9924E /* TabBarViewController.swift */,
 				C1CBA3D5278F084000BAC0B8 /* ProductTableViewController.swift */,
 				C1CBA3D7278F086200BAC0B8 /* ProductCollectinoViewController.swift */,
+				C1C4FFB1279A7AFB00294962 /* ProductRegistrationViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -418,6 +421,7 @@
 				63A202B52785C390003A1112 /* APIRequestType.swift in Sources */,
 				C13DFABD279126AB003A1A2E /* Double+Extension.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
+				C1C4FFB2279A7AFB00294962 /* ProductRegistrationViewController.swift in Sources */,
 				C1CBA3D8278F086200BAC0B8 /* ProductCollectinoViewController.swift in Sources */,
 				639358D52786ED9600412958 /* ProductInfo.swift in Sources */,
 			);
