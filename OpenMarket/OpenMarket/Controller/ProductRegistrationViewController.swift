@@ -30,15 +30,25 @@ final class ProductRegistrationViewController: UIViewController {
         productImageCollectionView?.delegate = self
         productImageCollectionView?.dataSource = self
         configureNavigationBar()
-        
-        let cellWidth = view.bounds.size.width / 5
-        flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth)
+        configureFlowLayout()
     }
     
     private func configureNavigationBar() {
         let navigationAppearance = UINavigationBarAppearance()
         navigationAppearance.configureWithTransparentBackground()
         navigationBar?.standardAppearance = navigationAppearance
+    }
+    
+    private func configureFlowLayout() {
+        productImageCollectionView?.collectionViewLayout = flowLayout
+        flowLayout.scrollDirection = .horizontal
+        productImageCollectionView?.showsVerticalScrollIndicator = false
+        productImageCollectionView?.showsHorizontalScrollIndicator = false
+        
+        let cellWidth = view.bounds.size.width / 4
+        flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth)
+        flowLayout.minimumLineSpacing = 10
+        flowLayout.sectionInset = UIEdgeInsets(top: .zero, left: 20, bottom: .zero, right: 20)
     }
 }
 
@@ -68,9 +78,13 @@ extension ProductRegistrationViewController: UICollectionViewDelegate, UICollect
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        let maximumImageCount = 5
+        guard productImages.count < maximumImageCount else {
+            // TODO: Alert 넣기!
+            return
+        }
         if indexPath.item == .zero {
-            imagePicker.delegate = self // 여기가 포인트
+            imagePicker.delegate = self
             present(imagePicker, animated: true, completion: nil)
         }
     }
