@@ -9,6 +9,19 @@ import UIKit
 
 final class ProductRegistrationViewController: UIViewController {
     
+    // MARK: - IBOutlets
+    
+    @IBOutlet private weak var navigationBar: UINavigationBar?
+    @IBOutlet private weak var productImageCollectionView: UICollectionView?
+    @IBOutlet private weak var nameTextField: UITextField?
+    @IBOutlet private weak var priceTextField: UITextField?
+    @IBOutlet private weak var currencySegmentedControl: UISegmentedControl?
+    @IBOutlet private weak var discountedPriceTextField: UITextField?
+    @IBOutlet private weak var stockTextField: UITextField?
+    @IBOutlet private weak var descriptions: UITextView?
+    
+    // MARK: - Properties
+    
     private let imagePicker: UIImagePickerController = {
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = .photoLibrary
@@ -18,10 +31,9 @@ final class ProductRegistrationViewController: UIViewController {
     private var productImages: [UIImage] = []
     private let flowLayout = UICollectionViewFlowLayout()
     
-    @IBOutlet private weak var navigationBar: UINavigationBar?
-    @IBOutlet private weak var productImageCollectionView: UICollectionView?
+    // MARK: - Methods
     
-    @IBAction func cancelButtonTapped(_ sender: UIBarButtonItem) {
+    @IBAction private func cancelButtonTapped(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true)
     }
 
@@ -48,9 +60,11 @@ final class ProductRegistrationViewController: UIViewController {
         let cellWidth = view.bounds.size.width / 4
         flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth)
         flowLayout.minimumLineSpacing = 10
-        flowLayout.sectionInset = UIEdgeInsets(top: .zero, left: 20, bottom: .zero, right: 20)
+        flowLayout.sectionInset = UIEdgeInsets(top: .zero, left: 10, bottom: .zero, right: 10)
     }
 }
+
+// MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 
 extension ProductRegistrationViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
@@ -90,6 +104,8 @@ extension ProductRegistrationViewController: UICollectionViewDelegate, UICollect
     }
 }
 
+// MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
+
 extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
@@ -100,7 +116,7 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UI
             productImages.append(possibleImage) // 원본으로 그냥 내보내는 경우
         }
         productImageCollectionView?.reloadData()
-        imagePicker.dismiss(animated: true, completion: nil) // 이미지 피커 내려가!
+        imagePicker.dismiss(animated: true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

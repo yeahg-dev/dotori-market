@@ -234,8 +234,8 @@
                             <rect key="frame" x="117" y="5.5" width="180" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
-                                <segment title="First"/>
-                                <segment title="Second"/>
+                                <segment title="LIST"/>
+                                <segment title="GRID"/>
                             </segments>
                             <connections>
                                 <action selector="switchViewController:" destination="LAD-DO-y0V" eventType="valueChanged" id="MXR-Rn-qlU"/>
@@ -291,11 +291,11 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jqb-S1-Nx7">
                                 <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="dsg-cs-9tM">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="136.5"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="dsg-cs-9tM">
+                                        <rect key="frame" x="10" y="0.0" width="394" height="528.5"/>
                                         <subviews>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bLQ-YT-Wja">
-                                                <rect key="frame" x="0.0" y="0.0" width="414" height="136.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="394" height="136.5"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="FDq-qz-LZH">
                                                     <size key="itemSize" width="128" height="128"/>
@@ -341,7 +341,7 @@
                                                         </connections>
                                                     </collectionViewCell>
                                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProductImageCollectionViewCell" id="QV4-Uh-cDi" customClass="ProductImageCollectionViewCell" customModule="OpenMarket" customModuleProvider="target">
-                                                        <rect key="frame" x="143" y="0.0" width="128" height="128"/>
+                                                        <rect key="frame" x="266" y="0.0" width="128" height="128"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Uht-fJ-wbW">
                                                             <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
@@ -364,15 +364,58 @@
                                                     </collectionViewCell>
                                                 </cells>
                                             </collectionView>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품명" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wkq-pD-wmg">
+                                                <rect key="frame" x="0.0" y="146.5" width="394" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="1mt-zN-G1u">
+                                                <rect key="frame" x="0.0" y="190.5" width="394" height="34"/>
+                                                <subviews>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품 가격" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ETz-70-Ume">
+                                                        <rect key="frame" x="0.0" y="0.0" width="295.5" height="34"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                    </textField>
+                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="U3v-hP-sEM">
+                                                        <rect key="frame" x="305.5" y="0.0" width="88.5" height="35"/>
+                                                        <segments>
+                                                            <segment title="KRW"/>
+                                                            <segment title="USD"/>
+                                                        </segments>
+                                                    </segmentedControl>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="ETz-70-Ume" firstAttribute="width" secondItem="1mt-zN-G1u" secondAttribute="width" multiplier="0.75" id="EiR-tG-Ob2"/>
+                                                </constraints>
+                                            </stackView>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="할인금액" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gaQ-DK-9f8">
+                                                <rect key="frame" x="0.0" y="234.5" width="394" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="재고수량" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QmY-25-3xz">
+                                                <rect key="frame" x="0.0" y="278.5" width="394" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="tFm-3Q-kKc">
+                                                <rect key="frame" x="0.0" y="322.5" width="394" height="206"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                                <color key="textColor" systemColor="labelColor"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
                                         </subviews>
                                     </stackView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="dsg-cs-9tM" firstAttribute="leading" secondItem="bsQ-zh-7bl" secondAttribute="leading" id="4lg-Lm-3dD"/>
+                                    <constraint firstItem="dsg-cs-9tM" firstAttribute="leading" secondItem="bsQ-zh-7bl" secondAttribute="leading" constant="10" id="4lg-Lm-3dD"/>
                                     <constraint firstItem="dsg-cs-9tM" firstAttribute="top" secondItem="bsQ-zh-7bl" secondAttribute="top" id="6Rg-es-oif"/>
-                                    <constraint firstItem="dsg-cs-9tM" firstAttribute="width" secondItem="jqb-S1-Nx7" secondAttribute="width" id="PPN-yX-pIA"/>
-                                    <constraint firstItem="dsg-cs-9tM" firstAttribute="trailing" secondItem="bsQ-zh-7bl" secondAttribute="trailing" id="UqB-1j-2Zo"/>
-                                    <constraint firstItem="dsg-cs-9tM" firstAttribute="top" secondItem="bsQ-zh-7bl" secondAttribute="bottom" id="k9I-3T-xg2"/>
+                                    <constraint firstItem="dsg-cs-9tM" firstAttribute="trailing" secondItem="bsQ-zh-7bl" secondAttribute="trailing" constant="-10" id="UqB-1j-2Zo"/>
+                                    <constraint firstItem="dsg-cs-9tM" firstAttribute="bottom" secondItem="bsQ-zh-7bl" secondAttribute="bottom" id="lHE-aF-XF1"/>
+                                    <constraint firstItem="dsg-cs-9tM" firstAttribute="width" secondItem="cn5-Ir-Oaa" secondAttribute="width" constant="-20" id="sHt-m9-ERX"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="bsQ-zh-7bl"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="cn5-Ir-Oaa"/>
@@ -392,8 +435,14 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="currencySegmentedControl" destination="U3v-hP-sEM" id="5dU-eP-3b1"/>
+                        <outlet property="descriptions" destination="tFm-3Q-kKc" id="XYj-XB-VrK"/>
+                        <outlet property="discountedPriceTextField" destination="gaQ-DK-9f8" id="d2b-mz-mu7"/>
+                        <outlet property="nameTextField" destination="wkq-pD-wmg" id="xYI-mc-D2z"/>
                         <outlet property="navigationBar" destination="oNl-Ie-0dW" id="gtd-UD-YKe"/>
+                        <outlet property="priceTextField" destination="ETz-70-Ume" id="DF3-QF-BuH"/>
                         <outlet property="productImageCollectionView" destination="bLQ-YT-Wja" id="46T-ZV-cuq"/>
+                        <outlet property="stockTextField" destination="QmY-25-3xz" id="6Ug-Ty-8op"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zdz-2S-o0K" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -404,6 +453,9 @@
     <resources>
         <image name="camera.fill" catalog="system" width="128" height="94"/>
         <image name="chevron.right" catalog="system" width="96" height="128"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
