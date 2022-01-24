@@ -36,13 +36,14 @@ final class ProductRegistrationViewController: UIViewController {
     @IBAction private func cancelButtonTapped(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true)
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         productImageCollectionView?.delegate = self
         productImageCollectionView?.dataSource = self
         configureNavigationBar()
         configureFlowLayout()
+        addKeyboardNotificationObserver()
     }
     
     private func configureNavigationBar() {
@@ -61,6 +62,21 @@ final class ProductRegistrationViewController: UIViewController {
         flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth)
         flowLayout.minimumLineSpacing = 10
         flowLayout.sectionInset = UIEdgeInsets(top: .zero, left: 10, bottom: .zero, right: 10)
+    }
+    
+    private func addKeyboardNotificationObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow(_:)),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide(_:)),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
     }
 }
 
@@ -121,5 +137,22 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UI
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
+    }
+}
+
+// MARK: - UITextFieldDelegate
+
+extension ProductRegistrationViewController: UITextFieldDelegate {
+    
+    @objc private func keyboardWillShow(_ sender: Notification) {
+        if let keyboardFrame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            self.view.frame.origin.y = -keyboardHeight
+        }
+    }
+    
+    @objc private func keyboardWillHide(_ sender: Notification) {
+        self.view.frame.origin.y = .zero
     }
 }
