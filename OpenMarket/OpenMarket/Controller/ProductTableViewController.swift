@@ -9,7 +9,7 @@ import UIKit
 
 final class ProductTableViewController: UITableViewController {
     
-    private var currentPageNo: Int = .zero
+    private var currentPageNo: Int = 1
     private var hasNextPage: Bool = false
     private var products: [Product] = []
     private let loadingIndicator = UIActivityIndicatorView()
@@ -17,7 +17,7 @@ final class ProductTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         startloadingIndicator()
-        downloadProductsListPage(number: 1)
+        downloadProductsListPage(number: currentPageNo)
     }
     
     // MARK: - Table view data source
@@ -54,7 +54,7 @@ final class ProductTableViewController: UITableViewController {
         forRowAt indexPath: IndexPath
     ) {
         let paginationBuffer = 3
-        guard indexPath.row >= products.count - paginationBuffer,
+        guard indexPath.row == products.count - paginationBuffer,
               hasNextPage == true else { return }
         
         downloadProductsListPage(number: currentPageNo + 1)

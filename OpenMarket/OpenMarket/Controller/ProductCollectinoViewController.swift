@@ -9,7 +9,7 @@ import UIKit
 
 final class ProductCollectinoViewController: UICollectionViewController {
     
-    private var currentPageNo: Int = .zero
+    private var currentPageNo: Int = 1
     private var hasNextPage: Bool = false
     private var products: [Product] = []
     private let flowLayout = UICollectionViewFlowLayout()
@@ -19,7 +19,7 @@ final class ProductCollectinoViewController: UICollectionViewController {
         super.viewDidLoad()
         startloadingIndicator()
         configureGridLayout()
-        downloadProductsListPage(number: 1)
+        downloadProductsListPage(number: currentPageNo)
     }
 
     // MARK: - UICollectionViewDataSource
@@ -59,7 +59,7 @@ final class ProductCollectinoViewController: UICollectionViewController {
         forItemAt indexPath: IndexPath
     ) {
         let paginationBuffer = 4
-        guard indexPath.item >= products.count - paginationBuffer,
+        guard indexPath.item == products.count - paginationBuffer,
               hasNextPage == true else { return }
 
         downloadProductsListPage(number: currentPageNo + 1)
