@@ -37,6 +37,46 @@ final class ProductRegistrationViewController: UIViewController {
         self.dismiss(animated: true)
     }
     
+    @IBAction private func doneButtonTapped(_ sender: UIBarButtonItem) {
+        guard let name = nameTextField?.text else { return }
+        guard let price = priceTextField?.text else { return }
+        var currency: Currency
+        if currencySegmentedControl?.selectedSegmentIndex == .zero {
+            currency = .krw
+        } else {
+            currency = .usd
+        }
+        let discountedPrice = discountedPriceTextField?.text ?? "0"
+        let stock = stockTextField?.text ?? "0"
+        guard let descriptions = descriptions?.text else { return }
+        
+        let newProduct = NewProductInfo(name: name, descriptions: descriptions, price: (price as NSString).doubleValue, currency: currency, discountedPrice: (discountedPrice as NSString).doubleValue, stock: (stock as NSString).integerValue, secret: "password")
+        
+        var imageFileNumber = 1
+        var newProductImages: [ImageFile] = []
+        productImages.forEach { image in
+            guard let data = image.jpegData(compressionQuality: 0) else { return }
+            let imageFile = ImageFile(fileName: "\(name)-\(imageFileNumber)", data: data, type: .jpeg)
+            imageFileNumber += 1
+            newProductImages.append(imageFile)
+        }
+        
+        let request = ProductRegistrationRequest(identifier: "cd706a3e-66db-11ec-9626-796401f2341a", params: newProduct, images: newProductImages)
+        
+        APIExecutor().execute(request) { (result: Result<ProductDetail, Error>) in
+            switch result {
+            case .success:
+                DispatchQueue.main.async {
+                    self.showAlert(title: "상품이 성공적으로 등록됐습니다", message: "아싸") { _ in
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                }
+            case .failure(let error):
+                print("에러가 발생했습니다! : \(error)")
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         productImageCollectionView?.delegate = self
@@ -110,7 +150,7 @@ extension ProductRegistrationViewController: UICollectionViewDelegate, UICollect
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let maximumImageCount = 5
         guard productImages.count < maximumImageCount else {
-            showAlert(title: "Too Much Images", message: "최대 \(maximumImageCount)장까지만 첨부할 수 있어요")
+            showAlert(title: "Too Much Images", message: "최대 \(maximumImageCount)장까지만 첨부할 수 있어요", handler: nil)
             return
         }
         if indexPath.item == .zero {
