@@ -80,7 +80,7 @@ extension ProductRegistrationViewController: UICollectionViewDelegate, UICollect
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let maximumImageCount = 5
         guard productImages.count < maximumImageCount else {
-            // TODO: Alert 넣기!
+            showAlert(title: "Too Much Images", message: "최대 \(maximumImageCount)장까지만 첨부할 수 있어요")
             return
         }
         if indexPath.item == .zero {
@@ -104,6 +104,6 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UI
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        // 이미지 피커 모달을 닫는 기능일까? 근데 이미 잘 됨
+        self.dismiss(animated: true, completion: nil)
     }
 }
