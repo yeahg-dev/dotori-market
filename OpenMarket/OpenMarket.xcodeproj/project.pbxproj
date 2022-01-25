@@ -34,6 +34,7 @@
 		C13DFAC1279126D9003A1A2E /* NSAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13DFAC0279126D9003A1A2E /* NSAttributedString+Extension.swift */; };
 		C19123FE278D5C3700171DEB /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19123FD278D5C3700171DEB /* HTTPMethod.swift */; };
 		C1912400278D5E9400171DEB /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19123FF278D5E9300171DEB /* APIRequest.swift */; };
+		C1AF6254279FD69B0016ACE9 /* Notification+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AF6253279FD69B0016ACE9 /* Notification+Extension.swift */; };
 		C1C4FFAA27969EA400294962 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C4FFA927969EA400294962 /* Array+Extension.swift */; };
 		C1C4FFAC2796CABD00294962 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C4FFAB2796CABD00294962 /* ImageCacheManager.swift */; };
 		C1C4FFB2279A7AFB00294962 /* ProductRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C4FFB1279A7AFB00294962 /* ProductRegistrationViewController.swift */; };
@@ -88,6 +89,7 @@
 		C13DFAC0279126D9003A1A2E /* NSAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		C19123FD278D5C3700171DEB /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		C19123FF278D5E9300171DEB /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
+		C1AF6253279FD69B0016ACE9 /* Notification+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extension.swift"; sourceTree = "<group>"; };
 		C1C4FFA927969EA400294962 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		C1C4FFAB2796CABD00294962 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		C1C4FFB1279A7AFB00294962 /* ProductRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegistrationViewController.swift; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 				63471CD627993E2600D50E7B /* UITableView+Extension.swift */,
 				63471CD827993E6A00D50E7B /* UICollectionView+Extension.swift */,
 				63B6502E279E866600818CDD /* UIViewController+Extension.swift */,
+				C1AF6253279FD69B0016ACE9 /* Notification+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -427,6 +430,7 @@
 				C1C9EF43278828A00000ED6A /* APIExecutor.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C13DFAC1279126D9003A1A2E /* NSAttributedString+Extension.swift in Sources */,
+				C1AF6254279FD69B0016ACE9 /* Notification+Extension.swift in Sources */,
 				C19123FE278D5C3700171DEB /* HTTPMethod.swift in Sources */,
 				C1C4FFAA27969EA400294962 /* Array+Extension.swift in Sources */,
 				6349164B279A8E0100D41D25 /* ImagePickerCollectionViewCell.swift in Sources */,

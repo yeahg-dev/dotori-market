@@ -68,7 +68,9 @@ final class ProductRegistrationViewController: UIViewController {
             case .success:
                 DispatchQueue.main.async {
                     self.showAlert(title: "상품이 성공적으로 등록됐습니다", message: "아싸") { _ in
-                        self.dismiss(animated: true, completion: nil)
+                        self.dismiss(animated: true) {
+                            NotificationCenter.default.post(name: .newProductRegistered, object: nil)
+                        }
                     }
                 }
             case .failure(let error):

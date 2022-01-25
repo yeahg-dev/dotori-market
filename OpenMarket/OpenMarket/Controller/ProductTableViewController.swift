@@ -19,38 +19,7 @@ final class ProductTableViewController: UITableViewController {
         startloadingIndicator()
         downloadProductsListPage(number: currentPageNo)
         configureRefreshControl()
-    }
-    
-    private func configureRefreshControl() {
-        refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
-    }
-    
-    @objc private func handleRefreshControl() {
-        resetProductListPageInfo()
-        let request = ProductsListPageRequest(pageNo: 1, itemsPerPage: 20)
-        APIExecutor().execute(request) { (result: Result<ProductsListPage, Error>) in
-            switch result {
-            case .success(let productsListPage):
-                self.currentPageNo = productsListPage.pageNo
-                self.hasNextPage = productsListPage.hasNext
-                self.products.append(contentsOf: productsListPage.pages)
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                    self.refreshControl?.endRefreshing()
-                }
-            case .failure(let error):
-                // Alert 넣기
-                print("ProductsListPage 통신 중 에러 발생 : \(error)")
-                return
-            }
-        }
-    }
-    
-    private func resetProductListPageInfo() {
-        currentPageNo = 1
-        hasNextPage = false
-        products = []
+        addNotificationObserver()
     }
     
     // MARK: - Table view data source
@@ -125,5 +94,50 @@ final class ProductTableViewController: UITableViewController {
                 return
             }
         }
+    }
+    
+    private func addNotificationObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleRefreshControl),
+            name: .newProductRegistered,
+            object: nil
+        )
+    }
+    
+    private func configureRefreshControl() {
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+    }
+    
+    @objc private func handleRefreshControl() {
+        resetProductListPageInfo()
+        let request = ProductsListPageRequest(pageNo: 1, itemsPerPage: 20)
+        APIExecutor().execute(request) { (result: Result<ProductsListPage, Error>) in
+            switch result {
+            case .success(let productsListPage):
+                self.currentPageNo = productsListPage.pageNo
+                self.hasNextPage = productsListPage.hasNext
+                self.products.append(contentsOf: productsListPage.pages)
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                    if self.refreshControl?.isRefreshing == false {
+                        let topRow = IndexPath(row: .zero, section: .zero)
+                        self.tableView.scrollToRow(at: topRow, at: .top, animated: false)
+                    }
+                    self.refreshControl?.endRefreshing()
+                }
+            case .failure(let error):
+                // Alert 넣기
+                print("ProductsListPage 통신 중 에러 발생 : \(error)")
+                return
+            }
+        }
+    }
+    
+    private func resetProductListPageInfo() {
+        currentPageNo = 1
+        hasNextPage = false
+        products.removeAll()
     }
 }
