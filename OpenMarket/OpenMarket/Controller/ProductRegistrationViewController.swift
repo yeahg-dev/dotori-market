@@ -89,6 +89,7 @@ final class ProductRegistrationViewController: UIViewController {
         configureNavigationBar()
         configureFlowLayout()
         addKeyboardNotificationObserver()
+        addKeyboardDismissGestureRecognizer()
     }
     
     private func configureNavigationBar() {
@@ -122,6 +123,15 @@ final class ProductRegistrationViewController: UIViewController {
             name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
+    }
+    
+    private func addKeyboardDismissGestureRecognizer() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
     }
 }
 
