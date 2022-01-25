@@ -127,6 +127,7 @@ final class ProductRegistrationViewController: UIViewController {
     
     private func addKeyboardDismissGestureRecognizer() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
     
