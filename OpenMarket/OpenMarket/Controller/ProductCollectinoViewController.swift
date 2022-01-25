@@ -20,6 +20,8 @@ final class ProductCollectinoViewController: UICollectionViewController {
         startloadingIndicator()
         configureGridLayout()
         downloadProductsListPage(number: currentPageNo)
+        configureRefreshControl()
+        addNotificationObserver()
     }
 
     // MARK: - UICollectionViewDataSource
@@ -107,5 +109,49 @@ final class ProductCollectinoViewController: UICollectionViewController {
                 return
             }
         }
+    }
+    
+    private func addNotificationObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleRefreshControl),
+            name: .newProductRegistered,
+            object: nil
+        )
+    }
+    
+    private func configureRefreshControl() {
+        collectionView.refreshControl = UIRefreshControl()
+        collectionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+    }
+    
+    @objc private func handleRefreshControl() {
+        resetProductListPageInfo()
+        let request = ProductsListPageRequest(pageNo: 1, itemsPerPage: 20)
+        APIExecutor().execute(request) { (result: Result<ProductsListPage, Error>) in
+            switch result {
+            case .success(let productsListPage):
+                self.currentPageNo = productsListPage.pageNo
+                self.hasNextPage = productsListPage.hasNext
+                self.products.append(contentsOf: productsListPage.pages)
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                    if self.collectionView.refreshControl?.isRefreshing == false {
+                        self.scrollToFirstItem(animated: false)
+                    }
+                    self.collectionView.refreshControl?.endRefreshing()
+                }
+            case .failure(let error):
+                // Alert 넣기
+                print("ProductsListPage 통신 중 에러 발생 : \(error)")
+                return
+            }
+        }
+    }
+    
+    private func resetProductListPageInfo() {
+        currentPageNo = 1
+        hasNextPage = false
+        products.removeAll()
     }
 }
