@@ -24,6 +24,7 @@
 		63D660E82787F87B00A450DE /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D660E72787F87B00A450DE /* Data+Extension.swift */; };
 		63D97B6D278419C0009E2516 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D97B6C278419C0009E2516 /* Product.swift */; };
 		63D97B6F27842307009E2516 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D97B6E27842307009E2516 /* Currency.swift */; };
+		63ED8DE1279FDB9D00932E87 /* UITableViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ED8DE0279FDB9D00932E87 /* UITableViewController+Extension.swift */; };
 		C10797202784214200B16C62 /* ProductsListPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C107971F2784214200B16C62 /* ProductsListPage.swift */; };
 		C10797552784477900B16C62 /* MockJSONParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10797542784477900B16C62 /* MockJSONParserTests.swift */; };
 		C10797B02786DF4D00B16C62 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10797AF2786DF4D00B16C62 /* APIError.swift */; };
@@ -78,6 +79,7 @@
 		63D660E72787F87B00A450DE /* Data+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
 		63D97B6C278419C0009E2516 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		63D97B6E27842307009E2516 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
+		63ED8DE0279FDB9D00932E87 /* UITableViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewController+Extension.swift"; sourceTree = "<group>"; };
 		C107971F2784214200B16C62 /* ProductsListPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsListPage.swift; sourceTree = "<group>"; };
 		C10797522784477900B16C62 /* MockJSONParserTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MockJSONParserTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C10797542784477900B16C62 /* MockJSONParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockJSONParserTests.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 				63471CD827993E6A00D50E7B /* UICollectionView+Extension.swift */,
 				63B6502E279E866600818CDD /* UIViewController+Extension.swift */,
 				C1AF6253279FD69B0016ACE9 /* Notification+Extension.swift */,
+				63ED8DE0279FDB9D00932E87 /* UITableViewController+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -439,6 +442,7 @@
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				C1C4FFB2279A7AFB00294962 /* ProductRegistrationViewController.swift in Sources */,
 				C1CBA3D8278F086200BAC0B8 /* ProductCollectinoViewController.swift in Sources */,
+				63ED8DE1279FDB9D00932E87 /* UITableViewController+Extension.swift in Sources */,
 				639358D52786ED9600412958 /* ProductInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

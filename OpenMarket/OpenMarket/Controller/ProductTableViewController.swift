@@ -122,8 +122,7 @@ final class ProductTableViewController: UITableViewController {
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                     if self.refreshControl?.isRefreshing == false {
-                        let topRow = IndexPath(row: .zero, section: .zero)
-                        self.tableView.scrollToRow(at: topRow, at: .top, animated: false)
+                        self.scrollToTop(animated: false)
                     }
                     self.refreshControl?.endRefreshing()
                 }
