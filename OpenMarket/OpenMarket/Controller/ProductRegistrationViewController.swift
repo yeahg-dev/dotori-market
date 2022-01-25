@@ -67,13 +67,16 @@ final class ProductRegistrationViewController: UIViewController {
             switch result {
             case .success:
                 DispatchQueue.main.async {
-                    self.showAlert(title: "상품이 성공적으로 등록됐습니다", message: "아싸") { _ in
+                    self.showAlert(title: "상품이 성공적으로 등록됐습니다", message: "🤑") { _ in
                         self.dismiss(animated: true) {
                             NotificationCenter.default.post(name: .newProductRegistered, object: nil)
                         }
                     }
                 }
             case .failure(let error):
+                DispatchQueue.main.async {
+                    self.showAlert(title: "상품 등록에 실패했습니다", message: "🥲", handler: nil)
+                }
                 print("에러가 발생했습니다! : \(error)")
             }
         }
