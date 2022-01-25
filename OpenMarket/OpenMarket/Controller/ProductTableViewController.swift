@@ -18,6 +18,39 @@ final class ProductTableViewController: UITableViewController {
         super.viewDidLoad()
         startloadingIndicator()
         downloadProductsListPage(number: currentPageNo)
+        configureRefreshControl()
+    }
+    
+    private func configureRefreshControl() {
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+    }
+    
+    @objc private func handleRefreshControl() {
+        resetProductListPageInfo()
+        let request = ProductsListPageRequest(pageNo: 1, itemsPerPage: 20)
+        APIExecutor().execute(request) { (result: Result<ProductsListPage, Error>) in
+            switch result {
+            case .success(let productsListPage):
+                self.currentPageNo = productsListPage.pageNo
+                self.hasNextPage = productsListPage.hasNext
+                self.products.append(contentsOf: productsListPage.pages)
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                    self.refreshControl?.endRefreshing()
+                }
+            case .failure(let error):
+                // Alert 넣기
+                print("ProductsListPage 통신 중 에러 발생 : \(error)")
+                return
+            }
+        }
+    }
+    
+    private func resetProductListPageInfo() {
+        currentPageNo = 1
+        hasNextPage = false
+        products = []
     }
     
     // MARK: - Table view data source
@@ -67,7 +100,9 @@ final class ProductTableViewController: UITableViewController {
         loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
         let safeArea = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            loadingIndicator.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor), loadingIndicator.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor)
+            loadingIndicator.centerYAnchor.constraint(
+                equalTo: safeArea.centerYAnchor),
+            loadingIndicator.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor)
         ])
         loadingIndicator.startAnimating()
     }

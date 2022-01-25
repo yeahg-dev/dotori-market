@@ -18,7 +18,7 @@ final class ProductRegistrationViewController: UIViewController {
     @IBOutlet private weak var currencySegmentedControl: UISegmentedControl?
     @IBOutlet private weak var discountedPriceTextField: UITextField?
     @IBOutlet private weak var stockTextField: UITextField?
-    @IBOutlet private weak var descriptions: UITextView?
+    @IBOutlet private weak var descriptionsTextView: UITextView?
     
     // MARK: - Properties
     
@@ -48,9 +48,9 @@ final class ProductRegistrationViewController: UIViewController {
         }
         let discountedPrice = discountedPriceTextField?.text ?? "0"
         let stock = stockTextField?.text ?? "0"
-        guard let descriptions = descriptions?.text else { return }
+        guard let descriptions = descriptionsTextView?.text else { return }
         
-        let newProduct = NewProductInfo(name: name, descriptions: descriptions, price: (price as NSString).doubleValue, currency: currency, discountedPrice: (discountedPrice as NSString).doubleValue, stock: (stock as NSString).integerValue, secret: "password")
+        let newProduct = NewProductInfo(name: name, descriptions: descriptions, price: (price as NSString).doubleValue, currency: currency, discountedPrice: (discountedPrice as NSString).doubleValue, stock: (stock as NSString).integerValue, secret: "aFJkk2KmB53A*6LT")
         
         var imageFileNumber = 1
         var newProductImages: [ImageFile] = []
@@ -61,7 +61,7 @@ final class ProductRegistrationViewController: UIViewController {
             newProductImages.append(imageFile)
         }
         
-        let request = ProductRegistrationRequest(identifier: "cd706a3e-66db-11ec-9626-796401f2341a", params: newProduct, images: newProductImages)
+        let request = ProductRegistrationRequest(identifier: "c4dedd67-71fc-11ec-abfa-fd97ecfece87", params: newProduct, images: newProductImages)
         
         APIExecutor().execute(request) { (result: Result<ProductDetail, Error>) in
             switch result {

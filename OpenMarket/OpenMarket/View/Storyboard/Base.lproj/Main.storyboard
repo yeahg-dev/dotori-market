@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="N4P-j3-ySf">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="N4P-j3-ySf">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -439,7 +439,7 @@
                     </view>
                     <connections>
                         <outlet property="currencySegmentedControl" destination="U3v-hP-sEM" id="5dU-eP-3b1"/>
-                        <outlet property="descriptions" destination="tFm-3Q-kKc" id="XYj-XB-VrK"/>
+                        <outlet property="descriptionsTextView" destination="tFm-3Q-kKc" id="XYj-XB-VrK"/>
                         <outlet property="discountedPriceTextField" destination="gaQ-DK-9f8" id="d2b-mz-mu7"/>
                         <outlet property="nameTextField" destination="wkq-pD-wmg" id="xYI-mc-D2z"/>
                         <outlet property="navigationBar" destination="oNl-Ie-0dW" id="gtd-UD-YKe"/>
