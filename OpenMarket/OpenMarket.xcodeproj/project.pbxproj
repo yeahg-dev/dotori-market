@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6308660827901A1A0092991A /* ProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6308660727901A1A0092991A /* ProductCollectionViewCell.swift */; };
 		632B9FFD27955A8F0099E121 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632B9FFC27955A8F0099E121 /* NetworkTests.swift */; };
+		634513C027A1613C004D39BC /* RefreshDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634513BF27A1613C004D39BC /* RefreshDelegate.swift */; };
 		63471CD727993E2600D50E7B /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63471CD627993E2600D50E7B /* UITableView+Extension.swift */; };
 		63471CD927993E6A00D50E7B /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63471CD827993E6A00D50E7B /* UICollectionView+Extension.swift */; };
 		6349164B279A8E0100D41D25 /* ImagePickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6349164A279A8E0100D41D25 /* ImagePickerCollectionViewCell.swift */; };
@@ -43,7 +44,7 @@
 		C1C4FFB4279A9D2E00294962 /* ProductImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C4FFB3279A9D2E00294962 /* ProductImageCollectionViewCell.swift */; };
 		C1C9EF43278828A00000ED6A /* APIExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C9EF42278828A00000ED6A /* APIExecutor.swift */; };
 		C1CBA3D6278F084000BAC0B8 /* ProductTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CBA3D5278F084000BAC0B8 /* ProductTableViewController.swift */; };
-		C1CBA3D8278F086200BAC0B8 /* ProductCollectinoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CBA3D7278F086200BAC0B8 /* ProductCollectinoViewController.swift */; };
+		C1CBA3D8278F086200BAC0B8 /* ProductCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CBA3D7278F086200BAC0B8 /* ProductCollectionViewController.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* TabBarViewController.swift */; };
@@ -65,6 +66,7 @@
 /* Begin PBXFileReference section */
 		6308660727901A1A0092991A /* ProductCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCollectionViewCell.swift; sourceTree = "<group>"; };
 		632B9FFC27955A8F0099E121 /* NetworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
+		634513BF27A1613C004D39BC /* RefreshDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshDelegate.swift; sourceTree = "<group>"; };
 		63471CD627993E2600D50E7B /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		63471CD827993E6A00D50E7B /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
 		6349164A279A8E0100D41D25 /* ImagePickerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -100,7 +102,7 @@
 		C1C4FFB3279A9D2E00294962 /* ProductImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		C1C9EF42278828A00000ED6A /* APIExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIExecutor.swift; sourceTree = "<group>"; };
 		C1CBA3D5278F084000BAC0B8 /* ProductTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTableViewController.swift; sourceTree = "<group>"; };
-		C1CBA3D7278F086200BAC0B8 /* ProductCollectinoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCollectinoViewController.swift; sourceTree = "<group>"; };
+		C1CBA3D7278F086200BAC0B8 /* ProductCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCollectionViewController.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -202,8 +204,9 @@
 			children = (
 				C70FB0FE25BEF61C00C9924E /* TabBarViewController.swift */,
 				C1CBA3D5278F084000BAC0B8 /* ProductTableViewController.swift */,
-				C1CBA3D7278F086200BAC0B8 /* ProductCollectinoViewController.swift */,
+				C1CBA3D7278F086200BAC0B8 /* ProductCollectionViewController.swift */,
 				C1C4FFB1279A7AFB00294962 /* ProductRegistrationViewController.swift */,
+				634513BF27A1613C004D39BC /* RefreshDelegate.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -410,6 +413,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				634513C027A1613C004D39BC /* RefreshDelegate.swift in Sources */,
 				63A2029927853300003A1112 /* Image.swift in Sources */,
 				63D660E82787F87B00A450DE /* Data+Extension.swift in Sources */,
 				634B2B602797FAD10009E6CD /* UIImageView+Extension.swift in Sources */,
@@ -445,7 +449,7 @@
 				C13DFABD279126AB003A1A2E /* Double+Extension.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				C1C4FFB2279A7AFB00294962 /* ProductRegistrationViewController.swift in Sources */,
-				C1CBA3D8278F086200BAC0B8 /* ProductCollectinoViewController.swift in Sources */,
+				C1CBA3D8278F086200BAC0B8 /* ProductCollectionViewController.swift in Sources */,
 				63ED8DE1279FDB9D00932E87 /* UITableViewController+Extension.swift in Sources */,
 				639358D52786ED9600412958 /* ProductInfo.swift in Sources */,
 			);

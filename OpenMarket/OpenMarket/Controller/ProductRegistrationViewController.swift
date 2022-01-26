@@ -23,6 +23,7 @@ final class ProductRegistrationViewController: UIViewController {
     
     // MARK: - Properties
     
+    var refreshDelegate: RefreshDelegate?
     private let imagePicker: UIImagePickerController = {
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = .photoLibrary
@@ -70,7 +71,7 @@ final class ProductRegistrationViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.showAlert(title: "상품이 성공적으로 등록됐습니다", message: "🤑") { _ in
                         self.dismiss(animated: true) {
-                            NotificationCenter.default.post(name: .newProductRegistered, object: nil)
+                            self.refreshDelegate?.refresh()
                         }
                     }
                 }

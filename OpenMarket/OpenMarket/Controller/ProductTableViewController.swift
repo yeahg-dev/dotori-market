@@ -19,7 +19,6 @@ final class ProductTableViewController: UITableViewController {
         startloadingIndicator()
         downloadProductsListPage(number: currentPageNo)
         configureRefreshControl()
-        addNotificationObserver()
     }
     
     // MARK: - Table view data source
@@ -96,15 +95,6 @@ final class ProductTableViewController: UITableViewController {
         }
     }
     
-    private func addNotificationObserver() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleRefreshControl),
-            name: .newProductRegistered,
-            object: nil
-        )
-    }
-    
     private func configureRefreshControl() {
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
@@ -138,5 +128,14 @@ final class ProductTableViewController: UITableViewController {
         currentPageNo = 1
         hasNextPage = false
         products.removeAll()
+    }
+}
+
+// MARK: - RefreshDelegate
+
+extension ProductTableViewController: RefreshDelegate {
+    
+    func refresh() {
+        handleRefreshControl()
     }
 }

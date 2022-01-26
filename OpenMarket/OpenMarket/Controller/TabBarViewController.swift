@@ -16,6 +16,12 @@ final class TabBarViewController: UITabBarController {
         configureViewSegmentedControl()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let productRegistrationViewController = segue.destination as? ProductRegistrationViewController {
+            productRegistrationViewController.refreshDelegate = selectedViewController as? RefreshDelegate
+        }
+    }
+    
     @IBAction private func switchViewController(_ sender: UISegmentedControl) {
         selectedIndex = sender.selectedSegmentIndex
     }

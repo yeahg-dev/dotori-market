@@ -1,5 +1,5 @@
 //
-//  ProductCollectinoViewController.swift
+//  ProductCollectionViewController.swift
 //  OpenMarket
 //
 //  Created by 예거 on 2022/01/12.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ProductCollectinoViewController: UICollectionViewController {
+final class ProductCollectionViewController: UICollectionViewController {
     
     private var currentPageNo: Int = 1
     private var hasNextPage: Bool = false
@@ -21,7 +21,6 @@ final class ProductCollectinoViewController: UICollectionViewController {
         configureGridLayout()
         downloadProductsListPage(number: currentPageNo)
         configureRefreshControl()
-        addNotificationObserver()
     }
 
     // MARK: - UICollectionViewDataSource
@@ -111,15 +110,6 @@ final class ProductCollectinoViewController: UICollectionViewController {
         }
     }
     
-    private func addNotificationObserver() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleRefreshControl),
-            name: .newProductRegistered,
-            object: nil
-        )
-    }
-    
     private func configureRefreshControl() {
         collectionView.refreshControl = UIRefreshControl()
         collectionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
@@ -153,5 +143,14 @@ final class ProductCollectinoViewController: UICollectionViewController {
         currentPageNo = 1
         hasNextPage = false
         products.removeAll()
+    }
+}
+
+// MARK: - RefreshDelegate
+
+extension ProductCollectionViewController: RefreshDelegate {
+    
+    func refresh() {
+        handleRefreshControl()
     }
 }
