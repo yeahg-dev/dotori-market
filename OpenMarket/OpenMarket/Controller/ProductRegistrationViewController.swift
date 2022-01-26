@@ -12,6 +12,7 @@ final class ProductRegistrationViewController: UIViewController {
     // MARK: - IBOutlets
     
     @IBOutlet private weak var navigationBar: UINavigationBar?
+    @IBOutlet private weak var scrollView: UIScrollView?
     @IBOutlet private weak var productImageCollectionView: UICollectionView?
     @IBOutlet private weak var nameTextField: UITextField?
     @IBOutlet private weak var priceTextField: UITextField?
@@ -204,11 +205,13 @@ extension ProductRegistrationViewController: UITextFieldDelegate {
         if let keyboardFrame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
-            self.view.frame.origin.y = -keyboardHeight
+            scrollView?.contentInset.bottom = keyboardHeight
+            scrollView?.verticalScrollIndicatorInsets.bottom = keyboardHeight
         }
     }
     
     @objc private func keyboardWillHide(_ sender: Notification) {
-        self.view.frame.origin.y = .zero
+        scrollView?.contentInset.bottom = .zero
+        scrollView?.verticalScrollIndicatorInsets.bottom = .zero
     }
 }
