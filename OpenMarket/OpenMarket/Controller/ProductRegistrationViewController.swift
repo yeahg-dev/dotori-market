@@ -148,17 +148,12 @@ extension ProductRegistrationViewController: UICollectionViewDelegate, UICollect
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        guard let productImageCollectionView = productImageCollectionView else {
-            return UICollectionViewCell()
-        }
-        
         if indexPath.item == .zero {
-            let cell = productImageCollectionView.dequeueReusableCell(withClass: ImagePickerCollectionViewCell.self, for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withClass: ImagePickerCollectionViewCell.self, for: indexPath)
             cell.updateAddedImageCountLabel(images: productImages)
             return cell
         } else {
-            let cell = productImageCollectionView.dequeueReusableCell(withClass: ProductImageCollectionViewCell.self, for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withClass: ProductImageCollectionViewCell.self, for: indexPath)
             let targetImage = productImages[safe: indexPath.item - 1]
             cell.updateProductImageView(image: targetImage)
             return cell
