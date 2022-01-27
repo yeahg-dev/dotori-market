@@ -23,7 +23,7 @@ final class ProductRegistrationViewController: UIViewController {
     
     // MARK: - Properties
     
-    var refreshDelegate: RefreshDelegate?
+    weak var refreshDelegate: RefreshDelegate?
     private let imagePicker: UIImagePickerController = {
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = .photoLibrary

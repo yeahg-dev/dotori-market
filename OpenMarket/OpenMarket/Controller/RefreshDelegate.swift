@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol RefreshDelegate {
+protocol RefreshDelegate: AnyObject {
     
     func refresh()
 }
