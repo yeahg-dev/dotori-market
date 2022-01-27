@@ -87,7 +87,8 @@ struct ProductRegistrationRequest: APIRequest {
                 using: encodingStyle
             )
             body.append(lineBreak, using: encodingStyle)
-            body.append(imageFile.data)
+            guard let data = imageFile.data else { return }
+            body.append(data)
             body.append(lineBreak + lineBreak, using: encodingStyle)
         }
         

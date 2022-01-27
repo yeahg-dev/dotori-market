@@ -10,8 +10,22 @@ import UIKit
 struct ImageFile {
     
     let fileName: String
-    let data: Data
-    let type: ImageType
+    let image: UIImage
+    let type: ImageType = .jpeg
+    var data: Data? {
+        switch self.type {
+        case .jpg, .jpeg:
+            guard let data = image.jpegData(compressionQuality: .zero) else {
+                return nil
+            }
+            return data
+        case .png:
+            guard let data = image.pngData() else {
+                return nil
+            }
+            return data
+        }
+    }
     
     enum ImageType: String {
         

@@ -41,15 +41,7 @@ final class ProductRegistrationViewController: UIViewController {
     
     @IBAction private func doneButtonTapped(_ sender: UIBarButtonItem) {
         guard let newProduct = createNewProductInfo() else { return }
-        
-        var imageFileNumber = 1
-        var newProductImages: [ImageFile] = []
-        productImages.forEach { image in
-            guard let data = image.jpegData(compressionQuality: .zero) else { return }
-            let imageFile = ImageFile(fileName: "\(newProduct.name)-\(imageFileNumber)", data: data, type: .jpeg)
-            imageFileNumber += 1
-            newProductImages.append(imageFile)
-        }
+        guard let newProductImages = createImageFiles(newProductName: newProduct.name) else { return }
         
         let request = ProductRegistrationRequest(identifier: "c4dedd67-71fc-11ec-abfa-fd97ecfece87", params: newProduct, images: newProductImages)
         
@@ -122,6 +114,17 @@ final class ProductRegistrationViewController: UIViewController {
         let newProduct = NewProductInfo(name: name, descriptions: descriptions, price: (price as NSString).doubleValue, currency: currency, discountedPrice: (discountedPrice as NSString).doubleValue, stock: (stock as NSString).integerValue, secret: "aFJkk2KmB53A*6LT")
         
         return newProduct
+    }
+    
+    private func createImageFiles(newProductName: String) -> [ImageFile]? {
+        var imageFileNumber = 1
+        var newProductImages: [ImageFile] = []
+        productImages.forEach { image in
+            let imageFile = ImageFile(fileName: "\(newProductName)-\(imageFileNumber)", image: image)
+            imageFileNumber += 1
+            newProductImages.append(imageFile)
+        }
+        return newProductImages
     }
     
     private func addKeyboardNotificationObserver() {
