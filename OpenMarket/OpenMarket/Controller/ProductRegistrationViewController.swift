@@ -40,25 +40,13 @@ final class ProductRegistrationViewController: UIViewController {
     }
     
     @IBAction private func doneButtonTapped(_ sender: UIBarButtonItem) {
-        guard let name = nameTextField?.text else { return }
-        guard let price = priceTextField?.text else { return }
-        var currency: Currency
-        if currencySegmentedControl?.selectedSegmentIndex == .zero {
-            currency = .krw
-        } else {
-            currency = .usd
-        }
-        let discountedPrice = discountedPriceTextField?.text ?? "0"
-        let stock = stockTextField?.text ?? "0"
-        guard let descriptions = descriptionsTextView?.text else { return }
-        
-        let newProduct = NewProductInfo(name: name, descriptions: descriptions, price: (price as NSString).doubleValue, currency: currency, discountedPrice: (discountedPrice as NSString).doubleValue, stock: (stock as NSString).integerValue, secret: "aFJkk2KmB53A*6LT")
+        guard let newProduct = createNewProductInfo() else { return }
         
         var imageFileNumber = 1
         var newProductImages: [ImageFile] = []
         productImages.forEach { image in
-            guard let data = image.jpegData(compressionQuality: 0) else { return }
-            let imageFile = ImageFile(fileName: "\(name)-\(imageFileNumber)", data: data, type: .jpeg)
+            guard let data = image.jpegData(compressionQuality: .zero) else { return }
+            let imageFile = ImageFile(fileName: "\(newProduct.name)-\(imageFileNumber)", data: data, type: .jpeg)
             imageFileNumber += 1
             newProductImages.append(imageFile)
         }
@@ -112,6 +100,30 @@ final class ProductRegistrationViewController: UIViewController {
         flowLayout.sectionInset = UIEdgeInsets(top: .zero, left: 10, bottom: .zero, right: 10)
     }
     
+    private func createNewProductInfo() -> NewProductInfo? {
+        guard let name = nameTextField?.text else {
+            return nil
+        }
+        guard let price = priceTextField?.text else {
+            return nil
+        }
+        var currency: Currency
+        if currencySegmentedControl?.selectedSegmentIndex == .zero {
+            currency = .krw
+        } else {
+            currency = .usd
+        }
+        let discountedPrice = discountedPriceTextField?.text ?? "0"
+        let stock = stockTextField?.text ?? "0"
+        guard let descriptions = descriptionsTextView?.text else {
+            return nil
+        }
+        
+        let newProduct = NewProductInfo(name: name, descriptions: descriptions, price: (price as NSString).doubleValue, currency: currency, discountedPrice: (discountedPrice as NSString).doubleValue, stock: (stock as NSString).integerValue, secret: "aFJkk2KmB53A*6LT")
+        
+        return newProduct
+    }
+    
     private func addKeyboardNotificationObserver() {
         NotificationCenter.default.addObserver(
             self,
@@ -135,6 +147,20 @@ final class ProductRegistrationViewController: UIViewController {
     
     @objc private func dismissKeyboard() {
         view.endEditing(true)
+    }
+    
+    @objc private func keyboardWillShow(_ sender: Notification) {
+        if let keyboardFrame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            scrollView?.contentInset.bottom = keyboardHeight
+            scrollView?.verticalScrollIndicatorInsets.bottom = keyboardHeight
+        }
+    }
+    
+    @objc private func keyboardWillHide(_ sender: Notification) {
+        scrollView?.contentInset.bottom = .zero
+        scrollView?.verticalScrollIndicatorInsets.bottom = .zero
     }
 }
 
@@ -190,24 +216,5 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UI
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
-    }
-}
-
-// MARK: - UITextFieldDelegate
-
-extension ProductRegistrationViewController: UITextFieldDelegate {
-    
-    @objc private func keyboardWillShow(_ sender: Notification) {
-        if let keyboardFrame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            let keyboardHeight = keyboardRectangle.height
-            scrollView?.contentInset.bottom = keyboardHeight
-            scrollView?.verticalScrollIndicatorInsets.bottom = keyboardHeight
-        }
-    }
-    
-    @objc private func keyboardWillHide(_ sender: Notification) {
-        scrollView?.contentInset.bottom = .zero
-        scrollView?.verticalScrollIndicatorInsets.bottom = .zero
     }
 }
