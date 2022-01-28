@@ -23,7 +23,8 @@ final class ProductRegistrationViewController: UIViewController {
     
     // MARK: - Properties
     
-    weak var refreshDelegate: RefreshDelegate?
+    weak var tableViewRefreshDelegate: RefreshDelegate?
+    weak var collectionViewRefreshDelegate: RefreshDelegate?
     private let imagePicker: UIImagePickerController = {
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = .photoLibrary
@@ -84,7 +85,8 @@ final class ProductRegistrationViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.showAlert(title: "상품이 성공적으로 등록됐습니다", message: "🤑") { _ in
                         self.dismiss(animated: true) {
-                            self.refreshDelegate?.refresh()
+                            self.tableViewRefreshDelegate?.refresh()
+                            self.collectionViewRefreshDelegate?.refresh()
                         }
                     }
                 }

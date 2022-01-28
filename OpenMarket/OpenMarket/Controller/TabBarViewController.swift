@@ -18,7 +18,8 @@ final class TabBarViewController: UITabBarController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let productRegistrationViewController = segue.destination as? ProductRegistrationViewController {
-            productRegistrationViewController.refreshDelegate = selectedViewController as? RefreshDelegate
+            productRegistrationViewController.tableViewRefreshDelegate = viewControllers?[safe: 0] as? RefreshDelegate
+            productRegistrationViewController.collectionViewRefreshDelegate = viewControllers?[safe: 1] as? RefreshDelegate
         }
     }
     
