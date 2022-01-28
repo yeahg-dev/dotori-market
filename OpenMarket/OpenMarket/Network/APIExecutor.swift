@@ -9,7 +9,10 @@ import Foundation
 
 struct APIExecutor {
     
-    func execute<T: Decodable>(_ request: APIRequest, completion: @escaping (Result<T, Error>) -> Void) {
+    func execute<T: Decodable>(
+        _ request: APIRequest,
+        completion: @escaping (Result<T, Error>
+        ) -> Void) {
         guard let url = request.url else { return }
         var urlRequest = URLRequest(url: url)
 
@@ -24,7 +27,10 @@ struct APIExecutor {
         executeTask(request: urlRequest, completion)
     }
     
-    private func executeTask<T: Decodable>(request: URLRequest, _ completion: @escaping (Result<T, Error>) -> Void ) {
+    private func executeTask<T: Decodable>(
+        request: URLRequest,
+        _ completion: @escaping (Result<T, Error>
+        ) -> Void ) {
         let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 completion(.failure(error))

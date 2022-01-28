@@ -29,7 +29,10 @@ final class ProductTableViewCell: UITableViewCell {
     
     func configureTableContent(with product: Product) {
         if let url = URL(string: product.thumbnail) {
-            cancellableImageTask = productThumbnail?.setImage(with: url, invalidImage: invalidImage)
+            cancellableImageTask = productThumbnail?.setImage(
+                with: url,
+                invalidImage: invalidImage
+            )
         }
         productName?.attributedText = product.attributedName
         productPrice?.attributedText = product.attributedPrice

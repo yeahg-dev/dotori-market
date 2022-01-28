@@ -112,7 +112,11 @@ final class ProductCollectionViewController: UICollectionViewController {
     
     private func configureRefreshControl() {
         collectionView.refreshControl = UIRefreshControl()
-        collectionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+        collectionView.refreshControl?.addTarget(
+            self,
+            action: #selector(handleRefreshControl),
+            for: .valueChanged
+        )
     }
     
     @objc private func handleRefreshControl() {

@@ -75,9 +75,15 @@ final class ProductRegistrationViewController: UIViewController {
     
     private func handleProductRegistrationRequest() {
         guard let newProduct = createNewProductInfo() else { return }
-        guard let newProductImages = createImageFiles(newProductName: newProduct.name) else { return }
+        guard let newProductImages = createImageFiles(newProductName: newProduct.name) else {
+            return
+        }
         
-        let request = ProductRegistrationRequest(identifier: "c4dedd67-71fc-11ec-abfa-fd97ecfece87", params: newProduct, images: newProductImages)
+        let request = ProductRegistrationRequest(
+            identifier: "c4dedd67-71fc-11ec-abfa-fd97ecfece87",
+            params: newProduct,
+            images: newProductImages
+        )
         
         APIExecutor().execute(request) { [weak self] (result: Result<ProductDetail, Error>) in
             switch result {
@@ -118,7 +124,15 @@ final class ProductRegistrationViewController: UIViewController {
             return nil
         }
         
-        let newProduct = NewProductInfo(name: name, descriptions: descriptions, price: (price as NSString).doubleValue, currency: currency, discountedPrice: (discountedPrice as NSString).doubleValue, stock: (stock as NSString).integerValue, secret: "aFJkk2KmB53A*6LT")
+        let newProduct = NewProductInfo(
+            name: name,
+            descriptions: descriptions,
+            price: (price as NSString).doubleValue,
+            currency: currency,
+            discountedPrice: (discountedPrice as NSString).doubleValue,
+            stock: (stock as NSString).integerValue,
+            secret: "aFJkk2KmB53A*6LT"
+        )
         
         return newProduct
     }
@@ -127,7 +141,10 @@ final class ProductRegistrationViewController: UIViewController {
         var imageFileNumber = 1
         var newProductImages: [ImageFile] = []
         productImages.forEach { image in
-            let imageFile = ImageFile(fileName: "\(newProductName)-\(imageFileNumber)", image: image)
+            let imageFile = ImageFile(
+                fileName: "\(newProductName)-\(imageFileNumber)",
+                image: image
+            )
             imageFileNumber += 1
             newProductImages.append(imageFile)
         }
@@ -178,7 +195,10 @@ final class ProductRegistrationViewController: UIViewController {
 
 extension ProductRegistrationViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
         let imagePickerCell = 1
         return imagePickerCell + productImages.count
     }
@@ -188,11 +208,17 @@ extension ProductRegistrationViewController: UICollectionViewDelegate, UICollect
         
         switch cellType {
         case .imagePickerCell:
-            let cell = collectionView.dequeueReusableCell(withClass: ImagePickerCollectionViewCell.self, for: indexPath)
+            let cell = collectionView.dequeueReusableCell(
+                withClass: ImagePickerCollectionViewCell.self,
+                for: indexPath
+            )
             cell.updateAddedImageCountLabel(images: productImages)
             return cell
         default:
-            let cell = collectionView.dequeueReusableCell(withClass: ProductImageCollectionViewCell.self, for: indexPath)
+            let cell = collectionView.dequeueReusableCell(
+                withClass: ProductImageCollectionViewCell.self,
+                for: indexPath
+            )
             let targetImage = productImages[safe: indexPath.item - 1]
             cell.updateProductImageView(image: targetImage)
             return cell
@@ -209,7 +235,11 @@ extension ProductRegistrationViewController: UICollectionViewDelegate, UICollect
         
         let maximumImageCount = 5
         guard productImages.count < maximumImageCount else {
-            showAlert(title: "Too Much Images", message: "최대 \(maximumImageCount)장까지만 첨부할 수 있어요", handler: nil)
+            showAlert(
+                title: "Too Much Images",
+                message: "최대 \(maximumImageCount)장까지만 첨부할 수 있어요",
+                handler: nil
+            )
             return
         }
     }
@@ -219,12 +249,14 @@ extension ProductRegistrationViewController: UICollectionViewDelegate, UICollect
 
 extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         
         if let possibleImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            productImages.append(possibleImage) // 수정된 이미지가 있을 경우
+            productImages.append(possibleImage)
         } else if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            productImages.append(possibleImage) // 원본으로 그냥 내보내는 경우
+            productImages.append(possibleImage)
         }
         cells.append(.productImageCell)
         productImageCollectionView?.reloadData()

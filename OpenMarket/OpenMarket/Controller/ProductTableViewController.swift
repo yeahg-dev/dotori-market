@@ -97,7 +97,11 @@ final class ProductTableViewController: UITableViewController {
     
     private func configureRefreshControl() {
         refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+        refreshControl?.addTarget(
+            self,
+            action: #selector(handleRefreshControl),
+            for: .valueChanged
+        )
     }
     
     @objc private func handleRefreshControl() {
