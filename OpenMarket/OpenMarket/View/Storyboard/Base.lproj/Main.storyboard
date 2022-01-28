@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="N4P-j3-ySf">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="N4P-j3-ySf">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -294,7 +294,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="dsg-cs-9tM">
-                                        <rect key="frame" x="10" y="0.0" width="394" height="528.5"/>
+                                        <rect key="frame" x="10" y="0.0" width="394" height="377"/>
                                         <subviews>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bLQ-YT-Wja">
                                                 <rect key="frame" x="0.0" y="0.0" width="394" height="136.5"/>
@@ -367,12 +367,12 @@
                                                 </cells>
                                             </collectionView>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품명" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="wkq-pD-wmg">
-                                                <rect key="frame" x="0.0" y="146.5" width="394" height="34"/>
+                                                <rect key="frame" x="0.0" y="146.5" width="394" height="34.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="1mt-zN-G1u">
-                                                <rect key="frame" x="0.0" y="190.5" width="394" height="34"/>
+                                                <rect key="frame" x="0.0" y="191" width="394" height="34"/>
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품 가격" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ETz-70-Ume">
                                                         <rect key="frame" x="0.0" y="0.0" width="276" height="34"/>
@@ -392,24 +392,31 @@
                                                 </constraints>
                                             </stackView>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="할인금액" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="gaQ-DK-9f8">
-                                                <rect key="frame" x="0.0" y="234.5" width="394" height="34"/>
+                                                <rect key="frame" x="0.0" y="235" width="394" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="재고수량" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="QmY-25-3xz">
-                                                <rect key="frame" x="0.0" y="278.5" width="394" height="34"/>
+                                                <rect key="frame" x="0.0" y="279" width="394" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                             </textField>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="tFm-3Q-kKc">
-                                                <rect key="frame" x="0.0" y="322.5" width="394" height="206"/>
+                                                <rect key="frame" x="0.0" y="323" width="394" height="54"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                                <string key="text">상품 상세 정보를 입력해주세요.
+(최소 10 ~ 최대 1,000 글자 작성 가능 😊)</string>
                                                 <color key="textColor" systemColor="labelColor"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstItem="wkq-pD-wmg" firstAttribute="height" secondItem="bLQ-YT-Wja" secondAttribute="height" multiplier="0.25" id="3Pb-5j-vIT"/>
+                                            <constraint firstItem="gaQ-DK-9f8" firstAttribute="height" secondItem="bLQ-YT-Wja" secondAttribute="height" multiplier="0.25" id="Cdn-Dh-W3L"/>
+                                            <constraint firstItem="QmY-25-3xz" firstAttribute="height" secondItem="bLQ-YT-Wja" secondAttribute="height" multiplier="0.25" id="J2F-fK-8Ug"/>
+                                            <constraint firstItem="1mt-zN-G1u" firstAttribute="height" secondItem="bLQ-YT-Wja" secondAttribute="height" multiplier="0.25" id="fZl-2W-ijN"/>
+                                        </constraints>
                                     </stackView>
                                 </subviews>
                                 <constraints>
