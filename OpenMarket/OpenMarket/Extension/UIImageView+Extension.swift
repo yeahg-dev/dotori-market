@@ -24,17 +24,17 @@ extension UIImageView {
             return nil
         }
         
-        let task = URLSession.shared.dataTask(with: url) { data, _, error in
+        let task = URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
             if let _ = error {
                 DispatchQueue.main.async {
-                    self.image = invalidImage
+                    self?.image = invalidImage
                 }
                 return
             } else {
                 DispatchQueue.main.async {
                     guard let imageData = data,
                           let image = UIImage(data: imageData) else { return }
-                    self.image = image
+                    self?.image = image
                     ImageCacheManager.shared.setObject(image, forKey: cacheKey)
                 }
             }
