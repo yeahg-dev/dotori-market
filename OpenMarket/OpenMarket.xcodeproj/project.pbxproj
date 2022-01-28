@@ -252,6 +252,7 @@
 		C10797B3278713C700B16C62 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				C1C4FFAB2796CABD00294962 /* ImageCacheManager.swift */,
 				C10797B42787143F00B16C62 /* JSONCodable.swift */,
 			);
 			path = Utility;
@@ -262,7 +263,6 @@
 			children = (
 				C13DFABA279013C2003A1A2E /* ProductTableViewCell.swift */,
 				6308660727901A1A0092991A /* ProductCollectionViewCell.swift */,
-				C1C4FFAB2796CABD00294962 /* ImageCacheManager.swift */,
 				6349164A279A8E0100D41D25 /* ImagePickerCollectionViewCell.swift */,
 				C1C4FFB3279A9D2E00294962 /* ProductImageCollectionViewCell.swift */,
 			);
