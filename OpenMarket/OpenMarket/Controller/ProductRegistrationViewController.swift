@@ -31,6 +31,7 @@ final class ProductRegistrationViewController: UIViewController {
         return imagePicker
     }()
     private var productImages: [UIImage] = []
+    private var cells: [CellType] = [.imagePickerCell]
     private let flowLayout = UICollectionViewFlowLayout()
     
     // MARK: - Methods
@@ -181,11 +182,14 @@ extension ProductRegistrationViewController: UICollectionViewDelegate, UICollect
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.item == .zero {
+        let cellType = cells[safe: indexPath.item]
+        
+        switch cellType {
+        case .imagePickerCell:
             let cell = collectionView.dequeueReusableCell(withClass: ImagePickerCollectionViewCell.self, for: indexPath)
             cell.updateAddedImageCountLabel(images: productImages)
             return cell
-        } else {
+        default:
             let cell = collectionView.dequeueReusableCell(withClass: ProductImageCollectionViewCell.self, for: indexPath)
             let targetImage = productImages[safe: indexPath.item - 1]
             cell.updateProductImageView(image: targetImage)
@@ -194,14 +198,17 @@ extension ProductRegistrationViewController: UICollectionViewDelegate, UICollect
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cellType = cells[safe: indexPath.item]
+        
+        if cellType == .imagePickerCell {
+            imagePicker.delegate = self
+            present(imagePicker, animated: true, completion: nil)
+        }
+        
         let maximumImageCount = 5
         guard productImages.count < maximumImageCount else {
             showAlert(title: "Too Much Images", message: "최대 \(maximumImageCount)장까지만 첨부할 수 있어요", handler: nil)
             return
-        }
-        if indexPath.item == .zero {
-            imagePicker.delegate = self
-            present(imagePicker, animated: true, completion: nil)
         }
     }
 }
@@ -217,6 +224,7 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UI
         } else if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             productImages.append(possibleImage) // 원본으로 그냥 내보내는 경우
         }
+        cells.append(.productImageCell)
         productImageCollectionView?.reloadData()
         imagePicker.dismiss(animated: true, completion: nil)
     }
