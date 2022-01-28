@@ -40,28 +40,7 @@ final class ProductRegistrationViewController: UIViewController {
     }
     
     @IBAction private func doneButtonTapped(_ sender: UIBarButtonItem) {
-        guard let newProduct = createNewProductInfo() else { return }
-        guard let newProductImages = createImageFiles(newProductName: newProduct.name) else { return }
-        
-        let request = ProductRegistrationRequest(identifier: "c4dedd67-71fc-11ec-abfa-fd97ecfece87", params: newProduct, images: newProductImages)
-        
-        APIExecutor().execute(request) { (result: Result<ProductDetail, Error>) in
-            switch result {
-            case .success:
-                DispatchQueue.main.async {
-                    self.showAlert(title: "상품이 성공적으로 등록됐습니다", message: "🤑") { _ in
-                        self.dismiss(animated: true) {
-                            self.refreshDelegate?.refresh()
-                        }
-                    }
-                }
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    self.showAlert(title: "상품 등록에 실패했습니다", message: "🥲", handler: nil)
-                }
-                print("에러가 발생했습니다! : \(error)")
-            }
-        }
+        handleProductRegistrationRequest()
     }
     
     override func viewDidLoad() {
@@ -90,6 +69,31 @@ final class ProductRegistrationViewController: UIViewController {
         flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth)
         flowLayout.minimumLineSpacing = 10
         flowLayout.sectionInset = UIEdgeInsets(top: .zero, left: 10, bottom: .zero, right: 10)
+    }
+    
+    private func handleProductRegistrationRequest() {
+        guard let newProduct = createNewProductInfo() else { return }
+        guard let newProductImages = createImageFiles(newProductName: newProduct.name) else { return }
+        
+        let request = ProductRegistrationRequest(identifier: "c4dedd67-71fc-11ec-abfa-fd97ecfece87", params: newProduct, images: newProductImages)
+        
+        APIExecutor().execute(request) { (result: Result<ProductDetail, Error>) in
+            switch result {
+            case .success:
+                DispatchQueue.main.async {
+                    self.showAlert(title: "상품이 성공적으로 등록됐습니다", message: "🤑") { _ in
+                        self.dismiss(animated: true) {
+                            self.refreshDelegate?.refresh()
+                        }
+                    }
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self.showAlert(title: "상품 등록에 실패했습니다", message: "🥲", handler: nil)
+                }
+                print("에러가 발생했습니다! : \(error)")
+            }
+        }
     }
     
     private func createNewProductInfo() -> NewProductInfo? {
