@@ -13,6 +13,7 @@ final class ProductTableViewController: UITableViewController {
     private var hasNextPage: Bool = false
     private var products: [Product] = []
     private let loadingIndicator = UIActivityIndicatorView()
+    private let apiService = APIExecutor()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +62,16 @@ final class ProductTableViewController: UITableViewController {
         downloadProductsListPage(number: currentPageNo + 1)
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let productID = products[indexPath.row].id
+        
+        guard let productDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "ProductDetailViewController") as? ProductDetailViewController else {
+            return
+        }
+        productDetailVC.setProduct(productID)
+        self.navigationController?.pushViewController(productDetailVC, animated: true)
+    }
+    
     // MARK: - Custom function
     
     private func startloadingIndicator() {
@@ -77,7 +88,7 @@ final class ProductTableViewController: UITableViewController {
     
     private func downloadProductsListPage(number: Int) {
         let request = ProductsListPageRequest(pageNo: number, itemsPerPage: 20)
-        APIExecutor().execute(request) { [weak self] (result: Result<ProductsListPage, Error>) in
+        apiService.execute(request) { [weak self] (result: Result<ProductsListPage, Error>) in
             switch result {
             case .success(let productsListPage):
                 self?.currentPageNo = productsListPage.pageNo
@@ -107,7 +118,7 @@ final class ProductTableViewController: UITableViewController {
     @objc private func handleRefreshControl() {
         resetProductListPageInfo()
         let request = ProductsListPageRequest(pageNo: 1, itemsPerPage: 20)
-        APIExecutor().execute(request) { [weak self] (result: Result<ProductsListPage, Error>) in
+        apiService.execute(request) { [weak self] (result: Result<ProductsListPage, Error>) in
             switch result {
             case .success(let productsListPage):
                 self?.currentPageNo = productsListPage.pageNo

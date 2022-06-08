@@ -209,7 +209,7 @@
         <!--Product Detail View Controller-->
         <scene sceneID="51P-Ks-5zz">
             <objects>
-                <viewController id="09Y-x2-Cw7" customClass="ProductDetailViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProductDetailViewController" id="09Y-x2-Cw7" customClass="ProductDetailViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="redraw" id="edW-4e-myx">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

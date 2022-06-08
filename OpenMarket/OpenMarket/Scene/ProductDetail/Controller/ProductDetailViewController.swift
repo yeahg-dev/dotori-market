@@ -9,14 +9,22 @@ import UIKit
 
 final class ProductDetailViewController: UIViewController {
 
+    // MARK: - IBOutlet
     @IBOutlet private weak var prductImageCollectionView: UICollectionView?
     @IBOutlet private weak var productName: UILabel?
     @IBOutlet private weak var productPrice: UILabel?
     @IBOutlet private weak var productSellingPrice: UILabel?
     @IBOutlet private weak var discountRate: UILabel?
     @IBOutlet private weak var productDescription: UITextView?
+    
+    // MARK: - UI Property
     private let imagePageControl = UIPageControl()
     
+    // MARK: - Property
+    private var productID: Int?
+    private var productDetail: ProductDetail?
+    
+    // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.layoutImagePageControl()
@@ -33,4 +41,8 @@ final class ProductDetailViewController: UIViewController {
         ])
     }
 
+    // MARK: - Method
+    func setProduct(_ id: Int) {
+        self.productID = id
+    }
 }
