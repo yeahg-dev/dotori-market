@@ -28,6 +28,7 @@ final class ProductDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.layoutImagePageControl()
+        self.configureNavigationItem()
     }
     
     private func layoutImagePageControl() {
@@ -39,6 +40,15 @@ final class ProductDetailViewController: UIViewController {
             self.imagePageControl.bottomAnchor.constraint(
                 equalTo: self.prductImageCollectionView!.bottomAnchor)
         ])
+    }
+    
+    private func configureNavigationItem() {
+        let composeButton = UIBarButtonItem(barButtonSystemItem: .compose, target: nil, action: nil)
+        self.navigationItem.setRightBarButton(composeButton, animated: true)
+    }
+    
+    private func configureNavigationTitle(with title: String) {
+        self.navigationController?.navigationItem.title = title
     }
 
     // MARK: - Method

@@ -214,16 +214,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7GJ-5N-OLn">
-                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                                <items>
-                                    <navigationItem title="Title" id="1uS-eV-kdA">
-                                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="Jjg-Gb-4Kl"/>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RyJ-h5-rKN">
-                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="KU3-z8-kKa">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="961.5"/>
@@ -337,13 +329,10 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="UjT-Jt-0gl" firstAttribute="width" secondItem="edW-4e-myx" secondAttribute="height" multiplier="0.5" priority="999" id="0yS-AG-pC2"/>
-                            <constraint firstItem="RyJ-h5-rKN" firstAttribute="top" secondItem="7GJ-5N-OLn" secondAttribute="bottom" id="EVf-Mn-2FQ"/>
-                            <constraint firstItem="7GJ-5N-OLn" firstAttribute="top" secondItem="H2Y-dj-vlC" secondAttribute="top" id="J5H-hv-EOS"/>
                             <constraint firstItem="RyJ-h5-rKN" firstAttribute="leading" secondItem="edW-4e-myx" secondAttribute="leading" id="Mhn-Lr-9mg"/>
                             <constraint firstItem="RyJ-h5-rKN" firstAttribute="trailing" secondItem="edW-4e-myx" secondAttribute="trailing" id="WHk-zJ-9Mw"/>
                             <constraint firstItem="RyJ-h5-rKN" firstAttribute="bottom" secondItem="edW-4e-myx" secondAttribute="bottom" id="bSs-Y2-Jyn"/>
-                            <constraint firstItem="7GJ-5N-OLn" firstAttribute="leading" secondItem="edW-4e-myx" secondAttribute="leading" id="kPm-6J-Nje"/>
-                            <constraint firstItem="7GJ-5N-OLn" firstAttribute="trailing" secondItem="edW-4e-myx" secondAttribute="trailing" id="pUW-4B-d5h"/>
+                            <constraint firstItem="RyJ-h5-rKN" firstAttribute="top" secondItem="H2Y-dj-vlC" secondAttribute="top" id="cJc-Hw-y7a"/>
                         </constraints>
                     </view>
                     <connections>
