@@ -241,7 +241,7 @@
                                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 </collectionViewFlowLayout>
                                                 <cells>
-                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="2lf-ve-MHZ">
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="2lf-ve-MHZ" customClass="ProductDetailImageCollectionViewCell" customModule="OpenMarket" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="UJ5-nB-psc">
@@ -266,6 +266,10 @@
                                                                 <constraint firstItem="Yxk-uk-4nV" firstAttribute="centerX" secondItem="VYh-Je-FDr" secondAttribute="centerX" id="z3m-sn-fD5"/>
                                                             </constraints>
                                                         </collectionViewCellContentView>
+                                                        <connections>
+                                                            <outlet property="ImagePageControl" destination="Yxk-uk-4nV" id="sUK-fQ-fmO"/>
+                                                            <outlet property="productImage" destination="VYh-Je-FDr" id="TYF-Tj-gI9"/>
+                                                        </connections>
                                                     </collectionViewCell>
                                                 </cells>
                                             </collectionView>

@@ -27,6 +27,7 @@
 		63D97B6D278419C0009E2516 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D97B6C278419C0009E2516 /* Product.swift */; };
 		63D97B6F27842307009E2516 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D97B6E27842307009E2516 /* Currency.swift */; };
 		63DA95A12850C9FF004CB9C1 /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA95A02850C9FF004CB9C1 /* ProductDetailViewController.swift */; };
+		63DA95A72850E475004CB9C1 /* ProductDetailImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA95A62850E475004CB9C1 /* ProductDetailImageCollectionViewCell.swift */; };
 		63ED8DE1279FDB9D00932E87 /* UITableViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ED8DE0279FDB9D00932E87 /* UITableViewController+Extension.swift */; };
 		C10797202784214200B16C62 /* ProductsListPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C107971F2784214200B16C62 /* ProductsListPage.swift */; };
 		C10797552784477900B16C62 /* MockJSONParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10797542784477900B16C62 /* MockJSONParserTests.swift */; };
@@ -86,6 +87,7 @@
 		63D97B6C278419C0009E2516 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		63D97B6E27842307009E2516 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		63DA95A02850C9FF004CB9C1 /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
+		63DA95A62850E475004CB9C1 /* ProductDetailImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		63ED8DE0279FDB9D00932E87 /* UITableViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewController+Extension.swift"; sourceTree = "<group>"; };
 		C107971F2784214200B16C62 /* ProductsListPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsListPage.swift; sourceTree = "<group>"; };
 		C10797522784477900B16C62 /* MockJSONParserTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MockJSONParserTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -240,7 +242,8 @@
 		63DA959A285095F7004CB9C1 /* ProductDetail */ = {
 			isa = PBXGroup;
 			children = (
-				63DA95A02850C9FF004CB9C1 /* ProductDetailViewController.swift */,
+				63DA95A52850E41B004CB9C1 /* View */,
+				63DA95A42850E3BB004CB9C1 /* Controller */,
 			);
 			path = ProductDetail;
 			sourceTree = "<group>";
@@ -287,6 +290,22 @@
 				C1C4FFB3279A9D2E00294962 /* ProductImageCollectionViewCell.swift */,
 				6349164A279A8E0100D41D25 /* ImagePickerCollectionViewCell.swift */,
 				63C1904E27A38E4A00210BE3 /* CellType.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		63DA95A42850E3BB004CB9C1 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				63DA95A02850C9FF004CB9C1 /* ProductDetailViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		63DA95A52850E41B004CB9C1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				63DA95A62850E475004CB9C1 /* ProductDetailImageCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -456,6 +475,7 @@
 				63D660E82787F87B00A450DE /* Data+Extension.swift in Sources */,
 				634B2B602797FAD10009E6CD /* UIImageView+Extension.swift in Sources */,
 				C1CBA3D6278F084000BAC0B8 /* ProductTableViewController.swift in Sources */,
+				63DA95A72850E475004CB9C1 /* ProductDetailImageCollectionViewCell.swift in Sources */,
 				C1AF6256279FDDE20016ACE9 /* UICollectionViewController+Extension.swift in Sources */,
 				63471CD927993E6A00D50E7B /* UICollectionView+Extension.swift in Sources */,
 				63D97B6F27842307009E2516 /* Currency.swift in Sources */,
