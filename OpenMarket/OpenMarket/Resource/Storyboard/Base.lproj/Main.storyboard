@@ -206,10 +206,10 @@
             </objects>
             <point key="canvasLocation" x="402.89855072463769" y="818.97321428571422"/>
         </scene>
-        <!--View Controller-->
+        <!--Product Detail View Controller-->
         <scene sceneID="51P-Ks-5zz">
             <objects>
-                <viewController id="09Y-x2-Cw7" sceneMemberID="viewController">
+                <viewController id="09Y-x2-Cw7" customClass="ProductDetailViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="redraw" id="edW-4e-myx">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -350,6 +350,14 @@
                             <constraint firstItem="7GJ-5N-OLn" firstAttribute="trailing" secondItem="edW-4e-myx" secondAttribute="trailing" id="pUW-4B-d5h"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="discountRate" destination="QcO-xA-mzv" id="eti-j1-ME6"/>
+                        <outlet property="prductImageCollectionView" destination="UjT-Jt-0gl" id="qHc-BC-lqC"/>
+                        <outlet property="productDescription" destination="qcd-Vu-SK0" id="mVf-B2-aHR"/>
+                        <outlet property="productName" destination="B5p-yx-wy7" id="NGr-7n-15G"/>
+                        <outlet property="productPrice" destination="caI-uG-QVY" id="uOg-B4-B6h"/>
+                        <outlet property="productSellingPrice" destination="W3b-kq-k8F" id="VYw-7e-lfL"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uDw-pO-kwo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
