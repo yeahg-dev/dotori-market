@@ -66,6 +66,16 @@ final class ProductCollectionViewController: UICollectionViewController {
         downloadProductsListPage(number: currentPageNo + 1)
     }
     
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let productID = products[indexPath.row].id
+        
+        guard let productDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "ProductDetailViewController") as? ProductDetailViewController else {
+            return
+        }
+        productDetailVC.setProduct(productID)
+        self.navigationController?.pushViewController(productDetailVC, animated: true)
+    }
+    
     // MARK: - Custom function
     
     private func startloadingIndicator() {
