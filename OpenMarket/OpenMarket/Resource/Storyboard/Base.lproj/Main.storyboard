@@ -106,7 +106,7 @@
         <!--Item-->
         <scene sceneID="yjs-ki-GQF">
             <objects>
-                <collectionViewController id="qdK-EZ-QlJ" customClass="ProductCollectionViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController storyboardIdentifier="ProductCollectionViewController" id="qdK-EZ-QlJ" customClass="ProductCollectionViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="lAC-Cg-jvG">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -217,10 +217,10 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RyJ-h5-rKN">
                                 <rect key="frame" x="0.0" y="44" width="414" height="852"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="KU3-z8-kKa">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="961.5"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="KU3-z8-kKa">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="953.5"/>
                                         <subviews>
-                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="UjT-Jt-0gl">
+                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="UjT-Jt-0gl">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="414"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
@@ -228,37 +228,43 @@
                                                 </constraints>
                                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="jjP-Ky-9HG">
                                                     <size key="itemSize" width="128" height="128"/>
+                                                    <size key="estimatedItemSize" width="128" height="128"/>
                                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 </collectionViewFlowLayout>
                                                 <cells>
-                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="2lf-ve-MHZ" customClass="ProductDetailImageCollectionViewCell" customModule="OpenMarket" customModuleProvider="target">
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PrdouctDetailCollectionViewCell" id="nYo-yT-9lD" customClass="PrdouctDetailCollectionViewCell" customModule="OpenMarket" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="UJ5-nB-psc">
+                                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="CML-Zc-hYR">
                                                             <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
-                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" highlightedImage="circle.hexagonpath.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="VYh-Je-FDr">
-                                                                    <rect key="frame" x="-56" y="0.0" width="240" height="128"/>
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="H1F-p7-v5q">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                                                 </imageView>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstItem="VYh-Je-FDr" firstAttribute="centerX" secondItem="UJ5-nB-psc" secondAttribute="centerX" id="Ufa-Ur-jUX"/>
-                                                                <constraint firstItem="VYh-Je-FDr" firstAttribute="width" secondItem="UJ5-nB-psc" secondAttribute="width" multiplier="1.875" id="aZA-1Q-B31"/>
-                                                                <constraint firstItem="VYh-Je-FDr" firstAttribute="centerY" secondItem="UJ5-nB-psc" secondAttribute="centerY" id="iJ1-z1-aTQ"/>
-                                                                <constraint firstItem="VYh-Je-FDr" firstAttribute="height" secondItem="UJ5-nB-psc" secondAttribute="height" id="iMc-0E-ohY"/>
+                                                                <constraint firstAttribute="trailing" secondItem="H1F-p7-v5q" secondAttribute="trailing" id="aKa-NT-Vxo"/>
+                                                                <constraint firstItem="H1F-p7-v5q" firstAttribute="top" secondItem="CML-Zc-hYR" secondAttribute="top" id="b0J-2Z-jVP"/>
+                                                                <constraint firstAttribute="bottom" secondItem="H1F-p7-v5q" secondAttribute="bottom" id="kbr-TO-Ei4"/>
+                                                                <constraint firstItem="H1F-p7-v5q" firstAttribute="leading" secondItem="CML-Zc-hYR" secondAttribute="leading" id="kkn-Fv-kJs"/>
                                                             </constraints>
                                                         </collectionViewCellContentView>
+                                                        <size key="customSize" width="128" height="128"/>
                                                         <connections>
-                                                            <outlet property="productImage" destination="VYh-Je-FDr" id="TYF-Tj-gI9"/>
+                                                            <outlet property="prdouctImage" destination="H1F-p7-v5q" id="zof-jC-pLv"/>
                                                         </connections>
                                                     </collectionViewCell>
                                                 </cells>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="09Y-x2-Cw7" id="fI1-8b-e7g"/>
+                                                    <outlet property="delegate" destination="09Y-x2-Cw7" id="F4k-Zu-Fc8"/>
+                                                </connections>
                                             </collectionView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ckn-FL-pw8">
-                                                <rect key="frame" x="0.0" y="422" width="414" height="539.5"/>
+                                                <rect key="frame" x="0.0" y="414" width="414" height="539.5"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Ajx-BT-1Cl">
                                                         <rect key="frame" x="15" y="10" width="384" height="519.5"/>
@@ -328,9 +334,9 @@
                         <viewLayoutGuide key="safeArea" id="H2Y-dj-vlC"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="UjT-Jt-0gl" firstAttribute="width" secondItem="edW-4e-myx" secondAttribute="height" multiplier="0.5" priority="999" id="0yS-AG-pC2"/>
-                            <constraint firstItem="RyJ-h5-rKN" firstAttribute="leading" secondItem="edW-4e-myx" secondAttribute="leading" id="Mhn-Lr-9mg"/>
-                            <constraint firstItem="RyJ-h5-rKN" firstAttribute="trailing" secondItem="edW-4e-myx" secondAttribute="trailing" id="WHk-zJ-9Mw"/>
+                            <constraint firstItem="UjT-Jt-0gl" firstAttribute="width" secondItem="KU3-z8-kKa" secondAttribute="width" priority="999" id="0yS-AG-pC2"/>
+                            <constraint firstItem="RyJ-h5-rKN" firstAttribute="width" secondItem="edW-4e-myx" secondAttribute="width" id="O3f-ua-Xaj"/>
+                            <constraint firstItem="RyJ-h5-rKN" firstAttribute="leading" secondItem="H2Y-dj-vlC" secondAttribute="leading" id="aGw-qZ-8T0"/>
                             <constraint firstItem="RyJ-h5-rKN" firstAttribute="bottom" secondItem="edW-4e-myx" secondAttribute="bottom" id="bSs-Y2-Jyn"/>
                             <constraint firstItem="RyJ-h5-rKN" firstAttribute="top" secondItem="H2Y-dj-vlC" secondAttribute="top" id="cJc-Hw-y7a"/>
                         </constraints>
@@ -605,7 +611,6 @@
     <resources>
         <image name="camera.fill" catalog="system" width="128" height="94"/>
         <image name="chevron.right" catalog="system" width="96" height="128"/>
-        <image name="circle.hexagonpath.fill" catalog="system" width="128" height="112"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
