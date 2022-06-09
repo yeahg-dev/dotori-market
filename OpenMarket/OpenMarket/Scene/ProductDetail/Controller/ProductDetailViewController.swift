@@ -153,20 +153,21 @@ extension ProductDetailViewController {
         if product.discountedPrice.isZero {
             return nil
         }
-        let currency = product.currency.rawValue
+    
         let price = product.price.formatted()
-        return "\(currency) \(price)"
+        let currency = product.currency
+        return currency.price(price)
     }
     
     private func productSellingPriceLabelText(of product: ProductDetail) -> String {
-        let currency = product.currency.rawValue
         let price = product.bargainPrice.formatted()
-        return "\(currency) \(price)"
+        let currency = product.currency
+        return currency.price(price)
     }
     
     private func productStockLabelText(of product: ProductDetail) -> String {
         let stock = product.stock.formatted()
-        return "남은 수량: \(stock)"
+        return "남은 수량 \(stock)"
     }
     
     private func productDiscountRateLabelText(of product: ProductDetail) -> String? {

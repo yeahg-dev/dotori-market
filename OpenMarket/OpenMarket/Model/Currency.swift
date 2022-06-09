@@ -12,3 +12,16 @@ enum Currency: String, Codable {
     case krw = "KRW"
     case usd = "USD"
 }
+
+extension Currency {
+    
+    func price(_ price: String) -> String {
+        switch self {
+        case .krw:
+            return "\(price)원"
+        case .usd:
+            return "$\(price)"
+        }
+    }
+    
+}
