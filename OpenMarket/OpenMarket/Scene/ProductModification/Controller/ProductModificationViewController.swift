@@ -29,6 +29,11 @@ class ProductModificationViewController: UIViewController {
         self.downloadProductDetail(of: productID)
     }
     
+    // MARK: - IBAction
+    @IBAction func cancelButtonTapped(_ sender: Any) {
+        self.dismiss(animated: true)
+    }
+    
     // MARK: -Method
     func setProduct(_ productID: Int) {
         self.productID = productID
