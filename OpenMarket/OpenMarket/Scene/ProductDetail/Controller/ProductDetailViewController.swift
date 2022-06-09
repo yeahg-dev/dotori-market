@@ -15,6 +15,7 @@ final class ProductDetailViewController: UIViewController {
     @IBOutlet private weak var productPrice: UILabel?
     @IBOutlet private weak var productSellingPrice: UILabel?
     @IBOutlet private weak var discountRate: UILabel?
+    @IBOutlet weak var productStockLabel: UILabel?
     @IBOutlet private weak var productDescription: UITextView?
     
     // MARK: - UI Property
@@ -97,6 +98,7 @@ final class ProductDetailViewController: UIViewController {
         self.productName?.text = product.name
         self.productPrice?.text = product.price.description
         self.productSellingPrice?.text = product.bargainPrice.description
+        self.productStockLabel?.text = "남은 수량: \(product.stock.description)개"
         self.productDescription?.text = "상품설명"
         self.imagePageControl.numberOfPages = product.images.count
     }

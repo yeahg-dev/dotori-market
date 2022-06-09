@@ -298,8 +298,14 @@
                                                                     </label>
                                                                 </subviews>
                                                             </stackView>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="재고수량" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7cc-lB-2Ws">
+                                                                <rect key="frame" x="0.0" y="85.5" width="38.5" height="13.5"/>
+                                                                <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
                                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="qcd-Vu-SK0">
-                                                                <rect key="frame" x="0.0" y="85.5" width="384" height="434"/>
+                                                                <rect key="frame" x="0.0" y="107" width="384" height="412.5"/>
                                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                                 <color key="textColor" systemColor="labelColor"/>
@@ -348,6 +354,7 @@
                         <outlet property="productName" destination="B5p-yx-wy7" id="NGr-7n-15G"/>
                         <outlet property="productPrice" destination="caI-uG-QVY" id="uOg-B4-B6h"/>
                         <outlet property="productSellingPrice" destination="W3b-kq-k8F" id="VYw-7e-lfL"/>
+                        <outlet property="productStockLabel" destination="7cc-lB-2Ws" id="Hzf-lT-7Xm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uDw-pO-kwo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
