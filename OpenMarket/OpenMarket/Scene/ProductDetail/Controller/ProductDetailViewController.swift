@@ -166,8 +166,11 @@ extension ProductDetailViewController {
     }
     
     private func productStockLabelText(of product: ProductDetail) -> String {
+        if product.stock == .zero {
+            return MarketCommon.soldout.rawValue
+        }
         let stock = product.stock.formatted()
-        return "남은 수량 \(stock)"
+        return "\(MarketCommon.remainingStock.rawValue) \(stock)"
     }
     
     private func productDiscountRateLabelText(of product: ProductDetail) -> String? {

@@ -78,14 +78,14 @@ extension Product {
         switch stock {
         case .zero:
             let soldOut = NSAttributedString(
-                string: "품절",
+                string: MarketCommon.soldout.rawValue,
                 attributes: [.font: UIFont.preferredFont(forTextStyle: .headline),
                              .foregroundColor: UIColor.systemYellow]
             )
             return soldOut
         default:
             let remainStock = NSAttributedString(
-                string: "잔여수량 \(stock)",
+                string: "\(MarketCommon.remainingStock.rawValue) \(stock)",
                 attributes: [.font: UIFont.preferredFont(forTextStyle: .body),
                              .foregroundColor: UIColor.systemGray]
             )
