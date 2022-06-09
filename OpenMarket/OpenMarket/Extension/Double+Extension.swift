@@ -16,4 +16,10 @@ extension Double {
         let result = Self.numberFormatter.string(for: self) ?? self.description
         return result
     }
+    
+    var formattedPercent: String {
+        Self.numberFormatter.numberStyle = .percent
+        let fortmatted = Self.numberFormatter.string(for: self) ?? self.description
+        return fortmatted
+    }
 }

@@ -14,7 +14,7 @@ final class ProductDetailViewController: UIViewController {
     @IBOutlet private weak var productNameLabel: UILabel?
     @IBOutlet private weak var productPriceLabel: UILabel?
     @IBOutlet private weak var productSellingPriceLabel: UILabel?
-    @IBOutlet private weak var discountRateLabel: UILabel?
+    @IBOutlet private weak var productDiscountRateLabel: UILabel?
     @IBOutlet weak var productStockLabel: UILabel?
     @IBOutlet private weak var productDescriptionTextView: UITextView?
     
@@ -96,9 +96,10 @@ final class ProductDetailViewController: UIViewController {
     private func fillUI(with product: ProductDetail) {
         self.configureNavigationTitle(with: product.name)
         self.productNameLabel?.text = product.name
-        self.productPriceLabel?.text = product.price.description
-        self.productSellingPriceLabel?.text = product.bargainPrice.description
-        self.productStockLabel?.text = "남은 수량: \(product.stock.description)개"
+        self.productPriceLabel?.text = self.productPriceLabelText(of: product)
+        self.productDiscountRateLabel?.text = self.productDiscountRateLabelText(of: product)
+        self.productSellingPriceLabel?.text = self.productSellingPriceLabelText(of: product)
+        self.productStockLabel?.text = self.productStockLabelText(of: product)
         self.productDescriptionTextView?.text = product.description
         self.imagePageControl.numberOfPages = product.images.count
     }
@@ -132,5 +133,37 @@ extension ProductDetailViewController: UICollectionViewDataSource {
 
 extension ProductDetailViewController: UICollectionViewDelegate {
     
+}
+
+extension ProductDetailViewController {
+    
+    private func productPriceLabelText(of product: ProductDetail) -> String? {
+        if product.discountedPrice.isZero {
+            return nil
+        }
+        let currency = product.currency.rawValue
+        let price = product.price.formatted()
+        return "\(currency) \(price)"
+    }
+    
+    private func productSellingPriceLabelText(of product: ProductDetail) -> String {
+        let currency = product.currency.rawValue
+        let price = product.bargainPrice.formatted()
+        return "\(currency) \(price)"
+    }
+    
+    private func productStockLabelText(of product: ProductDetail) -> String {
+        let stock = product.stock.formatted()
+        return "남은 수량: \(stock)"
+    }
+    
+    private func productDiscountRateLabelText(of product: ProductDetail) -> String? {
+        if product.discountedPrice.isZero {
+            return nil
+        }
+        
+        let discountRate = product.discountedPrice / product.price
+        return discountRate.formattedPercent
+    }
 }
 
