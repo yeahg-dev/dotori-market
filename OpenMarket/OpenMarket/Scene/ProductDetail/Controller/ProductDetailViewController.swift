@@ -118,6 +118,7 @@ final class ProductDetailViewController: UIViewController {
     
 }
 
+// MARK: - UICollectionViewDataSource
 extension ProductDetailViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -143,10 +144,16 @@ extension ProductDetailViewController: UICollectionViewDataSource {
     
 }
 
-extension ProductDetailViewController: UICollectionViewDelegate {
+// MARK: - UIScrollViewDelegate
+extension ProductDetailViewController: UIScrollViewDelegate {
     
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let page = Int(targetContentOffset.pointee.x / self.view.frame.width)
+        self.imagePageControl.currentPage = page
+    }
 }
 
+// MARK: - UILogic
 extension ProductDetailViewController {
     
     private func productPriceLabelText(of product: ProductDetail) -> String? {
