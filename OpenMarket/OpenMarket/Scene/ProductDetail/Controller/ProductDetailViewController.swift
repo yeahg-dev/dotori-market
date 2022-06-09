@@ -10,13 +10,13 @@ import UIKit
 final class ProductDetailViewController: UIViewController {
 
     // MARK: - IBOutlet
-    @IBOutlet private weak var prductImageCollectionView: UICollectionView?
-    @IBOutlet private weak var productName: UILabel?
-    @IBOutlet private weak var productPrice: UILabel?
-    @IBOutlet private weak var productSellingPrice: UILabel?
-    @IBOutlet private weak var discountRate: UILabel?
+    @IBOutlet private weak var productImageCollectionView: UICollectionView?
+    @IBOutlet private weak var productNameLabel: UILabel?
+    @IBOutlet private weak var productPriceLabel: UILabel?
+    @IBOutlet private weak var productSellingPriceLabel: UILabel?
+    @IBOutlet private weak var discountRateLabel: UILabel?
     @IBOutlet weak var productStockLabel: UILabel?
-    @IBOutlet private weak var productDescription: UITextView?
+    @IBOutlet private weak var productDescriptionTextView: UITextView?
     
     // MARK: - UI Property
     private let imagePageControl = UIPageControl()
@@ -42,7 +42,7 @@ final class ProductDetailViewController: UIViewController {
         flowLayout.minimumLineSpacing = 0
         flowLayout.minimumInteritemSpacing = 0
         flowLayout.scrollDirection = .horizontal
-        self.prductImageCollectionView?.collectionViewLayout = flowLayout
+        self.productImageCollectionView?.collectionViewLayout = flowLayout
     }
     
     private func configureNavigationItem() {
@@ -52,13 +52,13 @@ final class ProductDetailViewController: UIViewController {
     
     private func layoutImagePageControl() {
         self.view.addSubview(imagePageControl)
-        self.prductImageCollectionView?.translatesAutoresizingMaskIntoConstraints = false
+        self.productImageCollectionView?.translatesAutoresizingMaskIntoConstraints = false
         self.imagePageControl.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             self.imagePageControl.centerXAnchor.constraint(
-                equalTo: self.prductImageCollectionView!.centerXAnchor),
+                equalTo: self.productImageCollectionView!.centerXAnchor),
             self.imagePageControl.bottomAnchor.constraint(
-                equalTo: self.prductImageCollectionView!.bottomAnchor)
+                equalTo: self.productImageCollectionView!.bottomAnchor)
         ])
     }
     
@@ -90,16 +90,16 @@ final class ProductDetailViewController: UIViewController {
     
     private func updateProdutDetail(with product: ProductDetail) {
         self.fillUI(with: product)
-        self.prductImageCollectionView?.reloadData()
+        self.productImageCollectionView?.reloadData()
     }
     
     private func fillUI(with product: ProductDetail) {
         self.configureNavigationTitle(with: product.name)
-        self.productName?.text = product.name
-        self.productPrice?.text = product.price.description
-        self.productSellingPrice?.text = product.bargainPrice.description
+        self.productNameLabel?.text = product.name
+        self.productPriceLabel?.text = product.price.description
+        self.productSellingPriceLabel?.text = product.bargainPrice.description
         self.productStockLabel?.text = "남은 수량: \(product.stock.description)개"
-        self.productDescription?.text = "상품설명"
+        self.productDescriptionTextView?.text = "상품설명"
         self.imagePageControl.numberOfPages = product.images.count
     }
     
@@ -116,7 +116,7 @@ extension ProductDetailViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        guard let cell = self.prductImageCollectionView?.dequeueReusableCell(withReuseIdentifier: "PrdouctDetailCollectionViewCell", for: indexPath) as? PrdouctDetailCollectionViewCell else {
+        guard let cell = self.productImageCollectionView?.dequeueReusableCell(withReuseIdentifier: "PrdouctDetailCollectionViewCell", for: indexPath) as? PrdouctDetailCollectionViewCell else {
             return PrdouctDetailCollectionViewCell()
         }
         
