@@ -58,7 +58,7 @@ final class ProductDetailViewController: UIViewController {
     }
     
     private func configureNavigationItem() {
-        let composeButton = UIBarButtonItem(barButtonSystemItem: .compose, target: nil, action: nil)
+        let composeButton = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(presentProductModificationView))
         self.navigationItem.setRightBarButton(composeButton, animated: true)
     }
     
@@ -114,6 +114,15 @@ final class ProductDetailViewController: UIViewController {
         self.productStockLabel?.text = self.productStockLabelText(of: product)
         self.productDescriptionTextView?.text = product.description
         self.imagePageControl.numberOfPages = product.images.count
+    }
+    
+    @objc private func presentProductModificationView() {
+        guard let productModificationVC = self.storyboard?.instantiateViewController(withIdentifier: "ProductModificationViewController") as? ProductModificationViewController,
+        let productID = self.productID else {
+            return
+        }
+        productModificationVC.setProduct(productID)
+        self.present(productModificationVC, animated: false)
     }
     
 }
