@@ -11,6 +11,7 @@ final class ProductDetailViewController: UIViewController {
 
     // MARK: - IBOutlet
     @IBOutlet private weak var productImageCollectionView: UICollectionView?
+    @IBOutlet weak var productInfoStackView: UIStackView?
     @IBOutlet private weak var productNameLabel: UILabel?
     @IBOutlet private weak var productPriceLabel: UILabel?
     @IBOutlet weak var productSellingPriceStackView: UIStackView?
@@ -31,10 +32,20 @@ final class ProductDetailViewController: UIViewController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.configureStackViewLayout()
         self.configureCollectionViewFlowLayout()
         self.configureNavigationItem()
         self.layoutImagePageControl()
         self.downloadProductDetail(prodcutID: productID)
+    }
+    
+    private func configureStackViewLayout() {
+        guard let productInfoStackView = self.productInfoStackView,
+              let productStockLabel = self.productStockLabel else {
+            return
+        }
+
+        productInfoStackView.setCustomSpacing(20, after: productStockLabel)
     }
 
     private func configureCollectionViewFlowLayout() {
