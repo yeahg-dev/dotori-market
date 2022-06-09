@@ -616,10 +616,10 @@
             </objects>
             <point key="canvasLocation" x="837.68115942028987" y="69.642857142857139"/>
         </scene>
-        <!--View Controller-->
+        <!--Product Modification View Controller-->
         <scene sceneID="3R0-9z-fDt">
             <objects>
-                <viewController id="pik-Y7-Iif" sceneMemberID="viewController">
+                <viewController id="pik-Y7-Iif" customClass="ProductModificationViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8Ts-vm-lxQ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -719,6 +719,10 @@
                                                         </connections>
                                                     </collectionViewCell>
                                                 </cells>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="pik-Y7-Iif" id="vgu-Dp-qXK"/>
+                                                    <outlet property="delegate" destination="pik-Y7-Iif" id="DbX-mx-gMN"/>
+                                                </connections>
                                             </collectionView>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품명" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="FNM-Cg-hnx">
                                                 <rect key="frame" x="0.0" y="146.5" width="394" height="34.5"/>
@@ -801,8 +805,14 @@
                         <outlet property="discountedPriceTextField" destination="O9E-lr-kYd" id="KeS-hJ-kbp"/>
                         <outlet property="nameTextField" destination="FNM-Cg-hnx" id="hUn-8v-Mij"/>
                         <outlet property="navigationBar" destination="vLi-fX-KJ2" id="T1j-pA-I8x"/>
+                        <outlet property="prdouctPriceLabel" destination="tUs-Hw-IYV" id="VBx-w1-MAI"/>
                         <outlet property="priceTextField" destination="tUs-Hw-IYV" id="PRh-g1-3GB"/>
-                        <outlet property="productImageCollectionView" destination="gRa-eV-Gaw" id="n1D-OL-PVi"/>
+                        <outlet property="productCurrencySegmentedControl" destination="Ji6-zS-lxm" id="LeL-R4-Irt"/>
+                        <outlet property="productDescriptionTextView" destination="j35-lJ-ItT" id="6jZ-Ct-WYW"/>
+                        <outlet property="productDisconutPriceLabel" destination="O9E-lr-kYd" id="mkF-Yn-5VQ"/>
+                        <outlet property="productImageCollectionView" destination="gRa-eV-Gaw" id="GvU-uN-XON"/>
+                        <outlet property="productNameLabel" destination="FNM-Cg-hnx" id="Tkg-mm-cBF"/>
+                        <outlet property="productStockLabel" destination="hrp-bp-hYi" id="9p4-Z8-bEu"/>
                         <outlet property="scrollView" destination="pyD-9A-nr2" id="7rR-Hf-m1P"/>
                         <outlet property="stockTextField" destination="hrp-bp-hYi" id="bIk-EM-8ue"/>
                     </connections>
