@@ -99,7 +99,7 @@ final class ProductDetailViewController: UIViewController {
         self.productPriceLabel?.text = product.price.description
         self.productSellingPriceLabel?.text = product.bargainPrice.description
         self.productStockLabel?.text = "남은 수량: \(product.stock.description)개"
-        self.productDescriptionTextView?.text = "상품설명"
+        self.productDescriptionTextView?.text = product.description
         self.imagePageControl.numberOfPages = product.images.count
     }
     

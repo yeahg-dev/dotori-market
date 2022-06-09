@@ -12,6 +12,7 @@ struct ProductDetail: Codable {
     let id: Int
     let vendorID: Int
     let name: String
+    let description: String
     let thumbnail: String
     let currency: Currency
     let price: Double
@@ -31,6 +32,6 @@ struct ProductDetail: Codable {
         case vendor = "vendors"
         case createdAt = "created_at"
         case issuedAt = "issued_at"
-        case id, name, thumbnail, currency, price, stock, images
+        case id, name, description, thumbnail, currency, price, stock, images
     }
 }
