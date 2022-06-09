@@ -138,7 +138,12 @@ extension ProductModificationViewController: UICollectionViewDataSource {
                 for: indexPath
             )
             let targetImage = productImages[safe: indexPath.item - 1]
-            cell.updateProductImageView(image: targetImage)
+   
+            if indexPath.item == 1 {
+                cell.updateProductImageView(image: targetImage, isRepresentaion: true)
+            } else {
+                cell.updateProductImageView(image: targetImage, isRepresentaion: false)
+            }
             return cell
         }
     }

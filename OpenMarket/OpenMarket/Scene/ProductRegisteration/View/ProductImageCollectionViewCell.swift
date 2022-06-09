@@ -10,8 +10,16 @@ import UIKit
 final class ProductImageCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet private weak var productImageView: UIImageView?
+    @IBOutlet private weak var represntaionLabel: UILabel?
     
-    func updateProductImageView(image: UIImage?) {
-        productImageView?.image = image
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.represntaionLabel?.isHidden = true
     }
+    
+    func updateProductImageView(image: UIImage?, isRepresentaion: Bool) {
+        self.productImageView?.image = image
+        self.represntaionLabel?.isHidden = !isRepresentaion
+    }
+    
 }

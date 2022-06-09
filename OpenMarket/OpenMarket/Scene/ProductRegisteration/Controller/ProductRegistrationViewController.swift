@@ -215,12 +215,15 @@ extension ProductRegistrationViewController: UICollectionViewDelegate, UICollect
             cell.updateAddedImageCountLabel(images: productImages)
             return cell
         default:
-            let cell = collectionView.dequeueReusableCell(
-                withClass: ProductImageCollectionViewCell.self,
-                for: indexPath
-            )
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductImageCollectionViewCell", for: indexPath) as? ProductImageCollectionViewCell else {
+                return ProductImageCollectionViewCell()
+            }
             let targetImage = productImages[safe: indexPath.item - 1]
-            cell.updateProductImageView(image: targetImage)
+            if indexPath.item == 1 {
+                cell.updateProductImageView(image: targetImage, isRepresentaion: true)
+            } else {
+                cell.updateProductImageView(image: targetImage, isRepresentaion: false)
+            }
             return cell
         }
     }
