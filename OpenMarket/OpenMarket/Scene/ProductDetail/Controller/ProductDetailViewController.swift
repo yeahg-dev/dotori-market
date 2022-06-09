@@ -13,6 +13,7 @@ final class ProductDetailViewController: UIViewController {
     @IBOutlet private weak var productImageCollectionView: UICollectionView?
     @IBOutlet private weak var productNameLabel: UILabel?
     @IBOutlet private weak var productPriceLabel: UILabel?
+    @IBOutlet weak var productSellingPriceStackView: UIStackView?
     @IBOutlet private weak var productSellingPriceLabel: UILabel?
     @IBOutlet private weak var productDiscountRateLabel: UILabel?
     @IBOutlet weak var productStockLabel: UILabel?
@@ -159,6 +160,7 @@ extension ProductDetailViewController {
     
     private func productDiscountRateLabelText(of product: ProductDetail) -> String? {
         if product.discountedPrice.isZero {
+            self.productSellingPriceStackView?.spacing = .zero
             return nil
         }
         

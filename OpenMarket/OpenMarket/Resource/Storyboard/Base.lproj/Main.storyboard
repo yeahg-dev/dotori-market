@@ -281,19 +281,19 @@
                                                                 <color key="textColor" systemColor="systemGrayColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="57" translatesAutoresizingMaskIntoConstraints="NO" id="21J-9S-Sct">
-                                                                <rect key="frame" x="0.0" y="53.5" width="161" height="24"/>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="21J-9S-Sct">
+                                                                <rect key="frame" x="0.0" y="53.5" width="112" height="24"/>
                                                                 <subviews>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="판매가" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W3b-kq-k8F">
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="할인율" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QcO-xA-mzv">
                                                                         <rect key="frame" x="0.0" y="0.0" width="52" height="24"/>
                                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
-                                                                        <nil key="textColor"/>
+                                                                        <color key="textColor" systemColor="systemOrangeColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="할인율" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QcO-xA-mzv">
-                                                                        <rect key="frame" x="109" y="0.0" width="52" height="24"/>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="판매가" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W3b-kq-k8F">
+                                                                        <rect key="frame" x="60" y="0.0" width="52" height="24"/>
                                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
-                                                                        <color key="textColor" systemColor="systemOrangeColor"/>
+                                                                        <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                 </subviews>
@@ -354,6 +354,7 @@
                         <outlet property="productNameLabel" destination="B5p-yx-wy7" id="NGr-7n-15G"/>
                         <outlet property="productPriceLabel" destination="caI-uG-QVY" id="uOg-B4-B6h"/>
                         <outlet property="productSellingPriceLabel" destination="W3b-kq-k8F" id="VYw-7e-lfL"/>
+                        <outlet property="productSellingPriceStackView" destination="21J-9S-Sct" id="kyb-xL-ekc"/>
                         <outlet property="productStockLabel" destination="7cc-lB-2Ws" id="Hzf-lT-7Xm"/>
                     </connections>
                 </viewController>
