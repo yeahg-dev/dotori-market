@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProductModificationViewController: UIViewController {
+final class ProductModificationViewController: UIViewController {
     
     // MARK: - IBOutlet
     @IBOutlet weak var productImageCollectionView: UICollectionView?
