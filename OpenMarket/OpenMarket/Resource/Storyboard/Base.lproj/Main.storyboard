@@ -361,7 +361,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uDw-pO-kwo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1628" y="503"/>
+            <point key="canvasLocation" x="1251" y="819"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="fCV-aa-ajg">
@@ -615,6 +615,201 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zdz-2S-o0K" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="837.68115942028987" y="69.642857142857139"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="3R0-9z-fDt">
+            <objects>
+                <viewController id="pik-Y7-Iif" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8Ts-vm-lxQ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vLi-fX-KJ2">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <items>
+                                    <navigationItem title="상품 정보 수정" id="z5B-dC-gHY">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="cbV-yx-aVO">
+                                            <color key="tintColor" systemColor="systemIndigoColor"/>
+                                            <connections>
+                                                <action selector="cancelButtonTapped:" destination="pik-Y7-Iif" id="PyF-pf-P7d"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="gvt-95-lUr">
+                                            <color key="tintColor" systemColor="systemIndigoColor"/>
+                                            <connections>
+                                                <action selector="doneButtonTapped:" destination="pik-Y7-Iif" id="aJJ-R2-up0"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="pyD-9A-nr2">
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="4rv-dM-n31">
+                                        <rect key="frame" x="10" y="0.0" width="394" height="358"/>
+                                        <subviews>
+                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="gRa-eV-Gaw">
+                                                <rect key="frame" x="0.0" y="0.0" width="394" height="136.5"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="CEJ-ea-rE5">
+                                                    <size key="itemSize" width="128" height="128"/>
+                                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                </collectionViewFlowLayout>
+                                                <cells>
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ImagePickerCollectionViewCell" id="g4D-3f-Uf7" customClass="ImagePickerCollectionViewCell" customModule="OpenMarket" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="FGQ-im-lg1">
+                                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <subviews>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="l7D-Kx-GfU">
+                                                                    <rect key="frame" x="38.5" y="29.5" width="51" height="69"/>
+                                                                    <subviews>
+                                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="GKC-Ct-iHd">
+                                                                            <rect key="frame" x="0.0" y="0.5" width="51" height="49.5"/>
+                                                                            <color key="tintColor" systemColor="systemGrayColor"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="width" secondItem="GKC-Ct-iHd" secondAttribute="height" multiplier="1:1" id="G3f-r2-MVN"/>
+                                                                            </constraints>
+                                                                        </imageView>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="대표사진 수정" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x7f-dO-ymk">
+                                                                            <rect key="frame" x="0.0" y="54.5" width="51" height="14.5"/>
+                                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                    </subviews>
+                                                                </stackView>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="GKC-Ct-iHd" firstAttribute="width" secondItem="FGQ-im-lg1" secondAttribute="width" multiplier="0.4" id="4m3-0L-aLm"/>
+                                                                <constraint firstItem="l7D-Kx-GfU" firstAttribute="centerX" secondItem="FGQ-im-lg1" secondAttribute="centerX" id="Cev-S4-LrN"/>
+                                                                <constraint firstItem="l7D-Kx-GfU" firstAttribute="centerY" secondItem="FGQ-im-lg1" secondAttribute="centerY" id="PDU-pu-KxL"/>
+                                                            </constraints>
+                                                        </collectionViewCellContentView>
+                                                        <size key="customSize" width="128" height="128"/>
+                                                        <connections>
+                                                            <outlet property="addedImageCountLabel" destination="x7f-dO-ymk" id="Wr6-gr-0yJ"/>
+                                                        </connections>
+                                                    </collectionViewCell>
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProductImageCollectionViewCell" id="g45-aI-4mR" customClass="ProductImageCollectionViewCell" customModule="OpenMarket" customModuleProvider="target">
+                                                        <rect key="frame" x="266" y="0.0" width="128" height="128"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="a2c-2S-z2Y">
+                                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <subviews>
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1IZ-Xt-MID">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                                </imageView>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="1IZ-Xt-MID" firstAttribute="leading" secondItem="a2c-2S-z2Y" secondAttribute="leading" id="UJ1-Rj-XKo"/>
+                                                                <constraint firstAttribute="trailing" secondItem="1IZ-Xt-MID" secondAttribute="trailing" id="WYC-W2-vOh"/>
+                                                                <constraint firstAttribute="bottom" secondItem="1IZ-Xt-MID" secondAttribute="bottom" id="bip-pY-cGa"/>
+                                                                <constraint firstItem="1IZ-Xt-MID" firstAttribute="top" secondItem="a2c-2S-z2Y" secondAttribute="top" id="y9z-na-VgJ"/>
+                                                            </constraints>
+                                                        </collectionViewCellContentView>
+                                                        <connections>
+                                                            <outlet property="productImageView" destination="1IZ-Xt-MID" id="uEq-Dk-keJ"/>
+                                                        </connections>
+                                                    </collectionViewCell>
+                                                </cells>
+                                            </collectionView>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품명" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="FNM-Cg-hnx">
+                                                <rect key="frame" x="0.0" y="146.5" width="394" height="34.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="pbo-5H-fy0">
+                                                <rect key="frame" x="0.0" y="191" width="394" height="34"/>
+                                                <subviews>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품 가격" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="tUs-Hw-IYV">
+                                                        <rect key="frame" x="0.0" y="0.0" width="276" height="34"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    </textField>
+                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Ji6-zS-lxm">
+                                                        <rect key="frame" x="286" y="0.0" width="108" height="35"/>
+                                                        <segments>
+                                                            <segment title="KRW"/>
+                                                            <segment title="USD"/>
+                                                        </segments>
+                                                    </segmentedControl>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="tUs-Hw-IYV" firstAttribute="width" secondItem="pbo-5H-fy0" secondAttribute="width" multiplier="0.7" id="i1Y-Sf-SJG"/>
+                                                </constraints>
+                                            </stackView>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="할인금액" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="O9E-lr-kYd">
+                                                <rect key="frame" x="0.0" y="235" width="394" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                            </textField>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="재고수량" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="hrp-bp-hYi">
+                                                <rect key="frame" x="0.0" y="279" width="394" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                            </textField>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="j35-lJ-ItT">
+                                                <rect key="frame" x="0.0" y="323" width="394" height="35"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <color key="textColor" systemColor="labelColor"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="hrp-bp-hYi" firstAttribute="height" secondItem="gRa-eV-Gaw" secondAttribute="height" multiplier="0.25" id="A4Q-n8-5om"/>
+                                            <constraint firstItem="O9E-lr-kYd" firstAttribute="height" secondItem="gRa-eV-Gaw" secondAttribute="height" multiplier="0.25" id="T07-EU-vJv"/>
+                                            <constraint firstItem="pbo-5H-fy0" firstAttribute="height" secondItem="gRa-eV-Gaw" secondAttribute="height" multiplier="0.25" id="acg-WH-PcQ"/>
+                                            <constraint firstItem="FNM-Cg-hnx" firstAttribute="height" secondItem="gRa-eV-Gaw" secondAttribute="height" multiplier="0.25" id="kQU-52-5Ob"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="4rv-dM-n31" firstAttribute="width" secondItem="SVw-rJ-8V3" secondAttribute="width" constant="-20" id="4gA-kN-q52"/>
+                                    <constraint firstItem="4rv-dM-n31" firstAttribute="leading" secondItem="ERK-OU-mM0" secondAttribute="leading" constant="10" id="5eH-Nf-kfO"/>
+                                    <constraint firstItem="4rv-dM-n31" firstAttribute="trailing" secondItem="ERK-OU-mM0" secondAttribute="trailing" constant="-10" id="8RV-AQ-Wc7"/>
+                                    <constraint firstItem="4rv-dM-n31" firstAttribute="top" secondItem="ERK-OU-mM0" secondAttribute="top" id="WzF-BR-3Q7"/>
+                                    <constraint firstItem="4rv-dM-n31" firstAttribute="bottom" secondItem="ERK-OU-mM0" secondAttribute="bottom" id="lEo-kM-UTy"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="ERK-OU-mM0"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="SVw-rJ-8V3"/>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="f6Y-ft-Aus"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="gRa-eV-Gaw" firstAttribute="height" secondItem="8Ts-vm-lxQ" secondAttribute="width" multiplier="0.33" id="1rm-xe-HA9"/>
+                            <constraint firstItem="pyD-9A-nr2" firstAttribute="trailing" secondItem="f6Y-ft-Aus" secondAttribute="trailing" id="4eX-XJ-83E"/>
+                            <constraint firstItem="pyD-9A-nr2" firstAttribute="top" secondItem="vLi-fX-KJ2" secondAttribute="bottom" id="EyR-QQ-GJC"/>
+                            <constraint firstItem="f6Y-ft-Aus" firstAttribute="trailing" secondItem="vLi-fX-KJ2" secondAttribute="trailing" id="JyX-9c-2Ip"/>
+                            <constraint firstItem="pyD-9A-nr2" firstAttribute="leading" secondItem="f6Y-ft-Aus" secondAttribute="leading" id="VHO-8L-M4R"/>
+                            <constraint firstAttribute="bottom" secondItem="pyD-9A-nr2" secondAttribute="bottom" id="sX8-mY-ZRq"/>
+                            <constraint firstItem="vLi-fX-KJ2" firstAttribute="leading" secondItem="f6Y-ft-Aus" secondAttribute="leading" id="ug4-kH-pdZ"/>
+                            <constraint firstItem="vLi-fX-KJ2" firstAttribute="top" secondItem="f6Y-ft-Aus" secondAttribute="top" id="yoa-dD-ohM"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="currencySegmentedControl" destination="Ji6-zS-lxm" id="2kv-eP-M1w"/>
+                        <outlet property="descriptionsTextView" destination="j35-lJ-ItT" id="oVX-pz-j9Q"/>
+                        <outlet property="discountedPriceTextField" destination="O9E-lr-kYd" id="KeS-hJ-kbp"/>
+                        <outlet property="nameTextField" destination="FNM-Cg-hnx" id="hUn-8v-Mij"/>
+                        <outlet property="navigationBar" destination="vLi-fX-KJ2" id="T1j-pA-I8x"/>
+                        <outlet property="priceTextField" destination="tUs-Hw-IYV" id="PRh-g1-3GB"/>
+                        <outlet property="productImageCollectionView" destination="gRa-eV-Gaw" id="n1D-OL-PVi"/>
+                        <outlet property="scrollView" destination="pyD-9A-nr2" id="7rR-Hf-m1P"/>
+                        <outlet property="stockTextField" destination="hrp-bp-hYi" id="bIk-EM-8ue"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="u7Y-uD-FDx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1593" y="70"/>
         </scene>
     </scenes>
     <resources>

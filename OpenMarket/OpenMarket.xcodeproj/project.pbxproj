@@ -228,6 +228,7 @@
 				63DA95AC285205F1004CB9C1 /* ViewModel */,
 				63DA9599285095ED004CB9C1 /* ProductList */,
 				63DA959B28509609004CB9C1 /* ProductRegisteration */,
+				63DA95AD285210A4004CB9C1 /* ProductModification */,
 				63DA959A285095F7004CB9C1 /* ProductDetail */,
 			);
 			path = Scene;
@@ -319,6 +320,13 @@
 				63DA95AA285205E9004CB9C1 /* MarketCommon.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		63DA95AD285210A4004CB9C1 /* ProductModification */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ProductModification;
 			sourceTree = "<group>";
 		};
 		C10797532784477900B16C62 /* OpenMarketNetworkTests */ = {
