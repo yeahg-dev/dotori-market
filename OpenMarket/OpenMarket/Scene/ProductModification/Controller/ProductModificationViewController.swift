@@ -21,6 +21,7 @@ final class ProductModificationViewController: UIViewController {
     // MARK: - Property
     private let apiService = APIExecutor()
     private var productID: Int?
+    private var productDetail: ProductDetail?
     private var cells: [CellType] = [.imagePickerCell]
     private var productImages: [UIImage] = []
     
@@ -62,16 +63,15 @@ final class ProductModificationViewController: UIViewController {
         apiService.execute(request) { [weak self] (result: Result<ProductDetail, Error>) in
             switch result {
             case .success(let product):
-                DispatchQueue.main.async {
-                    self?.fillUI(wtih: product)
-                }
+                self?.productDetail = product
                 for image in product.images {
                     self?.cells.append(.productImageCell)
-                    if let url = URL(string: image.thumbnailURL) {
-                        self?.downloadAndappendProductImage(of: url)
-                    }
+//                    if let url = URL(string: image.thumbnailURL) {
+//                        self?.downloadAndappendProductImage(of: url)
+//                    }
                 }
                 DispatchQueue.main.async {
+                    self?.fillUI(wtih: product)
                     self?.productImageCollectionView?.reloadData()
                 }
             case .failure(let error):
@@ -138,11 +138,16 @@ extension ProductModificationViewController: UICollectionViewDataSource {
                 for: indexPath
             )
             let targetImage = productImages[safe: indexPath.item - 1]
-   
+        
+            // URL로 다운로드 받도록 수정해야함
+            // cell을 채우는 메서드의 매개변수 타입이 다름 URL vs UIImage
+            // 이미지 피커 컨트롤러로 대표사진이 수정되었을 때 reloadRow를 호출해야함.
+            let imageURLStirng = productDetail?.images[indexPath.item - 1].thumbnailURL ?? ""
+            let imageURL = URL(string: imageURLStirng)
             if indexPath.item == 1 {
-                cell.updateProductImageView(image: targetImage, isRepresentaion: true)
+                cell.update(image: targetImage, url: imageURL!, isRepresentaion: true)
             } else {
-                cell.updateProductImageView(image: targetImage, isRepresentaion: false)
+                cell.update(image: nil, url: imageURL!, isRepresentaion: false)
             }
             return cell
         }
