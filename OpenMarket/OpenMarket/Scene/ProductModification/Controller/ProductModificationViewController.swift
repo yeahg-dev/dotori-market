@@ -64,11 +64,8 @@ final class ProductModificationViewController: UIViewController {
             switch result {
             case .success(let product):
                 self?.productDetail = product
-                for image in product.images {
+                for _ in product.images {
                     self?.cells.append(.productImageCell)
-//                    if let url = URL(string: image.thumbnailURL) {
-//                        self?.downloadAndappendProductImage(of: url)
-//                    }
                 }
                 DispatchQueue.main.async {
                     self?.fillUI(wtih: product)
@@ -93,25 +90,6 @@ final class ProductModificationViewController: UIViewController {
         case .usd:
             self.productCurrencySegmentedControl?.selectedSegmentIndex = 1
         }
-    }
-    
-    private func downloadAndappendProductImage(of url: URL) {
-        let task = URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
-            if let _ = error {
-                DispatchQueue.main.async {
-                    if let invalidImage = UIImage(systemName: "xmark.icloud.fill") {
-                        self?.productImages.append(invalidImage)
-                    }
-                }
-            } else {
-                DispatchQueue.main.async {
-                    guard let imageData = data,
-                          let uiimage = UIImage(data: imageData) else { return }
-                    self?.productImages.append(uiimage)
-                }
-            }
-        }
-        task.resume()
     }
 
 }
@@ -138,10 +116,6 @@ extension ProductModificationViewController: UICollectionViewDataSource {
                 for: indexPath
             )
             let targetImage = productImages[safe: indexPath.item - 1]
-        
-            // URL로 다운로드 받도록 수정해야함
-            // cell을 채우는 메서드의 매개변수 타입이 다름 URL vs UIImage
-            // 이미지 피커 컨트롤러로 대표사진이 수정되었을 때 reloadRow를 호출해야함.
             let imageURLStirng = productDetail?.images[indexPath.item - 1].thumbnailURL ?? ""
             let imageURL = URL(string: imageURLStirng)
             if indexPath.item == 1 {
