@@ -828,6 +828,7 @@
                         <outlet property="productImageCollectionView" destination="gRa-eV-Gaw" id="GvU-uN-XON"/>
                         <outlet property="productNameField" destination="FNM-Cg-hnx" id="Tkg-mm-cBF"/>
                         <outlet property="productStockField" destination="hrp-bp-hYi" id="9p4-Z8-bEu"/>
+                        <outlet property="scrollView" destination="pyD-9A-nr2" id="HO1-6V-q8H"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u7Y-uD-FDx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

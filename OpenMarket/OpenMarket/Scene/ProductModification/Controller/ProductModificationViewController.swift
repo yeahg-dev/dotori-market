@@ -10,6 +10,8 @@ import UIKit
 final class ProductModificationViewController: UIViewController {
     
     // MARK: - IBOutlet
+    
+    @IBOutlet weak var scrollView: UIScrollView?
     @IBOutlet weak var productImageCollectionView: UICollectionView?
     @IBOutlet weak var productNameField: UITextField?
     @IBOutlet weak var prdouctPriceField: UITextField?
@@ -36,6 +38,8 @@ final class ProductModificationViewController: UIViewController {
         super.viewDidLoad()
         self.configureCollectionViewLayout()
         self.downloadProductDetail(of: productID)
+        addKeyboardNotificationObserver()
+        addKeyboardDismissGestureRecognizer()
     }
     
     // MARK: - Layout
@@ -96,6 +100,45 @@ final class ProductModificationViewController: UIViewController {
         case .usd:
             self.productCurrencySegmentedControl?.selectedSegmentIndex = 1
         }
+    }
+    
+    private func addKeyboardNotificationObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow(_:)),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide(_:)),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    
+    private func addKeyboardDismissGestureRecognizer() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    @objc private func keyboardWillShow(_ sender: Notification) {
+        if let keyboardFrame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            scrollView?.contentInset.bottom = keyboardHeight
+            scrollView?.verticalScrollIndicatorInsets.bottom = keyboardHeight
+        }
+    }
+    
+    @objc private func keyboardWillHide(_ sender: Notification) {
+        scrollView?.contentInset.bottom = .zero
+        scrollView?.verticalScrollIndicatorInsets.bottom = .zero
     }
 
 }
