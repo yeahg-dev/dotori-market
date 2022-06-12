@@ -11,11 +11,11 @@ final class ProductModificationViewController: UIViewController {
     
     // MARK: - IBOutlet
     @IBOutlet weak var productImageCollectionView: UICollectionView?
-    @IBOutlet weak var productNameLabel: UITextField?
-    @IBOutlet weak var prdouctPriceLabel: UITextField?
+    @IBOutlet weak var productNameField: UITextField?
+    @IBOutlet weak var prdouctPriceField: UITextField?
     @IBOutlet weak var productCurrencySegmentedControl: UISegmentedControl?
-    @IBOutlet weak var productDisconutPriceLabel: UITextField?
-    @IBOutlet weak var productStockLabel: UITextField?
+    @IBOutlet weak var productDisconutPriceField: UITextField?
+    @IBOutlet weak var productStockField: UITextField?
     @IBOutlet weak var productDescriptionTextView: UITextView?
     
     // MARK: - Property
@@ -84,10 +84,10 @@ final class ProductModificationViewController: UIViewController {
     }
     
     private func fillUI(wtih product: ProductDetail) {
-        self.productNameLabel?.text = product.name
-        self.prdouctPriceLabel?.text = product.price.formatted()
-        self.productDisconutPriceLabel?.text  = product.discountedPrice.formatted()
-        self.productStockLabel?.text = product.stock.formatted()
+        self.productNameField?.text = product.name
+        self.prdouctPriceField?.text = product.price.formatted()
+        self.productDisconutPriceField?.text  = product.discountedPrice.formatted()
+        self.productStockField?.text = product.stock.formatted()
         self.productDescriptionTextView?.text = product.description
         let currency = product.currency
         switch currency {
