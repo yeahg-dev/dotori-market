@@ -24,6 +24,12 @@ final class ProductModificationViewController: UIViewController {
     private var productDetail: ProductDetail?
     private var cells: [CellType] = [.imagePickerCell]
     private var productImages: [UIImage] = []
+    private let imagePicker: UIImagePickerController = {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.allowsEditing = true
+        return imagePicker
+    }()
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -115,11 +121,11 @@ extension ProductModificationViewController: UICollectionViewDataSource {
                 withClass: ProductImageCollectionViewCell.self,
                 for: indexPath
             )
-            let targetImage = productImages[safe: indexPath.item - 1]
+            let representationImage = productImages[safe: indexPath.item - 1]
             let imageURLStirng = productDetail?.images[indexPath.item - 1].thumbnailURL ?? ""
             let imageURL = URL(string: imageURLStirng)
             if indexPath.item == 1 {
-                cell.update(image: targetImage, url: imageURL!, isRepresentaion: true)
+                cell.update(image: representationImage, url: imageURL!, isRepresentaion: true)
             } else {
                 cell.update(image: nil, url: imageURL!, isRepresentaion: false)
             }
@@ -127,4 +133,36 @@ extension ProductModificationViewController: UICollectionViewDataSource {
         }
     }
 
+}
+
+extension ProductModificationViewController: UICollectionViewDelegate {
+   
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cellType = cells[safe: indexPath.item]
+        
+        if cellType == .imagePickerCell {
+            imagePicker.delegate = self
+            present(imagePicker, animated: true, completion: nil)
+        }
+    }
+}
+
+extension ProductModificationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        
+        if let possibleImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            productImages.append(possibleImage)
+        } else if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            productImages.append(possibleImage)
+        }
+        productImageCollectionView?.reloadData()
+        imagePicker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true, completion: nil)
+    }
 }
