@@ -10,7 +10,6 @@ import UIKit
 final class ProductRegistrationViewController: UIViewController {
     
     // MARK: - IBOutlets
-    
     @IBOutlet private weak var navigationBar: UINavigationBar?
     @IBOutlet private weak var scrollView: UIScrollView?
     @IBOutlet private weak var productImageCollectionView: UICollectionView?
@@ -22,7 +21,6 @@ final class ProductRegistrationViewController: UIViewController {
     @IBOutlet private weak var descriptionsTextView: UITextView?
     
     // MARK: - Properties
-    
     weak var tableViewRefreshDelegate: RefreshDelegate?
     weak var collectionViewRefreshDelegate: RefreshDelegate?
     private let imagePicker: UIImagePickerController = {
@@ -35,8 +33,7 @@ final class ProductRegistrationViewController: UIViewController {
     private var cells: [CellType] = [.imagePickerCell]
     private let flowLayout = UICollectionViewFlowLayout()
     
-    // MARK: - Methods
-    
+    // MARK: - IBaction Method
     @IBAction private func cancelButtonTapped(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true)
     }
@@ -45,17 +42,17 @@ final class ProductRegistrationViewController: UIViewController {
         handleProductRegistrationRequest()
     }
     
+    // MARK: - ViewLifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        productImageCollectionView?.delegate = self
-        productImageCollectionView?.dataSource = self
+        configureDelegate()
         configureNavigationBar()
         configureFlowLayout()
         addKeyboardNotificationObserver()
         addKeyboardDismissGestureRecognizer()
-        configureDelegate()
     }
     
+    // MARK: - Configure UI
     private func configureNavigationBar() {
         let navigationAppearance = UINavigationBarAppearance()
         navigationAppearance.configureWithTransparentBackground()
@@ -74,10 +71,14 @@ final class ProductRegistrationViewController: UIViewController {
         flowLayout.sectionInset = UIEdgeInsets(top: .zero, left: 10, bottom: .zero, right: 10)
     }
     
+    // MARK: - Configure relationShip
     private func configureDelegate() {
         self.nameTextField?.delegate = self
+        productImageCollectionView?.delegate = self
+        productImageCollectionView?.dataSource = self
     }
     
+    // MARK: - Method
     private func handleProductRegistrationRequest() {
         guard let newProduct = createNewProductInfo() else { return }
         guard let newProductImages = createImageFiles(newProductName: newProduct.name) else {
@@ -155,6 +156,11 @@ final class ProductRegistrationViewController: UIViewController {
         }
         return newProductImages
     }
+   
+}
+
+// MARK: - Keyboard
+extension ProductRegistrationViewController {
     
     private func addKeyboardNotificationObserver() {
         NotificationCenter.default.addObserver(
@@ -194,10 +200,10 @@ final class ProductRegistrationViewController: UIViewController {
         scrollView?.contentInset.bottom = .zero
         scrollView?.verticalScrollIndicatorInsets.bottom = .zero
     }
+    
 }
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
-
 extension ProductRegistrationViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(
@@ -254,7 +260,6 @@ extension ProductRegistrationViewController: UICollectionViewDelegate, UICollect
 }
 
 // MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
-
 extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(
@@ -276,6 +281,7 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UI
     }
 }
 
+// MARK: - UITextFieldDelegate
 extension ProductRegistrationViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
