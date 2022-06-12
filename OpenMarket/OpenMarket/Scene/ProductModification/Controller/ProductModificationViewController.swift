@@ -101,6 +101,11 @@ final class ProductModificationViewController: UIViewController {
             self.productCurrencySegmentedControl?.selectedSegmentIndex = 1
         }
     }
+  
+}
+
+// MARK: - Keyboard
+extension ProductModificationViewController {
     
     private func addKeyboardNotificationObserver() {
         NotificationCenter.default.addObserver(
@@ -143,6 +148,7 @@ final class ProductModificationViewController: UIViewController {
 
 }
 
+// MARK: - UICollectionViewDataSource
 extension ProductModificationViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return cells.count
@@ -178,6 +184,7 @@ extension ProductModificationViewController: UICollectionViewDataSource {
 
 }
 
+// MARK: - UICollectionViewDelegate
 extension ProductModificationViewController: UICollectionViewDelegate {
    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -190,6 +197,7 @@ extension ProductModificationViewController: UICollectionViewDelegate {
     }
 }
 
+// MARK: - UIImagePickerControllerDelegate
 extension ProductModificationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(
