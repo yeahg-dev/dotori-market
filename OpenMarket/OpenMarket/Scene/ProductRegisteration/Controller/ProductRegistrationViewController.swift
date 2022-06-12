@@ -53,6 +53,7 @@ final class ProductRegistrationViewController: UIViewController {
         configureFlowLayout()
         addKeyboardNotificationObserver()
         addKeyboardDismissGestureRecognizer()
+        configureDelegate()
     }
     
     private func configureNavigationBar() {
@@ -71,6 +72,10 @@ final class ProductRegistrationViewController: UIViewController {
         flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth)
         flowLayout.minimumLineSpacing = 10
         flowLayout.sectionInset = UIEdgeInsets(top: .zero, left: 10, bottom: .zero, right: 10)
+    }
+    
+    private func configureDelegate() {
+        self.nameTextField?.delegate = self
     }
     
     private func handleProductRegistrationRequest() {
@@ -268,5 +273,13 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UI
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension ProductRegistrationViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.nameTextField?.resignFirstResponder()
+        return true
     }
 }

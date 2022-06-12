@@ -38,8 +38,9 @@ final class ProductModificationViewController: UIViewController {
         super.viewDidLoad()
         self.configureCollectionViewLayout()
         self.downloadProductDetail(of: productID)
-        addKeyboardNotificationObserver()
-        addKeyboardDismissGestureRecognizer()
+        self.addKeyboardNotificationObserver()
+        self.addKeyboardDismissGestureRecognizer()
+        self.configureDelegate()
     }
     
     // MARK: - Layout
@@ -100,6 +101,10 @@ final class ProductModificationViewController: UIViewController {
         case .usd:
             self.productCurrencySegmentedControl?.selectedSegmentIndex = 1
         }
+    }
+    
+    private func configureDelegate() {
+        self.productNameField?.delegate = self
     }
   
 }
@@ -215,5 +220,14 @@ extension ProductModificationViewController: UIImagePickerControllerDelegate, UI
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension ProductModificationViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.productNameField?.resignFirstResponder()
+        return true
     }
 }
