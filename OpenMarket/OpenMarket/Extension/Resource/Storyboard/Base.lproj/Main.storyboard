@@ -648,6 +648,9 @@
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="gvt-95-lUr">
                                             <color key="tintColor" systemColor="systemIndigoColor"/>
+                                            <connections>
+                                                <action selector="doneButtonTapped:" destination="pik-Y7-Iif" id="jZO-Su-DKq"/>
+                                            </connections>
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>

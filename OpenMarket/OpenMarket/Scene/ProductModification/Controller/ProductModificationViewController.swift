@@ -62,6 +62,21 @@ final class ProductModificationViewController: UIViewController {
         self.dismiss(animated: true)
     }
     
+    @IBAction func doneButtonTapped(_ sender: UIBarButtonItem) {
+        
+        guard validateInput() else {
+            let modificationNotification = ModificationNotification(
+                isValidName: self.validateNameInput(),
+                isValidPrice: self.validatePriceInput(),
+                isValidStock: self.validateStockInput(),
+                isValidDescription: self.validateDescriptionInput())
+            self.presentValidationFailAlert(of: modificationNotification.alertDescription)
+            return
+        }
+        
+        // 판매자 식별번호 요청 알럿 present
+    }
+    
     // MARK: -Method
     func setProduct(_ productID: Int) {
         self.productID = productID
@@ -106,7 +121,14 @@ final class ProductModificationViewController: UIViewController {
     private func configureDelegate() {
         self.productNameField?.delegate = self
     }
-  
+    
+    private func presentValidationFailAlert(of description: String) {
+        let alert = UIAlertController(title: description, message: nil, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(okAction)
+        self.present(alert, animated: false)
+    }
+    
 }
 
 // MARK: - Keyboard
@@ -150,7 +172,7 @@ extension ProductModificationViewController {
         scrollView?.contentInset.bottom = .zero
         scrollView?.verticalScrollIndicatorInsets.bottom = .zero
     }
-
+    
 }
 
 // MARK: - UICollectionViewDataSource
@@ -186,12 +208,12 @@ extension ProductModificationViewController: UICollectionViewDataSource {
             return cell
         }
     }
-
+    
 }
 
 // MARK: - UICollectionViewDelegate
 extension ProductModificationViewController: UICollectionViewDelegate {
-   
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cellType = cells[safe: indexPath.item]
         
@@ -208,15 +230,15 @@ extension ProductModificationViewController: UIImagePickerControllerDelegate, UI
     func imagePickerController(
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        
-        if let possibleImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            productImages.append(possibleImage)
-        } else if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            productImages.append(possibleImage)
+            
+            if let possibleImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+                productImages.append(possibleImage)
+            } else if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+                productImages.append(possibleImage)
+            }
+            productImageCollectionView?.reloadData()
+            imagePicker.dismiss(animated: true, completion: nil)
         }
-        productImageCollectionView?.reloadData()
-        imagePicker.dismiss(animated: true, completion: nil)
-    }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
@@ -229,5 +251,93 @@ extension ProductModificationViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.productNameField?.resignFirstResponder()
         return true
+    }
+}
+
+// MARK: - Validation
+extension ProductModificationViewController {
+    
+    private func validateInput() -> Bool {
+        var categoriesValidation: [Bool] = []
+        categoriesValidation.append(self.validateNameInput())
+        categoriesValidation.append(self.validatePriceInput())
+        categoriesValidation.append(self.validateStockInput())
+        categoriesValidation.append(self.validateDescriptionInput())
+        
+        return categoriesValidation.contains(false) ? false : true
+    }
+    
+    private func validateNameInput() -> Bool {
+        guard let isEmpty = self.productNameField?.text?.isEmpty else{
+            return false
+        }
+        
+        return isEmpty ? false : true
+    }
+    
+    private func validatePriceInput() -> Bool {
+        guard let isEmpty = self.prdouctPriceField?.text?.isEmpty else{
+            return false
+        }
+        
+        return isEmpty ? false : true
+    }
+    
+    private func validateStockInput() -> Bool {
+        guard let isEmpty = self.productStockField?.text?.isEmpty else{
+            return false
+        }
+        
+        return isEmpty ? false : true
+    }
+    
+    private func validateDescriptionInput() -> Bool {
+        guard let isEmpty = self.productDescriptionTextView?.text?.isEmpty else{
+            return false
+        }
+        
+        return isEmpty ? false : true
+    }
+    
+    struct ModificationNotification {
+        
+        var isValidName: Bool
+        var isValidPrice: Bool
+        var isValidStock: Bool
+        var isValidDescription: Bool
+        
+        var isValid: [Bool] {
+            return [isValidName,isValidPrice, isValidStock, isValidDescription]
+        }
+        
+        var alertDescription: String {
+            let name = isValidName ? "" : "상품명"
+            let price = isValidPrice ? "" : "가격"
+            let stock = isValidStock ? "" : "재고"
+            let description = isValidDescription ? "" : "상세정보"
+            
+            if isValidName == true && isValidPrice == true
+                && isValidStock == true && isValidDescription == false {
+                return "상세정보는 10자이상 1,000자이하로 작성해주세요"
+            } else {
+                let categories = [name, price, stock, description]
+                let description = categories.reduce("") { partialResult, category in
+                    if !category.isEmpty && partialResult != "" {
+                        return "\(partialResult), \(category)"
+                    } else if  !category.isEmpty {
+                        return category
+                    } else {
+                        return partialResult
+                    }
+                }
+                
+                if isValidDescription == false || isValidStock == false {
+                    return "\(description)는 필수 입력 항목이에요"
+                } else {
+                    return "\(description)은 필수 입력 항목이에요"
+                }
+            }
+            
+        }
     }
 }
