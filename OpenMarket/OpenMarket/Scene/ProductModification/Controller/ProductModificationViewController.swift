@@ -63,7 +63,6 @@ final class ProductModificationViewController: UIViewController {
     }
     
     @IBAction func doneButtonTapped(_ sender: UIBarButtonItem) {
-        
         guard validateInput() else {
             let modificationNotification = ModificationNotification(
                 isValidName: self.validateNameInput(),
@@ -74,7 +73,7 @@ final class ProductModificationViewController: UIViewController {
             return
         }
         
-        // 판매자 식별번호 요청 알럿 present
+        self.handleProductEditRequest()
     }
     
     // MARK: -Method
@@ -129,6 +128,65 @@ final class ProductModificationViewController: UIViewController {
         self.present(alert, animated: false)
     }
     
+    private func handleProductEditRequest() {
+        let secretRequestAlert = UIAlertController(title: "판매자 비밀번호를 입력해주세요", message: nil, preferredStyle: .alert)
+        secretRequestAlert.addTextField { textField in
+            textField.clearButtonMode = .always
+        }
+        let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+            self?.requestProductEditAPI(with: secretRequestAlert.textFields?[0].text ?? "")
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel) {  _ in
+            secretRequestAlert.dismiss(animated: false)
+        }
+        secretRequestAlert.addAction(okAction)
+        secretRequestAlert.addAction(cancelAction)
+ 
+        self.present(secretRequestAlert, animated: false)
+    }
+    
+    private func requestProductEditAPI(with secret: String) {
+        guard let productID = self.productID else {
+            return
+        }
+        
+        let request = ProductEditRequest(
+            identifier: "c4dedd67-71fc-11ec-abfa-fd97ecfece87",
+            productID: productID,
+            productInfo: self.createEditProductInfo(with: secret))
+        
+        apiService.execute(request) { [weak self] (result: Result<ProductDetail, Error>) in
+            switch result {
+            case .success(_):
+                DispatchQueue.main.async {
+                    self?.dismiss(animated: true)
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    private func createEditProductInfo(with secret: String) -> EditProductInfo {
+        let price = self.prdouctPriceField?.text ?? ""
+        let stock = self.productStockField?.text ?? ""
+        let discountedPrice = self.productDisconutPriceField?.text ?? ""
+        var currency: Currency
+        if productCurrencySegmentedControl?.selectedSegmentIndex == .zero {
+            currency = .krw
+        } else {
+            currency = .usd
+        }
+        
+        return EditProductInfo(name: self.productNameField?.text,
+                               descriptions: self.productDescriptionTextView?.text,
+                               thumbnailID: nil,
+                               price: (price as NSString).doubleValue,
+                               currency: currency,
+                               discountedPrice: (discountedPrice as NSString).doubleValue,
+                               stock: (stock as NSString).integerValue,
+                               secret: secret)
+    }
 }
 
 // MARK: - Keyboard

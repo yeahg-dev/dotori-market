@@ -27,7 +27,7 @@ struct EditProductInfo: Encodable {
     
     let name: String?
     let descriptions: String?
-    let thumbnailID: String?
+    let thumbnailID: Double?
     let price: Double?
     let currency: Currency?
     let discountedPrice: Double?

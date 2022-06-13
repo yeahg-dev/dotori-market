@@ -328,7 +328,6 @@
 		63DA95AD285210A4004CB9C1 /* ProductModification */ = {
 			isa = PBXGroup;
 			children = (
-				63DA95AF2852199B004CB9C1 /* View */,
 				63DA95AE2852198D004CB9C1 /* Controller */,
 			);
 			path = ProductModification;
@@ -340,13 +339,6 @@
 				63DA95B0285219D7004CB9C1 /* ProductModificationViewController.swift */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		63DA95AF2852199B004CB9C1 /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		C10797532784477900B16C62 /* OpenMarketNetworkTests */ = {
