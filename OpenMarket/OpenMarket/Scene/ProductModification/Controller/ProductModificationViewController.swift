@@ -158,13 +158,15 @@ final class ProductModificationViewController: UIViewController {
         
         apiService.execute(request) { [weak self] (result: Result<ProductDetail, Error>) in
             switch result {
-            case .success(_):
+            case .success:
                 DispatchQueue.main.async {
                     self?.dismiss(animated: true)
                     self?.refreshDelegate?.refresh()
                 }
-            case .failure(let error):
-                print(error)
+            case .failure:
+                DispatchQueue.main.async {
+                    self?.presentModificationFailureAlert()
+                }
             }
         }
     }
@@ -188,6 +190,20 @@ final class ProductModificationViewController: UIViewController {
                                discountedPrice: (discountedPrice as NSString).doubleValue,
                                stock: (stock as NSString).integerValue,
                                secret: secret)
+    }
+    
+    private func presentModificationFailureAlert() {
+        let alert = UIAlertController(title: "비밀번호를 다시 확인해주세요", message: nil, preferredStyle: .alert)
+        let retryAction = UIAlertAction(title: "재시도", style: .default) { _ in
+            self.handleProductEditRequest()
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
+            alert.dismiss(animated: false)
+        }
+        alert.addAction(retryAction)
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: false)
     }
 }
 
