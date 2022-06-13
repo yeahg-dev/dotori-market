@@ -122,6 +122,7 @@ final class ProductDetailViewController: UIViewController {
             return
         }
         productModificationVC.setProduct(productID)
+        productModificationVC.refreshDelegate = self
         self.present(productModificationVC, animated: false)
     }
     
@@ -200,3 +201,9 @@ extension ProductDetailViewController {
     }
 }
 
+// MARK: - RefreshDelegate
+extension ProductDetailViewController: RefreshDelegate {
+    func refresh() {
+        self.downloadProductDetail(prodcutID: self.productID)
+    }
+}

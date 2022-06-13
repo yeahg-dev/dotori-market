@@ -21,6 +21,7 @@ final class ProductModificationViewController: UIViewController {
     @IBOutlet weak var productDescriptionTextView: UITextView?
     
     // MARK: - Property
+    weak var refreshDelegate: RefreshDelegate?
     private let apiService = APIExecutor()
     private var productID: Int?
     private var productDetail: ProductDetail?
@@ -160,6 +161,7 @@ final class ProductModificationViewController: UIViewController {
             case .success(_):
                 DispatchQueue.main.async {
                     self?.dismiss(animated: true)
+                    self?.refreshDelegate?.refresh()
                 }
             case .failure(let error):
                 print(error)
