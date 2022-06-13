@@ -179,6 +179,7 @@
 				63ED8DE0279FDB9D00932E87 /* UITableViewController+Extension.swift */,
 				C1AF6255279FDDE20016ACE9 /* UICollectionViewController+Extension.swift */,
 				C1AF6253279FD69B0016ACE9 /* Notification+Extension.swift */,
+				63D97B6B2783F7F1009E2516 /* Resource */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -394,7 +395,6 @@
 				63A202B32785C310003A1112 /* Network */,
 				C10797B3278713C700B16C62 /* Utility */,
 				63D660E62787F86700A450DE /* Extension */,
-				63D97B6B2783F7F1009E2516 /* Resource */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";

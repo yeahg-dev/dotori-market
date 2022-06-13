@@ -11,7 +11,11 @@ extension Double {
     
     private static let numberFormatter = NumberFormatter()
     
-    var formatted: String {
+    var stringFormmated: String {
+        return String(format: "%.0f", self)
+    }
+    
+    var decimalFormatted: String {
         Self.numberFormatter.numberStyle = .decimal
         let result = Self.numberFormatter.string(for: self) ?? self.description
         return result

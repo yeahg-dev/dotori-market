@@ -90,9 +90,9 @@ final class ProductModificationViewController: UIViewController {
     
     private func fillUI(wtih product: ProductDetail) {
         self.productNameField?.text = product.name
-        self.prdouctPriceField?.text = product.price.formatted()
-        self.productDisconutPriceField?.text  = product.discountedPrice.formatted()
-        self.productStockField?.text = product.stock.formatted()
+        self.prdouctPriceField?.text = product.price.stringFormmated
+        self.productDisconutPriceField?.text  = product.discountedPrice.stringFormmated
+        self.productStockField?.text = product.stock.description
         self.productDescriptionTextView?.text = product.description
         let currency = product.currency
         switch currency {
