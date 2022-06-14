@@ -397,15 +397,12 @@ extension ProductModificationViewController {
                 return "상세정보는 10자이상 1,000자이하로 작성해주세요"
             } else {
                 let categories = [name, price, stock, description]
-                let description = categories.reduce("") { partialResult, category in
-                    if !category.isEmpty && partialResult != "" {
-                        return "\(partialResult), \(category)"
-                    } else if  !category.isEmpty {
-                        return category
-                    } else {
-                        return partialResult
+               
+                let description = categories
+                    .filter { !$0.isEmpty }
+                    .reduce("") { partialResult, category in
+                        partialResult.isEmpty ? category : "\(partialResult), \(category)"
                     }
-                }
                 
                 if isValidDescription == false || isValidStock == false {
                     return "\(description)는 필수 입력 항목이에요"
