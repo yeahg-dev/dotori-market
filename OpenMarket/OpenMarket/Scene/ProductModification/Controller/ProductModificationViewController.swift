@@ -25,7 +25,6 @@ final class ProductModificationViewController: UIViewController {
     private let apiService = APIExecutor()
     private var productID: Int?
     private var productDetail: ProductDetail?
-    private var cells: [CellType] = [.imagePickerCell]
     private var productImages: [UIImage] = []
     private let imagePicker: UIImagePickerController = {
         let imagePicker = UIImagePickerController()
@@ -90,9 +89,6 @@ final class ProductModificationViewController: UIViewController {
             switch result {
             case .success(let product):
                 self?.productDetail = product
-                for _ in product.images {
-                    self?.cells.append(.productImageCell)
-                }
                 DispatchQueue.main.async {
                     self?.fillUI(wtih: product)
                     self?.productImageCollectionView?.reloadData()
@@ -254,70 +250,23 @@ extension ProductModificationViewController {
 // MARK: - UICollectionViewDataSource
 extension ProductModificationViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return cells.count
+        return productDetail?.images.count ?? .zero
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let cellType = cells[safe: indexPath.item]
-        
-        switch cellType {
-        case .imagePickerCell:
-            let cell = collectionView.dequeueReusableCell(
-                withClass: ImagePickerCollectionViewCell.self,
-                for: indexPath
-            )
-            return cell
-        default:
-            let cell = collectionView.dequeueReusableCell(
-                withClass: ProductImageCollectionViewCell.self,
-                for: indexPath
-            )
-            let representationImage = productImages[safe: indexPath.item - 1]
-            let imageURLStirng = productDetail?.images[indexPath.item - 1].thumbnailURL ?? ""
-            let imageURL = URL(string: imageURLStirng)
-            if indexPath.item == 1 {
-                cell.update(image: representationImage, url: imageURL!, isRepresentaion: true)
-            } else {
-                cell.update(image: nil, url: imageURL!, isRepresentaion: false)
-            }
-            return cell
+        let cell = collectionView.dequeueReusableCell(
+            withClass: ProductImageCollectionViewCell.self,
+            for: indexPath
+        )
+        let representationImage = productImages[safe: 0]
+        let imageURLStirng = productDetail?.images[safe: indexPath.item]?.thumbnailURL ?? ""
+        let imageURL = URL(string: imageURLStirng)
+        if indexPath.item == .zero {
+            cell.update(image: representationImage, url: imageURL!, isRepresentaion: true)
+        } else {
+            cell.update(image: nil, url: imageURL!, isRepresentaion: false)
         }
-    }
-    
-}
-
-// MARK: - UICollectionViewDelegate
-extension ProductModificationViewController: UICollectionViewDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cellType = cells[safe: indexPath.item]
-        
-        if cellType == .imagePickerCell {
-            imagePicker.delegate = self
-            present(imagePicker, animated: true, completion: nil)
-        }
-    }
-}
-
-// MARK: - UIImagePickerControllerDelegate
-extension ProductModificationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
-    func imagePickerController(
-        _ picker: UIImagePickerController,
-        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-            
-            if let possibleImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-                productImages.append(possibleImage)
-            } else if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-                productImages.append(possibleImage)
-            }
-            productImageCollectionView?.reloadData()
-            imagePicker.dismiss(animated: true, completion: nil)
-        }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        self.dismiss(animated: true, completion: nil)
+        return cell
     }
 }
 
