@@ -14,6 +14,7 @@
 		63471CD927993E6A00D50E7B /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63471CD827993E6A00D50E7B /* UICollectionView+Extension.swift */; };
 		6349164B279A8E0100D41D25 /* ImagePickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6349164A279A8E0100D41D25 /* ImagePickerCollectionViewCell.swift */; };
 		634B2B602797FAD10009E6CD /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634B2B5F2797FAD10009E6CD /* UIImageView+Extension.swift */; };
+		634B8556285B0AEC00F931EF /* RxTest in Frameworks */ = {isa = PBXBuildFile; productRef = 634B8555285B0AEC00F931EF /* RxTest */; };
 		639358D22786C5B500412958 /* APIURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639358D12786C5B500412958 /* APIURL.swift */; };
 		639358D52786ED9600412958 /* ProductInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639358D42786ED9600412958 /* ProductInfo.swift */; };
 		63A2029927853300003A1112 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A2029827853300003A1112 /* Image.swift */; };
@@ -22,7 +23,6 @@
 		63A202B52785C390003A1112 /* APIRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A202B42785C390003A1112 /* APIRequestType.swift */; };
 		63AB3A3C28583F5A003305D0 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 63AB3A3B28583F5A003305D0 /* RxCocoa */; };
 		63AB3A3E28583F5A003305D0 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 63AB3A3D28583F5A003305D0 /* RxSwift */; };
-		63AB3A4028583F5A003305D0 /* RxTest in Frameworks */ = {isa = PBXBuildFile; productRef = 63AB3A3F28583F5A003305D0 /* RxTest */; };
 		63B6502F279E866700818CDD /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B6502E279E866600818CDD /* UIViewController+Extension.swift */; };
 		63C1904F27A38E4A00210BE3 /* CellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C1904E27A38E4A00210BE3 /* CellType.swift */; };
 		63D660E52787F09400A450DE /* ImageFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D660E42787F09400A450DE /* ImageFile.swift */; };
@@ -131,6 +131,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				634B8556285B0AEC00F931EF /* RxTest in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,7 +140,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				63AB3A3E28583F5A003305D0 /* RxSwift in Frameworks */,
-				63AB3A4028583F5A003305D0 /* RxTest in Frameworks */,
 				63AB3A3C28583F5A003305D0 /* RxCocoa in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -165,6 +165,13 @@
 				C1C9EF42278828A00000ED6A /* APIExecutor.swift */,
 			);
 			path = Service;
+			sourceTree = "<group>";
+		};
+		634B8554285B0AEC00F931EF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		63A202B32785C310003A1112 /* Network */ = {
@@ -379,6 +386,7 @@
 				C70FB0F925BEF61C00C9924E /* OpenMarket */,
 				C10797532784477900B16C62 /* OpenMarketNetworkTests */,
 				C70FB0F825BEF61C00C9924E /* Products */,
+				634B8554285B0AEC00F931EF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -422,6 +430,9 @@
 				C10797572784477900B16C62 /* PBXTargetDependency */,
 			);
 			name = MockJSONParserTests;
+			packageProductDependencies = (
+				634B8555285B0AEC00F931EF /* RxTest */,
+			);
 			productName = MockJSONParserTests;
 			productReference = C10797522784477900B16C62 /* MockJSONParserTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -442,7 +453,6 @@
 			packageProductDependencies = (
 				63AB3A3B28583F5A003305D0 /* RxCocoa */,
 				63AB3A3D28583F5A003305D0 /* RxSwift */,
-				63AB3A3F28583F5A003305D0 /* RxTest */,
 			);
 			productName = OpenMarket;
 			productReference = C70FB0F725BEF61C00C9924E /* OpenMarket.app */;
@@ -674,6 +684,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -735,6 +746,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -756,12 +768,13 @@
 		C70FB10C25BEF61D00C9924E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3LTF5F2YL4;
 				INFOPLIST_FILE = OpenMarket/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -776,12 +789,13 @@
 		C70FB10D25BEF61D00C9924E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3LTF5F2YL4;
 				INFOPLIST_FILE = OpenMarket/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -837,6 +851,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		634B8555285B0AEC00F931EF /* RxTest */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63AB3A3A28583F5A003305D0 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxTest;
+		};
 		63AB3A3B28583F5A003305D0 /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 63AB3A3A28583F5A003305D0 /* XCRemoteSwiftPackageReference "RxSwift" */;
@@ -846,11 +865,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 63AB3A3A28583F5A003305D0 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
-		};
-		63AB3A3F28583F5A003305D0 /* RxTest */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 63AB3A3A28583F5A003305D0 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxTest;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
