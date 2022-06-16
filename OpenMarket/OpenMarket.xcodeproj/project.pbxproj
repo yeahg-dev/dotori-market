@@ -147,25 +147,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		639358D32786EC8A00412958 /* RequestType */ = {
+		634B8551285AF25200F931EF /* APIRequest */ = {
+			isa = PBXGroup;
+			children = (
+				C19123FF278D5E9300171DEB /* APIRequest.swift */,
+				63A202B42785C390003A1112 /* APIRequestType.swift */,
+				C19123FD278D5C3700171DEB /* HTTPMethod.swift */,
+				639358D12786C5B500412958 /* APIURL.swift */,
+				C10797AF2786DF4D00B16C62 /* APIError.swift */,
+			);
+			path = APIRequest;
+			sourceTree = "<group>";
+		};
+		634B8552285AF2AA00F931EF /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				C1C9EF42278828A00000ED6A /* APIExecutor.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		639358D32786EC8A00412958 /* APIData */ = {
 			isa = PBXGroup;
 			children = (
 				639358D42786ED9600412958 /* ProductInfo.swift */,
 				63D660E42787F09400A450DE /* ImageFile.swift */,
 			);
-			path = RequestType;
+			path = APIData;
 			sourceTree = "<group>";
 		};
 		63A202B32785C310003A1112 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				C19123FF278D5E9300171DEB /* APIRequest.swift */,
-				C1C9EF42278828A00000ED6A /* APIExecutor.swift */,
-				63A202B42785C390003A1112 /* APIRequestType.swift */,
-				639358D12786C5B500412958 /* APIURL.swift */,
-				C19123FD278D5C3700171DEB /* HTTPMethod.swift */,
-				C10797AF2786DF4D00B16C62 /* APIError.swift */,
-				639358D32786EC8A00412958 /* RequestType */,
+				634B8552285AF2AA00F931EF /* Service */,
+				634B8551285AF25200F931EF /* APIRequest */,
+				639358D32786EC8A00412958 /* APIData */,
 			);
 			path = Network;
 			sourceTree = "<group>";
