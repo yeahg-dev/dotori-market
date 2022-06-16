@@ -45,13 +45,13 @@ extension Product {
         let originalPrice: NSAttributedString
         if discountedPrice == .zero {
             originalPrice = NSAttributedString(
-                string: currency.price(price.formatted()),
+                string: currency.price(price.decimalFormatted),
                 attributes: [.font: UIFont.preferredFont(forTextStyle: .callout),
                              .foregroundColor: UIColor.systemGray]
             )
         } else {
             originalPrice = NSAttributedString(
-                string: currency.price(price.formatted()),
+                string: currency.price(price.decimalFormatted),
                 attributes: [.font: UIFont.preferredFont(forTextStyle: .callout),
                              .foregroundColor: UIColor.systemRed,
                              .strikethroughStyle: NSUnderlineStyle.single.rawValue]
@@ -66,7 +66,7 @@ extension Product {
             attributedBargainPrice = NSAttributedString(string: .empty)
         } else {
             attributedBargainPrice = NSAttributedString(
-                string: currency.price(bargainPrice.formatted()),
+                string: currency.price(bargainPrice.decimalFormatted),
                 attributes: [.font: UIFont.preferredFont(forTextStyle: .callout),
                              .foregroundColor: UIColor.systemGray]
             )
@@ -85,7 +85,7 @@ extension Product {
             return soldOut
         default:
             let remainStock = NSAttributedString(
-                string: "\(MarketCommon.remainingStock.rawValue) \(stock)",
+                string: "\(MarketCommon.remainingStock.rawValue) \(stock.decimalFormatted)",
                 attributes: [.font: UIFont.preferredFont(forTextStyle: .body),
                              .foregroundColor: UIColor.systemGray]
             )

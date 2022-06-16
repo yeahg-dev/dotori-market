@@ -17,4 +17,4 @@ protocol APIRequest {
     var body: Data? { get }
 }
 
-protocol APIResponse { }
+protocol APIResponse: Decodable { }

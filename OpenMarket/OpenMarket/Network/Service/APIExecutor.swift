@@ -9,9 +9,9 @@ import Foundation
 
 struct APIExecutor {
     
-    func execute<T: Decodable>(
-        _ request: APIRequest,
-        completion: @escaping (Result<T, Error>
+    func execute<T: APIRequest>(
+        _ request: T,
+        completion: @escaping (Result<T.Response, Error>
         ) -> Void) {
         guard let url = request.url else { return }
         var urlRequest = URLRequest(url: url)

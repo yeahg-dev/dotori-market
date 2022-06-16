@@ -171,13 +171,13 @@ extension ProductDetailViewController {
             return nil
         }
     
-        let price = product.price.stringFormmated
+        let price = product.price.decimalFormatted
         let currency = product.currency
         return currency.price(price)
     }
     
     private func productSellingPriceLabelText(of product: ProductDetail) -> String {
-        let price = product.bargainPrice.stringFormmated
+        let price = product.bargainPrice.decimalFormatted
         let currency = product.currency
         return currency.price(price)
     }
@@ -186,7 +186,7 @@ extension ProductDetailViewController {
         if product.stock == .zero {
             return MarketCommon.soldout.rawValue
         }
-        let stock = String(product.stock)
+        let stock = product.stock.decimalFormatted
         return "\(MarketCommon.remainingStock.rawValue) \(stock)"
     }
     
@@ -197,7 +197,7 @@ extension ProductDetailViewController {
         }
         
         let discountRate = product.discountedPrice / product.price
-        return discountRate.formattedPercent
+        return discountRate.decimalFormatted
     }
 }
 
