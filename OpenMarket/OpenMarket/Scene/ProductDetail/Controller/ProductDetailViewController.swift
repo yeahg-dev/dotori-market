@@ -25,7 +25,7 @@ final class ProductDetailViewController: UIViewController {
     private let flowLayout = UICollectionViewFlowLayout()
     
     // MARK: - Property
-    private let apiService = APIExecutor()
+    private let apiService = MarketAPIService()
     private var productID: Int?
     private var productDetail: ProductDetail?
     
@@ -87,7 +87,7 @@ final class ProductDetailViewController: UIViewController {
         guard let id = prodcutID else { return }
          
         let request = ProductDetailRequest(productID: id)
-        apiService.execute(request) { [weak self] (result: Result<ProductDetail, Error>) in
+        apiService.request(request) { [weak self] (result: Result<ProductDetail, Error>) in
             switch result {
             case .success(let product):
                 self?.productDetail = product

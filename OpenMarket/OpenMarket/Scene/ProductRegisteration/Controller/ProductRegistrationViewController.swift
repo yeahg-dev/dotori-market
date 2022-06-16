@@ -91,7 +91,7 @@ final class ProductRegistrationViewController: UIViewController {
             images: newProductImages
         )
         
-        APIExecutor().execute(request) { [weak self] (result: Result<ProductDetail, Error>) in
+        MarketAPIService().request(request) { [weak self] (result: Result<ProductDetail, Error>) in
             switch result {
             case .success:
                 DispatchQueue.main.async {

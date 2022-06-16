@@ -10,7 +10,7 @@ import XCTest
 
 class NetworkTests: XCTestCase {
     
-    let sut = APIExecutor()
+    let sut = MarketAPIService()
     
     func test_상품을_잘_등록하는지(){
 //        let expectation = XCTestExpectation(description: "productRegisteration")

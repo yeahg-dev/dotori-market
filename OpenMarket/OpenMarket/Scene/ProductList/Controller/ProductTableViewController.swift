@@ -13,7 +13,7 @@ final class ProductTableViewController: UITableViewController {
     private var hasNextPage: Bool = false
     private var products: [Product] = []
     private let loadingIndicator = UIActivityIndicatorView()
-    private let apiService = APIExecutor()
+    private let apiService = MarketAPIService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,7 +88,7 @@ final class ProductTableViewController: UITableViewController {
     
     private func downloadProductsListPage(number: Int) {
         let request = ProductsListPageRequest(pageNo: number, itemsPerPage: 20)
-        apiService.execute(request) { [weak self] (result: Result<ProductsListPage, Error>) in
+        apiService.request(request) { [weak self] (result: Result<ProductsListPage, Error>) in
             switch result {
             case .success(let productsListPage):
                 self?.currentPageNo = productsListPage.pageNo
@@ -118,7 +118,7 @@ final class ProductTableViewController: UITableViewController {
     @objc private func handleRefreshControl() {
         resetProductListPageInfo()
         let request = ProductsListPageRequest(pageNo: 1, itemsPerPage: 20)
-        apiService.execute(request) { [weak self] (result: Result<ProductsListPage, Error>) in
+        apiService.request(request) { [weak self] (result: Result<ProductsListPage, Error>) in
             switch result {
             case .success(let productsListPage):
                 self?.currentPageNo = productsListPage.pageNo

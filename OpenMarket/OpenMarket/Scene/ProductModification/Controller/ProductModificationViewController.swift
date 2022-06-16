@@ -22,7 +22,7 @@ final class ProductModificationViewController: UIViewController {
     
     // MARK: - Property
     weak var refreshDelegate: RefreshDelegate?
-    private let apiService = APIExecutor()
+    private let apiService = MarketAPIService()
     private var productID: Int?
     private var productDetail: ProductDetail?
     private var productImages: [UIImage] = []
@@ -85,7 +85,7 @@ final class ProductModificationViewController: UIViewController {
         guard let id = prodcutID else { return }
         
         let request = ProductDetailRequest(productID: id)
-        apiService.execute(request) { [weak self] (result: Result<ProductDetail, Error>) in
+        apiService.request(request) { [weak self] (result: Result<ProductDetail, Error>) in
             switch result {
             case .success(let product):
                 self?.productDetail = product
@@ -152,7 +152,7 @@ final class ProductModificationViewController: UIViewController {
             productID: productID,
             productInfo: self.createEditProductInfo(with: secret))
         
-        apiService.execute(request) { [weak self] (result: Result<ProductDetail, Error>) in
+        apiService.request(request) { [weak self] (result: Result<ProductDetail, Error>) in
             switch result {
             case .success:
                 DispatchQueue.main.async {

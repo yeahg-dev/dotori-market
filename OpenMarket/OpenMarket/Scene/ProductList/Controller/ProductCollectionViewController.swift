@@ -102,7 +102,7 @@ final class ProductCollectionViewController: UICollectionViewController {
     
     private func downloadProductsListPage(number: Int) {
         let request = ProductsListPageRequest(pageNo: number, itemsPerPage: 20)
-        APIExecutor().execute(request) { [weak self] (result: Result<ProductsListPage, Error>) in
+        MarketAPIService().request(request) { [weak self] (result: Result<ProductsListPage, Error>) in
             switch result {
             case .success(let productsListPage):
                 self?.currentPageNo = productsListPage.pageNo
@@ -132,7 +132,7 @@ final class ProductCollectionViewController: UICollectionViewController {
     @objc private func handleRefreshControl() {
         resetProductListPageInfo()
         let request = ProductsListPageRequest(pageNo: 1, itemsPerPage: 20)
-        APIExecutor().execute(request) { [weak self] (result: Result<ProductsListPage, Error>) in
+        MarketAPIService().request(request) { [weak self] (result: Result<ProductsListPage, Error>) in
             switch result {
             case .success(let productsListPage):
                 self?.currentPageNo = productsListPage.pageNo

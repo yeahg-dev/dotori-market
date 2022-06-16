@@ -51,7 +51,7 @@
 		C1C4FFAC2796CABD00294962 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C4FFAB2796CABD00294962 /* ImageCacheManager.swift */; };
 		C1C4FFB2279A7AFB00294962 /* ProductRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C4FFB1279A7AFB00294962 /* ProductRegistrationViewController.swift */; };
 		C1C4FFB4279A9D2E00294962 /* ProductImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C4FFB3279A9D2E00294962 /* ProductImageCollectionViewCell.swift */; };
-		C1C9EF43278828A00000ED6A /* APIExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C9EF42278828A00000ED6A /* APIExecutor.swift */; };
+		C1C9EF43278828A00000ED6A /* MarketAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C9EF42278828A00000ED6A /* MarketAPIService.swift */; };
 		C1CBA3D6278F084000BAC0B8 /* ProductTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CBA3D5278F084000BAC0B8 /* ProductTableViewController.swift */; };
 		C1CBA3D8278F086200BAC0B8 /* ProductCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CBA3D7278F086200BAC0B8 /* ProductCollectionViewController.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -115,7 +115,7 @@
 		C1C4FFAB2796CABD00294962 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		C1C4FFB1279A7AFB00294962 /* ProductRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegistrationViewController.swift; sourceTree = "<group>"; };
 		C1C4FFB3279A9D2E00294962 /* ProductImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImageCollectionViewCell.swift; sourceTree = "<group>"; };
-		C1C9EF42278828A00000ED6A /* APIExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIExecutor.swift; sourceTree = "<group>"; };
+		C1C9EF42278828A00000ED6A /* MarketAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketAPIService.swift; sourceTree = "<group>"; };
 		C1CBA3D5278F084000BAC0B8 /* ProductTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTableViewController.swift; sourceTree = "<group>"; };
 		C1CBA3D7278F086200BAC0B8 /* ProductCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCollectionViewController.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -164,7 +164,7 @@
 		634B8552285AF2AA00F931EF /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				C1C9EF42278828A00000ED6A /* APIExecutor.swift */,
+				C1C9EF42278828A00000ED6A /* MarketAPIService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -563,7 +563,7 @@
 				63471CD727993E2600D50E7B /* UITableView+Extension.swift in Sources */,
 				63A2029B278533E7003A1112 /* Vendor.swift in Sources */,
 				C13DFABB279013C2003A1A2E /* ProductTableViewCell.swift in Sources */,
-				C1C9EF43278828A00000ED6A /* APIExecutor.swift in Sources */,
+				C1C9EF43278828A00000ED6A /* MarketAPIService.swift in Sources */,
 				63DA95A92851ABF0004CB9C1 /* PrdouctDetailCollectionViewCell.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C13DFAC1279126D9003A1A2E /* NSAttributedString+Extension.swift in Sources */,
