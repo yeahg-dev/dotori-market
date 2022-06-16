@@ -9,8 +9,12 @@ import Foundation
 
 protocol APIRequest {
     
+    associatedtype Response: APIResponse
+    
     var url: URL? { get }
     var httpMethod: HTTPMethod { get }
     var header: [String: String] { get }
     var body: Data? { get }
 }
+
+protocol APIResponse { }

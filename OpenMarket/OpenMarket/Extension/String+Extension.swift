@@ -12,3 +12,5 @@ extension String {
     static let whiteSpace = " "
     static let empty = ""
 }
+
+extension String: APIResponse { }

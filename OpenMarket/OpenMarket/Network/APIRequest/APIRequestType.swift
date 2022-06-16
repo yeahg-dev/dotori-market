@@ -10,6 +10,8 @@ import Foundation
 // MARK: - HealthChekcer / GET
 struct HealthCheckerRequest: APIRequest {
     
+    typealias Response = String
+    
     var url: URL? {
         return APIURL.healthChecker.url
     }
@@ -26,6 +28,8 @@ struct HealthCheckerRequest: APIRequest {
 
 // MARK: - 상품 등록 / POST
 struct ProductRegistrationRequest: APIRequest {
+    
+    typealias Response = ProductDetail
     
     private let identifier: String
     private let params: NewProductInfo
@@ -100,6 +104,8 @@ struct ProductRegistrationRequest: APIRequest {
 // MARK: - 상품 수정 / PATCH
 struct ProductEditRequest: APIRequest {
     
+    typealias Response = ProductDetail
+    
     private let identifier: String
     private let productID: Int
     private let productInfo: EditProductInfo
@@ -128,6 +134,8 @@ struct ProductEditRequest: APIRequest {
 
 // MARK: - 상품 삭제 Secret 조회 / POST
 struct ProductSecretRequest: APIRequest {
+    
+    typealias Response = String
     
     private let identifier: String
     private let productID: Int
@@ -159,6 +167,8 @@ struct ProductSecretRequest: APIRequest {
 // MARK: - 상품 삭제 / DELETE
 struct ProductDeletionRequest: APIRequest {
     
+    typealias Response = ProductDetail
+    
     private let identifier: String
     private let productID: Int
     private let productSecret: String
@@ -187,6 +197,8 @@ struct ProductDeletionRequest: APIRequest {
 
 // MARK: - 상품 상세 조회 / GET
 struct ProductDetailRequest: APIRequest {
+
+    typealias Response = ProductDetail
     
     private let productID: Int
     private let boundary: String
@@ -211,6 +223,8 @@ struct ProductDetailRequest: APIRequest {
 
 // MARK: - 상품 리스트 조회 / GET
 struct ProductsListPageRequest: APIRequest {
+    
+    typealias Response = ProductsListPage
     
     private let pageNo: Int
     private let itemsPerPage: Int
