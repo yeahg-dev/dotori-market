@@ -167,21 +167,11 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
-		639358D32786EC8A00412958 /* APIData */ = {
-			isa = PBXGroup;
-			children = (
-				639358D42786ED9600412958 /* ProductInfo.swift */,
-				63D660E42787F09400A450DE /* ImageFile.swift */,
-			);
-			path = APIData;
-			sourceTree = "<group>";
-		};
 		63A202B32785C310003A1112 /* Network */ = {
 			isa = PBXGroup;
 			children = (
 				634B8552285AF2AA00F931EF /* Service */,
 				634B8551285AF25200F931EF /* APIRequest */,
-				639358D32786EC8A00412958 /* APIData */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -233,6 +223,8 @@
 				63A2029827853300003A1112 /* Image.swift */,
 				63A2029A278533E7003A1112 /* Vendor.swift */,
 				63A2029C2785447E003A1112 /* ProductDetail.swift */,
+				639358D42786ED9600412958 /* ProductInfo.swift */,
+				63D660E42787F09400A450DE /* ImageFile.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
