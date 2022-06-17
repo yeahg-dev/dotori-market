@@ -176,6 +176,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		634B8559285CC91B00F931EF /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				63DA95AA285205E9004CB9C1 /* MarketCommon.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		63A202B32785C310003A1112 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -252,7 +260,7 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* TabBarViewController.swift */,
-				63DA95AC285205F1004CB9C1 /* ViewModel */,
+				63DA95AC285205F1004CB9C1 /* Common */,
 				63DA9599285095ED004CB9C1 /* ProductList */,
 				63DA959B28509609004CB9C1 /* ProductRegisteration */,
 				63DA95AD285210A4004CB9C1 /* ProductModification */,
@@ -341,12 +349,12 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		63DA95AC285205F1004CB9C1 /* ViewModel */ = {
+		63DA95AC285205F1004CB9C1 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				63DA95AA285205E9004CB9C1 /* MarketCommon.swift */,
+				634B8559285CC91B00F931EF /* ViewModel */,
 			);
-			path = ViewModel;
+			path = Common;
 			sourceTree = "<group>";
 		};
 		63DA95AD285210A4004CB9C1 /* ProductModification */ = {
