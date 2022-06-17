@@ -45,13 +45,13 @@ extension Product {
         let originalPrice: NSAttributedString
         if discountedPrice == .zero {
             originalPrice = NSAttributedString(
-                string: currency.price(price.decimalFormatted),
+                string: currency.composePriceTag(of: price.decimalFormatted),
                 attributes: [.font: UIFont.preferredFont(forTextStyle: .callout),
                              .foregroundColor: UIColor.systemGray]
             )
         } else {
             originalPrice = NSAttributedString(
-                string: currency.price(price.decimalFormatted),
+                string: currency.composePriceTag(of: price.decimalFormatted),
                 attributes: [.font: UIFont.preferredFont(forTextStyle: .callout),
                              .foregroundColor: UIColor.systemRed,
                              .strikethroughStyle: NSUnderlineStyle.single.rawValue]
@@ -66,7 +66,7 @@ extension Product {
             attributedBargainPrice = NSAttributedString(string: .empty)
         } else {
             attributedBargainPrice = NSAttributedString(
-                string: currency.price(bargainPrice.decimalFormatted),
+                string: currency.composePriceTag(of: bargainPrice.decimalFormatted),
                 attributes: [.font: UIFont.preferredFont(forTextStyle: .callout),
                              .foregroundColor: UIColor.systemGray]
             )

@@ -15,7 +15,7 @@ enum Currency: String, Codable {
 
 extension Currency {
     
-    func price(_ price: String) -> String {
+    func composePriceTag(of price: String) -> String {
         switch self {
         case .krw:
             return "\(price)원"

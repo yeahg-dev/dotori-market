@@ -173,13 +173,13 @@ extension ProductDetailViewController {
     
         let price = product.price.decimalFormatted
         let currency = product.currency
-        return currency.price(price)
+        return currency.composePriceTag(of: price)
     }
     
     private func productSellingPriceLabelText(of product: ProductDetail) -> String {
         let price = product.bargainPrice.decimalFormatted
         let currency = product.currency
-        return currency.price(price)
+        return currency.composePriceTag(of: price)
     }
     
     private func productStockLabelText(of product: ProductDetail) -> String {
