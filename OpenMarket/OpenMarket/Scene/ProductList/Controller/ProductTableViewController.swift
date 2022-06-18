@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 final class ProductTableViewController: UITableViewController {
     
@@ -14,63 +16,54 @@ final class ProductTableViewController: UITableViewController {
     private var products: [Product] = []
     private let loadingIndicator = UIActivityIndicatorView()
     private let apiService = MarketAPIService()
+    private let disposeBag = DisposeBag()
+    
+    private let viewModel = ProductTableViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        startloadingIndicator()
-        downloadProductsListPage(number: currentPageNo)
-        configureRefreshControl()
+//        startloadingIndicator()
+//        configureRefreshControl()
+        self.tableView.dataSource = nil
+        bindViewModel()
     }
     
-    // MARK: - Table view data source
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return products.count
-    }
-    
-    override func tableView(
-        _ tableView: UITableView,
-        cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(
-            withClass: ProductTableViewCell.self,
-            for: indexPath
-        )
+    func bindViewModel() {
+        let input = ProductTableViewModel.Input(viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{_ in})
+        let output = self.viewModel.transform(input: input)
         
-        guard let product = products[safe: indexPath.row] else {
-            return cell
-        }
-        
-        cell.configureTableContent(with: product)
-        
-        return cell
+        output.products
+            .bind(to: tableView.rx.items) { (tableView, row, element) in
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProductTableViewCell") as? ProductTableViewCell else{
+                    return ProductTableViewCell()
+                }
+                cell.fill(with: element)
+                return cell
+            }
+            .disposed(by: disposeBag)
     }
     
-    override func tableView(
-        _ tableView: UITableView,
-        willDisplay cell: UITableViewCell,
-        forRowAt indexPath: IndexPath
-    ) {
-        let paginationBuffer = 3
-        guard indexPath.row == products.count - paginationBuffer,
-              hasNextPage == true else { return }
-        
-        downloadProductsListPage(number: currentPageNo + 1)
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let productID = products[indexPath.row].id
-        
-        guard let productDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "ProductDetailViewController") as? ProductDetailViewController else {
-            return
-        }
-        productDetailVC.setProduct(productID)
-        self.navigationController?.pushViewController(productDetailVC, animated: true)
-    }
+//    override func tableView(
+//        _ tableView: UITableView,
+//        willDisplay cell: UITableViewCell,
+//        forRowAt indexPath: IndexPath
+//    ) {
+//        let paginationBuffer = 3
+//        guard indexPath.row == products.count - paginationBuffer,
+//              hasNextPage == true else { return }
+//
+//        downloadProductsListPage(number: currentPageNo + 1)
+//    }
+//
+//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let productID = products[indexPath.row].id
+//
+//        guard let productDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "ProductDetailViewController") as? ProductDetailViewController else {
+//            return
+//        }
+//        productDetailVC.setProduct(productID)
+//        self.navigationController?.pushViewController(productDetailVC, animated: true)
+//    }
     
     // MARK: - Custom function
     

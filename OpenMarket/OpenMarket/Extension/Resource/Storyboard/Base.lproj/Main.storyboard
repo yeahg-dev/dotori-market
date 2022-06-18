@@ -93,10 +93,6 @@
                                 </connections>
                             </tableViewCell>
                         </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="TGA-ws-84W" id="7cR-hz-c8n"/>
-                            <outlet property="delegate" destination="TGA-ws-84W" id="aYn-7O-5fq"/>
-                        </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Item" id="iyD-n3-KUz"/>
                 </tableViewController>

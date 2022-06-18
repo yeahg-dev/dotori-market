@@ -39,4 +39,17 @@ final class ProductTableViewCell: UITableViewCell {
         productBargainPrice?.attributedText = product.attributedBargainPrice
         productStock?.attributedText = product.attributedStock
     }
+    
+    func fill(with product: ProductViewModel) {
+        if let url = URL(string: product.thumbnail) {
+            self.cancellableImageTask = productThumbnail?.setImage(
+                with: url,
+                invalidImage: invalidImage
+            )
+        }
+        self.productName?.text = product.name
+        self.productPrice?.attributedText = product.price
+        self.productBargainPrice?.attributedText = product.bargainPrice
+        self.productStock?.attributedText = product.stock
+    }
 }
