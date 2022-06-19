@@ -22,7 +22,7 @@ final class ProductTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        startloadingIndicator()
+        startloadingIndicator()
 //        configureRefreshControl()
         self.tableView.dataSource = nil
         bindViewModel()
@@ -35,9 +35,15 @@ final class ProductTableViewController: UITableViewController {
         let output = self.viewModel.transform(input: input)
         
         output.products
+            .observe(on: MainScheduler.instance)
+            .do(onNext: { _ in
+                guard self.loadingIndicator.isAnimating else { return }
+                self.loadingIndicator.stopAnimating()
+            })
             .bind(to: tableView.rx.items(cellIdentifier: "ProductTableViewCell", cellType: ProductTableViewCell.self)) { (row, element, cell) in
                 cell.fill(with: element)}
             .disposed(by: disposeBag)
+        // TODO: - 통신 중 에러 처리
     }
     
 //    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -62,26 +68,6 @@ final class ProductTableViewController: UITableViewController {
             loadingIndicator.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor)
         ])
         loadingIndicator.startAnimating()
-    }
-    
-    private func downloadProductsListPage(number: Int) {
-        let request = ProductsListPageRequest(pageNo: number, itemsPerPage: 20)
-        apiService.request(request) { [weak self] (result: Result<ProductsListPage, Error>) in
-            switch result {
-            case .success(let productsListPage):
-                self?.currentPageNo = productsListPage.pageNo
-                self?.hasNextPage = productsListPage.hasNext
-                self?.products.append(contentsOf: productsListPage.pages)
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
-                    self?.loadingIndicator.stopAnimating()
-                }
-            case .failure(let error):
-                // Alert 넣기
-                print("ProductsListPage 통신 중 에러 발생 : \(error)")
-                return
-            }
-        }
     }
     
     private func configureRefreshControl() {
