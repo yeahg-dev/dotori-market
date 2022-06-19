@@ -33,14 +33,11 @@ final class ProductTableViewController: UITableViewController {
         let output = self.viewModel.transform(input: input)
         
         output.products
-            .bind(to: tableView.rx.items) { (tableView, row, element) in
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProductTableViewCell") as? ProductTableViewCell else{
-                    return ProductTableViewCell()
-                }
+            .bind(to: tableView.rx.items(cellIdentifier: "ProductTableViewCell", cellType: ProductTableViewCell.self)) { (row, element, cell) in
                 cell.fill(with: element)
-                return cell
-            }
-            .disposed(by: disposeBag)
+                         }
+                         .disposed(by: disposeBag)
+    
     }
     
 //    override func tableView(
