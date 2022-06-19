@@ -29,29 +29,17 @@ final class ProductTableViewController: UITableViewController {
     }
     
     func bindViewModel() {
-        let input = ProductTableViewModel.Input(viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{_ in})
+        let input = ProductTableViewModel.Input(
+            viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{_ in},
+            willDisplayCell: self.tableView.rx.willDisplayCell.map({ $0.indexPath.row}))
         let output = self.viewModel.transform(input: input)
         
         output.products
             .bind(to: tableView.rx.items(cellIdentifier: "ProductTableViewCell", cellType: ProductTableViewCell.self)) { (row, element, cell) in
-                cell.fill(with: element)
-                         }
-                         .disposed(by: disposeBag)
-    
+                cell.fill(with: element)}
+            .disposed(by: disposeBag)
     }
     
-//    override func tableView(
-//        _ tableView: UITableView,
-//        willDisplay cell: UITableViewCell,
-//        forRowAt indexPath: IndexPath
-//    ) {
-//        let paginationBuffer = 3
-//        guard indexPath.row == products.count - paginationBuffer,
-//              hasNextPage == true else { return }
-//
-//        downloadProductsListPage(number: currentPageNo + 1)
-//    }
-//
 //    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        let productID = products[indexPath.row].id
 //

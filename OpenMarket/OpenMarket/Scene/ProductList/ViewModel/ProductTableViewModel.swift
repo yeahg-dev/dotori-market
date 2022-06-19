@@ -12,12 +12,14 @@ class ProductTableViewModel {
     
     private let APIService = MarketAPIService()
     private var productsViewModels: [ProductViewModel] = []
+    private let paginationBuffer = 3
     private var currentPage: Int = 0
     private let itemsPerPage = 20
     private var hasNextPage: Bool = false
     
     struct Input {
         let viewWillAppear: Observable<Void>
+        let willDisplayCell: Observable<Int>
     }
     
     struct Output {
@@ -26,7 +28,14 @@ class ProductTableViewModel {
     }
     
     func transform(input: Input) -> Output {
-        let products = input.viewWillAppear
+        let pagination = input.willDisplayCell
+            .filter { currentRow in
+                currentRow == self.productsViewModels.count - self.paginationBuffer }
+            .filter { _ in self.hasNextPage == true }
+            .map {_ in }
+            
+        let products = Observable.of(input.viewWillAppear, pagination)
+            .merge()
             .flatMap { _ -> Observable<ProductsListPage> in
                 let request = ProductsListPageRequest(pageNo: self.currentPage + 1, itemsPerPage: 20)
                 return self.APIService.requestRx(request) }
@@ -34,7 +43,7 @@ class ProductTableViewModel {
                 self.currentPage += 1
                 self.hasNextPage = listPage.hasNext
             })
-            .map { listPage -> [ProductViewModel] in
+            .map { (listPage: ProductsListPage) -> [ProductViewModel] in
                 let products = listPage.pages.map { product in
                     ProductViewModel(product: product)}
                 self.productsViewModels.append(contentsOf: products)
