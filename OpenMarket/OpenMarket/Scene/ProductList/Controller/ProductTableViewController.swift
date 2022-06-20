@@ -46,7 +46,9 @@ final class ProductTableViewController: UITableViewController {
             .do(onNext: { [weak self] _ in
                 guard ((self?.loadingIndicator.isAnimating) != nil) else { return }
                 self?.loadingIndicator.stopAnimating()
-            })
+            }, onError: { _ in
+                self.presentNetworkErrorAlert()})
+            .retry(when:{ _ in self.tableView.refreshControl!.rx.controlEvent(.valueChanged).asObservable()})
             .bind(to: tableView.rx.items(cellIdentifier: "ProductTableViewCell", cellType: ProductTableViewCell.self)) { (row, element, cell) in
                 cell.fill(with: element)}
             .disposed(by: disposeBag)
@@ -63,8 +65,6 @@ final class ProductTableViewController: UITableViewController {
                 self?.pushProductDetailView(of: productID)
             }
             .disposed(by: disposeBag)
-
-        // TODO: - 통신 중 에러 처리
     }
     
     // MARK: - Method
@@ -91,4 +91,10 @@ final class ProductTableViewController: UITableViewController {
         self.navigationController?.pushViewController(productDetailVC, animated: true)
     }
 
+    private func presentNetworkErrorAlert() {
+        let alert = UIAlertController(title: "다시 시도해주세요😢", message: "통신 에러가 발생했어요", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(okAction)
+        self.present(alert, animated: false)
+    }
 }
