@@ -20,11 +20,12 @@ class ProductTableViewModel {
     struct Input {
         let viewWillAppear: Observable<Void>
         let willDisplayCell: Observable<Int>
+        let willRefrsesh: Observable<Void>
     }
     
     struct Output {
         let products: Observable<[ProductViewModel]>
-        
+        let endRefresh: Observable<Void>
     }
     
     func transform(input: Input) -> Output {
@@ -33,8 +34,13 @@ class ProductTableViewModel {
                 currentRow == self.productsViewModels.count - self.paginationBuffer }
             .filter { _ in self.hasNextPage == true }
             .map {_ in }
+        
+        let willRefreshPage = input.willRefrsesh
+            .do { _ in
+                self.currentPage = 0
+                self.productsViewModels = [] }
             
-        let products = Observable.of(input.viewWillAppear, pagination)
+        let products = Observable.of(input.viewWillAppear, pagination, willRefreshPage)
             .merge()
             .flatMap { _ -> Observable<ProductsListPage> in
                 let request = ProductsListPageRequest(pageNo: self.currentPage + 1, itemsPerPage: 20)
@@ -48,7 +54,10 @@ class ProductTableViewModel {
                     ProductViewModel(product: product)}
                 self.productsViewModels.append(contentsOf: products)
                 return self.productsViewModels }
+            .share(replay: 1)
+        
+        let endRefresh = products.map { _ in }
                 
-       return Output(products: products)
+       return Output(products: products, endRefresh: endRefresh)
     }
 }

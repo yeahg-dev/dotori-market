@@ -23,7 +23,7 @@ final class ProductTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         startloadingIndicator()
-//        configureRefreshControl()
+        configureRefreshControl()
         self.tableView.dataSource = nil
         bindViewModel()
     }
@@ -31,7 +31,8 @@ final class ProductTableViewController: UITableViewController {
     func bindViewModel() {
         let input = ProductTableViewModel.Input(
             viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{_ in},
-            willDisplayCell: self.tableView.rx.willDisplayCell.map({ $0.indexPath.row}))
+            willDisplayCell: self.tableView.rx.willDisplayCell.map({ $0.indexPath.row}),
+            willRefrsesh: self.tableView.refreshControl!.rx.controlEvent(.valueChanged).asObservable())
         let output = self.viewModel.transform(input: input)
         
         output.products
@@ -43,6 +44,13 @@ final class ProductTableViewController: UITableViewController {
             .bind(to: tableView.rx.items(cellIdentifier: "ProductTableViewCell", cellType: ProductTableViewCell.self)) { (row, element, cell) in
                 cell.fill(with: element)}
             .disposed(by: disposeBag)
+        
+        output.endRefresh
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] _ in
+                self?.tableView.refreshControl?.endRefreshing()})
+            .disposed(by: disposeBag)
+        
         // TODO: - 통신 중 에러 처리
     }
     
@@ -71,43 +79,9 @@ final class ProductTableViewController: UITableViewController {
     }
     
     private func configureRefreshControl() {
-        refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(
-            self,
-            action: #selector(handleRefreshControl),
-            for: .valueChanged
-        )
+        self.tableView.refreshControl = UIRefreshControl()
     }
-    
-    @objc private func handleRefreshControl() {
-        resetProductListPageInfo()
-        let request = ProductsListPageRequest(pageNo: 1, itemsPerPage: 20)
-        apiService.request(request) { [weak self] (result: Result<ProductsListPage, Error>) in
-            switch result {
-            case .success(let productsListPage):
-                self?.currentPageNo = productsListPage.pageNo
-                self?.hasNextPage = productsListPage.hasNext
-                self?.products.append(contentsOf: productsListPage.pages)
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
-                    if self?.refreshControl?.isRefreshing == false {
-                        self?.scrollToTop(animated: false)
-                    }
-                    self?.refreshControl?.endRefreshing()
-                }
-            case .failure(let error):
-                // Alert 넣기
-                print("ProductsListPage 통신 중 에러 발생 : \(error)")
-                return
-            }
-        }
-    }
-    
-    private func resetProductListPageInfo() {
-        currentPageNo = 1
-        hasNextPage = false
-        products.removeAll()
-    }
+
 }
 
 // MARK: - RefreshDelegate
@@ -115,6 +89,6 @@ final class ProductTableViewController: UITableViewController {
 extension ProductTableViewController: RefreshDelegate {
     
     func refresh() {
-        handleRefreshControl()
+        
     }
 }
