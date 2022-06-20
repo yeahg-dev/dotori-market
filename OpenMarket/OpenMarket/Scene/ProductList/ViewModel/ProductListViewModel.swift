@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-class ProductTableViewModel {
+final class ProductListViewModel {
     
     private let APIService = MarketAPIService()
     private var productsViewModels: [ProductViewModel] = []

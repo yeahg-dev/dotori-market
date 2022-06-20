@@ -16,7 +16,7 @@ final class ProductTableViewController: UITableViewController {
     
     // MARK: - Property
     private let disposeBag = DisposeBag()
-    private let viewModel = ProductTableViewModel()
+    private let viewModel = ProductListViewModel()
     
     // MARK: - View Life Cycle
     override func viewWillAppear(_ animated: Bool) {
@@ -34,7 +34,7 @@ final class ProductTableViewController: UITableViewController {
     
     // MARK: - binding
     private func bindViewModel() {
-        let input = ProductTableViewModel.Input(
+        let input = ProductListViewModel.Input(
             viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{_ in},
             willDisplayCell: self.tableView.rx.willDisplayCell.map({ $0.indexPath.row}),
             willRefrsesh: self.tableView.refreshControl!.rx.controlEvent(.valueChanged).asObservable(),
