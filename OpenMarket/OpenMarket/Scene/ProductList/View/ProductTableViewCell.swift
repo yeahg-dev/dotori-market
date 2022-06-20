@@ -27,19 +27,6 @@ final class ProductTableViewCell: UITableViewCell {
         cancellableImageTask?.cancel()
     }
     
-    func configureTableContent(with product: Product) {
-        if let url = URL(string: product.thumbnail) {
-            cancellableImageTask = productThumbnail?.setImage(
-                with: url,
-                invalidImage: invalidImage
-            )
-        }
-        productName?.attributedText = product.attributedName
-        productPrice?.attributedText = product.attributedPrice
-        productBargainPrice?.attributedText = product.attributedBargainPrice
-        productStock?.attributedText = product.attributedStock
-    }
-    
     func fill(with product: ProductViewModel) {
         if let url = URL(string: product.thumbnail) {
             self.cancellableImageTask = productThumbnail?.setImage(
