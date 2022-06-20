@@ -38,9 +38,9 @@ final class ProductTableViewController: UITableViewController {
         
         output.products
             .observe(on: MainScheduler.instance)
-            .do(onNext: { _ in
-                guard self.loadingIndicator.isAnimating else { return }
-                self.loadingIndicator.stopAnimating()
+            .do(onNext: { [weak self] _ in
+                guard ((self?.loadingIndicator.isAnimating) != nil) else { return }
+                self?.loadingIndicator.stopAnimating()
             })
             .bind(to: tableView.rx.items(cellIdentifier: "ProductTableViewCell", cellType: ProductTableViewCell.self)) { (row, element, cell) in
                 cell.fill(with: element)}
@@ -54,8 +54,8 @@ final class ProductTableViewController: UITableViewController {
         
         output.pushProductDetailView
             .observe(on: MainScheduler.instance)
-            .subscribe { productID in
-                self.pushProductDetailView(of: productID)
+            .subscribe { [weak self] productID in
+                self?.pushProductDetailView(of: productID)
             }
             .disposed(by: disposeBag)
 
