@@ -34,16 +34,16 @@ final class ProductCollectionViewCell: UICollectionViewCell {
         cancellableImageTask?.cancel()
     }
     
-    func configureCollectionContent(with product: Product) {
+    func fill(with product: ProductViewModel) {
         if let url = URL(string: product.thumbnail) {
-            cancellableImageTask = productThumbnail?.setImage(
+            self.cancellableImageTask = productThumbnail?.setImage(
                 with: url,
                 invalidImage: invalidImage
             )
         }
-        productName?.attributedText = product.attributedName
-        productPrice?.attributedText = product.attributedPrice
-        productBargainPrice?.attributedText = product.attributedBargainPrice
-        productStock?.attributedText = product.attributedStock
+        self.productName?.text = product.name
+        self.productPrice?.attributedText = product.price
+        self.productBargainPrice?.attributedText = product.bargainPrice
+        self.productStock?.attributedText = product.stock
     }
 }
