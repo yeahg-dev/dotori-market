@@ -6,89 +6,69 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 final class ProductCollectionViewController: UICollectionViewController {
     
-    private var currentPageNo: Int = 1
-    private var hasNextPage: Bool = false
-    private var products: [Product] = []
+    // MARK: - UI Property
     private let flowLayout = UICollectionViewFlowLayout()
     private let loadingIndicator = UIActivityIndicatorView()
     
+    // MARK: - Property
+    private let viewModel = ProductListViewModel()
+    private let disposeBag = DisposeBag()
+    
+    // MARK:- View Life Cycle
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.loadingIndicator.startAnimating()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        startloadingIndicator()
         configureGridLayout()
-        downloadProductsListPage(number: currentPageNo)
+        configureLoadingIndicator()
         configureRefreshControl()
+        self.collectionView.dataSource = nil
+        self.bindViewModel()
     }
-
-    // MARK: - UICollectionViewDataSource
-
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-
-    override func collectionView(
-        _ collectionView: UICollectionView,
-        numberOfItemsInSection section: Int
-    ) -> Int {
-        return products.count
-    }
-
-    override func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(
-            withClass: ProductCollectionViewCell.self,
-            for: indexPath
-        )
+    
+    // MARK: - binding
+    private func bindViewModel() {
+        let input = ProductListViewModel.Input(
+            viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{_ in},
+            willDisplayCell: self.collectionView.rx.willDisplayCell.map({ cell, index in index.row }),
+            willRefrsesh: self.collectionView.refreshControl!.rx.controlEvent(.valueChanged).asObservable(),
+            didSelectRowAt: self.collectionView.rx.itemSelected.map{ $0.row })
+        let output = self.viewModel.transform(input: input)
         
-        guard let product = products[safe: indexPath.item] else {
-            return cell
-        }
+        output.products
+            .observe(on: MainScheduler.instance)
+            .do(onNext: { [weak self] _ in
+                guard ((self?.loadingIndicator.isAnimating) != nil) else { return }
+                self?.loadingIndicator.stopAnimating()
+            }, onError: { _ in
+                self.presentNetworkErrorAlert()})
+            .retry(when:{ _ in self.collectionView.refreshControl!.rx.controlEvent(.valueChanged).asObservable()})
+            .bind(to: collectionView.rx.items(cellIdentifier: "ProductCollectionViewCell", cellType: ProductCollectionViewCell.self)) { (row, element, cell) in
+                cell.fill(with: element)}
+            .disposed(by: disposeBag)
         
-        cell.configureCollectionContent(with: product)
+        output.endRefresh
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] _ in
+                self?.collectionView.refreshControl?.endRefreshing()})
+            .disposed(by: disposeBag)
         
-        return cell
+        output.pushProductDetailView
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] productID in
+                self?.pushProductDetailView(of: productID)
+            }
+            .disposed(by: disposeBag)
     }
-    
-    override func collectionView(
-        _ collectionView: UICollectionView,
-        willDisplay cell: UICollectionViewCell,
-        forItemAt indexPath: IndexPath
-    ) {
-        let paginationBuffer = 4
-        guard indexPath.item == products.count - paginationBuffer,
-              hasNextPage == true else { return }
-
-        downloadProductsListPage(number: currentPageNo + 1)
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let productID = products[indexPath.row].id
-        
-        guard let productDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "ProductDetailViewController") as? ProductDetailViewController else {
-            return
-        }
-        productDetailVC.setProduct(productID)
-        self.navigationController?.pushViewController(productDetailVC, animated: true)
-    }
-    
-    // MARK: - Custom function
-    
-    private func startloadingIndicator() {
-        view.addSubview(loadingIndicator)
-        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
-        let safeArea = view.safeAreaLayoutGuide
-        NSLayoutConstraint.activate(
-            [loadingIndicator.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor),
-            loadingIndicator.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor)]
-        )
-        loadingIndicator.startAnimating()
-    }
-    
+    // MARK: - configure UI
     private func configureGridLayout() {
         collectionView.collectionViewLayout = flowLayout
         let cellWidth = view.bounds.size.width / 2 - 10
@@ -100,71 +80,34 @@ final class ProductCollectionViewController: UICollectionViewController {
         flowLayout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: .zero, right: 5)
     }
     
-    private func downloadProductsListPage(number: Int) {
-        let request = ProductsListPageRequest(pageNo: number, itemsPerPage: 20)
-        MarketAPIService().request(request) { [weak self] (result: Result<ProductsListPage, Error>) in
-            switch result {
-            case .success(let productsListPage):
-                self?.currentPageNo = productsListPage.pageNo
-                self?.hasNextPage = productsListPage.hasNext
-                self?.products.append(contentsOf: productsListPage.pages)
-                DispatchQueue.main.async {
-                    self?.collectionView.reloadData()
-                    self?.loadingIndicator.stopAnimating()
-                }
-            case .failure(let error):
-                // Alert 넣기
-                print("ProductsListPage 통신 중 에러 발생 : \(error)")
-                return
-            }
-        }
-    }
-    
-    private func configureRefreshControl() {
-        collectionView.refreshControl = UIRefreshControl()
-        collectionView.refreshControl?.addTarget(
-            self,
-            action: #selector(handleRefreshControl),
-            for: .valueChanged
+    private func configureLoadingIndicator() {
+        view.addSubview(loadingIndicator)
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        let safeArea = view.safeAreaLayoutGuide
+        NSLayoutConstraint.activate(
+            [loadingIndicator.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor),
+            loadingIndicator.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor)]
         )
     }
-    
-    @objc private func handleRefreshControl() {
-        resetProductListPageInfo()
-        let request = ProductsListPageRequest(pageNo: 1, itemsPerPage: 20)
-        MarketAPIService().request(request) { [weak self] (result: Result<ProductsListPage, Error>) in
-            switch result {
-            case .success(let productsListPage):
-                self?.currentPageNo = productsListPage.pageNo
-                self?.hasNextPage = productsListPage.hasNext
-                self?.products.append(contentsOf: productsListPage.pages)
-                DispatchQueue.main.async {
-                    self?.collectionView.reloadData()
-                    if self?.collectionView.refreshControl?.isRefreshing == false {
-                        self?.scrollToFirstItem(animated: false)
-                    }
-                    self?.collectionView.refreshControl?.endRefreshing()
-                }
-            case .failure(let error):
-                // Alert 넣기
-                print("ProductsListPage 통신 중 에러 발생 : \(error)")
-                return
-            }
+
+    private func configureRefreshControl() {
+        collectionView.refreshControl = UIRefreshControl()
+
+    }
+
+    // MARK: - Method
+    private func pushProductDetailView(of productID: Int) {
+        guard let productDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "ProductDetailViewController") as? ProductDetailViewController else {
+            return
         }
+        productDetailVC.setProduct(productID)
+        self.navigationController?.pushViewController(productDetailVC, animated: true)
     }
-    
-    private func resetProductListPageInfo() {
-        currentPageNo = 1
-        hasNextPage = false
-        products.removeAll()
-    }
-}
 
-// MARK: - RefreshDelegate
-
-extension ProductCollectionViewController: RefreshDelegate {
-    
-    func refresh() {
-        handleRefreshControl()
+    private func presentNetworkErrorAlert() {
+        let alert = UIAlertController(title: "다시 시도해주세요😢", message: "통신 에러가 발생했어요", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(okAction)
+        self.present(alert, animated: false)
     }
 }
