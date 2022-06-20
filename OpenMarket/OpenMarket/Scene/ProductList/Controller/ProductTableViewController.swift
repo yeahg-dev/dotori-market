@@ -11,15 +11,14 @@ import RxCocoa
 
 final class ProductTableViewController: UITableViewController {
     
-    private var currentPageNo: Int = 1
-    private var hasNextPage: Bool = false
-    private var products: [Product] = []
+    // MARK: - UI Property
     private let loadingIndicator = UIActivityIndicatorView()
-    private let apiService = MarketAPIService()
-    private let disposeBag = DisposeBag()
     
+    // MARK: - Property
+    private let disposeBag = DisposeBag()
     private let viewModel = ProductTableViewModel()
     
+    // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         startloadingIndicator()
@@ -28,11 +27,13 @@ final class ProductTableViewController: UITableViewController {
         bindViewModel()
     }
     
-    func bindViewModel() {
+    // MARK: - binding
+    private func bindViewModel() {
         let input = ProductTableViewModel.Input(
             viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{_ in},
             willDisplayCell: self.tableView.rx.willDisplayCell.map({ $0.indexPath.row}),
-            willRefrsesh: self.tableView.refreshControl!.rx.controlEvent(.valueChanged).asObservable())
+            willRefrsesh: self.tableView.refreshControl!.rx.controlEvent(.valueChanged).asObservable(),
+            didSelectRowAt: self.tableView.rx.itemSelected.map({ $0.row}))
         let output = self.viewModel.transform(input: input)
         
         output.products
@@ -51,21 +52,17 @@ final class ProductTableViewController: UITableViewController {
                 self?.tableView.refreshControl?.endRefreshing()})
             .disposed(by: disposeBag)
         
+        output.pushProductDetailView
+            .observe(on: MainScheduler.instance)
+            .subscribe { productID in
+                self.pushProductDetailView(of: productID)
+            }
+            .disposed(by: disposeBag)
+
         // TODO: - 통신 중 에러 처리
     }
     
-//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let productID = products[indexPath.row].id
-//
-//        guard let productDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "ProductDetailViewController") as? ProductDetailViewController else {
-//            return
-//        }
-//        productDetailVC.setProduct(productID)
-//        self.navigationController?.pushViewController(productDetailVC, animated: true)
-//    }
-    
-    // MARK: - Custom function
-    
+    // MARK: - Method
     private func startloadingIndicator() {
         view.addSubview(loadingIndicator)
         loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -81,7 +78,14 @@ final class ProductTableViewController: UITableViewController {
     private func configureRefreshControl() {
         self.tableView.refreshControl = UIRefreshControl()
     }
-
+    
+    private func pushProductDetailView(of productID: Int) {
+        guard let productDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "ProductDetailViewController") as? ProductDetailViewController else {
+            return
+        }
+        productDetailVC.setProduct(productID)
+        self.navigationController?.pushViewController(productDetailVC, animated: true)
+    }
 }
 
 // MARK: - RefreshDelegate

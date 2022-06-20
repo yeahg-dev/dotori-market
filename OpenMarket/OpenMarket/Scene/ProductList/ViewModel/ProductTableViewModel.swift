@@ -21,11 +21,13 @@ class ProductTableViewModel {
         let viewWillAppear: Observable<Void>
         let willDisplayCell: Observable<Int>
         let willRefrsesh: Observable<Void>
+        let didSelectRowAt: Observable<Int>
     }
     
     struct Output {
         let products: Observable<[ProductViewModel]>
         let endRefresh: Observable<Void>
+        let pushProductDetailView: Observable<Int>
     }
     
     func transform(input: Input) -> Output {
@@ -57,7 +59,22 @@ class ProductTableViewModel {
             .share(replay: 1)
         
         let endRefresh = products.map { _ in }
+        
+        let pushProductDetailView = input.didSelectRowAt
+            .map { index -> Int in
+                guard let product = self.productsViewModels[safe: index] else {
+                    return .zero
+                }
+                return product.id
+            }
                 
-       return Output(products: products, endRefresh: endRefresh)
+       return Output(products: products,
+                     endRefresh: endRefresh,
+                     pushProductDetailView: pushProductDetailView)
     }
+}
+
+enum ProductTableViewModelError: Error {
+    
+    case invalidProduct
 }
