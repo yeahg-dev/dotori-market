@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 final class ProductRegistrationViewController: UIViewController {
     
@@ -21,6 +23,9 @@ final class ProductRegistrationViewController: UIViewController {
     @IBOutlet private weak var descriptionsTextView: UITextView?
     
     // MARK: - Properties
+    private let viewModel = ProductRegisterationViewModel()
+    private let disposeBag = DisposeBag()
+    
     weak var tableViewRefreshDelegate: RefreshDelegate?
     weak var collectionViewRefreshDelegate: RefreshDelegate?
     private let imagePicker: UIImagePickerController = {
@@ -33,6 +38,21 @@ final class ProductRegistrationViewController: UIViewController {
     private var cells: [CellType] = [.imagePickerCell]
     private let flowLayout = UICollectionViewFlowLayout()
     
+    // MARK: - binding
+    private func bindViewModel() {
+        let input = ProductRegisterationViewModel.Input(viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{_ in})
+        let output = self.viewModel.transform(input: input)
+        
+        output.textViewPlaceholder
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] placeholder in
+                self?.descriptionsTextView?.text = placeholder
+                self?.descriptionsTextView?.font = .preferredFont(forTextStyle: .footnote)
+                self?.descriptionsTextView?.textColor = .systemGray2
+            })
+            .disposed(by: disposeBag)
+    }
+
     // MARK: - IBaction Method
     @IBAction private func cancelButtonTapped(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true)
@@ -50,6 +70,7 @@ final class ProductRegistrationViewController: UIViewController {
         configureFlowLayout()
         addKeyboardNotificationObserver()
         addKeyboardDismissGestureRecognizer()
+        self.bindViewModel()
     }
     
     // MARK: - Configure UI
@@ -74,8 +95,9 @@ final class ProductRegistrationViewController: UIViewController {
     // MARK: - Configure relationShip
     private func configureDelegate() {
         self.nameTextField?.delegate = self
-        productImageCollectionView?.delegate = self
-        productImageCollectionView?.dataSource = self
+        self.productImageCollectionView?.delegate = self
+        self.productImageCollectionView?.dataSource = self
+        self.descriptionsTextView?.delegate = self
     }
     
     // MARK: - Method
@@ -286,6 +308,15 @@ extension ProductRegistrationViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.nameTextField?.resignFirstResponder()
+        return true
+    }
+}
+
+extension ProductRegistrationViewController: UITextViewDelegate {
+    
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        self.descriptionsTextView?.text = ""
+        self.descriptionsTextView?.textColor = .black
         return true
     }
 }
