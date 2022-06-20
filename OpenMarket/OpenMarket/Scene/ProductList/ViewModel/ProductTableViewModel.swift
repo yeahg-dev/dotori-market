@@ -31,6 +31,10 @@ class ProductTableViewModel {
     }
     
     func transform(input: Input) -> Output {
+        let viewWillAppear = input.viewWillAppear
+            .do(onNext: { _ in
+                self.resetPage()})
+                
         let pagination = input.willDisplayCell
             .filter { currentRow in
                 currentRow == self.productsViewModels.count - self.paginationBuffer }
@@ -39,10 +43,9 @@ class ProductTableViewModel {
         
         let willRefreshPage = input.willRefrsesh
             .do { _ in
-                self.currentPage = 0
-                self.productsViewModels = [] }
+                self.resetPage() }
             
-        let products = Observable.of(input.viewWillAppear, pagination, willRefreshPage)
+        let products = Observable.of(viewWillAppear, pagination, willRefreshPage)
             .merge()
             .flatMap { _ -> Observable<ProductsListPage> in
                 let request = ProductsListPageRequest(pageNo: self.currentPage + 1, itemsPerPage: 20)
@@ -65,12 +68,18 @@ class ProductTableViewModel {
                 guard let product = self.productsViewModels[safe: index] else {
                     return .zero
                 }
-                return product.id
-            }
+                return product.id }
+            .do(onNext: { _ in
+                self.resetPage() })
                 
        return Output(products: products,
                      endRefresh: endRefresh,
                      pushProductDetailView: pushProductDetailView)
+    }
+    
+    private func resetPage() {
+        self.currentPage = 0
+        self.productsViewModels = []
     }
 }
 

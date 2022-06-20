@@ -19,9 +19,14 @@ final class ProductTableViewController: UITableViewController {
     private let viewModel = ProductTableViewModel()
     
     // MARK: - View Life Cycle
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.loadingIndicator.startAnimating()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        startloadingIndicator()
+        configureLoadingIndicator()
         configureRefreshControl()
         self.tableView.dataSource = nil
         bindViewModel()
@@ -63,7 +68,7 @@ final class ProductTableViewController: UITableViewController {
     }
     
     // MARK: - Method
-    private func startloadingIndicator() {
+    private func configureLoadingIndicator() {
         view.addSubview(loadingIndicator)
         loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
         let safeArea = view.safeAreaLayoutGuide
@@ -72,7 +77,6 @@ final class ProductTableViewController: UITableViewController {
                 equalTo: safeArea.centerYAnchor),
             loadingIndicator.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor)
         ])
-        loadingIndicator.startAnimating()
     }
     
     private func configureRefreshControl() {
@@ -86,13 +90,5 @@ final class ProductTableViewController: UITableViewController {
         productDetailVC.setProduct(productID)
         self.navigationController?.pushViewController(productDetailVC, animated: true)
     }
-}
 
-// MARK: - RefreshDelegate
-
-extension ProductTableViewController: RefreshDelegate {
-    
-    func refresh() {
-        
-    }
 }
