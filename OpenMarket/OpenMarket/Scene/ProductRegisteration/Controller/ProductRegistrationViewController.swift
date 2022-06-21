@@ -76,33 +76,20 @@ final class ProductRegistrationViewController: UIViewController {
 
     // MARK: - binding
     private func bindViewModel() {
-        let maximumCellCount = 6
-
         let input = ProductRegisterationViewModel.Input(
             viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{_ in},
+            itemSelected: self.productImageCollectionView!.rx.itemSelected.map({ index in index.row }),
             didSelectImage: self.pickerImage)
+        
         let output = self.viewModel.transform(input: input)
         
         let productImages = output.productImages.share(replay: 1)
         
-        let itemSelected = self.productImageCollectionView?.rx.itemSelected
-            .map({ index in
-            index.row })
-            .filter({ row in
-                row == .zero })
-        
-        itemSelected?.withLatestFrom(productImages)
-            .do(onNext: {  [weak self] productImages in
-                if productImages.count >= maximumCellCount {
-                    let alert = UIAlertController(title: "사진은 최대 5장까지 첨부할 수 있어요", message: nil, preferredStyle: .alert)
-                    self?.present(alert, animated: false)
-                }
-            })
-            .filter({ productImages in
-                productImages.count < maximumCellCount })
+        output.presentImagePicker
+            .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] _ in
                 guard let imagePickerController = self?.imagePicker else { return }
-                self?.present(imagePickerController , animated: false)})
+                self?.present(imagePickerController, animated: false) })
             .disposed(by: disposeBag)
         
         output.textViewPlaceholder
@@ -116,7 +103,6 @@ final class ProductRegistrationViewController: UIViewController {
         productImages
             .observe(on: MainScheduler.instance)
             .bind(to: productImageCollectionView!.rx.items) { [weak self] (tableView, row, element) in
-                
                 let indexPath = IndexPath(row: row, section: 0)
                 let cellType = element.0
                 
@@ -140,7 +126,12 @@ final class ProductRegistrationViewController: UIViewController {
                     return cell
                 }}
                 .disposed(by: disposeBag)
-
+        
+        output.excessImageAlert
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] excessImageAlert in
+                self?.presentAlert(excessImageAlert: excessImageAlert) }
+            .disposed(by: disposeBag)
     }
 
     // MARK: - IBaction Method
@@ -233,6 +224,17 @@ final class ProductRegistrationViewController: UIViewController {
         return newProductImages
     }
    
+    private func presentAlert(excessImageAlert: ProductRegisterationViewModel.ExecessImageAlert) {
+        let alert = UIAlertController(title: excessImageAlert.title,
+                                      message: excessImageAlert.message,
+                                      preferredStyle: .alert)
+        let action = UIAlertAction(title: excessImageAlert.actionTitle,
+                                   style: .default) { _ in
+            alert.dismiss(animated: false)
+        }
+        alert.addAction(action)
+        self.present(alert, animated: false)
+    }
 }
 
 // MARK: - Keyboard
