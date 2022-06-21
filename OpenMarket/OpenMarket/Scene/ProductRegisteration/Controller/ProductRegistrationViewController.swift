@@ -25,6 +25,7 @@ final class ProductRegistrationViewController: UIViewController {
     // MARK: - Properties
     private let viewModel = ProductRegisterationViewModel()
     private let disposeBag = DisposeBag()
+    private let pickerImage = PublishSubject<UIImage>()
     
     weak var tableViewRefreshDelegate: RefreshDelegate?
     weak var collectionViewRefreshDelegate: RefreshDelegate?
@@ -40,17 +41,71 @@ final class ProductRegistrationViewController: UIViewController {
     
     // MARK: - binding
     private func bindViewModel() {
-        let input = ProductRegisterationViewModel.Input(viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{_ in})
+        let maximumCellCount = 6
+
+        let input = ProductRegisterationViewModel.Input(
+            viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{_ in},
+            didSelectImage: self.pickerImage)
         let output = self.viewModel.transform(input: input)
+        
+        let productImages = output.productImages.share(replay: 1)
+        
+        let itemSelected = self.productImageCollectionView?.rx.itemSelected
+            .map({ index in
+            index.row })
+            .filter({ row in
+                row == .zero })
+        
+        itemSelected?.withLatestFrom(productImages)
+            .do(onNext: {  [weak self] productImages in
+                if productImages.count >= maximumCellCount {
+                    let alert = UIAlertController(title: "사진은 최대 5장까지 첨부할 수 있어요", message: nil, preferredStyle: .alert)
+                    self?.present(alert, animated: false)
+                }
+            })
+            .filter({ productImages in
+                productImages.count < maximumCellCount })
+            .subscribe(onNext: { [weak self] _ in
+                guard let imagePickerController = self?.imagePicker else { return }
+                self?.present(imagePickerController , animated: false)})
+            .disposed(by: disposeBag)
         
         output.textViewPlaceholder
             .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] placeholder in
+                .subscribe(onNext: { [weak self] (placeholder: String) in
                 self?.descriptionsTextView?.text = placeholder
                 self?.descriptionsTextView?.font = .preferredFont(forTextStyle: .footnote)
-                self?.descriptionsTextView?.textColor = .systemGray2
-            })
+                self?.descriptionsTextView?.textColor = .systemGray2 })
             .disposed(by: disposeBag)
+        
+        productImages
+            .observe(on: MainScheduler.instance)
+            .bind(to: productImageCollectionView!.rx.items) { [weak self] (tableView, row, element) in
+                
+                let indexPath = IndexPath(row: row, section: 0)
+                let cellType = element.0
+                
+                switch cellType {
+                case .imagePickerCell:
+                    guard let cell = self?.productImageCollectionView?.dequeueReusableCell(
+                        withClass: ImagePickerCollectionViewCell.self,
+                        for: indexPath
+                    ) else { return ImagePickerCollectionViewCell() }
+                    cell.updateAddedImageCountLabel(productImageCount: (self?.cells.count ?? 1) - 1)
+                    return cell
+                default:
+                    guard let cell = self?.productImageCollectionView?.dequeueReusableCell(withReuseIdentifier: "ProductImageCollectionViewCell", for: indexPath) as? ProductImageCollectionViewCell else {
+                        return ProductImageCollectionViewCell()
+                    }
+                    if row == 1 {
+                        cell.updateProductImageView(image: element.1, isRepresentaion: true)
+                    } else {
+                        cell.updateProductImageView(image: element.1, isRepresentaion: false)
+                    }
+                    return cell
+                }}
+                .disposed(by: disposeBag)
+
     }
 
     // MARK: - IBaction Method
@@ -62,17 +117,7 @@ final class ProductRegistrationViewController: UIViewController {
         handleProductRegistrationRequest()
     }
     
-    // MARK: - ViewLifeCycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureDelegate()
-        configureNavigationBar()
-        configureFlowLayout()
-        addKeyboardNotificationObserver()
-        addKeyboardDismissGestureRecognizer()
-        self.bindViewModel()
-    }
-    
+   
     // MARK: - Configure UI
     private func configureNavigationBar() {
         let navigationAppearance = UINavigationBarAppearance()
@@ -95,9 +140,8 @@ final class ProductRegistrationViewController: UIViewController {
     // MARK: - Configure relationShip
     private func configureDelegate() {
         self.nameTextField?.delegate = self
-        self.productImageCollectionView?.delegate = self
-        self.productImageCollectionView?.dataSource = self
         self.descriptionsTextView?.delegate = self
+        self.imagePicker.delegate = self
     }
     
     // MARK: - Method
@@ -225,62 +269,6 @@ extension ProductRegistrationViewController {
     
 }
 
-// MARK: - UICollectionViewDelegate, UICollectionViewDataSource
-extension ProductRegistrationViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        numberOfItemsInSection section: Int
-    ) -> Int {
-        let imagePickerCell = 1
-        return imagePickerCell + productImages.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cellType = cells[safe: indexPath.item]
-        
-        switch cellType {
-        case .imagePickerCell:
-            let cell = collectionView.dequeueReusableCell(
-                withClass: ImagePickerCollectionViewCell.self,
-                for: indexPath
-            )
-            cell.updateAddedImageCountLabel(images: productImages)
-            return cell
-        default:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductImageCollectionViewCell", for: indexPath) as? ProductImageCollectionViewCell else {
-                return ProductImageCollectionViewCell()
-            }
-            let targetImage = productImages[safe: indexPath.item - 1]
-            if indexPath.item == 1 {
-                cell.updateProductImageView(image: targetImage, isRepresentaion: true)
-            } else {
-                cell.updateProductImageView(image: targetImage, isRepresentaion: false)
-            }
-            return cell
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cellType = cells[safe: indexPath.item]
-        
-        if cellType == .imagePickerCell {
-            imagePicker.delegate = self
-            present(imagePicker, animated: true, completion: nil)
-        }
-        
-        let maximumImageCount = 5
-        guard productImages.count < maximumImageCount else {
-            showAlert(
-                title: "Too Much Images",
-                message: "최대 \(maximumImageCount)장까지만 첨부할 수 있어요",
-                handler: nil
-            )
-            return
-        }
-    }
-}
-
 // MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
 extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -289,12 +277,11 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UI
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         
         if let possibleImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            productImages.append(possibleImage)
+            self.pickerImage.onNext(possibleImage)
         } else if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            productImages.append(possibleImage)
+            self.pickerImage.onNext(possibleImage)
         }
         cells.append(.productImageCell)
-        productImageCollectionView?.reloadData()
         imagePicker.dismiss(animated: true, completion: nil)
     }
     

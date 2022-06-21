@@ -18,10 +18,10 @@ final class ImagePickerCollectionViewCell: UICollectionViewCell {
         layer.cornerRadius = 5
     }
     
-    func updateAddedImageCountLabel(images: [UIImage]) {
+    func updateAddedImageCountLabel(productImageCount: Int) {
         let maximumImageCount = 5
         let addedImageCount = NSAttributedString(
-            string: "\(images.count)",
+            string: "\(productImageCount)",
             attributes: [.font: UIFont.preferredFont(forTextStyle: .callout),
                          .foregroundColor: UIColor.systemIndigo]
         )

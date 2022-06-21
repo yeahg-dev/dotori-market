@@ -7,17 +7,22 @@
 
 import Foundation
 import RxSwift
+import UIKit
 
 final class ProductRegisterationViewModel {
     
     private let APIService = MarketAPIService()
     
+    private var productImages: [(CellType, UIImage)] = [(.imagePickerCell, UIImage())]
+    
     struct Input {
         let viewWillAppear: Observable<Void>
+        let didSelectImage: Observable<UIImage>
     }
     
     struct Output {
         let textViewPlaceholder: Observable<String>
+        let productImages: Observable<[(CellType, UIImage)]>
     }
     
     func transform(input: Input) -> Output {
@@ -27,7 +32,16 @@ final class ProductRegisterationViewModel {
         let textViewPlaceholder = input.viewWillAppear
             .map {textViewPlaceholderText }
         
-        return Output(textViewPlaceholder: textViewPlaceholder)
+        let didAddedImage = input.didSelectImage
+            .do(onNext: { image in
+                self.productImages.append((.productImageCell,image))}
+            )
+            .map { _ in }
+                
+        let productImages = Observable.merge(input.viewWillAppear, didAddedImage)
+                            .map { _ in self.productImages }
+        
+        return Output(textViewPlaceholder: textViewPlaceholder, productImages: productImages)
     }
     
 }
