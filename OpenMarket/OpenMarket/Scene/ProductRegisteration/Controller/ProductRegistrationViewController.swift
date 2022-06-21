@@ -22,11 +22,7 @@ final class ProductRegistrationViewController: UIViewController {
     @IBOutlet private weak var stockTextField: UITextField?
     @IBOutlet private weak var descriptionsTextView: UITextView?
     
-    // MARK: - Properties
-    private let viewModel = ProductRegisterationViewModel()
-    private let disposeBag = DisposeBag()
-    private let pickerImage = PublishSubject<UIImage>()
-    
+    // MARK: - UI Property
     weak var tableViewRefreshDelegate: RefreshDelegate?
     weak var collectionViewRefreshDelegate: RefreshDelegate?
     private let imagePicker: UIImagePickerController = {
@@ -36,9 +32,48 @@ final class ProductRegistrationViewController: UIViewController {
         return imagePicker
     }()
     private var productImages: [UIImage] = []
-    private var cells: [CellType] = [.imagePickerCell]
     private let flowLayout = UICollectionViewFlowLayout()
     
+    // MARK: - Properties
+    private let viewModel = ProductRegisterationViewModel()
+    private let disposeBag = DisposeBag()
+    private let pickerImage = PublishSubject<UIImage>()
+    private var cells: [CellType] = [.imagePickerCell]
+ 
+    // MARK: - View Life Cycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.configureDelegate()
+        self.configureNavigationBar()
+        self.configureFlowLayout()
+        self.bindViewModel()
+    }
+    
+    // MARK: - Configure UI
+    private func configureDelegate() {
+        self.nameTextField?.delegate = self
+        self.descriptionsTextView?.delegate = self
+        self.imagePicker.delegate = self
+    }
+    
+    private func configureNavigationBar() {
+        let navigationAppearance = UINavigationBarAppearance()
+        navigationAppearance.configureWithTransparentBackground()
+        navigationBar?.standardAppearance = navigationAppearance
+    }
+    
+    private func configureFlowLayout() {
+        productImageCollectionView?.collectionViewLayout = flowLayout
+        flowLayout.scrollDirection = .horizontal
+        productImageCollectionView?.showsVerticalScrollIndicator = false
+        productImageCollectionView?.showsHorizontalScrollIndicator = false
+        
+        let cellWidth = view.bounds.size.width / 4
+        flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth)
+        flowLayout.minimumLineSpacing = 10
+        flowLayout.sectionInset = UIEdgeInsets(top: .zero, left: 10, bottom: .zero, right: 10)
+    }
+
     // MARK: - binding
     private func bindViewModel() {
         let maximumCellCount = 6
@@ -118,32 +153,7 @@ final class ProductRegistrationViewController: UIViewController {
     }
     
    
-    // MARK: - Configure UI
-    private func configureNavigationBar() {
-        let navigationAppearance = UINavigationBarAppearance()
-        navigationAppearance.configureWithTransparentBackground()
-        navigationBar?.standardAppearance = navigationAppearance
-    }
-    
-    private func configureFlowLayout() {
-        productImageCollectionView?.collectionViewLayout = flowLayout
-        flowLayout.scrollDirection = .horizontal
-        productImageCollectionView?.showsVerticalScrollIndicator = false
-        productImageCollectionView?.showsHorizontalScrollIndicator = false
-        
-        let cellWidth = view.bounds.size.width / 4
-        flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth)
-        flowLayout.minimumLineSpacing = 10
-        flowLayout.sectionInset = UIEdgeInsets(top: .zero, left: 10, bottom: .zero, right: 10)
-    }
-    
-    // MARK: - Configure relationShip
-    private func configureDelegate() {
-        self.nameTextField?.delegate = self
-        self.descriptionsTextView?.delegate = self
-        self.imagePicker.delegate = self
-    }
-    
+
     // MARK: - Method
     private func handleProductRegistrationRequest() {
         guard let newProduct = createNewProductInfo() else { return }
