@@ -33,6 +33,7 @@ final class ProductRegistrationViewController: UIViewController {
     }()
     private var productImages: [UIImage] = []
     private let flowLayout = UICollectionViewFlowLayout()
+    private var textViewPlaceHolder: String?
     
     // MARK: - Properties
     private let viewModel = ProductRegisterationViewModel()
@@ -103,6 +104,7 @@ final class ProductRegistrationViewController: UIViewController {
         output.textViewPlaceholder
             .observe(on: MainScheduler.instance)
                 .subscribe(onNext: { [weak self] (placeholder: String) in
+                self?.textViewPlaceHolder = placeholder
                 self?.descriptionsTextView?.text = placeholder
                 self?.descriptionsTextView?.font = .preferredFont(forTextStyle: .footnote)
                 self?.descriptionsTextView?.textColor = .systemGray2 })
@@ -332,8 +334,10 @@ extension ProductRegistrationViewController: UITextFieldDelegate {
 extension ProductRegistrationViewController: UITextViewDelegate {
     
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        self.descriptionsTextView?.text = ""
-        self.descriptionsTextView?.textColor = .black
+        if textView.text == self.textViewPlaceHolder {
+            self.descriptionsTextView?.text = ""
+            self.descriptionsTextView?.textColor = .black
+        }
         return true
     }
 }
