@@ -76,10 +76,18 @@ final class ProductRegistrationViewController: UIViewController {
 
     // MARK: - binding
     private func bindViewModel() {
+        guard let doneButton = self.navigationBar?.items?[0].rightBarButtonItem as? UIBarButtonItem else { return }
+        
         let input = ProductRegisterationViewModel.Input(
             viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{_ in},
             itemSelected: self.productImageCollectionView!.rx.itemSelected.map({ index in index.row }),
-            didSelectImage: self.pickerImage)
+            didSelectImage: self.pickerImage,
+            productTitle: self.nameTextField!.rx.text.asObservable(),
+            productPrice: self.priceTextField!.rx.text.asObservable(),
+            prdouctDiscountedPrice: self.discountedPriceTextField!.rx.text.asObservable(),
+            productStock: self.stockTextField!.rx.text.asObservable(),
+            productDescriptionText: self.descriptionsTextView!.rx.text.asObservable(),
+            requestRegisteration: doneButton.rx.tap.asObservable())
         
         let output = self.viewModel.transform(input: input)
         
@@ -132,6 +140,18 @@ final class ProductRegistrationViewController: UIViewController {
             .subscribe { [weak self] excessImageAlert in
                 self?.presentAlert(excessImageAlert: excessImageAlert) }
             .disposed(by: disposeBag)
+        
+        output.inputValidationAlert
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] description in
+                let alert = UIAlertController(title: description, message: nil, preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+                    alert.dismiss(animated: false)
+                }
+                alert.addAction(okAction)
+                self?.present(alert, animated: false)
+            })
+            .disposed(by: disposeBag)
     }
 
     // MARK: - IBaction Method
@@ -140,10 +160,8 @@ final class ProductRegistrationViewController: UIViewController {
     }
     
     @IBAction private func doneButtonTapped(_ sender: UIBarButtonItem) {
-        handleProductRegistrationRequest()
+//        handleProductRegistrationRequest()
     }
-    
-   
 
     // MARK: - Method
     private func handleProductRegistrationRequest() {
@@ -224,7 +242,7 @@ final class ProductRegistrationViewController: UIViewController {
         return newProductImages
     }
    
-    private func presentAlert(excessImageAlert: ProductRegisterationViewModel.ExecessImageAlert) {
+    private func presentAlert(excessImageAlert: ProductRegisterationViewModel.ExecessImageAlertViewModel) {
         let alert = UIAlertController(title: excessImageAlert.title,
                                       message: excessImageAlert.message,
                                       preferredStyle: .alert)
