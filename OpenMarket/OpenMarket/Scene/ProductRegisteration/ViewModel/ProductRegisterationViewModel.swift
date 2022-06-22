@@ -16,6 +16,8 @@ final class ProductRegisterationViewModel {
     private var productImages: [(CellType, UIImage)] = [(.imagePickerCell, UIImage())]
     static let maximumProductImageCount = 5
     private lazy var maximutProductImageCellCount = ProductRegisterationViewModel.maximumProductImageCount + 1
+    private let isValidImage = BehaviorSubject(value: false)
+    private let textViewPlaceHolder = "상품 상세 정보를 입력해주세요.\n(최소 10 ~ 최대 1,000 글자 작성 가능 😊)"
     
     struct Input {
         let viewWillAppear: Observable<Void>
@@ -39,7 +41,7 @@ final class ProductRegisterationViewModel {
     }
     
     func transform(input: Input) -> Output {
-        let textViewPlaceholderText = "상품 상세 정보를 입력해주세요.\n(최소 10 ~ 최대 1,000 글자 작성 가능 😊)"
+        let textViewPlaceholderText = self.textViewPlaceHolder
         
         let textViewPlaceholder = input.viewWillAppear
             .map {textViewPlaceholderText }
@@ -47,13 +49,13 @@ final class ProductRegisterationViewModel {
         let presentImagePicker = input.itemSelected
             .share(replay: 1)
             .filter { row in
-                row == .zero && self.productImages.count < self.maximutProductImageCellCount
-            }
+                row == .zero && self.productImages.count < self.maximutProductImageCellCount }
             .map { _ in }
         
         let didSelectImage = input.didSelectImage
             .do(onNext: { image in
-                self.productImages.append((.productImageCell,image))} )
+                self.productImages.append((.productImageCell,image))
+                self.isValidImage.onNext(true) })
                 .map { _ in }
         
         let productImages = Observable.merge(input.viewWillAppear, didSelectImage)
@@ -68,11 +70,11 @@ final class ProductRegisterationViewModel {
         let isValidName = self.validate(name: input.productTitle).share(replay: 1)
         let isValidPrice = self.validate(price: input.productPrice).share(replay: 1)
         let isValidStock = self.validate(stock: input.productStock).share(replay: 1)
-        let isvalidDescription = self.validate(description: input.productDescriptionText).share(replay: 1)
+        let isvalidDescription = self.validate(description: input.productDescriptionText).share(replay: 1).debug()
         
-        let validation = Observable.combineLatest(isValidName, isValidPrice, isValidStock, isvalidDescription, resultSelector: {
-            self.validateInputResult(isValidName: $0, isValidPrice: $1, isValidStock: $2, isValidDescription: $3)})
-            .filter { (result, desccriptioin) in
+        let validation = Observable.combineLatest(isValidImage, isValidName, isValidPrice, isValidStock, isvalidDescription, resultSelector: {
+            self.validateInputResult(isValidImage: $0, isValidName: $1, isValidPrice: $2, isValidStock: $3, isValidDescription: $4)})
+            .filter { (result: ValidationResult, description: String?) in
                 result == .failure }
             .map { (result, desccriptioin) in
                 return desccriptioin }
@@ -81,7 +83,6 @@ final class ProductRegisterationViewModel {
     
         // request
         let registerationResponse = Observable.just("")
-            
         
         return Output(textViewPlaceholder: textViewPlaceholder,
                       presentImagePicker: presentImagePicker,
@@ -107,20 +108,21 @@ extension ProductRegisterationViewModel {
         case failure
     }
     
-    private func validateInputResult(isValidName: Bool, isValidPrice: Bool,
+    private func validateInputResult(isValidImage: Bool, isValidName: Bool, isValidPrice: Bool,
                                      isValidStock: Bool, isValidDescription: Bool) -> (ValidationResult, String?) {
-        let category = [isValidName, isValidPrice, isValidStock, isValidDescription]
+        let category = [isValidImage, isValidName, isValidPrice, isValidStock, isValidDescription]
         
         if category.contains(false) {
-            let description = self.makeAlertDescription(isValidName: isValidName, isValidPrice: isValidPrice, isValidStock: isValidStock, isValidDescription: isValidDescription)
+            let description = self.makeAlertDescription(isValidImage: isValidImage, isValidName: isValidName, isValidPrice: isValidPrice, isValidStock: isValidStock, isValidDescription: isValidDescription)
             return (ValidationResult.failure, description)
         } else {
             return (ValidationResult.success, nil)
         }
     }
     
-    private func makeAlertDescription(isValidName: Bool, isValidPrice: Bool,
+    private func makeAlertDescription(isValidImage: Bool, isValidName: Bool, isValidPrice: Bool,
                                       isValidStock: Bool, isValidDescription: Bool) -> String {
+        let image = isValidImage ? "" : "대표 사진"
         let name = isValidName ? "" : "상품명"
         let price = isValidPrice ? "" : "가격"
         let stock = isValidStock ? "" : "재고"
@@ -130,7 +132,7 @@ extension ProductRegisterationViewModel {
             && isValidStock == true && isValidDescription == false {
             return "상세정보는 10자이상 1,000자이하로 작성해주세요"
         } else {
-            let categories = [name, price, stock, description]
+            let categories = [image, name, price, stock, description]
            
             let description = categories
                 .filter { !$0.isEmpty }
@@ -170,6 +172,7 @@ extension ProductRegisterationViewModel {
     private func validate(description: Observable<String?>) -> Observable<Bool> {
         return description.map { description -> Bool in
             guard let text = description else { return false }
+            if text == self.textViewPlaceHolder { return false }
             return text.count >= 10 && text.count <= 1000 ? true : false
         }
     }
