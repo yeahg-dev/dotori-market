@@ -85,12 +85,13 @@ final class ProductRegistrationViewController: UIViewController {
             itemSelected: self.productImageCollectionView!.rx.itemSelected.map({ index in index.row }),
             didSelectImage: self.pickerImage,
             productTitle: self.nameTextField!.rx.text.asObservable(),
+            productCurrency: self.currencySegmentedControl!.rx.value.asObservable(),
             productPrice: self.priceTextField!.rx.text.asObservable(),
             prdouctDiscountedPrice: self.discountedPriceTextField!.rx.text.asObservable(),
             productStock: self.stockTextField!.rx.text.asObservable(),
             productDescriptionText: self.descriptionsTextView!.rx.text.asObservable(),
             requestRegisteration: doneButton.rx.tap.asObservable(),
-            didRequestWithSecret: self.secret.asObservable())
+            didReceiveSecret: self.secret.asObservable())
         
         let output = self.viewModel.transform(input: input)
         
@@ -171,6 +172,26 @@ final class ProductRegistrationViewController: UIViewController {
                 self.present(alert, animated: false)
             }
             .disposed(by: disposeBag)
+        
+        output.registerationResponse
+            .observe(on: MainScheduler.instance)
+            .subscribe { alert in
+                let alert = UIAlertController(title: alert, message: nil, preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "리스트로 돌아가기", style: .default) { [weak self] _ in
+                    alert.dismiss(animated: false)
+                    self?.dismiss(animated: false)
+                }
+                alert.addAction(okAction)
+                self.present(alert, animated: false)
+            } onError: { [weak self] _ in
+                let alert = UIAlertController(title: self?.viewModel.registrationFailAlertTitle, message: self?.viewModel.registrationFailAlertMessage, preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "확인", style: .default) { _ in
+                    alert.dismiss(animated: false)
+                }
+                alert.addAction(okAction)
+                self?.present(alert, animated: false)
+            }
+            .disposed(by: disposeBag)
 
     }
 
@@ -178,90 +199,7 @@ final class ProductRegistrationViewController: UIViewController {
     @IBAction private func cancelButtonTapped(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true)
     }
-    
-    @IBAction private func doneButtonTapped(_ sender: UIBarButtonItem) {
-//        handleProductRegistrationRequest()
-    }
 
-    // MARK: - Method
-    private func handleProductRegistrationRequest() {
-        guard let newProduct = createNewProductInfo() else { return }
-        guard let newProductImages = createImageFiles(newProductName: newProduct.name) else {
-            return
-        }
-        
-        let request = ProductRegistrationRequest(
-            identifier: "c4dedd67-71fc-11ec-abfa-fd97ecfece87",
-            params: newProduct,
-            images: newProductImages
-        )
-        
-        MarketAPIService().request(request) { [weak self] (result: Result<ProductDetail, Error>) in
-            switch result {
-            case .success:
-                DispatchQueue.main.async {
-                    self?.showAlert(title: "상품이 성공적으로 등록됐습니다", message: "🤑") { _ in
-                        self?.dismiss(animated: true) {
-                            self?.tableViewRefreshDelegate?.refresh()
-                            self?.collectionViewRefreshDelegate?.refresh()
-                        }
-                    }
-                }
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    self?.showAlert(title: "상품 등록에 실패했습니다", message: "🥲", handler: nil)
-                }
-                print("에러가 발생했습니다! : \(error)")
-            }
-        }
-    }
-    
-    private func createNewProductInfo() -> NewProductInfo? {
-        guard let name = nameTextField?.text else {
-            return nil
-        }
-        guard let price = priceTextField?.text else {
-            return nil
-        }
-        var currency: Currency
-        if currencySegmentedControl?.selectedSegmentIndex == .zero {
-            currency = .krw
-        } else {
-            currency = .usd
-        }
-        let discountedPrice = discountedPriceTextField?.text ?? "0"
-        let stock = stockTextField?.text ?? "0"
-        guard let descriptions = descriptionsTextView?.text else {
-            return nil
-        }
-        
-        let newProduct = NewProductInfo(
-            name: name,
-            descriptions: descriptions,
-            price: (price as NSString).doubleValue,
-            currency: currency,
-            discountedPrice: (discountedPrice as NSString).doubleValue,
-            stock: (stock as NSString).integerValue,
-            secret: "aFJkk2KmB53A*6LT"
-        )
-        
-        return newProduct
-    }
-    
-    private func createImageFiles(newProductName: String) -> [ImageFile]? {
-        var imageFileNumber = 1
-        var newProductImages: [ImageFile] = []
-        productImages.forEach { image in
-            let imageFile = ImageFile(
-                fileName: "\(newProductName)-\(imageFileNumber)",
-                image: image
-            )
-            imageFileNumber += 1
-            newProductImages.append(imageFile)
-        }
-        return newProductImages
-    }
-   
     private func presentAlert(excessImageAlert: ProductRegisterationViewModel.ExecessImageAlertViewModel) {
         let alert = UIAlertController(title: excessImageAlert.title,
                                       message: excessImageAlert.message,

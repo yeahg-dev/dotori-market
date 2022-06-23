@@ -17,19 +17,26 @@ final class ProductRegisterationViewModel {
     static let maximumProductImageCount = 5
     private lazy var maximutProductImageCellCount = ProductRegisterationViewModel.maximumProductImageCount + 1
     private let isValidImage = BehaviorSubject(value: false)
+    
+    // TODO: - 네임스페이스 구현
     private let textViewPlaceHolder = "상품 상세 정보를 입력해주세요.\n(최소 10 ~ 최대 1,000 글자 작성 가능 😊)"
+    private let sellerIdentifier = "c4dedd67-71fc-11ec-abfa-fd97ecfece87"
+    let registrationFailAlertTitle = "등록에 실패했습니다"
+    let registrationFailAlertMessage = "다시 시도 해주세요"
+    private let secretkey = "aFJkk2KmB53A*6LT"
     
     struct Input {
         let viewWillAppear: Observable<Void>
         let itemSelected: Observable<Int>
         let didSelectImage: Observable<UIImage>
         let productTitle: Observable<String?>
+        let productCurrency: Observable<Int>
         let productPrice: Observable<String?>
         let prdouctDiscountedPrice: Observable<String?>
         let productStock: Observable<String?>
         let productDescriptionText: Observable<String?>
         let requestRegisteration: Observable<Void>
-        let didRequestWithSecret: Observable<String>
+        let didReceiveSecret: Observable<String>
     }
     
     struct Output {
@@ -69,10 +76,17 @@ final class ProductRegisterationViewModel {
             .map { _ in ExecessImageAlertViewModel() }
         
         // validation
-        let isValidName = self.validate(name: input.productTitle).share(replay: 1)
-        let isValidPrice = self.validate(price: input.productPrice).share(replay: 1)
-        let isValidStock = self.validate(stock: input.productStock).share(replay: 1)
-        let isvalidDescription = self.validate(description: input.productDescriptionText).share(replay: 1).debug()
+        let productName = input.productTitle.share(replay: 1)
+        let productPrice = input.productPrice.share(replay: 1)
+        let productStock = input.productStock.share(replay: 1)
+        let productDescription = input.productDescriptionText.share(replay: 1)
+        let productCurrency = input.productCurrency
+        let productDiscountedPrice = input.prdouctDiscountedPrice
+        
+        let isValidName = self.validate(name: productName).share(replay: 1)
+        let isValidPrice = self.validate(price: productPrice).share(replay: 1)
+        let isValidStock = self.validate(stock: productStock).share(replay: 1)
+        let isvalidDescription = self.validate(description: productDescription).share(replay: 1)
         
         let validation = Observable.combineLatest(isValidImage, isValidName, isValidPrice, isValidStock, isvalidDescription, resultSelector: {
             self.validateInputResult(isValidImage: $0, isValidName: $1, isValidPrice: $2, isValidStock: $3, isValidDescription: $4)})
@@ -82,7 +96,6 @@ final class ProductRegisterationViewModel {
             .filter({ (result, descritption) in
             result == .success })
             .map{ _ in }
-            .debug()
         
         let requireSecret = input.requestRegisteration
             .withLatestFrom(validationSuccess)
@@ -92,8 +105,20 @@ final class ProductRegisterationViewModel {
             .filter { $0.0 == .failure }
             .map{ $0.1 }
     
-        // request
-        let registerationResponse = Observable.just("")
+        let registerationResponse = input.didReceiveSecret
+            .flatMap { secret -> Observable<NewProductInfo> in
+                let productInfo =  Observable.combineLatest(productName, productPrice, productDiscountedPrice, productCurrency, productStock, productDescription, Observable.just(secret), resultSelector: { (name, price, discountedPrice, currency, stock, descritpion, secret) -> NewProductInfo in
+                    return self.createNewProductInfo(name: name, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, description: descritpion, secret: secret)
+                })
+                return productInfo
+            }
+            .flatMap({ productInfo in
+                self.createRegistrationRequest(with: productInfo) })
+            .flatMap { request in
+                self.APIService.requestRx(request) }
+            .map { _ in
+                return "상품이 성공적으로 등록되었습니다." }
+            
         
         return Output(textViewPlaceholder: textViewPlaceholder,
                       presentImagePicker: presentImagePicker,
@@ -107,6 +132,56 @@ final class ProductRegisterationViewModel {
 }
 
 extension ProductRegisterationViewModel {
+
+    private func createRegistrationRequest(with productInfo: NewProductInfo) -> Observable<ProductRegistrationRequest> {
+        let registrationRequest = Observable<ProductRegistrationRequest>.create { observer in
+            if let images = self.createImageFiles(newProductName: productInfo.name) {
+                let request = ProductRegistrationRequest(identifier: self.sellerIdentifier, params: productInfo, images: images)
+                observer.onNext(request)
+            } else {
+                observer.onError(ViewModelError.requestCreationFail)
+            }
+            return Disposables.create()
+        }
+        return registrationRequest
+    }
+    
+    private func createNewProductInfo(name: String?, price: String?, currency: Int?, discountedPrice: String?, stock: String?, description: String?, secret: String) -> NewProductInfo {
+        let currency: Currency = currency == .zero ? .krw : .usd
+        guard let name = name,
+              let price = price,
+              let discountedPrice = discountedPrice,
+              let stock = stock,
+              let description = description else {
+            return NewProductInfo(name: "", descriptions: "", price: 0, currency: .usd, discountedPrice: 0, stock: 0, secret: "")
+        }
+
+        let newProduct = NewProductInfo(
+            name: name,
+            descriptions: description,
+            price: (price as NSString).doubleValue,
+            currency: currency,
+            discountedPrice: ( discountedPrice as NSString).doubleValue,
+            stock: (stock as NSString).integerValue,
+            secret: secret
+        )
+        return newProduct
+    }
+    
+    private func createImageFiles(newProductName: String) -> [ImageFile]? {
+        var imageFileNumber = 1
+        var newProductImages: [ImageFile] = []
+        self.productImages.forEach { (type, image) in
+            let imageFile = ImageFile(
+                fileName: "\(newProductName)-\(imageFileNumber)",
+                image: image
+            )
+            imageFileNumber += 1
+            newProductImages.append(imageFile)
+        }
+        newProductImages.removeFirst()
+        return newProductImages
+    }
     
     struct ExecessImageAlertViewModel {
         let title: String? = "사진은 최대 \(ProductRegisterationViewModel.maximumProductImageCount)장까지 첨부할 수 있어요"
@@ -118,6 +193,10 @@ extension ProductRegisterationViewModel {
         
         case success
         case failure
+    }
+    
+    enum ViewModelError: Error {
+        case requestCreationFail
     }
     
     private func validateInputResult(isValidImage: Bool, isValidName: Bool, isValidPrice: Bool,
@@ -188,5 +267,5 @@ extension ProductRegisterationViewModel {
             return text.count >= 10 && text.count <= 1000 ? true : false
         }
     }
-    
+
 }
