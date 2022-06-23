@@ -29,6 +29,7 @@ final class ProductRegisterationViewModel {
         let productStock: Observable<String?>
         let productDescriptionText: Observable<String?>
         let requestRegisteration: Observable<Void>
+        let didRequestWithSecret: Observable<String>
     }
     
     struct Output {
@@ -38,6 +39,7 @@ final class ProductRegisterationViewModel {
         let excessImageAlert: Observable<ExecessImageAlertViewModel>
         let inputValidationAlert: Observable<String?>
         let registerationResponse: Observable<String>
+        let requireSecret: Observable<Void>
     }
     
     func transform(input: Input) -> Output {
@@ -74,12 +76,21 @@ final class ProductRegisterationViewModel {
         
         let validation = Observable.combineLatest(isValidImage, isValidName, isValidPrice, isValidStock, isvalidDescription, resultSelector: {
             self.validateInputResult(isValidImage: $0, isValidName: $1, isValidPrice: $2, isValidStock: $3, isValidDescription: $4)})
-            .filter { (result: ValidationResult, description: String?) in
-                result == .failure }
-            .map { (result, desccriptioin) in
-                return desccriptioin }
+            .share(replay: 1)
         
-        let inputValidationResult = input.requestRegisteration.withLatestFrom(validation)
+        let validationSuccess = validation
+            .filter({ (result, descritption) in
+            result == .success })
+            .map{ _ in }
+            .debug()
+        
+        let requireSecret = input.requestRegisteration
+            .withLatestFrom(validationSuccess)
+    
+        let validationFail = input.requestRegisteration
+            .withLatestFrom(validation) { (request, validationResult) in return validationResult }
+            .filter { $0.0 == .failure }
+            .map{ $0.1 }
     
         // request
         let registerationResponse = Observable.just("")
@@ -88,8 +99,9 @@ final class ProductRegisterationViewModel {
                       presentImagePicker: presentImagePicker,
                       productImages: productImages,
                       excessImageAlert: excessImageAlert,
-                      inputValidationAlert: inputValidationResult,
-                      registerationResponse: registerationResponse)
+                      inputValidationAlert: validationFail,
+                      registerationResponse: registerationResponse,
+                      requireSecret: requireSecret)
     }
     
 }

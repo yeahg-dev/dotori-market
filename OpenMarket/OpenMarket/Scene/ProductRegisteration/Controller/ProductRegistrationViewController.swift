@@ -39,6 +39,7 @@ final class ProductRegistrationViewController: UIViewController {
     private let viewModel = ProductRegisterationViewModel()
     private let disposeBag = DisposeBag()
     private let pickerImage = PublishSubject<UIImage>()
+    private let secret = PublishSubject<String>()
     private var cells: [CellType] = [.imagePickerCell]
  
     // MARK: - View Life Cycle
@@ -88,7 +89,8 @@ final class ProductRegistrationViewController: UIViewController {
             prdouctDiscountedPrice: self.discountedPriceTextField!.rx.text.asObservable(),
             productStock: self.stockTextField!.rx.text.asObservable(),
             productDescriptionText: self.descriptionsTextView!.rx.text.asObservable(),
-            requestRegisteration: doneButton.rx.tap.asObservable())
+            requestRegisteration: doneButton.rx.tap.asObservable(),
+            didRequestWithSecret: self.secret.asObservable())
         
         let output = self.viewModel.transform(input: input)
         
@@ -154,6 +156,22 @@ final class ProductRegistrationViewController: UIViewController {
                 self?.present(alert, animated: false)
             })
             .disposed(by: disposeBag)
+        
+        output.requireSecret
+            .observe(on: MainScheduler.instance)
+            .subscribe { _ in
+                let alert = UIAlertController(title: "비밀번호를 입력해주세요", message: nil, preferredStyle: .alert)
+                let sendAction = UIAlertAction(title: "등록", style: .default) { _ in
+                    guard let secret = alert.textFields?[0].text else { return }
+                    self.secret.onNext(secret)
+                    alert.dismiss(animated: false)
+                }
+                alert.addAction(sendAction)
+                alert.addTextField()
+                self.present(alert, animated: false)
+            }
+            .disposed(by: disposeBag)
+
     }
 
     // MARK: - IBaction Method
