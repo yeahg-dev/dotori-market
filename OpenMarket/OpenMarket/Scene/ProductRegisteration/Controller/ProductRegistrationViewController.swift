@@ -149,52 +149,28 @@ final class ProductRegistrationViewController: UIViewController {
         output.validationFailureAlert
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] description in
-                let alert = UIAlertController(title: description, message: nil, preferredStyle: .alert)
-                let okAction = UIAlertAction(title: MarketCommon.confirm.rawValue, style: .default) { _ in
-                    alert.dismiss(animated: false)
-                }
-                alert.addAction(okAction)
-                self?.present(alert, animated: false)
+                self?.presentValidationFailureAlert(viewModel: description)
             })
             .disposed(by: disposeBag)
         
         output.requireSecret
             .observe(on: MainScheduler.instance)
             .subscribe (onNext:{ viewModel in
-                let alert = UIAlertController(title: viewModel.title, message: nil, preferredStyle: .alert)
-                let sendAction = UIAlertAction(title: viewModel.actionTitle, style: .default) { _ in
-                    guard let secret = alert.textFields?[0].text else { return }
-                    self.secret.onNext(secret)
-                    alert.dismiss(animated: false)
-                }
-                alert.addAction(sendAction)
-                alert.addTextField()
-                self.present(alert, animated: false)
+                self.presentRequireSecretAlert(viewModel: viewModel)
             })
             .disposed(by: disposeBag)
         
         output.registrationFailureAlert
             .observe(on: MainScheduler.instance)
             .subscribe (onNext:{ [weak self] viewModel in
-                let alert = UIAlertController(title: viewModel.title , message: viewModel.message, preferredStyle: .alert)
-                let okAction = UIAlertAction(title: viewModel.actionTitle, style: .default) { _ in
-                    alert.dismiss(animated: false)
-                }
-                alert.addAction(okAction)
-                self?.present(alert, animated: false)
+                self?.presentRegistrationFailureAlert(viewModel: viewModel)
             })
             .disposed(by: disposeBag)
 
         output.registrationSuccessAlert
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] viewModel in
-                let alert = UIAlertController(title: viewModel.title, message: nil, preferredStyle: .alert)
-                let okAction = UIAlertAction(title: viewModel.actionTitle, style: .default) { [weak self] _ in
-                    alert.dismiss(animated: false)
-                    self?.dismiss(animated: false)
-                }
-                alert.addAction(okAction)
-                self?.present(alert, animated: false)
+                self?.presentRegistrationSuccessAlert(viewModel: viewModel)
             })
             .disposed(by: disposeBag)
                 
@@ -205,6 +181,7 @@ final class ProductRegistrationViewController: UIViewController {
         self.dismiss(animated: true)
     }
 
+    // MARK: - present Alert
     private func presentAlert(excessImageAlert: ProductRegisterationViewModel.ExecessImageAlertViewModel) {
         let alert = UIAlertController(title: excessImageAlert.title,
                                       message: excessImageAlert.message,
@@ -214,6 +191,46 @@ final class ProductRegistrationViewController: UIViewController {
             alert.dismiss(animated: false)
         }
         alert.addAction(action)
+        self.present(alert, animated: false)
+    }
+    
+    private func presentValidationFailureAlert(viewModel: String?) {
+        let alert = UIAlertController(title: viewModel, message: nil, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: MarketCommon.confirm.rawValue, style: .default) { _ in
+            alert.dismiss(animated: false)
+        }
+        alert.addAction(okAction)
+        self.present(alert, animated: false)
+    }
+    
+    private func presentRequireSecretAlert(viewModel: ProductRegisterationViewModel.RequireSecretAlertViewModel) {
+        let alert = UIAlertController(title: viewModel.title, message: nil, preferredStyle: .alert)
+        let sendAction = UIAlertAction(title: viewModel.actionTitle, style: .default) { _ in
+            guard let secret = alert.textFields?[0].text else { return }
+            self.secret.onNext(secret)
+            alert.dismiss(animated: false)
+        }
+        alert.addAction(sendAction)
+        alert.addTextField()
+        self.present(alert, animated: false)
+    }
+    
+    private func presentRegistrationFailureAlert(viewModel: ProductRegisterationViewModel.RegistrationFailureAlertViewModel) {
+        let alert = UIAlertController(title: viewModel.title , message: viewModel.message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: viewModel.actionTitle, style: .default) { _ in
+            alert.dismiss(animated: false)
+        }
+        alert.addAction(okAction)
+        self.present(alert, animated: false)
+    }
+    
+    private func presentRegistrationSuccessAlert(viewModel: ProductRegisterationViewModel.RegistrationSuccessAlertViewModel) {
+        let alert = UIAlertController(title: viewModel.title, message: nil, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: viewModel.actionTitle, style: .default) { [weak self] _ in
+            alert.dismiss(animated: false)
+            self?.dismiss(animated: false)
+        }
+        alert.addAction(okAction)
         self.present(alert, animated: false)
     }
 }
