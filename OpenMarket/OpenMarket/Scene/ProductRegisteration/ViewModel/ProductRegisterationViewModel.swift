@@ -33,19 +33,19 @@ final class ProductRegisterationViewModel {
         let prdouctDiscountedPrice: Observable<String?>
         let productStock: Observable<String?>
         let productDescriptionText: Observable<String?>
-        let requestRegisteration: Observable<Void>
+        let didDoneTapped: Observable<Void>
         let didReceiveSecret: Observable<String>
     }
     
     struct Output {
         let textViewPlaceholder: Observable<String>
+        let requireSecret: Observable<Void>
         let presentImagePicker: Observable<Void>
         let productImages: Observable<[(CellType, UIImage)]>
         let excessImageAlert: Observable<ExecessImageAlertViewModel>
-        let inputValidationAlert: Observable<String?>
-        let registrationSuccess: Observable<String>
-        let registrationFailure: Observable<RegistrationFailureAlertViewModel>
-        let requireSecret: Observable<Void>
+        let validationFailureAlert: Observable<String?>
+        let registrationSuccessAlert: Observable<String>
+        let registrationFailureAlert: Observable<RegistrationFailureAlertViewModel>
     }
     
     func transform(input: Input) -> Output {
@@ -74,7 +74,6 @@ final class ProductRegisterationViewModel {
                 row == .zero && self.productImages.count >= self.maximutProductImageCellCount }
             .map { _ in ExecessImageAlertViewModel() }
         
-        // validation
         let productName = input.productTitle.share(replay: 1)
         let productPrice = input.productPrice.share(replay: 1)
         let productStock = input.productStock.share(replay: 1)
@@ -96,10 +95,10 @@ final class ProductRegisterationViewModel {
             result == .success })
             .map{ _ in }
         
-        let requireSecret = input.requestRegisteration
+        let requireSecret = input.didDoneTapped
             .withLatestFrom(validationSuccess)
     
-        let validationFail = input.requestRegisteration
+        let validationFail = input.didDoneTapped
             .withLatestFrom(validation) { (request, validationResult) in return validationResult }
             .filter { $0.0 == .failure }
             .map{ $0.1 }
@@ -126,13 +125,13 @@ final class ProductRegisterationViewModel {
                 return "상품이 성공적으로 등록되었습니다" }
         
         return Output(textViewPlaceholder: textViewPlaceholder,
+                      requireSecret: requireSecret,
                       presentImagePicker: presentImagePicker,
                       productImages: productImages,
                       excessImageAlert: excessImageAlert,
-                      inputValidationAlert: validationFail,
-                      registrationSuccess: registerationResponse,
-                      registrationFailure: registrationFailure.asObservable(),
-                      requireSecret: requireSecret)
+                      validationFailureAlert: validationFail,
+                      registrationSuccessAlert: registerationResponse,
+                      registrationFailureAlert: registrationFailure.asObservable() )
     }
     
 }

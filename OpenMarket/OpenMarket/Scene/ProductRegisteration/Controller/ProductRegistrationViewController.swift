@@ -90,7 +90,7 @@ final class ProductRegistrationViewController: UIViewController {
             prdouctDiscountedPrice: self.discountedPriceTextField!.rx.text.asObservable(),
             productStock: self.stockTextField!.rx.text.asObservable(),
             productDescriptionText: self.descriptionsTextView!.rx.text.asObservable(),
-            requestRegisteration: doneButton.rx.tap.asObservable(),
+            didDoneTapped: doneButton.rx.tap.asObservable(),
             didReceiveSecret: self.secret.asObservable())
         
         let output = self.viewModel.transform(input: input)
@@ -146,7 +146,7 @@ final class ProductRegistrationViewController: UIViewController {
                 self?.presentAlert(excessImageAlert: excessImageAlert) }
             .disposed(by: disposeBag)
         
-        output.inputValidationAlert
+        output.validationFailureAlert
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] description in
                 let alert = UIAlertController(title: description, message: nil, preferredStyle: .alert)
@@ -173,7 +173,7 @@ final class ProductRegistrationViewController: UIViewController {
             }
             .disposed(by: disposeBag)
         
-        output.registrationFailure
+        output.registrationFailureAlert
             .observe(on: MainScheduler.instance)
             .subscribe (onNext:{ [weak self] viewModel in
                 let alert = UIAlertController(title: viewModel.title , message: viewModel.message, preferredStyle: .alert)
@@ -185,7 +185,7 @@ final class ProductRegistrationViewController: UIViewController {
             })
             .disposed(by: disposeBag)
 
-        output.registrationSuccess
+        output.registrationSuccessAlert
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] alertTitle in
                 let alert = UIAlertController(title: alertTitle, message: nil, preferredStyle: .alert)
