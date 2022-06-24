@@ -62,7 +62,7 @@ final class ProductRegisterationViewModel {
             .do(onNext: { image in
                 self.productImages.append((.productImageCell,image))
                 self.isValidImage.onNext(true) })
-                .map { _ in }
+            .map { _ in }
         
         let productImages = Observable.merge(input.viewWillAppear, didSelectImage)
             .map { _ in self.productImages }
@@ -109,16 +109,14 @@ final class ProductRegisterationViewModel {
                 return Observable.combineLatest(productName, productPrice, productDiscountedPrice, productCurrency, productStock, productDescription, Observable.just(secret),
                                    resultSelector: { (name, price, discountedPrice, currency, stock, descritpion, secret) -> NewProductInfo in
                     return self.createNewProductInfo(name: name, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, description: descritpion, secret: secret)
-                })
-            }
+                }) }
             .flatMap({ productInfo in
                 self.createRegistrationRequest(with: productInfo) })
             .flatMap { request in
                 // FIXME: - 요청 시도 횟수만큼 상품이 등록되는 오류
                 self.APIService.requestRx(request) }
-            .do( onError: { _ in
-                registrationFailure.onNext(RegistrationFailureAlertViewModel())
-            })
+            .do(onError: { _ in
+                registrationFailure.onNext(RegistrationFailureAlertViewModel()) })
             .retry(when: { _ in requireSecret })
             .map { _ in
                 return RegistrationSuccessAlertViewModel() }
@@ -135,6 +133,7 @@ final class ProductRegisterationViewModel {
     
 }
 
+// MARK: - Extension
 extension ProductRegisterationViewModel {
     
     enum Placeholder: String {

@@ -106,7 +106,7 @@ final class ProductRegistrationViewController: UIViewController {
         
         output.textViewPlaceholder
             .observe(on: MainScheduler.instance)
-                .subscribe(onNext: { [weak self] (placeholder: String) in
+            .subscribe(onNext: { [weak self] (placeholder: String) in
                 self?.textViewPlaceHolder = placeholder
                 self?.descriptionsTextView?.text = placeholder
                 self?.descriptionsTextView?.font = .preferredFont(forTextStyle: .footnote)
@@ -136,8 +136,7 @@ final class ProductRegistrationViewController: UIViewController {
                     } else {
                         cell.updateProductImageView(image: element.1, isRepresentaion: false)
                     }
-                    return cell
-                }}
+                    return cell }}
                 .disposed(by: disposeBag)
         
         output.excessImageAlert
@@ -149,29 +148,25 @@ final class ProductRegistrationViewController: UIViewController {
         output.validationFailureAlert
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] description in
-                self?.presentValidationFailureAlert(viewModel: description)
-            })
+                self?.presentValidationFailureAlert(viewModel: description) })
             .disposed(by: disposeBag)
         
         output.requireSecret
             .observe(on: MainScheduler.instance)
             .subscribe (onNext:{ viewModel in
-                self.presentRequireSecretAlert(viewModel: viewModel)
-            })
+                self.presentRequireSecretAlert(viewModel: viewModel) })
             .disposed(by: disposeBag)
         
         output.registrationFailureAlert
             .observe(on: MainScheduler.instance)
             .subscribe (onNext:{ [weak self] viewModel in
-                self?.presentRegistrationFailureAlert(viewModel: viewModel)
-            })
+                self?.presentRegistrationFailureAlert(viewModel: viewModel) })
             .disposed(by: disposeBag)
 
         output.registrationSuccessAlert
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] viewModel in
-                self?.presentRegistrationSuccessAlert(viewModel: viewModel)
-            })
+                self?.presentRegistrationSuccessAlert(viewModel: viewModel) })
             .disposed(by: disposeBag)
                 
     }
