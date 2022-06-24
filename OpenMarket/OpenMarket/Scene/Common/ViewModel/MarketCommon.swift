@@ -11,4 +11,5 @@ enum MarketCommon: String {
     
     case soldout = "SOLD OUT"
     case remainingStock = "잔여 수량"
+    case confirm = "확인"
 }

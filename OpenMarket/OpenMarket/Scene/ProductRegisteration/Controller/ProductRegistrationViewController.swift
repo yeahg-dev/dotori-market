@@ -150,7 +150,7 @@ final class ProductRegistrationViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] description in
                 let alert = UIAlertController(title: description, message: nil, preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+                let okAction = UIAlertAction(title: MarketCommon.confirm.rawValue, style: .default) { _ in
                     alert.dismiss(animated: false)
                 }
                 alert.addAction(okAction)
@@ -160,9 +160,9 @@ final class ProductRegistrationViewController: UIViewController {
         
         output.requireSecret
             .observe(on: MainScheduler.instance)
-            .subscribe { _ in
-                let alert = UIAlertController(title: "비밀번호를 입력해주세요", message: nil, preferredStyle: .alert)
-                let sendAction = UIAlertAction(title: "등록", style: .default) { _ in
+            .subscribe (onNext:{ viewModel in
+                let alert = UIAlertController(title: viewModel.title, message: nil, preferredStyle: .alert)
+                let sendAction = UIAlertAction(title: viewModel.actionTitle, style: .default) { _ in
                     guard let secret = alert.textFields?[0].text else { return }
                     self.secret.onNext(secret)
                     alert.dismiss(animated: false)
@@ -170,7 +170,7 @@ final class ProductRegistrationViewController: UIViewController {
                 alert.addAction(sendAction)
                 alert.addTextField()
                 self.present(alert, animated: false)
-            }
+            })
             .disposed(by: disposeBag)
         
         output.registrationFailureAlert
@@ -187,9 +187,9 @@ final class ProductRegistrationViewController: UIViewController {
 
         output.registrationSuccessAlert
             .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] alertTitle in
-                let alert = UIAlertController(title: alertTitle, message: nil, preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "리스트로 돌아가기", style: .default) { [weak self] _ in
+            .subscribe(onNext: { [weak self] viewModel in
+                let alert = UIAlertController(title: viewModel.title, message: nil, preferredStyle: .alert)
+                let okAction = UIAlertAction(title: viewModel.actionTitle, style: .default) { [weak self] _ in
                     alert.dismiss(animated: false)
                     self?.dismiss(animated: false)
                 }
