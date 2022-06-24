@@ -21,8 +21,6 @@ final class ProductRegisterationViewModel {
     // TODO: - 네임스페이스 구현
     private let textViewPlaceHolder = "상품 상세 정보를 입력해주세요.\n(최소 10 ~ 최대 1,000 글자 작성 가능 😊)"
     private let sellerIdentifier = "c4dedd67-71fc-11ec-abfa-fd97ecfece87"
-    let registrationFailAlertTitle = "등록에 실패했습니다"
-    let registrationFailAlertMessage = "다시 시도 해주세요"
     private let secretkey = "aFJkk2KmB53A*6LT"
     
     struct Input {
@@ -45,7 +43,8 @@ final class ProductRegisterationViewModel {
         let productImages: Observable<[(CellType, UIImage)]>
         let excessImageAlert: Observable<ExecessImageAlertViewModel>
         let inputValidationAlert: Observable<String?>
-        let registerationResponse: Observable<String>
+        let registrationSuccess: Observable<String>
+        let registrationFailure: Observable<RegistrationFailureAlertViewModel>
         let requireSecret: Observable<Void>
     }
     
@@ -105,6 +104,8 @@ final class ProductRegisterationViewModel {
             .filter { $0.0 == .failure }
             .map{ $0.1 }
     
+        let registrationFailure = PublishSubject<RegistrationFailureAlertViewModel>()
+        
         let registerationResponse = input.didReceiveSecret
             .flatMap { secret -> Observable<NewProductInfo> in
                 let productInfo =  Observable.combineLatest(productName, productPrice, productDiscountedPrice, productCurrency, productStock, productDescription, Observable.just(secret), resultSelector: { (name, price, discountedPrice, currency, stock, descritpion, secret) -> NewProductInfo in
@@ -115,17 +116,22 @@ final class ProductRegisterationViewModel {
             .flatMap({ productInfo in
                 self.createRegistrationRequest(with: productInfo) })
             .flatMap { request in
+                // FIXME: - 요청 시도 횟수만큼 상품이 등록되는 오류
                 self.APIService.requestRx(request) }
+            .do( onError: { _ in
+                registrationFailure.onNext(RegistrationFailureAlertViewModel())
+            })
+            .retry(when: { _ in requireSecret })
             .map { _ in
-                return "상품이 성공적으로 등록되었습니다." }
-            
+                return "상품이 성공적으로 등록되었습니다" }
         
         return Output(textViewPlaceholder: textViewPlaceholder,
                       presentImagePicker: presentImagePicker,
                       productImages: productImages,
                       excessImageAlert: excessImageAlert,
                       inputValidationAlert: validationFail,
-                      registerationResponse: registerationResponse,
+                      registrationSuccess: registerationResponse,
+                      registrationFailure: registrationFailure.asObservable(),
                       requireSecret: requireSecret)
     }
     
@@ -187,6 +193,13 @@ extension ProductRegisterationViewModel {
         let title: String? = "사진은 최대 \(ProductRegisterationViewModel.maximumProductImageCount)장까지 첨부할 수 있어요"
         let message: String? = nil
         let actionTitle: String? = "확인"
+    }
+    
+    struct RegistrationFailureAlertViewModel {
+        
+        let title = "등록에 실패했습니다"
+        let message = "다시 시도 해주세요"
+        let actionTitle = "확인"
     }
     
     enum ValidationResult {

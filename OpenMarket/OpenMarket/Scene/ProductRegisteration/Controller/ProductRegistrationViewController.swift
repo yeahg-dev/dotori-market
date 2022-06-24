@@ -173,26 +173,31 @@ final class ProductRegistrationViewController: UIViewController {
             }
             .disposed(by: disposeBag)
         
-        output.registerationResponse
+        output.registrationFailure
             .observe(on: MainScheduler.instance)
-            .subscribe { alert in
-                let alert = UIAlertController(title: alert, message: nil, preferredStyle: .alert)
+            .subscribe (onNext:{ [weak self] viewModel in
+                let alert = UIAlertController(title: viewModel.title , message: viewModel.message, preferredStyle: .alert)
+                let okAction = UIAlertAction(title: viewModel.actionTitle, style: .default) { _ in
+                    alert.dismiss(animated: false)
+                }
+                alert.addAction(okAction)
+                self?.present(alert, animated: false)
+            })
+            .disposed(by: disposeBag)
+
+        output.registrationSuccess
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] alertTitle in
+                let alert = UIAlertController(title: alertTitle, message: nil, preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "리스트로 돌아가기", style: .default) { [weak self] _ in
                     alert.dismiss(animated: false)
                     self?.dismiss(animated: false)
                 }
                 alert.addAction(okAction)
-                self.present(alert, animated: false)
-            } onError: { [weak self] _ in
-                let alert = UIAlertController(title: self?.viewModel.registrationFailAlertTitle, message: self?.viewModel.registrationFailAlertMessage, preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "확인", style: .default) { _ in
-                    alert.dismiss(animated: false)
-                }
-                alert.addAction(okAction)
                 self?.present(alert, animated: false)
-            }
+            })
             .disposed(by: disposeBag)
-
+                
     }
 
     // MARK: - IBaction Method
