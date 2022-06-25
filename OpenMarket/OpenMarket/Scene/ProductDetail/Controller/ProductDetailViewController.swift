@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 final class ProductDetailViewController: UIViewController, UICollectionViewDelegate {
-
+    
     // MARK: - IBOutlet
     @IBOutlet private weak var productImageCollectionView: UICollectionView?
     @IBOutlet weak var productInfoStackView: UIStackView?
@@ -27,9 +27,7 @@ final class ProductDetailViewController: UIViewController, UICollectionViewDeleg
     private let flowLayout = UICollectionViewFlowLayout()
     
     // MARK: - Property
-    private let apiService = MarketAPIService()
     private var productID: Int?
-    private var productDetail: ProductDetail?
     private let viewModel = ProductDetailSceneViewModel()
     private let disposeBag = DisposeBag()
     
@@ -44,53 +42,7 @@ final class ProductDetailViewController: UIViewController, UICollectionViewDeleg
         self.bindViewModel()
     }
     
-    private func configureStackViewLayout() {
-        guard let productInfoStackView = self.productInfoStackView,
-              let productStockLabel = self.productStockLabel else {
-            return
-        }
-
-        productInfoStackView.setCustomSpacing(20, after: productStockLabel)
-    }
-
-    private func configureCollectionViewFlowLayout() {
-        let cellWidth = self.view.frame.width
-        flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth)
-        flowLayout.minimumLineSpacing = 0
-        flowLayout.minimumInteritemSpacing = 0
-        flowLayout.scrollDirection = .horizontal
-        self.productImageCollectionView?.collectionViewLayout = flowLayout
-    }
-    
-    private func configureNavigationItem() {
-        let composeButton = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(presentProductModificationView))
-        self.navigationItem.setRightBarButton(composeButton, animated: true)
-    }
-    
-    private func layoutImagePageControl() {
-        self.view.addSubview(imagePageControl)
-        self.productImageCollectionView?.translatesAutoresizingMaskIntoConstraints = false
-        self.imagePageControl.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            self.imagePageControl.centerXAnchor.constraint(
-                equalTo: self.productImageCollectionView!.centerXAnchor),
-            self.imagePageControl.bottomAnchor.constraint(
-                equalTo: self.productImageCollectionView!.bottomAnchor)
-        ])
-    }
-    
-    private func configureNavigationTitle(with title: String) {
-        self.navigationItem.title = title
-    }
-    
-    private func configureScrollViewdelegate() {
-        guard let scrollView = self.productImageCollectionView as? UIScrollView else {
-            return
-        }
-        scrollView.delegate = self
-    }
-
-    // MARK: - Method
+    // MARK: - binding
     func bindViewModel() {
         let input = ProductDetailSceneViewModel.Input(viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in self.productID!})
         
@@ -131,8 +83,7 @@ final class ProductDetailViewController: UIViewController, UICollectionViewDeleg
             .observe(on: MainScheduler.instance)
             .subscribe (onNext:{ [weak self] discountedRate in
                 if discountedRate == nil {
-                    self?.productSellingPriceStackView?.spacing = .zero
-                }
+                    self?.productSellingPriceStackView?.spacing = .zero }
                 self?.productDiscountRateLabel?.text = discountedRate })
             .disposed(by: disposeBag)
         
@@ -143,14 +94,62 @@ final class ProductDetailViewController: UIViewController, UICollectionViewDeleg
             .disposed(by: disposeBag)
         
     }
-        
+    
+    // MARK: - configure UI
+    private func configureStackViewLayout() {
+        guard let productInfoStackView = self.productInfoStackView,
+              let productStockLabel = self.productStockLabel else {
+            return
+        }
+        productInfoStackView.setCustomSpacing(20, after: productStockLabel)
+    }
+    
+    private func configureCollectionViewFlowLayout() {
+        let cellWidth = self.view.frame.width
+        flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth)
+        flowLayout.minimumLineSpacing = 0
+        flowLayout.minimumInteritemSpacing = 0
+        flowLayout.scrollDirection = .horizontal
+        self.productImageCollectionView?.collectionViewLayout = flowLayout
+    }
+    
+    private func configureNavigationItem() {
+        let composeButton = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(presentProductModificationView))
+        self.navigationItem.setRightBarButton(composeButton, animated: true)
+    }
+    
+    private func layoutImagePageControl() {
+        self.view.addSubview(imagePageControl)
+        self.productImageCollectionView?.translatesAutoresizingMaskIntoConstraints = false
+        self.imagePageControl.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.imagePageControl.centerXAnchor.constraint(
+                equalTo: self.productImageCollectionView!.centerXAnchor),
+            self.imagePageControl.bottomAnchor.constraint(
+                equalTo: self.productImageCollectionView!.bottomAnchor)
+        ])
+    }
+    
+    private func configureNavigationTitle(with title: String) {
+        self.navigationItem.title = title
+    }
+    
+    private func configureScrollViewdelegate() {
+        guard let scrollView = self.productImageCollectionView as? UIScrollView else {
+            return
+        }
+        scrollView.delegate = self
+    }
+    
+    // MARK: - API
     func setProduct(_ id: Int) {
         self.productID = id
     }
     
+    // MARK: - transition view
     @objc private func presentProductModificationView() {
         guard let productModificationVC = self.storyboard?.instantiateViewController(withIdentifier: "ProductModificationViewController") as? ProductModificationViewController,
-        let productID = self.productID else {
+              let productID = self.productID else {
             return
         }
         productModificationVC.setProduct(productID)
@@ -167,4 +166,3 @@ extension ProductDetailViewController: UIScrollViewDelegate {
         self.imagePageControl.currentPage = page
     }
 }
-
