@@ -129,8 +129,11 @@ final class ProductDetailViewController: UIViewController, UICollectionViewDeleg
         
         output.productDiscountedRate
             .observe(on: MainScheduler.instance)
-            .subscribe { [weak self] discountedRate in
-                self?.productDiscountRateLabel?.text = discountedRate }
+            .subscribe (onNext:{ [weak self] discountedRate in
+                if discountedRate == nil {
+                    self?.productSellingPriceStackView?.spacing = .zero
+                }
+                self?.productDiscountRateLabel?.text = discountedRate })
             .disposed(by: disposeBag)
         
         output.productDescription

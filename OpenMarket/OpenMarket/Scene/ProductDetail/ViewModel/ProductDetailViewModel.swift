@@ -28,7 +28,7 @@ struct ProductDetailViewModel {
             return nil
         }
         
-        let discountRate = self.discountedPriceData / self.discountedPriceData
+        let discountRate = self.discountedPriceData / self.priceData
         return discountRate.formattedPercent
     }
     
