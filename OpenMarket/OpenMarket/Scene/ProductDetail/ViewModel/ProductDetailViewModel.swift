@@ -10,7 +10,6 @@ import Foundation
 struct ProductDetailViewModel {
     
     // MARK: - Model
-    private let currencyData: Currency
     private let priceData: Double
     private let bargainPriceData: Double
     private let discountedPriceData: Double
@@ -21,6 +20,15 @@ struct ProductDetailViewModel {
     let name: String
     let description: String
     let images: [Image]
+    let currency: Currency
+    
+    var discountedPrice: String? {
+        if self.discountedPriceData.isZero {
+            return nil
+        } else {
+            return String(self.discountedPriceData)
+        }
+    }
     
     var discountedRate: String? {
         if self.discountedPriceData.isZero {
@@ -34,12 +42,12 @@ struct ProductDetailViewModel {
     
     var sellingPrice: String {
         return self.toProductSellingPriceLabelText(bargainPrice: self.bargainPriceData,
-                                                   currency: self.currencyData)
+                                                   currency: self.currency)
     }
     
     var price: String? {
         return self.toProductPriceLabelText(price: self.priceData,
-                                            currency: self.currencyData)
+                                            currency: self.currency)
     }
     
     var stock: String {
@@ -47,7 +55,7 @@ struct ProductDetailViewModel {
     }
     
     init(product: ProductDetail) {
-        self.currencyData = product.currency
+        self.currency = product.currency
         self.priceData = product.price
         self.bargainPriceData = product.bargainPrice
         self.discountedPriceData = product.discountedPrice
