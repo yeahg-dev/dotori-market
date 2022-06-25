@@ -145,46 +145,12 @@ final class ProductDetailViewController: UIViewController, UICollectionViewDeleg
         self.productID = id
     }
     
-    private func downloadProductDetail(prodcutID: Int?) {
-        guard let id = prodcutID else { return }
-         
-        let request = ProductDetailRequest(productID: id)
-        apiService.request(request) { [weak self] (result: Result<ProductDetail, Error>) in
-            switch result {
-            case .success(let product):
-                self?.productDetail = product
-                DispatchQueue.main.async {
-                    self?.updateProdutDetail(with: product)
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
-    private func updateProdutDetail(with product: ProductDetail) {
-        self.fillUI(with: product)
-        self.productImageCollectionView?.reloadData()
-    }
-    
-    private func fillUI(with product: ProductDetail) {
-        self.configureNavigationTitle(with: product.name)
-        self.productNameLabel?.text = product.name
-        self.productPriceLabel?.text = self.productPriceLabelText(of: product)
-        self.productDiscountRateLabel?.text = self.productDiscountRateLabelText(of: product)
-        self.productSellingPriceLabel?.text = self.productSellingPriceLabelText(of: product)
-        self.productStockLabel?.text = self.productStockLabelText(of: product)
-        self.productDescriptionTextView?.text = product.description
-        self.imagePageControl.numberOfPages = product.images.count
-    }
-    
     @objc private func presentProductModificationView() {
         guard let productModificationVC = self.storyboard?.instantiateViewController(withIdentifier: "ProductModificationViewController") as? ProductModificationViewController,
         let productID = self.productID else {
             return
         }
         productModificationVC.setProduct(productID)
-        productModificationVC.refreshDelegate = self
         self.present(productModificationVC, animated: false)
     }
     
@@ -199,9 +165,3 @@ extension ProductDetailViewController: UIScrollViewDelegate {
     }
 }
 
-// MARK: - RefreshDelegate
-extension ProductDetailViewController: RefreshDelegate {
-    func refresh() {
-        self.downloadProductDetail(prodcutID: self.productID)
-    }
-}
