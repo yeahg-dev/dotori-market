@@ -67,14 +67,12 @@ final class ProductModificationViewController: UIViewController {
         output.productImagesURL
             .observe(on: MainScheduler.instance)
             .bind(to: productImageCollectionView!.rx.items(cellIdentifier: "PrdouctImageCollectionViewCell", cellType: ProductImageCollectionViewCell.self)) { (row, element, cell) in
-                
-                let imageURL = URL(string: element.thumbnailURL)
-                // TODO: - 강제언래핑 제거
+                guard let imageURL = URL(string: element.thumbnailURL) else { return }
                 if row == .zero {
-                    cell.update(image: nil, url: imageURL!, isRepresentaion: true)
+                    cell.update(image: nil, url: imageURL, isRepresentaion: true)
                 } else {
-                    cell.update(image: nil, url: imageURL!, isRepresentaion: false)
-                } }
+                    cell.update(image: nil, url: imageURL, isRepresentaion: false)
+                }}
             .disposed(by: disposeBag)
         
         output.productPrice
