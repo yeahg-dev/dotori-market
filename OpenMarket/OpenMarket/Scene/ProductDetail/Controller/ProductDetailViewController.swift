@@ -6,8 +6,10 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
-final class ProductDetailViewController: UIViewController {
+final class ProductDetailViewController: UIViewController, UICollectionViewDelegate {
 
     // MARK: - IBOutlet
     @IBOutlet private weak var productImageCollectionView: UICollectionView?
@@ -28,6 +30,8 @@ final class ProductDetailViewController: UIViewController {
     private let apiService = MarketAPIService()
     private var productID: Int?
     private var productDetail: ProductDetail?
+    private let viewModel = ProductDetailSceneViewModel()
+    private let disposeBag = DisposeBag()
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -36,7 +40,8 @@ final class ProductDetailViewController: UIViewController {
         self.configureCollectionViewFlowLayout()
         self.configureNavigationItem()
         self.layoutImagePageControl()
-        self.downloadProductDetail(prodcutID: productID)
+        self.configureScrollViewdelegate()
+        self.bindViewModel()
     }
     
     private func configureStackViewLayout() {
@@ -77,8 +82,65 @@ final class ProductDetailViewController: UIViewController {
     private func configureNavigationTitle(with title: String) {
         self.navigationItem.title = title
     }
+    
+    private func configureScrollViewdelegate() {
+        guard let scrollView = self.productImageCollectionView as? UIScrollView else {
+            return
+        }
+        scrollView.delegate = self
+    }
 
     // MARK: - Method
+    func bindViewModel() {
+        let input = ProductDetailSceneViewModel.Input(viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in self.productID!})
+        
+        let output = viewModel.transform(input: input)
+        
+        output.prdouctName
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] name in
+                self?.configureNavigationTitle(with: name) }
+            .disposed(by: disposeBag)
+        
+        output.productImagesURL
+            .observe(on: MainScheduler.instance)
+            .bind(to: productImageCollectionView!.rx.items(cellIdentifier: "PrdouctDetailCollectionViewCell", cellType: PrdouctDetailCollectionViewCell.self)) { (row, element, cell) in
+                if let imageURL = URL(string: element.thumbnailURL) {
+                    cell.fill(with: imageURL) }}
+            .disposed(by: disposeBag)
+        
+        output.productImagesURL
+            .observe(on: MainScheduler.instance)
+            .subscribe { images in
+                self.imagePageControl.numberOfPages = images.count }
+            .disposed(by: disposeBag)
+        
+        output.productPrice
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] price in
+                self?.productPriceLabel?.text = price }
+            .disposed(by: disposeBag)
+        
+        output.prodcutSellingPrice
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] sellingPrice in
+                self?.productSellingPriceLabel?.text = sellingPrice }
+            .disposed(by: disposeBag)
+        
+        output.productDiscountedRate
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] discountedRate in
+                self?.productDiscountRateLabel?.text = discountedRate }
+            .disposed(by: disposeBag)
+        
+        output.productDescription
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] description in
+                self?.productDescriptionTextView?.text = description }
+            .disposed(by: disposeBag)
+        
+    }
+        
     func setProduct(_ id: Int) {
         self.productID = id
     }
@@ -128,76 +190,12 @@ final class ProductDetailViewController: UIViewController {
     
 }
 
-// MARK: - UICollectionViewDataSource
-extension ProductDetailViewController: UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return productDetail?.images.count ?? .zero
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
-        guard let cell = self.productImageCollectionView?.dequeueReusableCell(withReuseIdentifier: "PrdouctDetailCollectionViewCell", for: indexPath) as? PrdouctDetailCollectionViewCell else {
-            return PrdouctDetailCollectionViewCell()
-        }
-        
-        if let imageURLString = self.productDetail?.images[indexPath.row].thumbnailURL,
-           let imageURL = URL(string: imageURLString) {
-            cell.fill(with: imageURL)
-        }
-
-        return cell
-    }
-    
-}
-
 // MARK: - UIScrollViewDelegate
 extension ProductDetailViewController: UIScrollViewDelegate {
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let page = Int(targetContentOffset.pointee.x / self.view.frame.width)
         self.imagePageControl.currentPage = page
-    }
-}
-
-// MARK: - UILogic
-extension ProductDetailViewController {
-    
-    private func productPriceLabelText(of product: ProductDetail) -> String? {
-        if product.discountedPrice.isZero {
-            return nil
-        }
-    
-        let price = product.price.decimalFormatted
-        let currency = product.currency
-        return currency.composePriceTag(of: price)
-    }
-    
-    private func productSellingPriceLabelText(of product: ProductDetail) -> String {
-        let price = product.bargainPrice.decimalFormatted
-        let currency = product.currency
-        return currency.composePriceTag(of: price)
-    }
-    
-    private func productStockLabelText(of product: ProductDetail) -> String {
-        if product.stock == .zero {
-            return MarketCommon.soldout.rawValue
-        }
-        let stock = product.stock.decimalFormatted
-        return "\(MarketCommon.remainingStock.rawValue) \(stock)"
-    }
-    
-    private func productDiscountRateLabelText(of product: ProductDetail) -> String? {
-        if product.discountedPrice.isZero {
-            self.productSellingPriceStackView?.spacing = .zero
-            return nil
-        }
-        
-        let discountRate = product.discountedPrice / product.price
-        return discountRate.decimalFormatted
     }
 }
 

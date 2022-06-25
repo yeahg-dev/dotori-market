@@ -255,10 +255,6 @@
                                                         </connections>
                                                     </collectionViewCell>
                                                 </cells>
-                                                <connections>
-                                                    <outlet property="dataSource" destination="09Y-x2-Cw7" id="fI1-8b-e7g"/>
-                                                    <outlet property="delegate" destination="09Y-x2-Cw7" id="F4k-Zu-Fc8"/>
-                                                </connections>
                                             </collectionView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ckn-FL-pw8">
                                                 <rect key="frame" x="0.0" y="414" width="414" height="539.5"/>
