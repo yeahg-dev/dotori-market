@@ -699,7 +699,7 @@
                                                             <outlet property="addedImageCountLabel" destination="x7f-dO-ymk" id="Wr6-gr-0yJ"/>
                                                         </connections>
                                                     </collectionViewCell>
-                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProductImageCollectionViewCell" id="g45-aI-4mR" customClass="ProductImageCollectionViewCell" customModule="OpenMarket" customModuleProvider="target">
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PrdouctImageCollectionViewCell" id="g45-aI-4mR" customClass="ProductImageCollectionViewCell" customModule="OpenMarket" customModuleProvider="target">
                                                         <rect key="frame" x="138" y="30.5" width="38.5" height="67.5"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="a2c-2S-z2Y">
@@ -734,10 +734,6 @@
                                                         </connections>
                                                     </collectionViewCell>
                                                 </cells>
-                                                <connections>
-                                                    <outlet property="dataSource" destination="pik-Y7-Iif" id="vgu-Dp-qXK"/>
-                                                    <outlet property="delegate" destination="pik-Y7-Iif" id="DbX-mx-gMN"/>
-                                                </connections>
                                             </collectionView>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품명" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="FNM-Cg-hnx">
                                                 <rect key="frame" x="0.0" y="146.5" width="394" height="34.5"/>

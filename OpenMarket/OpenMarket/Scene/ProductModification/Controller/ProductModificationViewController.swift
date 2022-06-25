@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 final class ProductModificationViewController: UIViewController {
     
@@ -22,25 +24,18 @@ final class ProductModificationViewController: UIViewController {
     
     // MARK: - Property
     weak var refreshDelegate: RefreshDelegate?
-    private let apiService = MarketAPIService()
     private var productID: Int?
-    private var productDetail: ProductDetail?
-    private var productImages: [UIImage] = []
-    private let imagePicker: UIImagePickerController = {
-        let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = .photoLibrary
-        imagePicker.allowsEditing = true
-        return imagePicker
-    }()
+    private let viewModel = ProductModificationSceneViewModel()
+    private let disposeBag = DisposeBag()
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureCollectionViewLayout()
-        self.downloadProductDetail(of: productID)
         self.addKeyboardNotificationObserver()
         self.addKeyboardDismissGestureRecognizer()
         self.configureDelegate()
+        self.bindViewModel()
     }
     
     // MARK: - Layout
@@ -55,6 +50,70 @@ final class ProductModificationViewController: UIViewController {
         flowLayout.minimumLineSpacing = 10
         flowLayout.sectionInset = UIEdgeInsets(top: .zero, left: 10, bottom: .zero, right: 10)
         self.productImageCollectionView?.collectionViewLayout = flowLayout
+    }
+    
+    // MARK: - binding
+    func bindViewModel() {
+        let input = ProductModificationSceneViewModel.Input(viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in self.productID!})
+        
+        let output = viewModel.transform(input: input)
+        
+        output.prdouctName
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] name in
+                self?.productNameField?.text = name }
+            .disposed(by: disposeBag)
+        
+        output.productImagesURL
+            .observe(on: MainScheduler.instance)
+            .bind(to: productImageCollectionView!.rx.items(cellIdentifier: "PrdouctImageCollectionViewCell", cellType: ProductImageCollectionViewCell.self)) { (row, element, cell) in
+                
+                let imageURL = URL(string: element.thumbnailURL)
+                // TODO: - 강제언래핑 제거
+                if row == .zero {
+                    cell.update(image: nil, url: imageURL!, isRepresentaion: true)
+                } else {
+                    cell.update(image: nil, url: imageURL!, isRepresentaion: false)
+                } }
+            .disposed(by: disposeBag)
+        
+        output.productPrice
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] price in
+                self?.prdouctPriceField?.text = price }
+            .disposed(by: disposeBag)
+        
+        output.productPrice
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] sellingPrice in
+                self?.prdouctPriceField?.text = sellingPrice }
+            .disposed(by: disposeBag)
+        
+        output.productStock
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] stock in
+                self?.productStockField?.text = stock
+            }
+            .disposed(by: disposeBag)
+        
+        output.prodcutDiscountedPrice
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] price in
+                self?.productDisconutPriceField?.text = price
+            }
+            .disposed(by: disposeBag)
+        
+        output.productCurrencyIndex
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] index in
+                self?.productCurrencySegmentedControl?.selectedSegmentIndex = index }
+            .disposed(by: disposeBag)
+        
+        output.productDescription
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] description in
+                self?.productDescriptionTextView?.text = description }
+            .disposed(by: disposeBag)
     }
     
     // MARK: - IBAction
@@ -73,45 +132,12 @@ final class ProductModificationViewController: UIViewController {
             return
         }
         
-        self.handleProductEditRequest()
+//        self.handleProductEditRequest()
     }
     
     // MARK: -Method
     func setProduct(_ productID: Int) {
         self.productID = productID
-    }
-    
-    private func downloadProductDetail(of prodcutID: Int?) {
-        guard let id = prodcutID else { return }
-        
-        let request = ProductDetailRequest(productID: id)
-        apiService.request(request) { [weak self] (result: Result<ProductDetail, Error>) in
-            switch result {
-            case .success(let product):
-                self?.productDetail = product
-                DispatchQueue.main.async {
-                    self?.fillUI(wtih: product)
-                    self?.productImageCollectionView?.reloadData()
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
-    private func fillUI(wtih product: ProductDetail) {
-        self.productNameField?.text = product.name
-        self.prdouctPriceField?.text = product.price.stringFormmated
-        self.productDisconutPriceField?.text  = product.discountedPrice.stringFormmated
-        self.productStockField?.text = product.stock.description
-        self.productDescriptionTextView?.text = product.description
-        let currency = product.currency
-        switch currency {
-        case .krw:
-            self.productCurrencySegmentedControl?.selectedSegmentIndex = 0
-        case .usd:
-            self.productCurrencySegmentedControl?.selectedSegmentIndex = 1
-        }
     }
     
     private func configureDelegate() {
@@ -138,35 +164,35 @@ final class ProductModificationViewController: UIViewController {
         }
         secretRequestAlert.addAction(okAction)
         secretRequestAlert.addAction(cancelAction)
- 
+
         self.present(secretRequestAlert, animated: false)
     }
-    
+
     private func requestProductEditAPI(with secret: String) {
         guard let productID = self.productID else {
             return
         }
-        
+
         let request = ProductEditRequest(
             identifier: "c4dedd67-71fc-11ec-abfa-fd97ecfece87",
             productID: productID,
             productInfo: self.createEditProductInfo(with: secret))
-        
-        apiService.request(request) { [weak self] (result: Result<ProductDetail, Error>) in
-            switch result {
-            case .success:
-                DispatchQueue.main.async {
-                    self?.dismiss(animated: true)
-                    self?.refreshDelegate?.refresh()
-                }
-            case .failure:
-                DispatchQueue.main.async {
-                    self?.presentModificationFailureAlert()
-                }
-            }
-        }
+
+//        apiService.request(request) { [weak self] (result: Result<ProductDetail, Error>) in
+//            switch result {
+//            case .success:
+//                DispatchQueue.main.async {
+//                    self?.dismiss(animated: true)
+//                    self?.refreshDelegate?.refresh()
+//                }
+//            case .failure:
+//                DispatchQueue.main.async {
+//                    self?.presentModificationFailureAlert()
+//                }
+//            }
+//        }
     }
-    
+
     private func createEditProductInfo(with secret: String) -> EditProductInfo {
         let price = self.prdouctPriceField?.text ?? ""
         let stock = self.productStockField?.text ?? ""
@@ -177,7 +203,7 @@ final class ProductModificationViewController: UIViewController {
         } else {
             currency = .usd
         }
-        
+
         return EditProductInfo(name: self.productNameField?.text,
                                descriptions: self.productDescriptionTextView?.text,
                                thumbnailID: nil,
@@ -187,7 +213,7 @@ final class ProductModificationViewController: UIViewController {
                                stock: (stock as NSString).integerValue,
                                secret: secret)
     }
-    
+
     private func presentModificationFailureAlert() {
         let alert = UIAlertController(title: "비밀번호를 다시 확인해주세요", message: nil, preferredStyle: .alert)
         let retryAction = UIAlertAction(title: "재시도", style: .default) { _ in
@@ -245,29 +271,6 @@ extension ProductModificationViewController {
         scrollView?.verticalScrollIndicatorInsets.bottom = .zero
     }
     
-}
-
-// MARK: - UICollectionViewDataSource
-extension ProductModificationViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return productDetail?.images.count ?? .zero
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(
-            withClass: ProductImageCollectionViewCell.self,
-            for: indexPath
-        )
-        let representationImage = productImages[safe: 0]
-        let imageURLStirng = productDetail?.images[safe: indexPath.item]?.thumbnailURL ?? ""
-        let imageURL = URL(string: imageURLStirng)
-        if indexPath.item == .zero {
-            cell.update(image: representationImage, url: imageURL!, isRepresentaion: true)
-        } else {
-            cell.update(image: nil, url: imageURL!, isRepresentaion: false)
-        }
-        return cell
-    }
 }
 
 // MARK: - UITextFieldDelegate
@@ -346,7 +349,7 @@ extension ProductModificationViewController {
                 return "상세정보는 10자이상 1,000자이하로 작성해주세요"
             } else {
                 let categories = [name, price, stock, description]
-               
+                
                 let description = categories
                     .filter { !$0.isEmpty }
                     .reduce("") { partialResult, category in
