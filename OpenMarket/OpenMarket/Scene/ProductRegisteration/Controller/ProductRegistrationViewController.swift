@@ -200,13 +200,15 @@ final class ProductRegistrationViewController: UIViewController {
     
     private func presentRequireSecretAlert(viewModel: ProductRegisterationViewModel.RequireSecretAlertViewModel) {
         let alert = UIAlertController(title: viewModel.title, message: nil, preferredStyle: .alert)
+        alert.addTextField()
+        alert.textFields?[0].isSecureTextEntry = true
         let sendAction = UIAlertAction(title: viewModel.actionTitle, style: .default) { _ in
             guard let secret = alert.textFields?[0].text else { return }
             self.secret.onNext(secret)
             alert.dismiss(animated: false)
         }
         alert.addAction(sendAction)
-        alert.addTextField()
+        
         self.present(alert, animated: false)
     }
     
