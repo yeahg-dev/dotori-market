@@ -47,7 +47,7 @@ final class ProductRegisterationViewModel {
     }
     
     func transform(input: Input) -> Output {
-        let textViewPlaceholderText = Placeholder.textView.rawValue
+        let textViewPlaceholderText = MarketCommon.descriptionTextViewPlaceHolder.rawValue
         
         let textViewPlaceholder = input.viewWillAppear
             .map {textViewPlaceholderText }
@@ -133,15 +133,9 @@ final class ProductRegisterationViewModel {
     
 }
 
-// MARK: - Extension
+// MARK: - Alert View Model
 extension ProductRegisterationViewModel {
-    
-    enum Placeholder: String {
-        
-        case textView = "상품 상세 정보를 입력해주세요.\n(최소 10 ~ 최대 1,000 글자 작성 가능 😊)"
-    }
-    
-    // MARK: - Alert View Model
+ 
     struct ExecessImageAlertViewModel {
         
         let title: String? = "사진은 최대 \(ProductRegisterationViewModel.maximumProductImageCount)장까지 첨부할 수 있어요"
@@ -249,7 +243,7 @@ extension ProductRegisterationViewModel {
     private func validate(description: Observable<String?>) -> Observable<Bool> {
         return description.map { description -> Bool in
             guard let text = description else { return false }
-            if text == Placeholder.textView.rawValue { return false }
+            if text == MarketCommon.descriptionTextViewPlaceHolder.rawValue { return false }
             return text.count >= 10 && text.count <= 1000 ? true : false
         }
     }

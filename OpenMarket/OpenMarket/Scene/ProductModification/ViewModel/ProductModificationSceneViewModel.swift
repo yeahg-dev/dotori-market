@@ -128,12 +128,6 @@ final class ProductModificationSceneViewModel {
 // MARK: - AlertViewModel
 extension ProductModificationSceneViewModel {
     
-    // TODO: - 등록/수정화면 공통 사용요소
-    enum Placeholder: String {
-        
-        case textView = "상품 상세 정보를 입력해주세요.\n(최소 10 ~ 최대 1,000 글자 작성 가능 😊)"
-    }
-    
     struct RequireSecretAlertViewModel {
         
         let title = "판매자 비밀번호를 입력해주세요"
@@ -228,7 +222,7 @@ extension ProductModificationSceneViewModel {
     private func validate(description: Observable<String?>) -> Observable<Bool> {
         return description.map { description -> Bool in
             guard let text = description else { return false }
-            if text == Placeholder.textView.rawValue { return false }
+            if text == MarketCommon.descriptionTextViewPlaceHolder.rawValue { return false }
             return text.count >= 10 && text.count <= 1000 ? true : false
         }
     }

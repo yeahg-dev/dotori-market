@@ -309,7 +309,7 @@ extension ProductRegistrationViewController: UITextFieldDelegate {
 extension ProductRegistrationViewController: UITextViewDelegate {
     
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        if textView.text == self.textViewPlaceHolder {
+        if textView.text == MarketCommon.descriptionTextViewPlaceHolder.rawValue {
             self.descriptionsTextView?.text = ""
             self.descriptionsTextView?.textColor = .black
         }
