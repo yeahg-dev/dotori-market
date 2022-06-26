@@ -50,8 +50,9 @@ final class ProductDetailViewController: UIViewController, UICollectionViewDeleg
         
         output.prdouctName
             .observe(on: MainScheduler.instance)
-            .subscribe { [weak self] name in
-                self?.configureNavigationTitle(with: name) }
+            .subscribe (onNext:{ [weak self] name in
+                self?.configureNavigationTitle(with: name)
+                self?.productNameLabel?.text = name })
             .disposed(by: disposeBag)
         
         output.productImagesURL
@@ -85,6 +86,12 @@ final class ProductDetailViewController: UIViewController, UICollectionViewDeleg
                 if discountedRate == nil {
                     self?.productSellingPriceStackView?.spacing = .zero }
                 self?.productDiscountRateLabel?.text = discountedRate })
+            .disposed(by: disposeBag)
+        
+        output.productStock
+            .observe(on: MainScheduler.instance)
+            .subscribe { stock in
+                self.productStockLabel?.text = stock }
             .disposed(by: disposeBag)
         
         output.productDescription
