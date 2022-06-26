@@ -21,13 +21,15 @@ final class ProductModificationViewController: UIViewController {
     @IBOutlet weak var productDisconutPriceField: UITextField?
     @IBOutlet weak var productStockField: UITextField?
     @IBOutlet weak var productDescriptionTextView: UITextView?
+    @IBOutlet weak var doneButton: UIBarButtonItem?
     
     // MARK: - Property
     weak var refreshDelegate: RefreshDelegate?
     private var productID: Int?
     private let viewModel = ProductModificationSceneViewModel()
     private let disposeBag = DisposeBag()
-    
+    private let secret = PublishSubject<String>()
+ 
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +56,14 @@ final class ProductModificationViewController: UIViewController {
     
     // MARK: - binding
     func bindViewModel() {
-        let input = ProductModificationSceneViewModel.Input(viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in self.productID!})
+        let input = ProductModificationSceneViewModel.Input(viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in self.productID!},
+                                                            productName: self.productNameField!.rx.text.asObservable(),
+                                                            productPrice: self.prdouctPriceField!.rx.text.asObservable(),
+                                                            productDiscountedPrice: self.productDisconutPriceField!.rx.text.asObservable(),
+                                                            productCurrencyIndex: self.productCurrencySegmentedControl!.rx.selectedSegmentIndex.asObservable(),
+                                                            productStock: self.productStockField!.rx.text.asObservable(),
+                                                            productDescription: self.productDescriptionTextView!.rx.text.asObservable(),
+                                                            didDoneTapped: self.doneButton!.rx.tap.asObservable())
         
         let output = viewModel.transform(input: input)
         
@@ -112,25 +121,46 @@ final class ProductModificationViewController: UIViewController {
             .subscribe { [weak self] description in
                 self?.productDescriptionTextView?.text = description }
             .disposed(by: disposeBag)
+        
+        output.validationFailureAlert
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] description in
+                self?.presentValidationFailureAlert(viewModel: description) })
+            .disposed(by: disposeBag)
+
+        output.requireSecret
+            .observe(on: MainScheduler.instance)
+            .subscribe (onNext:{ viewModel in
+                self.presentRequireSecretAlert(viewModel: viewModel) })
+            .disposed(by: disposeBag)
+    }
+    
+    private func presentValidationFailureAlert(viewModel: String?) {
+        let alert = UIAlertController(title: viewModel, message: nil, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: MarketCommon.confirm.rawValue, style: .default) { _ in
+            alert.dismiss(animated: false)
+        }
+        alert.addAction(okAction)
+        self.present(alert, animated: false)
+    }
+    
+    private func presentRequireSecretAlert(viewModel: ProductModificationSceneViewModel.RequireSecretAlertViewModel) {
+        let alert = UIAlertController(title: viewModel.title, message: nil, preferredStyle: .alert)
+        alert.addTextField()
+        alert.textFields?[0].isSecureTextEntry = true
+        let sendAction = UIAlertAction(title: viewModel.actionTitle, style: .default) { _ in
+            guard let secret = alert.textFields?[0].text else { return }
+            self.secret.onNext(secret)
+            alert.dismiss(animated: false)
+        }
+        alert.addAction(sendAction)
+        
+        self.present(alert, animated: false)
     }
     
     // MARK: - IBAction
     @IBAction func cancelButtonTapped(_ sender: Any) {
         self.dismiss(animated: true)
-    }
-    
-    @IBAction func doneButtonTapped(_ sender: UIBarButtonItem) {
-        guard validateInput() else {
-            let modificationNotification = ModificationNotification(
-                isValidName: self.validateNameInput(),
-                isValidPrice: self.validatePriceInput(),
-                isValidStock: self.validateStockInput(),
-                isValidDescription: self.validateDescriptionInput())
-            self.presentValidationFailAlert(of: modificationNotification.alertDescription)
-            return
-        }
-        
-//        self.handleProductEditRequest()
     }
     
     // MARK: -Method
@@ -277,90 +307,5 @@ extension ProductModificationViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.productNameField?.resignFirstResponder()
         return true
-    }
-}
-
-// MARK: - Validation
-extension ProductModificationViewController {
-    
-    private func validateInput() -> Bool {
-        var categoriesValidation: [Bool] = []
-        categoriesValidation.append(self.validateNameInput())
-        categoriesValidation.append(self.validatePriceInput())
-        categoriesValidation.append(self.validateStockInput())
-        categoriesValidation.append(self.validateDescriptionInput())
-        
-        return categoriesValidation.contains(false) ? false : true
-    }
-    
-    private func validateNameInput() -> Bool {
-        guard let isEmpty = self.productNameField?.text?.isEmpty else{
-            return false
-        }
-        
-        return isEmpty ? false : true
-    }
-    
-    private func validatePriceInput() -> Bool {
-        guard let isEmpty = self.prdouctPriceField?.text?.isEmpty else{
-            return false
-        }
-        
-        return isEmpty ? false : true
-    }
-    
-    private func validateStockInput() -> Bool {
-        guard let isEmpty = self.productStockField?.text?.isEmpty else{
-            return false
-        }
-        
-        return isEmpty ? false : true
-    }
-    
-    private func validateDescriptionInput() -> Bool {
-        guard let isEmpty = self.productDescriptionTextView?.text?.isEmpty else{
-            return false
-        }
-        
-        return isEmpty ? false : true
-    }
-    
-    struct ModificationNotification {
-        
-        var isValidName: Bool
-        var isValidPrice: Bool
-        var isValidStock: Bool
-        var isValidDescription: Bool
-        
-        var isValid: [Bool] {
-            return [isValidName,isValidPrice, isValidStock, isValidDescription]
-        }
-        
-        var alertDescription: String {
-            let name = isValidName ? "" : "상품명"
-            let price = isValidPrice ? "" : "가격"
-            let stock = isValidStock ? "" : "재고"
-            let description = isValidDescription ? "" : "상세정보"
-            
-            if isValidName == true && isValidPrice == true
-                && isValidStock == true && isValidDescription == false {
-                return "상세정보는 10자이상 1,000자이하로 작성해주세요"
-            } else {
-                let categories = [name, price, stock, description]
-                
-                let description = categories
-                    .filter { !$0.isEmpty }
-                    .reduce("") { partialResult, category in
-                        partialResult.isEmpty ? category : "\(partialResult), \(category)"
-                    }
-                
-                if isValidDescription == false || isValidStock == false {
-                    return "\(description)는 필수 입력 항목이에요"
-                } else {
-                    return "\(description)은 필수 입력 항목이에요"
-                }
-            }
-            
-        }
     }
 }

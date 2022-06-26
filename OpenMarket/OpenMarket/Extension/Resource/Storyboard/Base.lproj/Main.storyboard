@@ -633,15 +633,9 @@
                                     <navigationItem title="상품 정보 수정" id="z5B-dC-gHY">
                                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="cbV-yx-aVO">
                                             <color key="tintColor" systemColor="systemIndigoColor"/>
-                                            <connections>
-                                                <action selector="cancelButtonTapped:" destination="pik-Y7-Iif" id="TCa-U1-lR0"/>
-                                            </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="gvt-95-lUr">
                                             <color key="tintColor" systemColor="systemIndigoColor"/>
-                                            <connections>
-                                                <action selector="doneButtonTapped:" destination="pik-Y7-Iif" id="jZO-Su-DKq"/>
-                                            </connections>
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
@@ -811,6 +805,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="doneButton" destination="gvt-95-lUr" id="5As-88-gVO"/>
                         <outlet property="prdouctPriceField" destination="tUs-Hw-IYV" id="VBx-w1-MAI"/>
                         <outlet property="productCurrencySegmentedControl" destination="Ji6-zS-lxm" id="amE-bi-89e"/>
                         <outlet property="productDescriptionTextView" destination="j35-lJ-ItT" id="6jZ-Ct-WYW"/>
