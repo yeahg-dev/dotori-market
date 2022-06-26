@@ -172,10 +172,10 @@ final class ProductRegistrationViewController: UIViewController {
     }
 
     // MARK: - IBaction Method
-    @IBAction private func cancelButtonTapped(_ sender: UIBarButtonItem) {
+    @IBAction func cancelButtonTapped(_ sender: Any) {
         self.dismiss(animated: true)
     }
-
+    
     // MARK: - present Alert
     private func presentAlert(excessImageAlert: ProductRegisterationViewModel.ExecessImageAlertViewModel) {
         let alert = UIAlertController(title: excessImageAlert.title,

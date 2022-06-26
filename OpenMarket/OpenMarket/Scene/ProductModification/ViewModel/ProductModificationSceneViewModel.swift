@@ -11,6 +11,8 @@ import RxSwift
 final class ProductModificationSceneViewModel {
     
     private let APIService = MarketAPIService()
+    private let sellerIdentifier = "c4dedd67-71fc-11ec-abfa-fd97ecfece87"
+    private var productID: Int?
     
     struct Input {
         let viewWillAppear: Observable<Int>
@@ -21,6 +23,7 @@ final class ProductModificationSceneViewModel {
         let productStock: Observable<String?>
         let productDescription: Observable<String?>
         let didDoneTapped: Observable<Void>
+        let didReceiveSecret: Observable<String>
     }
     
     struct Output {
@@ -33,10 +36,14 @@ final class ProductModificationSceneViewModel {
         let productDescription: Observable<String>
         let validationFailureAlert: Observable<String?>
         let requireSecret: Observable<RequireSecretAlertViewModel>
+        let registrationSuccessAlert: Observable<Void>
+        let registrationFailureAlert: Observable<ModificationFailureAlertViewModel>
     }
     
     func transform(input: Input) -> Output {
         let productDetail = input.viewWillAppear
+            .do(onNext: { productID in
+                self.productID = productID })
             .map { productID in
                 ProductDetailRequest(productID: productID) }
             .flatMap { request -> Observable<ProductDetail> in
@@ -65,8 +72,6 @@ final class ProductModificationSceneViewModel {
         let productPriceInput = input.productPrice.share(replay: 1)
         let productStockInput = input.productStock.share(replay: 1)
         let productDescriptionInput = input.productDescription.share(replay: 1)
-        let productCurrency = input.productCurrencyIndex
-        let productDiscountedPriceInput = input.productDiscountedPrice
         
         let isValidName = self.validate(name: productNameInput).share(replay: 1)
         let isValidPrice = self.validate(price: productPriceInput).share(replay: 1)
@@ -89,6 +94,24 @@ final class ProductModificationSceneViewModel {
                 result == .failure }
             .map { (result, description) in description }
         
+        let registrationFailure = PublishSubject<ModificationFailureAlertViewModel>()
+        
+        let registerationResponse = input.didReceiveSecret
+            .flatMap { secret -> Observable<EditProductInfo?> in
+                return Observable.combineLatest(productNameInput, productPriceInput, input.productDiscountedPrice, input.productCurrencyIndex, productStockInput, productDescriptionInput, Observable.just(secret),
+                                   resultSelector: { (name, price, discountedPrice, currency, stock, descritpion, secret) -> EditProductInfo? in
+                    return self.createEditProductInfo(name: name, description: descritpion, price: price, currencyIndex: currency, discountedPrice: discountedPrice, stock: stock, secret: secret)
+                }) }
+            .flatMap({ productInfo in
+                self.createModificationRequest(with: productInfo) })
+            .flatMap { request in
+                // FIXME: - 요청 시도 횟수만큼 상품이 등록되는 오류
+                self.APIService.requestRx(request) }
+            .do(onError: { _ in
+                registrationFailure.onNext(ModificationFailureAlertViewModel()) })
+            .retry(when: { _ in requireSecret })
+            .map { _ in }
+        
         return Output(prdouctName: productName,
                       productImagesURL: productImages,
                       productPrice: productPrice,
@@ -97,7 +120,9 @@ final class ProductModificationSceneViewModel {
                       productStock: productStock,
                       productDescription: prodcutDescription,
                       validationFailureAlert: validationFail,
-                      requireSecret: requireSecret)
+                      requireSecret: requireSecret,
+                      registrationSuccessAlert: registerationResponse,
+                      registrationFailureAlert: registrationFailure)
     }
 }
 
@@ -114,6 +139,13 @@ extension ProductModificationSceneViewModel {
         
         let title = "판매자 비밀번호를 입력해주세요"
         let actionTitle = "등록"
+    }
+   
+    struct ModificationFailureAlertViewModel {
+        
+        let title = "수정에 실패했습니다"
+        let message = "다시 시도 해주세요"
+        let actionTitle = "확인"
     }
     
     // MARK: - Input Validation
@@ -196,6 +228,52 @@ extension ProductModificationSceneViewModel {
             if text == Placeholder.textView.rawValue { return false }
             return text.count >= 10 && text.count <= 1000 ? true : false
         }
+    }
+
+    enum ViewModelError: Error {
+        case requestCreationFail
+    }
+
+    private func createModificationRequest(with productInfo: EditProductInfo?) -> Observable<ProductEditRequest> {
+        let editRequest = Observable<ProductEditRequest>.create { observer in
+            guard let id = self.productID,
+                let productInfo = productInfo else {
+                observer.onError(ViewModelError.requestCreationFail)
+                return Disposables.create()
+            }
+            let request = ProductEditRequest(
+                identifier: self.sellerIdentifier,
+                productID: id,
+                productInfo: productInfo)
+            observer.onNext(request)
+            return Disposables.create()
+        }
+        return editRequest
+    }
+    
+    private func createEditProductInfo(name: String?, description: String?, price: String?, currencyIndex: Int, discountedPrice: String?, stock: String?, secret: String) -> EditProductInfo? {
+        guard let name = name,
+              let description = description,
+              let price = price,
+              let discountedPrice = discountedPrice,
+              let stock = stock else {
+            return nil
+        }
+        let currency: Currency
+        if currencyIndex == .zero {
+            currency = .krw
+        } else {
+            currency = .usd
+        }
+
+        return EditProductInfo(name: name,
+                               descriptions: description,
+                               thumbnailID: nil,
+                               price: (price as NSString).doubleValue,
+                               currency: currency,
+                               discountedPrice: (discountedPrice as NSString).doubleValue,
+                               stock: (stock as NSString).integerValue,
+                               secret: secret)
     }
 
 }

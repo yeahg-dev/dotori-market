@@ -428,7 +428,7 @@
                                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="TrP-J0-FeD">
                                             <color key="tintColor" systemColor="systemIndigoColor"/>
                                             <connections>
-                                                <action selector="cancelButtonTapped:" destination="Fin-Xs-O08" id="K8m-za-vW7"/>
+                                                <action selector="cancelButtonTapped:" destination="Fin-Xs-O08" id="8ps-TY-Xy9"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="7HH-Xi-DyK">
@@ -633,6 +633,9 @@
                                     <navigationItem title="상품 정보 수정" id="z5B-dC-gHY">
                                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="cbV-yx-aVO">
                                             <color key="tintColor" systemColor="systemIndigoColor"/>
+                                            <connections>
+                                                <action selector="cancelButtonTapped:" destination="pik-Y7-Iif" id="ztz-iP-ccF"/>
+                                            </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="gvt-95-lUr">
                                             <color key="tintColor" systemColor="systemIndigoColor"/>

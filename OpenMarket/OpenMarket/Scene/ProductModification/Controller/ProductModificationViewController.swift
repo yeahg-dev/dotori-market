@@ -63,7 +63,8 @@ final class ProductModificationViewController: UIViewController {
                                                             productCurrencyIndex: self.productCurrencySegmentedControl!.rx.selectedSegmentIndex.asObservable(),
                                                             productStock: self.productStockField!.rx.text.asObservable(),
                                                             productDescription: self.productDescriptionTextView!.rx.text.asObservable(),
-                                                            didDoneTapped: self.doneButton!.rx.tap.asObservable())
+                                                            didDoneTapped: self.doneButton!.rx.tap.asObservable(),
+                                                            didReceiveSecret: self.secret.asObservable())
         
         let output = viewModel.transform(input: input)
         
@@ -133,6 +134,18 @@ final class ProductModificationViewController: UIViewController {
             .subscribe (onNext:{ viewModel in
                 self.presentRequireSecretAlert(viewModel: viewModel) })
             .disposed(by: disposeBag)
+        
+        output.registrationFailureAlert
+            .observe(on: MainScheduler.instance)
+            .subscribe (onNext:{ [weak self] viewModel in
+                self?.presentModificationFailureAlert(viewModel: viewModel) })
+            .disposed(by: disposeBag)
+
+        output.registrationSuccessAlert
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] _ in
+                self?.dismiss(animated: false) })
+            .disposed(by: disposeBag)
     }
     
     private func presentValidationFailureAlert(viewModel: String?) {
@@ -158,6 +171,15 @@ final class ProductModificationViewController: UIViewController {
         self.present(alert, animated: false)
     }
     
+    private func presentModificationFailureAlert(viewModel: ProductModificationSceneViewModel.ModificationFailureAlertViewModel) {
+        let alert = UIAlertController(title: viewModel.title , message: viewModel.message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: viewModel.actionTitle, style: .default) { _ in
+            alert.dismiss(animated: false)
+        }
+        alert.addAction(okAction)
+        self.present(alert, animated: false)
+    }
+    
     // MARK: - IBAction
     @IBAction func cancelButtonTapped(_ sender: Any) {
         self.dismiss(animated: true)
@@ -172,89 +194,6 @@ final class ProductModificationViewController: UIViewController {
         self.productNameField?.delegate = self
     }
     
-    private func presentValidationFailAlert(of description: String) {
-        let alert = UIAlertController(title: description, message: nil, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .default)
-        alert.addAction(okAction)
-        self.present(alert, animated: false)
-    }
-    
-    private func handleProductEditRequest() {
-        let secretRequestAlert = UIAlertController(title: "판매자 비밀번호를 입력해주세요", message: nil, preferredStyle: .alert)
-        secretRequestAlert.addTextField { textField in
-            textField.clearButtonMode = .always
-        }
-        let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
-            self?.requestProductEditAPI(with: secretRequestAlert.textFields?[0].text ?? "")
-        }
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel) {  _ in
-            secretRequestAlert.dismiss(animated: false)
-        }
-        secretRequestAlert.addAction(okAction)
-        secretRequestAlert.addAction(cancelAction)
-
-        self.present(secretRequestAlert, animated: false)
-    }
-
-    private func requestProductEditAPI(with secret: String) {
-        guard let productID = self.productID else {
-            return
-        }
-
-        let request = ProductEditRequest(
-            identifier: "c4dedd67-71fc-11ec-abfa-fd97ecfece87",
-            productID: productID,
-            productInfo: self.createEditProductInfo(with: secret))
-
-//        apiService.request(request) { [weak self] (result: Result<ProductDetail, Error>) in
-//            switch result {
-//            case .success:
-//                DispatchQueue.main.async {
-//                    self?.dismiss(animated: true)
-//                    self?.refreshDelegate?.refresh()
-//                }
-//            case .failure:
-//                DispatchQueue.main.async {
-//                    self?.presentModificationFailureAlert()
-//                }
-//            }
-//        }
-    }
-
-    private func createEditProductInfo(with secret: String) -> EditProductInfo {
-        let price = self.prdouctPriceField?.text ?? ""
-        let stock = self.productStockField?.text ?? ""
-        let discountedPrice = self.productDisconutPriceField?.text ?? ""
-        var currency: Currency
-        if productCurrencySegmentedControl?.selectedSegmentIndex == .zero {
-            currency = .krw
-        } else {
-            currency = .usd
-        }
-
-        return EditProductInfo(name: self.productNameField?.text,
-                               descriptions: self.productDescriptionTextView?.text,
-                               thumbnailID: nil,
-                               price: (price as NSString).doubleValue,
-                               currency: currency,
-                               discountedPrice: (discountedPrice as NSString).doubleValue,
-                               stock: (stock as NSString).integerValue,
-                               secret: secret)
-    }
-
-    private func presentModificationFailureAlert() {
-        let alert = UIAlertController(title: "비밀번호를 다시 확인해주세요", message: nil, preferredStyle: .alert)
-        let retryAction = UIAlertAction(title: "재시도", style: .default) { _ in
-            self.handleProductEditRequest()
-        }
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
-            alert.dismiss(animated: false)
-        }
-        alert.addAction(retryAction)
-        alert.addAction(cancelAction)
-        
-        self.present(alert, animated: false)
-    }
 }
 
 // MARK: - Keyboard
