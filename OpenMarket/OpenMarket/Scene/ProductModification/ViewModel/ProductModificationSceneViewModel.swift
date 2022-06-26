@@ -37,7 +37,7 @@ final class ProductModificationSceneViewModel {
         let validationFailureAlert: Observable<String?>
         let requireSecret: Observable<RequireSecretAlertViewModel>
         let registrationSuccessAlert: Observable<Void>
-        let registrationFailureAlert: Observable<ModificationFailureAlertViewModel>
+        let registrationFailureAlert: Observable<RequestFailureAlertViewModel>
     }
     
     func transform(input: Input) -> Output {
@@ -94,7 +94,7 @@ final class ProductModificationSceneViewModel {
                 result == .failure }
             .map { (result, description) in description }
         
-        let registrationFailure = PublishSubject<ModificationFailureAlertViewModel>()
+        let registrationFailure = PublishSubject<RequestFailureAlertViewModel>()
         
         let registerationResponse = input.didReceiveSecret
             .flatMap { secret -> Observable<EditProductInfo?> in
@@ -105,10 +105,9 @@ final class ProductModificationSceneViewModel {
             .flatMap({ productInfo in
                 self.createModificationRequest(with: productInfo) })
             .flatMap { request in
-                // FIXME: - 요청 시도 횟수만큼 상품이 등록되는 오류
                 self.APIService.requestRx(request) }
             .do(onError: { _ in
-                registrationFailure.onNext(ModificationFailureAlertViewModel()) })
+                registrationFailure.onNext(RequestFailureAlertViewModel()) })
             .retry(when: { _ in requireSecret })
             .map { _ in }
         
@@ -126,7 +125,7 @@ final class ProductModificationSceneViewModel {
     }
 }
 
-
+// MARK: - AlertViewModel
 extension ProductModificationSceneViewModel {
     
     // TODO: - 등록/수정화면 공통 사용요소
@@ -138,17 +137,21 @@ extension ProductModificationSceneViewModel {
     struct RequireSecretAlertViewModel {
         
         let title = "판매자 비밀번호를 입력해주세요"
-        let actionTitle = "등록"
+        let actionTitle = "수정"
     }
    
-    struct ModificationFailureAlertViewModel {
+    struct RequestFailureAlertViewModel {
         
         let title = "수정에 실패했습니다"
         let message = "다시 시도 해주세요"
         let actionTitle = "확인"
     }
     
-    // MARK: - Input Validation
+}
+
+// MARK: - Input Validation
+extension ProductModificationSceneViewModel {
+
     enum ValidationResult {
         
         case success
@@ -230,6 +233,11 @@ extension ProductModificationSceneViewModel {
         }
     }
 
+}
+
+// MARK: - API Request
+extension ProductModificationSceneViewModel {
+    
     enum ViewModelError: Error {
         case requestCreationFail
     }

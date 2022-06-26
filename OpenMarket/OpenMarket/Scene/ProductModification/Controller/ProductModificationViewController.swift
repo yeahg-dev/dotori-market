@@ -171,7 +171,7 @@ final class ProductModificationViewController: UIViewController {
         self.present(alert, animated: false)
     }
     
-    private func presentModificationFailureAlert(viewModel: ProductModificationSceneViewModel.ModificationFailureAlertViewModel) {
+    private func presentModificationFailureAlert(viewModel: ProductModificationSceneViewModel.RequestFailureAlertViewModel) {
         let alert = UIAlertController(title: viewModel.title , message: viewModel.message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: viewModel.actionTitle, style: .default) { _ in
             alert.dismiss(animated: false)
