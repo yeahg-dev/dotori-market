@@ -160,6 +160,7 @@ final class ProductDetailViewController: UIViewController, UICollectionViewDeleg
             return
         }
         productModificationVC.setProduct(productID)
+        productModificationVC.modalPresentationStyle = .fullScreen
         self.present(productModificationVC, animated: false)
     }
     
