@@ -42,7 +42,7 @@ final class ProductModificationSceneViewModel {
             .flatMap { request -> Observable<ProductDetail> in
                 self.APIService.requestRx(request) }
             .map { productDetail in
-                ProductDetailViewModel(product: productDetail) }
+                ProductDetailModificationViewModel(product: productDetail) }
             .share(replay: 1)
         
         let productName = productDetail.map { $0.name }
@@ -73,23 +73,21 @@ final class ProductModificationSceneViewModel {
         let isValidStock = self.validate(stock: productStockInput).share(replay: 1)
         let isvalidDescription = self.validate(description: productDescriptionInput).share(replay: 1)
         
-        let isValidate = Observable.combineLatest(isValidName, isValidPrice, isValidStock, isvalidDescription, resultSelector: {
-            self.validate(isValidName: $0, isValidPrice: $1, isValidStock: $2, isValidDescription: $3)})
-            .share(replay: 1)
-        
-        let validationSuccess = isValidate
-            .filter({ (result, descritption) in
-            result == .success })
-            .map{ _ in }
-        
         let requireSecret = input.didDoneTapped
-            .withLatestFrom(validationSuccess)
+            .flatMap({ _ in
+                Observable.zip(isValidName, isValidPrice, isValidStock, isvalidDescription, resultSelector: { self.validate(isValidName: $0, isValidPrice: $1, isValidStock: $2, isValidDescription: $3) })
+            })
+            .filter { (result, descritpion) in
+                result == .success }
             .map { _ in RequireSecretAlertViewModel() }
     
         let validationFail = input.didDoneTapped
-            .withLatestFrom(isValidate) { (request, validationResult) in return validationResult }
-            .filter { $0.0 == .failure }
-            .map{ $0.1 }
+            .flatMap({ _ in
+                Observable.zip(isValidName, isValidPrice, isValidStock, isvalidDescription, resultSelector: { self.validate(isValidName: $0, isValidPrice: $1, isValidStock: $2, isValidDescription: $3) })
+            })
+            .filter { (result, descritpion) in
+                result == .failure }
+            .map { (result, description) in description }
         
         return Output(prdouctName: productName,
                       productImagesURL: productImages,
