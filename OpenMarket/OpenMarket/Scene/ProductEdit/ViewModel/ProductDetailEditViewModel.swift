@@ -1,5 +1,5 @@
 //
-//  ProductDetailModificationViewModel.swift
+//  ProductDetailEditViewModel.swift
 //  OpenMarket
 //
 //  Created by 1 on 2022/06/26.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProductDetailModificationViewModel {
+struct ProductDetailEditViewModel {
     
     // MARK: - Model
     private let priceData: Double

@@ -155,13 +155,13 @@ final class ProductDetailViewController: UIViewController, UICollectionViewDeleg
     
     // MARK: - transition view
     @objc private func presentProductModificationView() {
-        guard let productModificationVC = self.storyboard?.instantiateViewController(withIdentifier: "ProductModificationViewController") as? ProductModificationViewController,
+        guard let productEditVC = self.storyboard?.instantiateViewController(withIdentifier: "ProductEidtViewController") as? ProductEidtViewController,
               let productID = self.productID else {
             return
         }
-        productModificationVC.setProduct(productID)
-        productModificationVC.modalPresentationStyle = .fullScreen
-        self.present(productModificationVC, animated: false)
+        productEditVC.setProduct(productID)
+        productEditVC.modalPresentationStyle = .fullScreen
+        self.present(productEditVC, animated: false)
     }
     
 }

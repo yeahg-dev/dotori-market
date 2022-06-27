@@ -1,5 +1,5 @@
 //
-//  ProductModificationViewController.swift
+//  ProductEidtViewController.swift
 //  OpenMarket
 //
 //  Created by 1 on 2022/06/09.
@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class ProductModificationViewController: UIViewController {
+final class ProductEidtViewController: UIViewController {
     
     // MARK: - IBOutlet
     
@@ -26,7 +26,7 @@ final class ProductModificationViewController: UIViewController {
     // MARK: - Property
     weak var refreshDelegate: RefreshDelegate?
     private var productID: Int?
-    private let viewModel = ProductModificationSceneViewModel()
+    private let viewModel = ProductEditSceneViewModel()
     private let disposeBag = DisposeBag()
     private let secret = PublishSubject<String>()
  
@@ -56,7 +56,7 @@ final class ProductModificationViewController: UIViewController {
     
     // MARK: - binding
     func bindViewModel() {
-        let input = ProductModificationSceneViewModel.Input(viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in self.productID!},
+        let input = ProductEditSceneViewModel.Input(viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in self.productID!},
                                                             productName: self.productNameField!.rx.text.asObservable(),
                                                             productPrice: self.prdouctPriceField!.rx.text.asObservable(),
                                                             productDiscountedPrice: self.productDisconutPriceField!.rx.text.asObservable(),
@@ -138,7 +138,7 @@ final class ProductModificationViewController: UIViewController {
         output.registrationFailureAlert
             .observe(on: MainScheduler.instance)
             .subscribe (onNext:{ [weak self] viewModel in
-                self?.presentModificationFailureAlert(viewModel: viewModel) })
+                self?.presentRequestFailureAlert(viewModel: viewModel) })
             .disposed(by: disposeBag)
 
         output.registrationSuccessAlert
@@ -157,7 +157,7 @@ final class ProductModificationViewController: UIViewController {
         self.present(alert, animated: false)
     }
     
-    private func presentRequireSecretAlert(viewModel: ProductModificationSceneViewModel.RequireSecretAlertViewModel) {
+    private func presentRequireSecretAlert(viewModel: ProductEditSceneViewModel.RequireSecretAlertViewModel) {
         let alert = UIAlertController(title: viewModel.title, message: nil, preferredStyle: .alert)
         alert.addTextField()
         alert.textFields?[0].isSecureTextEntry = true
@@ -171,7 +171,7 @@ final class ProductModificationViewController: UIViewController {
         self.present(alert, animated: false)
     }
     
-    private func presentModificationFailureAlert(viewModel: ProductModificationSceneViewModel.RequestFailureAlertViewModel) {
+    private func presentRequestFailureAlert(viewModel: ProductEditSceneViewModel.RequestFailureAlertViewModel) {
         let alert = UIAlertController(title: viewModel.title , message: viewModel.message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: viewModel.actionTitle, style: .default) { _ in
             alert.dismiss(animated: false)
@@ -197,7 +197,7 @@ final class ProductModificationViewController: UIViewController {
 }
 
 // MARK: - Keyboard
-extension ProductModificationViewController {
+extension ProductEidtViewController {
     
     private func addKeyboardNotificationObserver() {
         NotificationCenter.default.addObserver(
@@ -241,7 +241,7 @@ extension ProductModificationViewController {
 }
 
 // MARK: - UITextFieldDelegate
-extension ProductModificationViewController: UITextFieldDelegate {
+extension ProductEidtViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.productNameField?.resignFirstResponder()

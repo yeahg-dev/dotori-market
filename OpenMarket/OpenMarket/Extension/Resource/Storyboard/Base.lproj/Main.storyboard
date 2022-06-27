@@ -619,10 +619,10 @@
             </objects>
             <point key="canvasLocation" x="837.68115942028987" y="69.642857142857139"/>
         </scene>
-        <!--Product Modification View Controller-->
+        <!--Product Eidt View Controller-->
         <scene sceneID="3R0-9z-fDt">
             <objects>
-                <viewController storyboardIdentifier="ProductModificationViewController" id="pik-Y7-Iif" customClass="ProductModificationViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProductEidtViewController" id="pik-Y7-Iif" customClass="ProductEidtViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8Ts-vm-lxQ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

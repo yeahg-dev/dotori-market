@@ -1,5 +1,5 @@
 //
-//  ProductModificationSceneViewModel.swift
+//  ProductEditSceneViewModel.swift
 //  OpenMarket
 //
 //  Created by 1 on 2022/06/26.
@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-final class ProductModificationSceneViewModel {
+final class ProductEditSceneViewModel {
     
     private let APIService = MarketAPIService()
     private let sellerIdentifier = "c4dedd67-71fc-11ec-abfa-fd97ecfece87"
@@ -49,7 +49,7 @@ final class ProductModificationSceneViewModel {
             .flatMap { request -> Observable<ProductDetail> in
                 self.APIService.requestRx(request) }
             .map { productDetail in
-                ProductDetailModificationViewModel(product: productDetail) }
+                ProductDetailEditViewModel(product: productDetail) }
             .share(replay: 1)
         
         let productName = productDetail.map { $0.name }
@@ -103,7 +103,7 @@ final class ProductModificationSceneViewModel {
                     return self.createEditProductInfo(name: name, description: descritpion, price: price, currencyIndex: currency, discountedPrice: discountedPrice, stock: stock, secret: secret)
                 }) }
             .flatMap({ productInfo in
-                self.createModificationRequest(with: productInfo) })
+                self.createEditRequest(with: productInfo) })
             .flatMap { request in
                 self.APIService.requestRx(request) }
             .do(onError: { _ in
@@ -126,7 +126,7 @@ final class ProductModificationSceneViewModel {
 }
 
 // MARK: - AlertViewModel
-extension ProductModificationSceneViewModel {
+extension ProductEditSceneViewModel {
     
     struct RequireSecretAlertViewModel {
         
@@ -144,7 +144,7 @@ extension ProductModificationSceneViewModel {
 }
 
 // MARK: - Input Validation
-extension ProductModificationSceneViewModel {
+extension ProductEditSceneViewModel {
 
     enum ValidationResult {
         
@@ -230,13 +230,13 @@ extension ProductModificationSceneViewModel {
 }
 
 // MARK: - API Request
-extension ProductModificationSceneViewModel {
+extension ProductEditSceneViewModel {
     
     enum ViewModelError: Error {
         case requestCreationFail
     }
 
-    private func createModificationRequest(with productInfo: EditProductInfo?) -> Observable<ProductEditRequest> {
+    private func createEditRequest(with productInfo: EditProductInfo?) -> Observable<ProductEditRequest> {
         let editRequest = Observable<ProductEditRequest>.create { observer in
             guard let id = self.productID,
                 let productInfo = productInfo else {
