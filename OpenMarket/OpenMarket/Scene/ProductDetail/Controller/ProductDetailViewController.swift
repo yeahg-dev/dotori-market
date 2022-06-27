@@ -142,7 +142,7 @@ final class ProductDetailViewController: UIViewController, UICollectionViewDeleg
     }
     
     private func configureScrollViewdelegate() {
-        guard let scrollView = self.productImageCollectionView as? UIScrollView else {
+        guard let scrollView = self.productImageCollectionView else {
             return
         }
         scrollView.delegate = self

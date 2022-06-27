@@ -83,7 +83,3 @@ final class ProductListSceneViewModel {
     }
 }
 
-enum ProductTableViewModelError: Error {
-    
-    case invalidProduct
-}

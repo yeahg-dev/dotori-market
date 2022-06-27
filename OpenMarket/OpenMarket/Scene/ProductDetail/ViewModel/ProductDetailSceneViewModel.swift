@@ -18,7 +18,7 @@ final class ProductDetailSceneViewModel {
     
     struct Output {
         let prdouctName: Observable<String>
-        let productImagesURL: Observable<[Image]> // pageControl
+        let productImagesURL: Observable<[Image]> 
         let productPrice: Observable<String?>
         let prodcutSellingPrice: Observable<String>
         let productDiscountedRate: Observable<String?>

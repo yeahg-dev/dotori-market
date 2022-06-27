@@ -24,7 +24,6 @@ final class ProductEidtViewController: UIViewController {
     @IBOutlet weak var doneButton: UIBarButtonItem?
     
     // MARK: - Property
-    weak var refreshDelegate: RefreshDelegate?
     private var productID: Int?
     private let viewModel = ProductEditSceneViewModel()
     private let disposeBag = DisposeBag()

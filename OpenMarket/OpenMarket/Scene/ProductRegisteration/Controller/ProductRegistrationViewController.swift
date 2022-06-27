@@ -23,8 +23,6 @@ final class ProductRegistrationViewController: UIViewController {
     @IBOutlet private weak var descriptionsTextView: UITextView?
     
     // MARK: - UI Property
-    weak var tableViewRefreshDelegate: RefreshDelegate?
-    weak var collectionViewRefreshDelegate: RefreshDelegate?
     private let imagePicker: UIImagePickerController = {
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = .photoLibrary
