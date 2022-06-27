@@ -97,7 +97,7 @@
 		634B2B5F2797FAD10009E6CD /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		634B8557285B0D7300F931EF /* Int+Extensino.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensino.swift"; sourceTree = "<group>"; };
 		634B855B285CCA5700F931EF /* ProductViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewModel.swift; sourceTree = "<group>"; };
-		634B8561285CD5ED00F931EF /* OpenMarketViewModelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketViewModelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		634B8561285CD5ED00F931EF /* DotoriMarketViewModelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DotoriMarketViewModelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		634B8563285CD5ED00F931EF /* ProductViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewModelTest.swift; sourceTree = "<group>"; };
 		6365F48B286755B000E0498E /* ProductDetailSceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailSceneViewModel.swift; sourceTree = "<group>"; };
 		6365F48E28676BD300E0498E /* ProductEditSceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductEditSceneViewModel.swift; sourceTree = "<group>"; };
@@ -140,7 +140,7 @@
 		C1C9EF42278828A00000ED6A /* MarketAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketAPIService.swift; sourceTree = "<group>"; };
 		C1CBA3D5278F084000BAC0B8 /* ProductTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTableViewController.swift; sourceTree = "<group>"; };
 		C1CBA3D7278F086200BAC0B8 /* ProductCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCollectionViewController.swift; sourceTree = "<group>"; };
-		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C70FB0F725BEF61C00C9924E /* DotoriMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DotoriMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FE25BEF61C00C9924E /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
@@ -239,12 +239,12 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		634B8562285CD5ED00F931EF /* OpenMarketViewModelTests */ = {
+		634B8562285CD5ED00F931EF /* DotoriMarketViewModelTests */ = {
 			isa = PBXGroup;
 			children = (
 				634B8563285CD5ED00F931EF /* ProductViewModelTest.swift */,
 			);
-			path = OpenMarketViewModelTests;
+			path = DotoriMarketViewModelTests;
 			sourceTree = "<group>";
 		};
 		6365F48D28676BB500E0498E /* ViewModel */ = {
@@ -448,13 +448,13 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		C10797532784477900B16C62 /* OpenMarketNetworkTests */ = {
+		C10797532784477900B16C62 /* DotoriMarketNetworkTests */ = {
 			isa = PBXGroup;
 			children = (
 				C10797542784477900B16C62 /* MockJSONParserTests.swift */,
 				632B9FFC27955A8F0099E121 /* NetworkTests.swift */,
 			);
-			path = OpenMarketNetworkTests;
+			path = DotoriMarketNetworkTests;
 			sourceTree = "<group>";
 		};
 		C10797B3278713C700B16C62 /* Utility */ = {
@@ -469,9 +469,9 @@
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
-				C70FB0F925BEF61C00C9924E /* OpenMarket */,
-				C10797532784477900B16C62 /* OpenMarketNetworkTests */,
-				634B8562285CD5ED00F931EF /* OpenMarketViewModelTests */,
+				C70FB0F925BEF61C00C9924E /* DotoriMarket */,
+				C10797532784477900B16C62 /* DotoriMarketNetworkTests */,
+				634B8562285CD5ED00F931EF /* DotoriMarketViewModelTests */,
 				C70FB0F825BEF61C00C9924E /* Products */,
 				634B8554285B0AEC00F931EF /* Frameworks */,
 			);
@@ -480,14 +480,14 @@
 		C70FB0F825BEF61C00C9924E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C70FB0F725BEF61C00C9924E /* OpenMarket.app */,
+				C70FB0F725BEF61C00C9924E /* DotoriMarket.app */,
 				C10797522784477900B16C62 /* MockJSONParserTests.xctest */,
-				634B8561285CD5ED00F931EF /* OpenMarketViewModelTests.xctest */,
+				634B8561285CD5ED00F931EF /* DotoriMarketViewModelTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
+		C70FB0F925BEF61C00C9924E /* DotoriMarket */ = {
 			isa = PBXGroup;
 			children = (
 				C70FB10825BEF61D00C9924E /* Info.plist */,
@@ -498,15 +498,15 @@
 				C10797B3278713C700B16C62 /* Utility */,
 				63D660E62787F86700A450DE /* Extension */,
 			);
-			path = OpenMarket;
+			path = DotoriMarket;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		634B8560285CD5ED00F931EF /* OpenMarketViewModelTests */ = {
+		634B8560285CD5ED00F931EF /* DotoriMarketViewModelTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 634B8567285CD5ED00F931EF /* Build configuration list for PBXNativeTarget "OpenMarketViewModelTests" */;
+			buildConfigurationList = 634B8567285CD5ED00F931EF /* Build configuration list for PBXNativeTarget "DotoriMarketViewModelTests" */;
 			buildPhases = (
 				634B855D285CD5ED00F931EF /* Sources */,
 				634B855E285CD5ED00F931EF /* Frameworks */,
@@ -517,9 +517,9 @@
 			dependencies = (
 				634B8566285CD5ED00F931EF /* PBXTargetDependency */,
 			);
-			name = OpenMarketViewModelTests;
+			name = DotoriMarketViewModelTests;
 			productName = OpenMarketViewModelTests;
-			productReference = 634B8561285CD5ED00F931EF /* OpenMarketViewModelTests.xctest */;
+			productReference = 634B8561285CD5ED00F931EF /* DotoriMarketViewModelTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		C10797512784477900B16C62 /* MockJSONParserTests */ = {
@@ -543,9 +543,9 @@
 			productReference = C10797522784477900B16C62 /* MockJSONParserTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		C70FB0F625BEF61C00C9924E /* OpenMarket */ = {
+		C70FB0F625BEF61C00C9924E /* DotoriMarket */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C70FB10B25BEF61D00C9924E /* Build configuration list for PBXNativeTarget "OpenMarket" */;
+			buildConfigurationList = C70FB10B25BEF61D00C9924E /* Build configuration list for PBXNativeTarget "DotoriMarket" */;
 			buildPhases = (
 				C70FB0F325BEF61C00C9924E /* Sources */,
 				C70FB0F425BEF61C00C9924E /* Frameworks */,
@@ -555,13 +555,13 @@
 			);
 			dependencies = (
 			);
-			name = OpenMarket;
+			name = DotoriMarket;
 			packageProductDependencies = (
 				63AB3A3B28583F5A003305D0 /* RxCocoa */,
 				63AB3A3D28583F5A003305D0 /* RxSwift */,
 			);
 			productName = OpenMarket;
-			productReference = C70FB0F725BEF61C00C9924E /* OpenMarket.app */;
+			productReference = C70FB0F725BEF61C00C9924E /* DotoriMarket.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -586,7 +586,7 @@
 					};
 				};
 			};
-			buildConfigurationList = C70FB0F225BEF61C00C9924E /* Build configuration list for PBXProject "OpenMarket" */;
+			buildConfigurationList = C70FB0F225BEF61C00C9924E /* Build configuration list for PBXProject "DotoriMarket" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -602,9 +602,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C70FB0F625BEF61C00C9924E /* OpenMarket */,
+				C70FB0F625BEF61C00C9924E /* DotoriMarket */,
 				C10797512784477900B16C62 /* MockJSONParserTests */,
-				634B8560285CD5ED00F931EF /* OpenMarketViewModelTests */,
+				634B8560285CD5ED00F931EF /* DotoriMarketViewModelTests */,
 			);
 		};
 /* End PBXProject section */
@@ -717,12 +717,12 @@
 /* Begin PBXTargetDependency section */
 		634B8566285CD5ED00F931EF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C70FB0F625BEF61C00C9924E /* OpenMarket */;
+			target = C70FB0F625BEF61C00C9924E /* DotoriMarket */;
 			targetProxy = 634B8565285CD5ED00F931EF /* PBXContainerItemProxy */;
 		};
 		C10797572784477900B16C62 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C70FB0F625BEF61C00C9924E /* OpenMarket */;
+			target = C70FB0F625BEF61C00C9924E /* DotoriMarket */;
 			targetProxy = C10797562784477900B16C62 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -763,7 +763,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenMarket.app/OpenMarket";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DotoriMarket.app/DotoriMarket";
 			};
 			name = Debug;
 		};
@@ -783,7 +783,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenMarket.app/OpenMarket";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DotoriMarket.app/DotoriMarket";
 			};
 			name = Release;
 		};
@@ -802,7 +802,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenMarket.app/OpenMarket";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DotoriMarket.app/DotoriMarket";
 			};
 			name = Debug;
 		};
@@ -821,7 +821,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenMarket.app/OpenMarket";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DotoriMarket.app/DotoriMarket";
 			};
 			name = Release;
 		};
@@ -951,13 +951,13 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3LTF5F2YL4;
-				INFOPLIST_FILE = OpenMarket/Info.plist;
+				INFOPLIST_FILE = DotoriMarket/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "net.yagom.OpenMarket-lily";
+				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.DotoriMarket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -972,13 +972,13 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3LTF5F2YL4;
-				INFOPLIST_FILE = OpenMarket/Info.plist;
+				INFOPLIST_FILE = DotoriMarket/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "net.yagom.OpenMarket-lily";
+				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.DotoriMarket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -988,7 +988,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		634B8567285CD5ED00F931EF /* Build configuration list for PBXNativeTarget "OpenMarketViewModelTests" */ = {
+		634B8567285CD5ED00F931EF /* Build configuration list for PBXNativeTarget "DotoriMarketViewModelTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				634B8568285CD5ED00F931EF /* Debug */,
@@ -1006,7 +1006,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C70FB0F225BEF61C00C9924E /* Build configuration list for PBXProject "OpenMarket" */ = {
+		C70FB0F225BEF61C00C9924E /* Build configuration list for PBXProject "DotoriMarket" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C70FB10925BEF61D00C9924E /* Debug */,
@@ -1015,7 +1015,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C70FB10B25BEF61D00C9924E /* Build configuration list for PBXNativeTarget "OpenMarket" */ = {
+		C70FB10B25BEF61D00C9924E /* Build configuration list for PBXNativeTarget "DotoriMarket" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C70FB10C25BEF61D00C9924E /* Debug */,

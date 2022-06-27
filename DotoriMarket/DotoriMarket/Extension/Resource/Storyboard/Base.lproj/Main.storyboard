@@ -13,13 +13,13 @@
         <!--Item-->
         <scene sceneID="99r-1y-MCx">
             <objects>
-                <tableViewController id="TGA-ws-84W" customClass="ProductTableViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="TGA-ws-84W" customClass="ProductTableViewController" customModule="DotoriMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="LXQ-zT-60g">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ProductTableViewCell" rowHeight="90" id="xkw-QD-mv8" customClass="ProductTableViewCell" customModule="OpenMarket" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ProductTableViewCell" rowHeight="90" id="xkw-QD-mv8" customClass="ProductTableViewCell" customModule="DotoriMarket" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="44.5" width="414" height="90"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xkw-QD-mv8" id="8nm-x3-Aqm">
@@ -103,7 +103,7 @@
         <!--Item-->
         <scene sceneID="yjs-ki-GQF">
             <objects>
-                <collectionViewController storyboardIdentifier="ProductCollectionViewController" id="qdK-EZ-QlJ" customClass="ProductCollectionViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController storyboardIdentifier="ProductCollectionViewController" id="qdK-EZ-QlJ" customClass="ProductCollectionViewController" customModule="DotoriMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="lAC-Cg-jvG">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -115,7 +115,7 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProductCollectionViewCell" id="oFA-1F-c6Z" customClass="ProductCollectionViewCell" customModule="OpenMarket" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProductCollectionViewCell" id="oFA-1F-c6Z" customClass="ProductCollectionViewCell" customModule="DotoriMarket" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="170" height="274"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="AUw-xU-ObK">
@@ -206,7 +206,7 @@
         <!--Product Detail View Controller-->
         <scene sceneID="51P-Ks-5zz">
             <objects>
-                <viewController storyboardIdentifier="ProductDetailViewController" id="09Y-x2-Cw7" customClass="ProductDetailViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProductDetailViewController" id="09Y-x2-Cw7" customClass="ProductDetailViewController" customModule="DotoriMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="redraw" id="edW-4e-myx">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -231,7 +231,7 @@
                                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 </collectionViewFlowLayout>
                                                 <cells>
-                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PrdouctDetailCollectionViewCell" id="nYo-yT-9lD" customClass="PrdouctDetailCollectionViewCell" customModule="OpenMarket" customModuleProvider="target">
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PrdouctDetailCollectionViewCell" id="nYo-yT-9lD" customClass="PrdouctDetailCollectionViewCell" customModule="DotoriMarket" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="CML-Zc-hYR">
@@ -375,7 +375,7 @@
         <!--Tab Bar View Controller-->
         <scene sceneID="icq-h0-U4q">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="LAD-DO-y0V" customClass="TabBarViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="LAD-DO-y0V" customClass="TabBarViewController" customModule="DotoriMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="fiI-nD-Mgv">
                         <nil key="title"/>
@@ -416,7 +416,7 @@
         <!--Product Registration View Controller-->
         <scene sceneID="MrP-Cb-goH">
             <objects>
-                <viewController id="Fin-Xs-O08" customClass="ProductRegistrationViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Fin-Xs-O08" customClass="ProductRegistrationViewController" customModule="DotoriMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KrM-WY-Hm3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -456,7 +456,7 @@
                                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 </collectionViewFlowLayout>
                                                 <cells>
-                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ImagePickerCollectionViewCell" id="Ljc-LS-T4P" customClass="ImagePickerCollectionViewCell" customModule="OpenMarket" customModuleProvider="target">
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ImagePickerCollectionViewCell" id="Ljc-LS-T4P" customClass="ImagePickerCollectionViewCell" customModule="DotoriMarket" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="cL3-tQ-INe">
@@ -492,7 +492,7 @@
                                                             <outlet property="addedImageCountLabel" destination="o90-tN-VuF" id="Tjr-aG-dyP"/>
                                                         </connections>
                                                     </collectionViewCell>
-                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProductImageCollectionViewCell" id="lmr-1a-6Lt" customClass="ProductImageCollectionViewCell" customModule="OpenMarket" customModuleProvider="target">
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProductImageCollectionViewCell" id="lmr-1a-6Lt" customClass="ProductImageCollectionViewCell" customModule="DotoriMarket" customModuleProvider="target">
                                                         <rect key="frame" x="138" y="30.5" width="38.5" height="67.5"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="vRl-Np-q9Z">
@@ -622,7 +622,7 @@
         <!--Product Eidt View Controller-->
         <scene sceneID="3R0-9z-fDt">
             <objects>
-                <viewController storyboardIdentifier="ProductEidtViewController" id="pik-Y7-Iif" customClass="ProductEidtViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProductEidtViewController" id="pik-Y7-Iif" customClass="ProductEidtViewController" customModule="DotoriMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8Ts-vm-lxQ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -659,7 +659,7 @@
                                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 </collectionViewFlowLayout>
                                                 <cells>
-                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ImagePickerCollectionViewCell" id="g4D-3f-Uf7" customClass="ImagePickerCollectionViewCell" customModule="OpenMarket" customModuleProvider="target">
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ImagePickerCollectionViewCell" id="g4D-3f-Uf7" customClass="ImagePickerCollectionViewCell" customModule="DotoriMarket" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="FGQ-im-lg1">
@@ -696,7 +696,7 @@
                                                             <outlet property="addedImageCountLabel" destination="x7f-dO-ymk" id="Wr6-gr-0yJ"/>
                                                         </connections>
                                                     </collectionViewCell>
-                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PrdouctImageCollectionViewCell" id="g45-aI-4mR" customClass="ProductImageCollectionViewCell" customModule="OpenMarket" customModuleProvider="target">
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PrdouctImageCollectionViewCell" id="g45-aI-4mR" customClass="ProductImageCollectionViewCell" customModule="DotoriMarket" customModuleProvider="target">
                                                         <rect key="frame" x="138" y="30.5" width="38.5" height="67.5"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="a2c-2S-z2Y">
