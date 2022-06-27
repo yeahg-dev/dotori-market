@@ -36,7 +36,7 @@ final class ProductRegistrationViewController: UIViewController {
     private var textViewPlaceHolder: String?
     
     // MARK: - Properties
-    private let viewModel = ProductRegisterationViewModel()
+    private let viewModel = ProductRegisterationSceneViewModel()
     private let disposeBag = DisposeBag()
     private let pickerImage = PublishSubject<UIImage>()
     private let secret = PublishSubject<String>()
@@ -80,7 +80,7 @@ final class ProductRegistrationViewController: UIViewController {
     private func bindViewModel() {
         guard let doneButton = self.navigationBar?.items?[0].rightBarButtonItem as? UIBarButtonItem else { return }
         
-        let input = ProductRegisterationViewModel.Input(
+        let input = ProductRegisterationSceneViewModel.Input(
             viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{_ in},
             itemSelected: self.productImageCollectionView!.rx.itemSelected.map({ index in index.row }),
             didSelectImage: self.pickerImage,
@@ -177,7 +177,7 @@ final class ProductRegistrationViewController: UIViewController {
     }
     
     // MARK: - present Alert
-    private func presentAlert(excessImageAlert: ProductRegisterationViewModel.ExecessImageAlertViewModel) {
+    private func presentAlert(excessImageAlert: ProductRegisterationSceneViewModel.ExecessImageAlertViewModel) {
         let alert = UIAlertController(title: excessImageAlert.title,
                                       message: excessImageAlert.message,
                                       preferredStyle: .alert)
@@ -198,7 +198,7 @@ final class ProductRegistrationViewController: UIViewController {
         self.present(alert, animated: false)
     }
     
-    private func presentRequireSecretAlert(viewModel: ProductRegisterationViewModel.RequireSecretAlertViewModel) {
+    private func presentRequireSecretAlert(viewModel: ProductRegisterationSceneViewModel.RequireSecretAlertViewModel) {
         let alert = UIAlertController(title: viewModel.title, message: nil, preferredStyle: .alert)
         alert.addTextField()
         alert.textFields?[0].isSecureTextEntry = true
@@ -212,7 +212,7 @@ final class ProductRegistrationViewController: UIViewController {
         self.present(alert, animated: false)
     }
     
-    private func presentRegistrationFailureAlert(viewModel: ProductRegisterationViewModel.RegistrationFailureAlertViewModel) {
+    private func presentRegistrationFailureAlert(viewModel: ProductRegisterationSceneViewModel.RegistrationFailureAlertViewModel) {
         let alert = UIAlertController(title: viewModel.title , message: viewModel.message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: viewModel.actionTitle, style: .default) { _ in
             alert.dismiss(animated: false)
@@ -221,7 +221,7 @@ final class ProductRegistrationViewController: UIViewController {
         self.present(alert, animated: false)
     }
     
-    private func presentRegistrationSuccessAlert(viewModel: ProductRegisterationViewModel.RegistrationSuccessAlertViewModel) {
+    private func presentRegistrationSuccessAlert(viewModel: ProductRegisterationSceneViewModel.RegistrationSuccessAlertViewModel) {
         let alert = UIAlertController(title: viewModel.title, message: nil, preferredStyle: .alert)
         let okAction = UIAlertAction(title: viewModel.actionTitle, style: .default) { [weak self] _ in
             alert.dismiss(animated: false)

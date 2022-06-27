@@ -16,7 +16,7 @@ final class ProductCollectionViewController: UICollectionViewController {
     private let loadingIndicator = UIActivityIndicatorView()
     
     // MARK: - Property
-    private let viewModel = ProductListViewModel()
+    private let viewModel = ProductListSceneViewModel()
     private let disposeBag = DisposeBag()
     
     // MARK:- View Life Cycle
@@ -36,7 +36,7 @@ final class ProductCollectionViewController: UICollectionViewController {
     
     // MARK: - binding
     private func bindViewModel() {
-        let input = ProductListViewModel.Input(
+        let input = ProductListSceneViewModel.Input(
             viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{_ in},
             willDisplayCell: self.collectionView.rx.willDisplayCell.map({ cell, index in index.row }),
             willRefrsesh: self.collectionView.refreshControl!.rx.controlEvent(.valueChanged).asObservable(),

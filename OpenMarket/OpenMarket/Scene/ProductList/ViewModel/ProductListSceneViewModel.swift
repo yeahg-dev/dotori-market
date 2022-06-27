@@ -1,5 +1,5 @@
 //
-//  ProductTableViewModel.swift
+//  ProductListSceneViewModel.swift
 //  OpenMarket
 //
 //  Created by 1 on 2022/06/18.
@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-final class ProductListViewModel {
+final class ProductListSceneViewModel {
     
     private let APIService = MarketAPIService()
     private var productsViewModels: [ProductViewModel] = []

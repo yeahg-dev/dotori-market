@@ -1,5 +1,5 @@
 //
-//  ProductRegisterationViewModel.swift
+//  ProductRegisterationSceneViewModel.swift
 //  OpenMarket
 //
 //  Created by 1 on 2022/06/20.
@@ -9,13 +9,13 @@ import Foundation
 import RxSwift
 import UIKit
 
-final class ProductRegisterationViewModel {
+final class ProductRegisterationSceneViewModel {
     
     private let APIService = MarketAPIService()
     
     private var productImages: [(CellType, UIImage)] = [(.imagePickerCell, UIImage())]
     static let maximumProductImageCount = 5
-    private lazy var maximutProductImageCellCount = ProductRegisterationViewModel.maximumProductImageCount + 1
+    private lazy var maximutProductImageCellCount = ProductRegisterationSceneViewModel.maximumProductImageCount + 1
     private let isValidImage = BehaviorSubject(value: false)
     
     private let sellerIdentifier = "c4dedd67-71fc-11ec-abfa-fd97ecfece87"
@@ -134,11 +134,11 @@ final class ProductRegisterationViewModel {
 }
 
 // MARK: - Alert View Model
-extension ProductRegisterationViewModel {
+extension ProductRegisterationSceneViewModel {
  
     struct ExecessImageAlertViewModel {
         
-        let title: String? = "사진은 최대 \(ProductRegisterationViewModel.maximumProductImageCount)장까지 첨부할 수 있어요"
+        let title: String? = "사진은 최대 \(ProductRegisterationSceneViewModel.maximumProductImageCount)장까지 첨부할 수 있어요"
         let message: String? = nil
         let actionTitle: String? = "확인"
     }
