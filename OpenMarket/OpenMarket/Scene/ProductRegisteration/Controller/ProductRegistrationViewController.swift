@@ -33,7 +33,7 @@ final class ProductRegistrationViewController: UIViewController {
     private let flowLayout = UICollectionViewFlowLayout()
     private var textViewPlaceHolder: String?
     
-    // MARK: - Properties
+    // MARK: - Property
     private let viewModel = ProductRegisterationSceneViewModel()
     private let disposeBag = DisposeBag()
     private let pickerImage = PublishSubject<UIImage>()
@@ -49,31 +49,6 @@ final class ProductRegistrationViewController: UIViewController {
         self.bindViewModel()
     }
     
-    // MARK: - Configure UI
-    private func configureDelegate() {
-        self.nameTextField?.delegate = self
-        self.descriptionsTextView?.delegate = self
-        self.imagePicker.delegate = self
-    }
-    
-    private func configureNavigationBar() {
-        let navigationAppearance = UINavigationBarAppearance()
-        navigationAppearance.configureWithTransparentBackground()
-        navigationBar?.standardAppearance = navigationAppearance
-    }
-    
-    private func configureFlowLayout() {
-        productImageCollectionView?.collectionViewLayout = flowLayout
-        flowLayout.scrollDirection = .horizontal
-        productImageCollectionView?.showsVerticalScrollIndicator = false
-        productImageCollectionView?.showsHorizontalScrollIndicator = false
-        
-        let cellWidth = view.bounds.size.width / 4
-        flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth)
-        flowLayout.minimumLineSpacing = 10
-        flowLayout.sectionInset = UIEdgeInsets(top: .zero, left: 10, bottom: .zero, right: 10)
-    }
-
     // MARK: - binding
     private func bindViewModel() {
         guard let doneButton = self.navigationBar?.items?[0].rightBarButtonItem as? UIBarButtonItem else { return }
@@ -168,13 +143,38 @@ final class ProductRegistrationViewController: UIViewController {
             .disposed(by: disposeBag)
                 
     }
+    
+    // MARK: - Configure UI
+    private func configureDelegate() {
+        self.nameTextField?.delegate = self
+        self.descriptionsTextView?.delegate = self
+        self.imagePicker.delegate = self
+    }
+    
+    private func configureNavigationBar() {
+        let navigationAppearance = UINavigationBarAppearance()
+        navigationAppearance.configureWithTransparentBackground()
+        self.navigationBar?.standardAppearance = navigationAppearance
+    }
+    
+    private func configureFlowLayout() {
+        self.productImageCollectionView?.collectionViewLayout = flowLayout
+        self.flowLayout.scrollDirection = .horizontal
+        self.productImageCollectionView?.showsVerticalScrollIndicator = false
+        self.productImageCollectionView?.showsHorizontalScrollIndicator = false
+        
+        let cellWidth = view.bounds.size.width / 4
+        self.flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth)
+        self.flowLayout.minimumLineSpacing = 10
+        self.flowLayout.sectionInset = UIEdgeInsets(top: .zero, left: 10, bottom: .zero, right: 10)
+    }
 
     // MARK: - IBaction Method
     @IBAction func cancelButtonTapped(_ sender: Any) {
         self.dismiss(animated: true)
     }
     
-    // MARK: - present Alert
+    // MARK: - Present Alert
     private func presentAlert(excessImageAlert: ProductRegisterationSceneViewModel.ExecessImageAlertViewModel) {
         let alert = UIAlertController(title: excessImageAlert.title,
                                       message: excessImageAlert.message,
@@ -251,25 +251,25 @@ extension ProductRegistrationViewController {
     private func addKeyboardDismissGestureRecognizer() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
+        self.view.addGestureRecognizer(tap)
     }
     
     @objc private func dismissKeyboard() {
-        view.endEditing(true)
+        self.view.endEditing(true)
     }
     
     @objc private func keyboardWillShow(_ sender: Notification) {
         if let keyboardFrame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
-            scrollView?.contentInset.bottom = keyboardHeight
-            scrollView?.verticalScrollIndicatorInsets.bottom = keyboardHeight
+            self.scrollView?.contentInset.bottom = keyboardHeight
+            self.scrollView?.verticalScrollIndicatorInsets.bottom = keyboardHeight
         }
     }
     
     @objc private func keyboardWillHide(_ sender: Notification) {
-        scrollView?.contentInset.bottom = .zero
-        scrollView?.verticalScrollIndicatorInsets.bottom = .zero
+        self.scrollView?.contentInset.bottom = .zero
+        self.scrollView?.verticalScrollIndicatorInsets.bottom = .zero
     }
     
 }
@@ -287,7 +287,7 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UI
             self.pickerImage.onNext(possibleImage)
         }
         cells.append(.productImageCell)
-        imagePicker.dismiss(animated: true, completion: nil)
+        self.imagePicker.dismiss(animated: true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -304,6 +304,7 @@ extension ProductRegistrationViewController: UITextFieldDelegate {
     }
 }
 
+// MARK: - UITextViewDelegate
 extension ProductRegistrationViewController: UITextViewDelegate {
     
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {

@@ -9,7 +9,7 @@ import Foundation
 
 struct ProductDetailViewModel {
     
-    // MARK: - Model
+    // MARK: - Model data
     private let priceData: Double
     private let bargainPriceData: Double
     private let discountedPriceData: Double

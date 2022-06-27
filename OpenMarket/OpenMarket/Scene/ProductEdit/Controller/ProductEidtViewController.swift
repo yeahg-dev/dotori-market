@@ -12,7 +12,6 @@ import RxCocoa
 final class ProductEidtViewController: UIViewController {
     
     // MARK: - IBOutlet
-    
     @IBOutlet weak var scrollView: UIScrollView?
     @IBOutlet weak var productImageCollectionView: UICollectionView?
     @IBOutlet weak var productNameField: UITextField?
@@ -37,20 +36,6 @@ final class ProductEidtViewController: UIViewController {
         self.addKeyboardDismissGestureRecognizer()
         self.configureDelegate()
         self.bindViewModel()
-    }
-    
-    // MARK: - Layout
-    private func configureCollectionViewLayout() {
-        self.productImageCollectionView?.showsVerticalScrollIndicator = false
-        self.productImageCollectionView?.showsHorizontalScrollIndicator = false
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.scrollDirection = .horizontal
-        
-        let cellWidth = view.bounds.size.width / 4
-        flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth)
-        flowLayout.minimumLineSpacing = 10
-        flowLayout.sectionInset = UIEdgeInsets(top: .zero, left: 10, bottom: .zero, right: 10)
-        self.productImageCollectionView?.collectionViewLayout = flowLayout
     }
     
     // MARK: - binding
@@ -147,6 +132,25 @@ final class ProductEidtViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
+    // MARK: - Configure UI
+    private func configureCollectionViewLayout() {
+        self.productImageCollectionView?.showsVerticalScrollIndicator = false
+        self.productImageCollectionView?.showsHorizontalScrollIndicator = false
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .horizontal
+        
+        let cellWidth = view.bounds.size.width / 4
+        flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth)
+        flowLayout.minimumLineSpacing = 10
+        flowLayout.sectionInset = UIEdgeInsets(top: .zero, left: 10, bottom: .zero, right: 10)
+        self.productImageCollectionView?.collectionViewLayout = flowLayout
+    }
+    
+    private func configureDelegate() {
+        self.productNameField?.delegate = self
+    }
+
+    // MARK: - Present Alert
     private func presentValidationFailureAlert(viewModel: String?) {
         let alert = UIAlertController(title: viewModel, message: nil, preferredStyle: .alert)
         let okAction = UIAlertAction(title: MarketCommon.confirm.rawValue, style: .default) { _ in
@@ -166,7 +170,7 @@ final class ProductEidtViewController: UIViewController {
             alert.dismiss(animated: false)
         }
         alert.addAction(sendAction)
-        
+
         self.present(alert, animated: false)
     }
     
@@ -184,13 +188,9 @@ final class ProductEidtViewController: UIViewController {
         self.dismiss(animated: true)
     }
     
-    // MARK: -Method
+    // MARK: API
     func setProduct(_ productID: Int) {
         self.productID = productID
-    }
-    
-    private func configureDelegate() {
-        self.productNameField?.delegate = self
     }
     
 }
@@ -216,25 +216,25 @@ extension ProductEidtViewController {
     private func addKeyboardDismissGestureRecognizer() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
+        self.view.addGestureRecognizer(tap)
     }
     
     @objc private func dismissKeyboard() {
-        view.endEditing(true)
+        self.view.endEditing(true)
     }
     
     @objc private func keyboardWillShow(_ sender: Notification) {
         if let keyboardFrame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
-            scrollView?.contentInset.bottom = keyboardHeight
-            scrollView?.verticalScrollIndicatorInsets.bottom = keyboardHeight
+            self.scrollView?.contentInset.bottom = keyboardHeight
+            self.scrollView?.verticalScrollIndicatorInsets.bottom = keyboardHeight
         }
     }
     
     @objc private func keyboardWillHide(_ sender: Notification) {
-        scrollView?.contentInset.bottom = .zero
-        scrollView?.verticalScrollIndicatorInsets.bottom = .zero
+        self.scrollView?.contentInset.bottom = .zero
+        self.scrollView?.verticalScrollIndicatorInsets.bottom = .zero
     }
     
 }

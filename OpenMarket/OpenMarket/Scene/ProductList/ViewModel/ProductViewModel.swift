@@ -10,12 +10,14 @@ import UIKit
 
 struct ProductViewModel {
     
+    // MARK: - Model data
     private let currencyData: Currency
     private let priceData: Double
     private let bargainPriceData: Double
     private let discountedPriceData: Double
     private let stockData: Int
     
+    // MARK: - View Model
     let id: Int
     let name: String
     let thumbnail: String

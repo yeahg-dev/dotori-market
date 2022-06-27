@@ -24,19 +24,19 @@ final class ProductCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        layer.borderColor = UIColor.systemGray.cgColor
-        layer.borderWidth = 1
-        layer.cornerRadius = 5
+        self.layer.borderColor = UIColor.systemGray.cgColor
+        self.layer.borderWidth = 1
+        self.layer.cornerRadius = 5
     }
     
     override func prepareForReuse() {
-        productThumbnail?.image = nil
-        cancellableImageTask?.cancel()
+        self.productThumbnail?.image = nil
+        self.cancellableImageTask?.cancel()
     }
     
     func fill(with product: ProductViewModel) {
         if let url = URL(string: product.thumbnail) {
-            self.cancellableImageTask = productThumbnail?.setImage(
+            self.cancellableImageTask = self.productThumbnail?.setImage(
                 with: url,
                 invalidImage: invalidImage
             )

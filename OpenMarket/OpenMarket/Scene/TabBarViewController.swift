@@ -12,29 +12,29 @@ final class TabBarViewController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tabBar.isHidden = true
-        configureViewSegmentedControl()
+        self.tabBar.isHidden = true
+        self.configureViewSegmentedControl()
     }
-     
+    
     @IBAction private func switchViewController(_ sender: UISegmentedControl) {
-        selectedIndex = sender.selectedSegmentIndex
+        self.selectedIndex = sender.selectedSegmentIndex
     }
     
     private func configureViewSegmentedControl() {
-        viewSegmentedControl.setTitle("LIST", forSegmentAt: 0)
-        viewSegmentedControl.setTitle("GRID", forSegmentAt: 1)
-        viewSegmentedControl.setTitleTextAttributes(
+        self.viewSegmentedControl.setTitle("LIST", forSegmentAt: 0)
+        self.viewSegmentedControl.setTitle("GRID", forSegmentAt: 1)
+        self.viewSegmentedControl.setTitleTextAttributes(
             [.foregroundColor: UIColor.systemIndigo],
             for: .normal
         )
-        viewSegmentedControl.setTitleTextAttributes(
+        self.viewSegmentedControl.setTitleTextAttributes(
             [.foregroundColor: UIColor.white],
             for: .selected
         )
-        viewSegmentedControl.selectedSegmentTintColor = .systemIndigo
-        viewSegmentedControl.backgroundColor = .white
-        viewSegmentedControl.layer.borderColor = UIColor.systemIndigo.cgColor
-        viewSegmentedControl.layer.borderWidth = 1
+        self.viewSegmentedControl.selectedSegmentTintColor = .systemIndigo
+        self.viewSegmentedControl.backgroundColor = .white
+        self.viewSegmentedControl.layer.borderColor = UIColor.systemIndigo.cgColor
+        self.viewSegmentedControl.layer.borderWidth = 1
     }
     
 }

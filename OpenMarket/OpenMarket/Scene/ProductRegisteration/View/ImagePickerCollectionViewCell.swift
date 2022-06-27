@@ -13,9 +13,9 @@ final class ImagePickerCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        layer.borderColor = UIColor.systemGray.cgColor
-        layer.borderWidth = 1
-        layer.cornerRadius = 5
+        self.layer.borderColor = UIColor.systemGray.cgColor
+        self.layer.borderWidth = 1
+        self.layer.cornerRadius = 5
     }
     
     func updateAddedImageCountLabel(productImageCount: Int) {
@@ -32,6 +32,6 @@ final class ImagePickerCollectionViewCell: UICollectionViewCell {
         )
         let imageCountLabel = NSMutableAttributedString(attributedString: addedImageCount)
         imageCountLabel.append(maximumImageNumber)
-        addedImageCountLabel?.attributedText = imageCountLabel
+        self.addedImageCountLabel?.attributedText = imageCountLabel
     }
 }

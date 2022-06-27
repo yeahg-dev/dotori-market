@@ -23,13 +23,13 @@ final class ProductTableViewCell: UITableViewCell {
     }()
     
     override func prepareForReuse() {
-        productThumbnail?.image = nil
-        cancellableImageTask?.cancel()
+        self.productThumbnail?.image = nil
+        self.cancellableImageTask?.cancel()
     }
     
     func fill(with product: ProductViewModel) {
         if let url = URL(string: product.thumbnail) {
-            self.cancellableImageTask = productThumbnail?.setImage(
+            self.cancellableImageTask = self.productThumbnail?.setImage(
                 with: url,
                 invalidImage: invalidImage
             )

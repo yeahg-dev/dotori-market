@@ -19,7 +19,7 @@ final class ProductCollectionViewController: UICollectionViewController {
     private let viewModel = ProductListSceneViewModel()
     private let disposeBag = DisposeBag()
     
-    // MARK:- View Life Cycle
+    // MARK: - View Life Cycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.loadingIndicator.startAnimating()
@@ -27,9 +27,9 @@ final class ProductCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureGridLayout()
-        configureLoadingIndicator()
-        configureRefreshControl()
+        self.configureGridLayout()
+        self.configureLoadingIndicator()
+        self.configureRefreshControl()
         self.collectionView.dataSource = nil
         self.bindViewModel()
     }
@@ -68,16 +68,17 @@ final class ProductCollectionViewController: UICollectionViewController {
             }
             .disposed(by: disposeBag)
     }
-    // MARK: - configure UI
+    
+    // MARK: - Configure UI
     private func configureGridLayout() {
-        collectionView.collectionViewLayout = flowLayout
+        collectionView.collectionViewLayout = self.flowLayout
         let cellWidth = view.bounds.size.width / 2 - 10
         // FIXME: cell 의 height 값에 intrinsic size 를 부여하는 방법을 찾아서 고쳐야 함!
-        flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth * 1.55)
-        flowLayout.minimumLineSpacing = 10
-        flowLayout.minimumInteritemSpacing = 10
-        flowLayout.scrollDirection = .vertical
-        flowLayout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: .zero, right: 5)
+        self.flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth * 1.55)
+        self.flowLayout.minimumLineSpacing = 10
+        self.flowLayout.minimumInteritemSpacing = 10
+        self.flowLayout.scrollDirection = .vertical
+        self.flowLayout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: .zero, right: 5)
     }
     
     private func configureLoadingIndicator() {
@@ -91,11 +92,11 @@ final class ProductCollectionViewController: UICollectionViewController {
     }
 
     private func configureRefreshControl() {
-        collectionView.refreshControl = UIRefreshControl()
+        self.collectionView.refreshControl = UIRefreshControl()
 
     }
 
-    // MARK: - Method
+    // MARK: - Transition View
     private func pushProductDetailView(of productID: Int) {
         guard let productDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "ProductDetailViewController") as? ProductDetailViewController else {
             return
@@ -104,6 +105,7 @@ final class ProductCollectionViewController: UICollectionViewController {
         self.navigationController?.pushViewController(productDetailVC, animated: true)
     }
 
+    // MARK: - Present Alert
     private func presentNetworkErrorAlert() {
         let alert = UIAlertController(title: "다시 시도해주세요😢", message: "통신 에러가 발생했어요", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .default)

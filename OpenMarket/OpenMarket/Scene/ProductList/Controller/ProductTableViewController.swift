@@ -26,10 +26,10 @@ final class ProductTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureLoadingIndicator()
-        configureRefreshControl()
+        self.configureLoadingIndicator()
+        self.configureRefreshControl()
         self.tableView.dataSource = nil
-        bindViewModel()
+        self.bindViewModel()
     }
     
     // MARK: - binding
@@ -67,7 +67,7 @@ final class ProductTableViewController: UITableViewController {
             .disposed(by: disposeBag)
     }
     
-    // MARK: - Method
+    // MARK: - Configure UI
     private func configureLoadingIndicator() {
         view.addSubview(loadingIndicator)
         loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -83,6 +83,7 @@ final class ProductTableViewController: UITableViewController {
         self.tableView.refreshControl = UIRefreshControl()
     }
     
+    // MARK: - Transition View
     private func pushProductDetailView(of productID: Int) {
         guard let productDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "ProductDetailViewController") as? ProductDetailViewController else {
             return
@@ -91,6 +92,7 @@ final class ProductTableViewController: UITableViewController {
         self.navigationController?.pushViewController(productDetailVC, animated: true)
     }
 
+    // MARK: - Present Alert
     private func presentNetworkErrorAlert() {
         let alert = UIAlertController(title: "다시 시도해주세요😢", message: "통신 에러가 발생했어요", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .default)

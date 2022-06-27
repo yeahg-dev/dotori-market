@@ -102,7 +102,7 @@ final class ProductDetailViewController: UIViewController, UICollectionViewDeleg
         
     }
     
-    // MARK: - configure UI
+    // MARK: - Configure UI
     private func configureStackViewLayout() {
         guard let productInfoStackView = self.productInfoStackView,
               let productStockLabel = self.productStockLabel else {
@@ -113,10 +113,10 @@ final class ProductDetailViewController: UIViewController, UICollectionViewDeleg
     
     private func configureCollectionViewFlowLayout() {
         let cellWidth = self.view.frame.width
-        flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth)
-        flowLayout.minimumLineSpacing = 0
-        flowLayout.minimumInteritemSpacing = 0
-        flowLayout.scrollDirection = .horizontal
+        self.flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth)
+        self.flowLayout.minimumLineSpacing = 0
+        self.flowLayout.minimumInteritemSpacing = 0
+        self.flowLayout.scrollDirection = .horizontal
         self.productImageCollectionView?.collectionViewLayout = flowLayout
     }
     
@@ -153,7 +153,7 @@ final class ProductDetailViewController: UIViewController, UICollectionViewDeleg
         self.productID = id
     }
     
-    // MARK: - transition view
+    // MARK: - Transition View
     @objc private func presentProductModificationView() {
         guard let productEditVC = self.storyboard?.instantiateViewController(withIdentifier: "ProductEidtViewController") as? ProductEidtViewController,
               let productID = self.productID else {
