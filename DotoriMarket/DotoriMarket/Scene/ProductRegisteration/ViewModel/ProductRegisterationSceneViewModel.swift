@@ -13,10 +13,8 @@ final class ProductRegisterationSceneViewModel {
     
     private let APIService = MarketAPIService()
     
-    private var productImages: [(CellType, UIImage)] = [(.imagePickerCell, UIImage())]
     static let maximumProductImageCount = 5
     private lazy var maximutProductImageCellCount = ProductRegisterationSceneViewModel.maximumProductImageCount + 1
-    private let isValidImage = BehaviorSubject(value: false)
     
     private let sellerIdentifier = "c4dedd67-71fc-11ec-abfa-fd97ecfece87"
     private let secretkey = "aFJkk2KmB53A*6LT"
@@ -52,24 +50,35 @@ final class ProductRegisterationSceneViewModel {
         let textViewPlaceholder = input.viewWillAppear
             .map {textViewPlaceholderText }
         
-        let presentImagePicker = input.itemSelected
+        let defaultImage = input.viewWillAppear
+            .map{ _ in [(CellType.imagePickerCell, UIImage())]}
+        
+        let selectedImage = input.didSelectImage
+            .map { image in return [(CellType.productImageCell, image)]}
+        
+        let productImages = Observable.merge(defaultImage, selectedImage)
+            .scan(into: []) { images, addedImage in
+                images.append(contentsOf: addedImage) }
             .share(replay: 1)
+        
+        let isAbleToPickImage: Observable<Bool> = productImages
+            .map { images in
+                images.count < self.maximutProductImageCellCount }
+        
+        let presentImagePicker = input.itemSelected
             .filter { row in
-                row == .zero && self.productImages.count < self.maximutProductImageCellCount }
-            .map { _ in }
-        
-        let didSelectImage = input.didSelectImage
-            .do(onNext: { image in
-                self.productImages.append((.productImageCell,image))
-                self.isValidImage.onNext(true) })
-            .map { _ in }
-        
-        let productImages = Observable.merge(input.viewWillAppear, didSelectImage)
-            .map { _ in self.productImages }
+                row == .zero }
+            .withLatestFrom(isAbleToPickImage) { row, isAbleToPickImage in
+                return isAbleToPickImage }
+            .filter{ $0 == true }
+            .map{ _ in }
         
         let excessImageAlert = input.itemSelected
             .filter { row in
-                row == .zero && self.productImages.count >= self.maximutProductImageCellCount }
+                row == .zero }
+            .withLatestFrom(isAbleToPickImage) { row, isAbleToPickImage in
+                return isAbleToPickImage }
+            .filter{ $0 == false }
             .map { _ in ExecessImageAlertViewModel() }
         
         let productName = input.productTitle.share(replay: 1)
@@ -79,6 +88,7 @@ final class ProductRegisterationSceneViewModel {
         let productCurrency = input.productCurrency
         let productDiscountedPrice = input.prdouctDiscountedPrice
         
+        let isValidImage = productImages.map { images in images.count > 1 }
         let isValidName = self.validate(name: productName).share(replay: 1)
         let isValidPrice = self.validate(price: productPrice).share(replay: 1)
         let isValidStock = self.validate(stock: productStock).share(replay: 1)
@@ -303,15 +313,15 @@ extension ProductRegisterationSceneViewModel {
     private func createImageFiles(newProductName: String) -> [ImageFile]? {
         var imageFileNumber = 1
         var newProductImages: [ImageFile] = []
-        self.productImages.forEach { (type, image) in
-            let imageFile = ImageFile(
-                fileName: "\(newProductName)-\(imageFileNumber)",
-                image: image
-            )
-            imageFileNumber += 1
-            newProductImages.append(imageFile)
-        }
-        newProductImages.removeFirst()
+//        self.productImages.forEach { (type, image) in
+//            let imageFile = ImageFile(
+//                fileName: "\(newProductName)-\(imageFileNumber)",
+//                image: image
+//            )
+//            imageFileNumber += 1
+//            newProductImages.append(imageFile)
+//        }
+//        newProductImages.removeFirst()
         return newProductImages
     }
   
