@@ -114,16 +114,16 @@ final class ProductRegisterationSceneViewModel {
     
         let registrationFailure = PublishSubject<RegistrationFailureAlertViewModel>()
         
-        let registerationResponse = input.didReceiveSecret
+        let newProductInfo = input.didReceiveSecret
             .flatMap { secret -> Observable<NewProductInfo> in
                 return Observable.combineLatest(productName, productPrice, productDiscountedPrice, productCurrency, productStock, productDescription, Observable.just(secret),
                                    resultSelector: { (name, price, discountedPrice, currency, stock, descritpion, secret) -> NewProductInfo in
                     return self.createNewProductInfo(name: name, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, description: descritpion, secret: secret)
                 }) }
-            .flatMap({ productInfo in
-                self.createRegistrationRequest(with: productInfo) })
+        
+        let registerationResponse = newProductInfo.withLatestFrom(productImages, resultSelector: { newProductInfo, imgaes in
+            self.createRegistrationRequest(with: newProductInfo, productImages: imgaes) })
             .flatMap { request in
-                // FIXME: - 요청 시도 횟수만큼 상품이 등록되는 오류
                 self.APIService.requestRx(request) }
             .do(onError: { _ in
                 registrationFailure.onNext(RegistrationFailureAlertViewModel()) })
@@ -263,18 +263,13 @@ extension ProductRegisterationSceneViewModel {
         case requestCreationFail
     }
 
-    private func createRegistrationRequest(with productInfo: NewProductInfo) -> Observable<ProductRegistrationRequest> {
-        let registrationRequest = Observable<ProductRegistrationRequest>.create { observer in
-            if let images = self.createImageFiles(newProductName: productInfo.name) {
-                let request = ProductRegistrationRequest(identifier: self.sellerIdentifier,
-                                                         params: productInfo,
-                                                         images: images)
-                observer.onNext(request)
-            } else {
-                observer.onError(ViewModelError.requestCreationFail)
-            }
-            return Disposables.create()
-        }
+    private func createRegistrationRequest(with productInfo: NewProductInfo, productImages: [(CellType, UIImage)]) -> ProductRegistrationRequest {
+        let images = productImages.filter { image in image.0 == .productImageCell }
+            .map { image in image.1 }
+        let imageFiles = self.createImageFiles(newProductName: productInfo.name, productImages: images)
+        let registrationRequest = ProductRegistrationRequest(identifier: self.sellerIdentifier,
+                                                             params: productInfo,
+                                                             images: imageFiles)
         return registrationRequest
     }
     
@@ -310,19 +305,17 @@ extension ProductRegisterationSceneViewModel {
             secret: secret )
     }
     
-    private func createImageFiles(newProductName: String) -> [ImageFile]? {
+    private func createImageFiles(newProductName: String, productImages: [UIImage]) -> [ImageFile] {
         var imageFileNumber = 1
         var newProductImages: [ImageFile] = []
-//        self.productImages.forEach { (type, image) in
-//            let imageFile = ImageFile(
-//                fileName: "\(newProductName)-\(imageFileNumber)",
-//                image: image
-//            )
-//            imageFileNumber += 1
-//            newProductImages.append(imageFile)
-//        }
-//        newProductImages.removeFirst()
+        productImages.forEach { image in
+            let imageFile = ImageFile(
+                fileName: "\(newProductName)-\(imageFileNumber)",
+                image: image
+            )
+            imageFileNumber += 1
+            newProductImages.append(imageFile) }
         return newProductImages
     }
-  
+    
 }
