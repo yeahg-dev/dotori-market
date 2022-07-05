@@ -12,7 +12,7 @@ struct NewProductInfo: Encodable {
     let name: String
     let descriptions: String
     let price: Double
-    let currency: Currency
+    let currency: CurrencyResponse
     let discountedPrice: Double?
     let stock: Int?
     let secret: String
@@ -29,7 +29,7 @@ struct EditProductInfo: Encodable {
     let descriptions: String?
     let thumbnailID: Double?
     let price: Double?
-    let currency: Currency?
+    let currency: CurrencyResponse?
     let discountedPrice: Double?
     let stock: Int?
     let secret: String

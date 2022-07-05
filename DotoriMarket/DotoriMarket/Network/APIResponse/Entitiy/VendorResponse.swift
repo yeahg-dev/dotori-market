@@ -1,5 +1,5 @@
 //
-//  Image.swift
+//  VendorResponse.swift
 //  OpenMarket
 //
 //  Created by lily on 2022/01/05.
@@ -7,18 +7,17 @@
 
 import Foundation
 
-struct Image: Codable {
+struct VendorResponse: Codable {
     
+    let name: String
     let id: Int
-    let url: String
-    let thumbnailURL: String
-    let succeed: Bool
+    let createdAt: Date
     let issuedAt: Date
     
     private enum CodingKeys: String, CodingKey {
         
-        case thumbnailURL = "thumbnail_url"
+        case createdAt = "created_at"
         case issuedAt = "issued_at"
-        case id, url, succeed
+        case name, id
     }
 }

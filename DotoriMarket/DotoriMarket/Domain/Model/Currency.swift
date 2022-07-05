@@ -1,19 +1,16 @@
 //
 //  Currency.swift
-//  OpenMarket
+//  DotoriMarket
 //
-//  Created by lily on 2022/01/04.
+//  Created by 1 on 2022/07/05.
 //
 
 import Foundation
 
-enum Currency: String, Codable {
+enum Currency {
     
-    case krw = "KRW"
-    case usd = "USD"
-}
-
-extension Currency {
+    case krw
+    case usd
     
     func composePriceTag(of price: String) -> String {
         switch self {
@@ -24,4 +21,16 @@ extension Currency {
         }
     }
     
+}
+
+extension Currency {
+    
+    func toEntity() -> CurrencyResponse {
+        switch self {
+        case .krw:
+            return CurrencyResponse.krw
+        case .usd:
+            return CurrencyResponse.usd
+        }
+    }
 }

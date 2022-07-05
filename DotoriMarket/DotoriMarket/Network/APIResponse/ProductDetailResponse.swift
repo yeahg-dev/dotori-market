@@ -14,13 +14,13 @@ struct ProductDetailResponse: Codable, ResponseDataType {
     let name: String
     let description: String
     let thumbnail: String
-    let currency: Currency
+    let currency: CurrencyResponse
     let price: Double
     let bargainPrice: Double
     let discountedPrice: Double
     let stock: Int
-    let images: [Image]
-    let vendor: Vendor
+    let images: [ImageResponse]
+    let vendor: VendorResponse
     let createdAt: Date
     let issuedAt: Date
     
@@ -44,11 +44,11 @@ extension ProductDetailResponse {
                              name: self.name,
                              description: self.description,
                              thumbnail: self.thumbnail,
-                             currency: self.currency,
+                             currency: self.currency.toDomain(),
                              price: self.price,
                              bargainPrice: self.bargainPrice,
                              discountedPrice: self.discountedPrice,
                              stock: self.stock,
-                             images: self.images)
+                             images: self.images.map{ $0.toDomain()})
     }
 }

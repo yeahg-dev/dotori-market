@@ -12,7 +12,7 @@ struct ProductResponse: Codable {
     let vendorID: Int
     let name: String
     let thumbnail: String
-    let currency: Currency
+    let currency: CurrencyResponse
     let price: Double
     let bargainPrice: Double
     let discountedPrice: Double
@@ -38,7 +38,7 @@ extension ProductResponse {
                        vendorID: self.vendorID,
                        name: self.name,
                        thumbnail: self.thumbnail,
-                       currency: self.currency,
+                       currency: self.currency.toDomain(),
                        price: self.price,
                        bargainPrice: self.bargainPrice,
                        discountedPrice: self.discountedPrice,

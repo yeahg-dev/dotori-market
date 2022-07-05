@@ -299,7 +299,7 @@ extension ProductRegisterationSceneViewModel {
             name: name,
             descriptions: description,
             price: (price as NSString).doubleValue,
-            currency: currency,
+            currency: currency.toEntity(),
             discountedPrice: ( discountedPrice as NSString).doubleValue,
             stock: (stock as NSString).integerValue,
             secret: secret )
