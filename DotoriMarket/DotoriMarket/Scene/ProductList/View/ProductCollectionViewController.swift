@@ -12,7 +12,6 @@ import RxCocoa
 final class ProductCollectionViewController: UICollectionViewController {
     
     // MARK: - UI Property
-    private let flowLayout = UICollectionViewFlowLayout()
     private let loadingIndicator = UIActivityIndicatorView()
     
     // MARK: - Property
@@ -71,14 +70,14 @@ final class ProductCollectionViewController: UICollectionViewController {
     
     // MARK: - Configure UI
     private func configureGridLayout() {
-        collectionView.collectionViewLayout = self.flowLayout
+        let flowLayout = UICollectionViewFlowLayout()
         let cellWidth = view.bounds.size.width / 2 - 10
-        // FIXME: cell 의 height 값에 intrinsic size 를 부여하는 방법을 찾아서 고쳐야 함!
-        self.flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth * 1.55)
-        self.flowLayout.minimumLineSpacing = 10
-        self.flowLayout.minimumInteritemSpacing = 10
-        self.flowLayout.scrollDirection = .vertical
-        self.flowLayout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: .zero, right: 5)
+        flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth * 1.55)
+        flowLayout.minimumLineSpacing = 10
+        flowLayout.minimumInteritemSpacing = 10
+        flowLayout.scrollDirection = .vertical
+        flowLayout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: .zero, right: 5)
+        collectionView.collectionViewLayout = self.flowLayout
     }
     
     private func configureLoadingIndicator() {
