@@ -1,5 +1,5 @@
 //
-//  Int+Extensino.swift
+//  Int+Extension.swift
 //  OpenMarket
 //
 //  Created by 1 on 2022/06/16.
