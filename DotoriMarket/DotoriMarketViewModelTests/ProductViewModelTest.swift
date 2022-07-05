@@ -18,9 +18,7 @@ class ProductViewModelTest: XCTestCase {
                           price: 1690000,
                           bargainPrice: 1689000,
                           discountedPrice: 1000,
-                          stock: 9999,
-                          createdAt: Date(),
-                          issuedAt: Date())
+                          stock: 9999)
 
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -56,9 +54,7 @@ class ProductViewModelTest: XCTestCase {
                               price: 1690,
                               bargainPrice: 1680,
                               discountedPrice: 10,
-                              stock: 9999,
-                              createdAt: Date(),
-                              issuedAt: Date())
+                              stock: 9999)
         let viewModel = ProductViewModel(product: product)
         let priceResult = viewModel.price.string
         let bargainPriceResult = viewModel.bargainPrice.string
@@ -78,9 +74,7 @@ class ProductViewModelTest: XCTestCase {
                               price: 1690,
                               bargainPrice: 1680,
                               discountedPrice: 10,
-                              stock: 0,
-                              createdAt: Date(),
-                              issuedAt: Date())
+                              stock: 0)
         let viewModel = ProductViewModel(product: product)
         let result = viewModel.stock.string
         let expectation = "SOLD OUT"
@@ -97,9 +91,7 @@ class ProductViewModelTest: XCTestCase {
                               price: 1690,
                               bargainPrice: 1680,
                               discountedPrice: 10,
-                              stock: 99999,
-                              createdAt: Date(),
-                              issuedAt: Date())
+                              stock: 99999)
         let viewModel = ProductViewModel(product: product)
         let result = viewModel.stock.string
         let expectation = "잔여 수량 99,999"
@@ -116,9 +108,7 @@ class ProductViewModelTest: XCTestCase {
                               price: 1690,
                               bargainPrice: 1680,
                               discountedPrice: 10,
-                              stock: 99,
-                              createdAt: Date(),
-                              issuedAt: Date())
+                              stock: 99)
         let viewModel = ProductViewModel(product: product)
         let result = viewModel.stock.string
         let expectation = "잔여 수량 99"
