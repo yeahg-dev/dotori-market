@@ -14,7 +14,7 @@ struct ProductsListPageResponse: Codable, ResponseDataType {
     let totalCount: Int
     let offset: Int
     let limit: Int
-    let pages: [Product]
+    let pages: [ProductResponse]
     let lastPage: Int
     let hasNext: Bool
     let hasPrev: Bool
@@ -34,7 +34,7 @@ struct ProductsListPageResponse: Codable, ResponseDataType {
 extension ProductsListPageResponse {
 
     func toDomain() -> ProductListPage {
-        return ProductListPage(pages: self.pages,
+        return ProductListPage(pages: self.pages.map{$0.toDomain()},
                                hasNext: self.hasNext)
     }
 }
