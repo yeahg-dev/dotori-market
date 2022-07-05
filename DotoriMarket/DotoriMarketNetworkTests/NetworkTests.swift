@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import OpenMarket
+@testable import DotoriMarket
 
 class NetworkTests: XCTestCase {
     
