@@ -11,13 +11,16 @@ import UIKit
 
 final class ProductRegisterationSceneViewModel {
     
-    private let APIService = MarketAPIService()
-    
+    private var APIService: APIServcie
     static let maximumProductImageCount = 5
     private lazy var maximutProductImageCellCount = ProductRegisterationSceneViewModel.maximumProductImageCount + 1
     
     private let sellerIdentifier = "c4dedd67-71fc-11ec-abfa-fd97ecfece87"
     private let secretkey = "aFJkk2KmB53A*6LT"
+    
+    init(APIService: APIServcie) {
+        self.APIService = APIService
+    }
     
     struct Input {
         let viewWillAppear: Observable<Void>

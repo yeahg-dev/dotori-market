@@ -77,7 +77,7 @@ final class ProductCollectionViewController: UICollectionViewController {
         flowLayout.minimumInteritemSpacing = 10
         flowLayout.scrollDirection = .vertical
         flowLayout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: .zero, right: 5)
-        collectionView.collectionViewLayout = self.flowLayout
+        collectionView.collectionViewLayout = flowLayout
     }
     
     private func configureLoadingIndicator() {

@@ -28,7 +28,7 @@ final class ProductDetailViewController: UIViewController {
     
     // MARK: - Property
     private var productID: Int?
-    private let viewModel = ProductDetailSceneViewModel()
+    private let viewModel = ProductDetailSceneViewModel(APIService: MarketAPIService())
     private let disposeBag = DisposeBag()
     
     // MARK: - View Life Cycle

@@ -24,7 +24,7 @@ final class ProductEidtViewController: UIViewController {
     
     // MARK: - Property
     private var productID: Int?
-    private let viewModel = ProductEditSceneViewModel()
+    private let viewModel = ProductEditSceneViewModel(APIService: MarketAPIService())
     private let disposeBag = DisposeBag()
     private let secret = PublishSubject<String>()
  

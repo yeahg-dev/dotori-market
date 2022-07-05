@@ -34,7 +34,7 @@ final class ProductRegistrationViewController: UIViewController {
     private var textViewPlaceHolder: String?
     
     // MARK: - Property
-    private let viewModel = ProductRegisterationSceneViewModel()
+    private let viewModel = ProductRegisterationSceneViewModel(APIService: MarketAPIService())
     private let disposeBag = DisposeBag()
     private let pickerImage = PublishSubject<UIImage>()
     private let secret = PublishSubject<String>()

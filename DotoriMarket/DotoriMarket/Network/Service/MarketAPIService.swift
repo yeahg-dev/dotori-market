@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-struct MarketAPIService {
+struct MarketAPIService: APIServcie {
     
     func request<T: APIRequest>(
         _ request: T,
@@ -17,27 +17,27 @@ struct MarketAPIService {
         guard let urlRequest = self.createURLRequest(of: request) else {
             return
         }
-
+        
         executeURLRequest(of: urlRequest, completion)
     }
     
-    private func createURLRequest<T: APIRequest>(of APIRequest: T) -> URLRequest? {
+    func createURLRequest<T: APIRequest>(of APIRequest: T) -> URLRequest? {
         
         guard let url = APIRequest.url else { return nil}
         var urlRequest = URLRequest(url: url)
-
+        
         urlRequest.httpMethod = APIRequest.httpMethod.rawValue
-
+        
         APIRequest.header.forEach { (key, value) in
             urlRequest.addValue(value, forHTTPHeaderField: key)
         }
-
+        
         urlRequest.httpBody = APIRequest.body
         
         return urlRequest
     }
     
-    private func executeURLRequest<T: Decodable>(
+    func executeURLRequest<T: Decodable>(
         of request: URLRequest,
         _ completion: @escaping (Result<T, Error>
         ) -> Void ) {
@@ -49,9 +49,9 @@ struct MarketAPIService {
             
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
-                      completion(.failure(APIError.invalidResponseDate))
-                      return
-                  }
+                completion(.failure(APIError.invalidResponseDate))
+                return
+            }
             
             guard let data = data else { return }
             guard let decoded: T = JSONCodable().decode(from: data) else {
@@ -61,9 +61,6 @@ struct MarketAPIService {
         }
         dataTask.resume()
     }
-}
-
-extension MarketAPIService {
     
     func requestRx<T: APIRequest>(
         _ request: T) -> Observable<T.Response> {

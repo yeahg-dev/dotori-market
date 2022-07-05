@@ -10,9 +10,13 @@ import RxSwift
 
 final class ProductEditSceneViewModel {
     
-    private let APIService = MarketAPIService()
+    private var APIService: APIServcie
     private let sellerIdentifier = "c4dedd67-71fc-11ec-abfa-fd97ecfece87"
     private var productID: Int?
+    
+    init(APIService: APIServcie) {
+        self.APIService = APIService
+    }
     
     struct Input {
         let viewWillAppear: Observable<Int>

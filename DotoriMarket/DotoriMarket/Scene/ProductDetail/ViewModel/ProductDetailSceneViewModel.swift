@@ -10,7 +10,11 @@ import RxSwift
 
 final class ProductDetailSceneViewModel {
     
-    private let APIService = MarketAPIService()
+    private var APIService: APIServcie
+    
+    init(APIService: APIServcie) {
+        self.APIService = APIService
+    }
     
     struct Input {
         let viewWillAppear: Observable<Int>
