@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class ProductDetailViewController: UIViewController, UICollectionViewDelegate {
+final class ProductDetailViewController: UIViewController {
     
     // MARK: - IBOutlet
     @IBOutlet private weak var productImageCollectionView: UICollectionView?
@@ -141,13 +141,6 @@ final class ProductDetailViewController: UIViewController, UICollectionViewDeleg
         self.navigationItem.title = title
     }
     
-    private func configureScrollViewdelegate() {
-        guard let scrollView = self.productImageCollectionView else {
-            return
-        }
-        scrollView.delegate = self
-    }
-    
     // MARK: - API
     func setProduct(_ id: Int) {
         self.productID = id
@@ -166,11 +159,25 @@ final class ProductDetailViewController: UIViewController, UICollectionViewDeleg
     
 }
 
+// MARK: - UICollectionViewDelegate
+extension ProductDetailViewController: UICollectionViewDelegate {
+    
+    private func configureScrollViewdelegate() {
+        guard let scrollView = self.productImageCollectionView else {
+            return
+        }
+        scrollView.delegate = self
+    }
+    
+}
+
 // MARK: - UIScrollViewDelegate
 extension ProductDetailViewController: UIScrollViewDelegate {
     
+   
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let page = Int(targetContentOffset.pointee.x / self.view.frame.width)
         self.imagePageControl.currentPage = page
     }
 }
+
