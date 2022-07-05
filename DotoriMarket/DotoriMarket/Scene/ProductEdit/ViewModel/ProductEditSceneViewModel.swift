@@ -46,8 +46,9 @@ final class ProductEditSceneViewModel {
                 self.productID = productID })
             .map { productID in
                 ProductDetailRequest(productID: productID) }
-            .flatMap { request -> Observable<ProductDetail> in
+            .flatMap { request -> Observable<ProductDetailResponse> in
                 self.APIService.requestRx(request) }
+            .map{ $0.toDomain() }
             .map { productDetail in
                 ProductDetailEditViewModel(product: productDetail) }
             .share(replay: 1)

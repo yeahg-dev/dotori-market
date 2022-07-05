@@ -29,7 +29,7 @@ struct HealthCheckerRequest: APIRequest {
 // MARK: - 상품 등록 / POST
 struct ProductRegistrationRequest: APIRequest {
     
-    typealias Response = ProductDetail
+    typealias Response = ProductDetailResponse
     
     private let identifier: String
     private let params: NewProductInfo
@@ -104,7 +104,7 @@ struct ProductRegistrationRequest: APIRequest {
 // MARK: - 상품 수정 / PATCH
 struct ProductEditRequest: APIRequest {
     
-    typealias Response = ProductDetail
+    typealias Response = ProductDetailResponse
     
     private let identifier: String
     private let productID: Int
@@ -167,7 +167,7 @@ struct ProductSecretRequest: APIRequest {
 // MARK: - 상품 삭제 / DELETE
 struct ProductDeletionRequest: APIRequest {
     
-    typealias Response = ProductDetail
+    typealias Response = ProductDetailResponse
     
     private let identifier: String
     private let productID: Int
@@ -198,7 +198,7 @@ struct ProductDeletionRequest: APIRequest {
 // MARK: - 상품 상세 조회 / GET
 struct ProductDetailRequest: APIRequest {
 
-    typealias Response = ProductDetail
+    typealias Response = ProductDetailResponse
     
     private let productID: Int
     private let boundary: String
