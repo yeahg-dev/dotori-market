@@ -14,14 +14,14 @@ struct MarketAPIService {
         _ request: T,
         completion: @escaping (Result<T.Response, Error>
         ) -> Void) {
-        guard let urlRequest = self.createURLRequest(with: request) else {
+        guard let urlRequest = self.createURLRequest(of: request) else {
             return
         }
 
-        executeURLSessionTask(request: urlRequest, completion)
+        executeURLRequest(of: urlRequest, completion)
     }
     
-    private func createURLRequest<T: APIRequest>(with APIRequest: T) -> URLRequest? {
+    private func createURLRequest<T: APIRequest>(of APIRequest: T) -> URLRequest? {
         
         guard let url = APIRequest.url else { return nil}
         var urlRequest = URLRequest(url: url)
@@ -37,8 +37,8 @@ struct MarketAPIService {
         return urlRequest
     }
     
-    private func executeURLSessionTask<T: Decodable>(
-        request: URLRequest,
+    private func executeURLRequest<T: Decodable>(
+        of request: URLRequest,
         _ completion: @escaping (Result<T, Error>
         ) -> Void ) {
         let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
