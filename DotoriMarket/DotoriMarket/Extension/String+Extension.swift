@@ -13,4 +13,4 @@ extension String {
     static let empty = ""
 }
 
-extension String: APIResponse { }
+extension String: ResponseDataType { }

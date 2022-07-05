@@ -1,5 +1,5 @@
 //
-//  ProductsListPage.swift
+//  ProductsListPageResponse.swift
 //  OpenMarket
 //
 //  Created by 예거 on 2022/01/04.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProductsListPage: Codable, APIResponse {
+struct ProductsListPageResponse: Codable, ResponseDataType {
     
     let pageNo: Int
     let itemsPerPage: Int
@@ -28,5 +28,13 @@ struct ProductsListPage: Codable, APIResponse {
         case hasNext = "has_next"
         case hasPrev = "has_prev"
         case offset, limit, pages
+    }
+}
+
+extension ProductsListPageResponse {
+
+    func toDomain() -> ProductListPage {
+        return ProductListPage(pages: self.pages,
+                               hasNext: self.hasNext)
     }
 }

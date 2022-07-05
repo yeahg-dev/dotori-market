@@ -47,14 +47,15 @@ final class ProductListSceneViewModel {
             
         let products = Observable.of(viewWillAppear, pagination, willRefreshPage)
             .merge()
-            .flatMap { _ -> Observable<ProductsListPage> in
+            .flatMap { _ -> Observable<ProductsListPageResponse> in
                 let request = ProductsListPageRequest(pageNo: self.currentPage + 1, itemsPerPage: 20)
                 return self.APIService.requestRx(request) }
+            .map({ response in response.toDomain() })
             .do(onNext: {listPage in
                 self.currentPage += 1
                 self.hasNextPage = listPage.hasNext
             })
-            .map { (listPage: ProductsListPage) -> [ProductViewModel] in
+            .map { (listPage: ProductListPage) -> [ProductViewModel] in
                 let products = listPage.pages.map { product in
                     ProductViewModel(product: product)}
                 self.productsViewModels.append(contentsOf: products)

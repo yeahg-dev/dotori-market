@@ -1,5 +1,5 @@
 //
-//  APIRequestType.swift
+//  MarketAPIRequestType.swift
 //  OpenMarket
 //
 //  Created by lily on 2022/01/05.
@@ -224,7 +224,7 @@ struct ProductDetailRequest: APIRequest {
 // MARK: - 상품 리스트 조회 / GET
 struct ProductsListPageRequest: APIRequest {
     
-    typealias Response = ProductsListPage
+    typealias Response = ProductsListPageResponse
     
     private let pageNo: Int
     private let itemsPerPage: Int

@@ -1,5 +1,5 @@
 //
-//  APIURL.swift
+//  MarketAPIURL.swift
 //  OpenMarket
 //
 //  Created by lily on 2022/01/06.

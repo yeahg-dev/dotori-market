@@ -1,5 +1,5 @@
 //
-//  APIRequest.swift
+//  MarketAPIRequest.swift
 //  OpenMarket
 //
 //  Created by 예거 on 2022/01/11.
@@ -9,7 +9,7 @@ import Foundation
 
 protocol APIRequest {
     
-    associatedtype Response: APIResponse
+    associatedtype Response: ResponseDataType
     
     var url: URL? { get }
     var httpMethod: HTTPMethod { get }
@@ -17,4 +17,4 @@ protocol APIRequest {
     var body: Data? { get }
 }
 
-protocol APIResponse: Decodable { }
+protocol ResponseDataType: Decodable { }
