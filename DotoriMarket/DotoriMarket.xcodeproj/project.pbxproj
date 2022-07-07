@@ -30,6 +30,8 @@
 		6396C24B287449FF0076356D /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6396C24A287449FF0076356D /* Image.swift */; };
 		6396C25028744BB50076356D /* EditProductInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6396C24F28744BB50076356D /* EditProductInfo.swift */; };
 		6396C253287497B70076356D /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6396C252287497B70076356D /* APIService.swift */; };
+		6396C2552874A12B0076356D /* ProductDetailSceneViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6396C2542874A12B0076356D /* ProductDetailSceneViewModelTest.swift */; };
+		6396C2572874A1410076356D /* MockMarketAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6396C2562874A1410076356D /* MockMarketAPIService.swift */; };
 		63A2029927853300003A1112 /* ImageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A2029827853300003A1112 /* ImageResponse.swift */; };
 		63A2029B278533E7003A1112 /* VendorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A2029A278533E7003A1112 /* VendorResponse.swift */; };
 		63A2029D2785447E003A1112 /* ProductDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A2029C2785447E003A1112 /* ProductDetail.swift */; };
@@ -39,6 +41,9 @@
 		63AB3A3E28583F5A003305D0 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 63AB3A3D28583F5A003305D0 /* RxSwift */; };
 		63B6502F279E866700818CDD /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B6502E279E866600818CDD /* UIViewController+Extension.swift */; };
 		63C1904F27A38E4A00210BE3 /* CellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C1904E27A38E4A00210BE3 /* CellType.swift */; };
+		63CD42BC287701D400EAFA81 /* RxTest in Frameworks */ = {isa = PBXBuildFile; productRef = 63CD42BB287701D400EAFA81 /* RxTest */; };
+		63CD42BE2877038900EAFA81 /* RxTest in Frameworks */ = {isa = PBXBuildFile; productRef = 63CD42BD2877038900EAFA81 /* RxTest */; };
+		63CD42C02877038F00EAFA81 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 63CD42BF2877038F00EAFA81 /* RxSwift */; };
 		63D660E52787F09400A450DE /* ImageFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D660E42787F09400A450DE /* ImageFile.swift */; };
 		63D660E82787F87B00A450DE /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D660E72787F87B00A450DE /* Data+Extension.swift */; };
 		63D97B6D278419C0009E2516 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D97B6C278419C0009E2516 /* Product.swift */; };
@@ -58,7 +63,7 @@
 		C13DFABF279126C2003A1A2E /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13DFABE279126C2003A1A2E /* String+Extension.swift */; };
 		C13DFAC1279126D9003A1A2E /* NSAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13DFAC0279126D9003A1A2E /* NSAttributedString+Extension.swift */; };
 		C19123FE278D5C3700171DEB /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19123FD278D5C3700171DEB /* HTTPMethod.swift */; };
-		C1912400278D5E9400171DEB /* MarketAPIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19123FF278D5E9300171DEB /* MarketAPIRequest.swift */; };
+		C1912400278D5E9400171DEB /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19123FF278D5E9300171DEB /* APIRequest.swift */; };
 		C1AF6254279FD69B0016ACE9 /* Notification+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AF6253279FD69B0016ACE9 /* Notification+Extension.swift */; };
 		C1AF6256279FDDE20016ACE9 /* UICollectionViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AF6255279FDDE20016ACE9 /* UICollectionViewController+Extension.swift */; };
 		C1C4FFAA27969EA400294962 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C4FFA927969EA400294962 /* Array+Extension.swift */; };
@@ -117,6 +122,8 @@
 		6396C24A287449FF0076356D /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		6396C24F28744BB50076356D /* EditProductInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProductInfo.swift; sourceTree = "<group>"; };
 		6396C252287497B70076356D /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		6396C2542874A12B0076356D /* ProductDetailSceneViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailSceneViewModelTest.swift; sourceTree = "<group>"; };
+		6396C2562874A1410076356D /* MockMarketAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMarketAPIService.swift; sourceTree = "<group>"; };
 		63A2029827853300003A1112 /* ImageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResponse.swift; sourceTree = "<group>"; };
 		63A2029A278533E7003A1112 /* VendorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorResponse.swift; sourceTree = "<group>"; };
 		63A2029C2785447E003A1112 /* ProductDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetail.swift; sourceTree = "<group>"; };
@@ -144,7 +151,7 @@
 		C13DFABE279126C2003A1A2E /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		C13DFAC0279126D9003A1A2E /* NSAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		C19123FD278D5C3700171DEB /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
-		C19123FF278D5E9300171DEB /* MarketAPIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketAPIRequest.swift; sourceTree = "<group>"; };
+		C19123FF278D5E9300171DEB /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		C1AF6253279FD69B0016ACE9 /* Notification+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extension.swift"; sourceTree = "<group>"; };
 		C1AF6255279FDDE20016ACE9 /* UICollectionViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewController+Extension.swift"; sourceTree = "<group>"; };
 		C1C4FFA927969EA400294962 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
@@ -169,6 +176,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63CD42C02877038F00EAFA81 /* RxSwift in Frameworks */,
+				63CD42BE2877038900EAFA81 /* RxTest in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,6 +194,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				63AB3A3E28583F5A003305D0 /* RxSwift in Frameworks */,
+				63CD42BC287701D400EAFA81 /* RxTest in Frameworks */,
 				63AB3A3C28583F5A003305D0 /* RxCocoa in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -212,7 +222,6 @@
 		634B8551285AF25200F931EF /* APIRequest */ = {
 			isa = PBXGroup;
 			children = (
-				C19123FF278D5E9300171DEB /* MarketAPIRequest.swift */,
 				63A202B42785C390003A1112 /* MakretAPIRequestType.swift */,
 				639358D12786C5B500412958 /* MarketAPIURL.swift */,
 				6396C24C28744B720076356D /* RequestDataType */,
@@ -256,7 +265,9 @@
 		634B8562285CD5ED00F931EF /* DotoriMarketViewModelTests */ = {
 			isa = PBXGroup;
 			children = (
+				6396C2562874A1410076356D /* MockMarketAPIService.swift */,
 				634B8563285CD5ED00F931EF /* ProductViewModelTest.swift */,
+				6396C2542874A12B0076356D /* ProductDetailSceneViewModelTest.swift */,
 			);
 			path = DotoriMarketViewModelTests;
 			sourceTree = "<group>";
@@ -321,6 +332,7 @@
 			isa = PBXGroup;
 			children = (
 				6396C252287497B70076356D /* APIService.swift */,
+				C19123FF278D5E9300171DEB /* APIRequest.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -563,6 +575,10 @@
 				634B8566285CD5ED00F931EF /* PBXTargetDependency */,
 			);
 			name = DotoriMarketViewModelTests;
+			packageProductDependencies = (
+				63CD42BD2877038900EAFA81 /* RxTest */,
+				63CD42BF2877038F00EAFA81 /* RxSwift */,
+			);
 			productName = OpenMarketViewModelTests;
 			productReference = 634B8561285CD5ED00F931EF /* DotoriMarketViewModelTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -604,6 +620,7 @@
 			packageProductDependencies = (
 				63AB3A3B28583F5A003305D0 /* RxCocoa */,
 				63AB3A3D28583F5A003305D0 /* RxSwift */,
+				63CD42BB287701D400EAFA81 /* RxTest */,
 			);
 			productName = OpenMarket;
 			productReference = C70FB0F725BEF61C00C9924E /* DotoriMarket.app */;
@@ -686,6 +703,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6396C2552874A12B0076356D /* ProductDetailSceneViewModelTest.swift in Sources */,
+				6396C2572874A1410076356D /* MockMarketAPIService.swift in Sources */,
 				634B8564285CD5ED00F931EF /* ProductViewModelTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -720,7 +739,7 @@
 				639358D22786C5B500412958 /* MarketAPIURL.swift in Sources */,
 				63D660E52787F09400A450DE /* ImageFile.swift in Sources */,
 				63C1904F27A38E4A00210BE3 /* CellType.swift in Sources */,
-				C1912400278D5E9400171DEB /* MarketAPIRequest.swift in Sources */,
+				C1912400278D5E9400171DEB /* APIRequest.swift in Sources */,
 				634B855C285CCA5700F931EF /* ProductViewModel.swift in Sources */,
 				C1C4FFAC2796CABD00294962 /* ImageCacheManager.swift in Sources */,
 				C13DFABF279126C2003A1A2E /* String+Extension.swift in Sources */,
@@ -1101,6 +1120,21 @@
 			productName = RxCocoa;
 		};
 		63AB3A3D28583F5A003305D0 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63AB3A3A28583F5A003305D0 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		63CD42BB287701D400EAFA81 /* RxTest */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63AB3A3A28583F5A003305D0 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxTest;
+		};
+		63CD42BD2877038900EAFA81 /* RxTest */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63AB3A3A28583F5A003305D0 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxTest;
+		};
+		63CD42BF2877038F00EAFA81 /* RxSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 63AB3A3A28583F5A003305D0 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;

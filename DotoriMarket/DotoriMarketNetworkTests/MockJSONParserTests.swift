@@ -6,11 +6,11 @@
 //
 
 import XCTest
-@testable import OpenMarket
+@testable import DotoriMarket
 
 class MockJSONParserTests: XCTestCase {
 
-    var sut: ProductsListPage!
+    var sut: ProductsListPageResponse!
     let jsonParser = JSONCodable()
     let mockJSONName = "products"
     
@@ -37,7 +37,7 @@ class MockJSONParserTests: XCTestCase {
     }
     
     func test_mockJSON_currencyCode_연산프로퍼티_검증() {
-        let result = sut.pages[1].currency
+        let result = sut.pages[1].currency.toDomain()
         let expectation = Currency.krw
         XCTAssertEqual(result, expectation)
     }
