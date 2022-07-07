@@ -10,6 +10,12 @@ import RxSwift
 
 struct MarketAPIService: APIServcie {
     
+    private let session: URLSession
+    
+    init(urlSession: URLSession = .shared) {
+        self.session = urlSession
+    }
+    
     func request<T: APIRequest>(
         _ request: T,
         completion: @escaping (Result<T.Response, Error>
@@ -41,7 +47,7 @@ struct MarketAPIService: APIServcie {
         of request: URLRequest,
         _ completion: @escaping (Result<T, Error>
         ) -> Void ) {
-        let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
+        let dataTask = session.dataTask(with: request) { data, response, error in
             if let error = error {
                 completion(.failure(error))
                 return
