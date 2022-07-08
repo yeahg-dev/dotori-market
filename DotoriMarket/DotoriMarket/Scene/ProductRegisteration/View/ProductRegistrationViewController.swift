@@ -6,12 +6,14 @@
 //
 
 import UIKit
+
 import RxSwift
 import RxCocoa
 
 final class ProductRegistrationViewController: UIViewController {
     
     // MARK: - IBOutlets
+    
     @IBOutlet private weak var navigationBar: UINavigationBar?
     @IBOutlet private weak var scrollView: UIScrollView?
     @IBOutlet private weak var productImageCollectionView: UICollectionView?
@@ -23,6 +25,7 @@ final class ProductRegistrationViewController: UIViewController {
     @IBOutlet private weak var descriptionsTextView: UITextView?
     
     // MARK: - UI Property
+    
     private let imagePicker: UIImagePickerController = {
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = .photoLibrary
@@ -34,6 +37,7 @@ final class ProductRegistrationViewController: UIViewController {
     private var textViewPlaceHolder: String?
     
     // MARK: - Property
+    
     private let viewModel = ProductRegisterationSceneViewModel(APIService: MarketAPIService())
     private let disposeBag = DisposeBag()
     private let pickerImage = PublishSubject<UIImage>()
@@ -41,6 +45,7 @@ final class ProductRegistrationViewController: UIViewController {
     private var cells: [CellType] = [.imagePickerCell]
  
     // MARK: - View Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureDelegate()
@@ -50,12 +55,13 @@ final class ProductRegistrationViewController: UIViewController {
     }
     
     // MARK: - binding
+    
     private func bindViewModel() {
         guard let doneButton = self.navigationBar?.items?[0].rightBarButtonItem as? UIBarButtonItem else { return }
         
         let input = ProductRegisterationSceneViewModel.Input(
-            viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{_ in},
-            itemSelected: self.productImageCollectionView!.rx.itemSelected.map({ index in index.row }),
+            viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{_ in },
+            itemSelected: self.productImageCollectionView!.rx.itemSelected.map{ index in index.row },
             didSelectImage: self.pickerImage,
             productTitle: self.nameTextField!.rx.text.asObservable(),
             productCurrency: self.currencySegmentedControl!.rx.value.asObservable(),
@@ -114,7 +120,7 @@ final class ProductRegistrationViewController: UIViewController {
         
         output.excessImageAlert
             .observe(on: MainScheduler.instance)
-            .subscribe { [weak self] excessImageAlert in
+            .subscribe{ [weak self] excessImageAlert in
                 self?.presentAlert(excessImageAlert: excessImageAlert) }
             .disposed(by: disposeBag)
         
@@ -126,13 +132,13 @@ final class ProductRegistrationViewController: UIViewController {
         
         output.requireSecret
             .observe(on: MainScheduler.instance)
-            .subscribe (onNext:{ viewModel in
+            .subscribe(onNext:{ viewModel in
                 self.presentRequireSecretAlert(viewModel: viewModel) })
             .disposed(by: disposeBag)
         
         output.registrationFailureAlert
             .observe(on: MainScheduler.instance)
-            .subscribe (onNext:{ [weak self] viewModel in
+            .subscribe(onNext:{ [weak self] viewModel in
                 self?.presentRegistrationFailureAlert(viewModel: viewModel) })
             .disposed(by: disposeBag)
 
@@ -145,6 +151,7 @@ final class ProductRegistrationViewController: UIViewController {
     }
     
     // MARK: - Configure UI
+    
     private func configureDelegate() {
         self.nameTextField?.delegate = self
         self.descriptionsTextView?.delegate = self
@@ -170,11 +177,13 @@ final class ProductRegistrationViewController: UIViewController {
     }
 
     // MARK: - IBaction Method
+    
     @IBAction func cancelButtonTapped(_ sender: Any) {
         self.dismiss(animated: true)
     }
     
     // MARK: - Present Alert
+    
     private func presentAlert(excessImageAlert: ProductRegisterationSceneViewModel.ExecessImageAlertViewModel) {
         let alert = UIAlertController(title: excessImageAlert.title,
                                       message: excessImageAlert.message,
@@ -231,6 +240,7 @@ final class ProductRegistrationViewController: UIViewController {
 }
 
 // MARK: - Keyboard
+
 extension ProductRegistrationViewController {
     
     private func addKeyboardNotificationObserver() {
@@ -275,6 +285,7 @@ extension ProductRegistrationViewController {
 }
 
 // MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
+
 extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(
@@ -296,6 +307,7 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UI
 }
 
 // MARK: - UITextFieldDelegate
+
 extension ProductRegistrationViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -305,6 +317,7 @@ extension ProductRegistrationViewController: UITextFieldDelegate {
 }
 
 // MARK: - UITextViewDelegate
+
 extension ProductRegistrationViewController: UITextViewDelegate {
     
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {

@@ -16,5 +16,3 @@ protocol APIRequest {
     var header: [String: String] { get }
     var body: Data? { get }
 }
-
-protocol ResponseDataType: Decodable { }

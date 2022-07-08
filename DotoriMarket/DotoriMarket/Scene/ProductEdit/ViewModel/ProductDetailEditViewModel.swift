@@ -10,12 +10,14 @@ import Foundation
 struct ProductDetailEditViewModel {
     
     // MARK: - Model Data
+    
     private let priceData: Double
     private let bargainPriceData: Double
     private let discountedPriceData: Double
     private let stockData: Int
     
     // MARK: - View Model
+    
     let id: Int
     let name: String
     let description: String

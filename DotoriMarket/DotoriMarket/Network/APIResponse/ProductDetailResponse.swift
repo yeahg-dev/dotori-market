@@ -49,6 +49,6 @@ extension ProductDetailResponse {
                              bargainPrice: self.bargainPrice,
                              discountedPrice: self.discountedPrice,
                              stock: self.stock,
-                             images: self.images.map{ $0.toDomain()})
+                             images: self.images.map{ $0.toDomain() })
     }
 }

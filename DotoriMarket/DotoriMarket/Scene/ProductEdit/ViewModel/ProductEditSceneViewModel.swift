@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 import RxSwift
 
 final class ProductEditSceneViewModel {
@@ -48,23 +49,21 @@ final class ProductEditSceneViewModel {
         let productDetail = input.viewWillAppear
             .do(onNext: { productID in
                 self.productID = productID })
-            .map { productID in
-                ProductDetailRequest(productID: productID) }
-            .flatMap { request -> Observable<ProductDetailResponse> in
+            .map{ ProductDetailRequest(productID: $0) }
+            .flatMap{ request -> Observable<ProductDetailResponse> in
                 self.APIService.requestRx(request) }
             .map{ $0.toDomain() }
-            .map { productDetail in
-                ProductDetailEditViewModel(product: productDetail) }
+            .map{ ProductDetailEditViewModel(product: $0) }
             .share(replay: 1)
         
-        let productName = productDetail.map { $0.name }
-        let productPrice = productDetail.map { $0.price }
-        let productDiscountedPrice = productDetail.map { $0.discountedPrice }
-        let productStock = productDetail.map { $0.stock }
-        let prodcutDescription = productDetail.map { $0.description }
-        let productImages = productDetail.map { $0.images }
-        let productCurrencyIndex = productDetail.map { $0.currency }
-            .map { currency -> Int in
+        let productName = productDetail.map{ $0.name }
+        let productPrice = productDetail.map{ $0.price }
+        let productDiscountedPrice = productDetail.map{ $0.discountedPrice }
+        let productStock = productDetail.map{ $0.stock }
+        let prodcutDescription = productDetail.map{ $0.description }
+        let productImages = productDetail.map{ $0.images }
+        let productCurrencyIndex = productDetail.map{ $0.currency }
+            .map{ currency -> Int in
                 switch currency {
                 case .krw:
                     return 0
@@ -84,37 +83,32 @@ final class ProductEditSceneViewModel {
         let isvalidDescription = self.validate(description: productDescriptionInput).share(replay: 1)
         
         let requireSecret = input.didDoneTapped
-            .flatMap({ _ in
-                Observable.zip(isValidName, isValidPrice, isValidStock, isvalidDescription, resultSelector: { self.validate(isValidName: $0, isValidPrice: $1, isValidStock: $2, isValidDescription: $3) })
-            })
-            .filter { (result, descritpion) in
-                result == .success }
-            .map { _ in RequireSecretAlertViewModel() }
+            .flatMap{ _ in
+                Observable.zip(isValidName, isValidPrice, isValidStock, isvalidDescription,
+                               resultSelector: { self.validate(isValidName: $0, isValidPrice: $1, isValidStock: $2, isValidDescription: $3) }) }
+            .filter{ (result, descritpion) in result == .success }
+            .map{ _ in RequireSecretAlertViewModel() }
     
         let validationFail = input.didDoneTapped
-            .flatMap({ _ in
-                Observable.zip(isValidName, isValidPrice, isValidStock, isvalidDescription, resultSelector: { self.validate(isValidName: $0, isValidPrice: $1, isValidStock: $2, isValidDescription: $3) })
-            })
-            .filter { (result, descritpion) in
-                result == .failure }
-            .map { (result, description) in description }
+            .flatMap{ _ in
+                Observable.zip(isValidName, isValidPrice, isValidStock, isvalidDescription,
+                               resultSelector: { self.validate(isValidName: $0, isValidPrice: $1, isValidStock: $2, isValidDescription: $3) }) }
+            .filter{ (result, descritpion) in result == .failure }
+            .map{ (result, description) in description }
         
         let registrationFailure = PublishSubject<RequestFailureAlertViewModel>()
         
         let registerationResponse = input.didReceiveSecret
-            .flatMap { secret -> Observable<EditProductInfo?> in
+            .flatMap{ secret -> Observable<EditProductInfo?> in
                 return Observable.combineLatest(productNameInput, productPriceInput, input.productDiscountedPrice, input.productCurrencyIndex, productStockInput, productDescriptionInput, Observable.just(secret),
                                    resultSelector: { (name, price, discountedPrice, currency, stock, descritpion, secret) -> EditProductInfo? in
-                    return self.createEditProductInfo(name: name, description: descritpion, price: price, currencyIndex: currency, discountedPrice: discountedPrice, stock: stock, secret: secret)
-                }) }
-            .flatMap({ productInfo in
-                self.createEditRequest(with: productInfo) })
-            .flatMap { request in
-                self.APIService.requestRx(request) }
+                    return self.createEditProductInfo(name: name, description: descritpion, price: price, currencyIndex: currency, discountedPrice: discountedPrice, stock: stock, secret: secret) }) }
+            .flatMap{ productInfo in self.createEditRequest(with: productInfo) }
+            .flatMap{ request in self.APIService.requestRx(request) }
             .do(onError: { _ in
                 registrationFailure.onNext(RequestFailureAlertViewModel()) })
             .retry(when: { _ in requireSecret })
-            .map { _ in }
+            .map{ _ in }
         
         return Output(prdouctName: productName,
                       productImagesURL: productImages,
@@ -131,6 +125,7 @@ final class ProductEditSceneViewModel {
 }
 
 // MARK: - AlertViewModel
+
 extension ProductEditSceneViewModel {
     
     struct RequireSecretAlertViewModel {
@@ -149,6 +144,7 @@ extension ProductEditSceneViewModel {
 }
 
 // MARK: - Input Validation
+
 extension ProductEditSceneViewModel {
 
     enum ValidationResult {
@@ -190,10 +186,9 @@ extension ProductEditSceneViewModel {
             let categories = [name, price, stock, description]
            
             let description = categories
-                .filter { !$0.isEmpty }
+                .filter{ !$0.isEmpty }
                 .reduce("") { partialResult, category in
-                    partialResult.isEmpty ? category : "\(partialResult), \(category)"
-                }
+                    partialResult.isEmpty ? category : "\(partialResult), \(category)" }
             
             if isValidDescription == false || isValidStock == false {
                 return "\(description)는 필수 입력 항목이에요"
@@ -204,37 +199,34 @@ extension ProductEditSceneViewModel {
     }
     
     private func validate(name: Observable<String?>) -> Observable<Bool> {
-        return name.map { name -> Bool in
+        return name.map{ name -> Bool in
             guard let name = name else { return false }
-            return name.isEmpty ? false : true
-        }
+            return name.isEmpty ? false : true }
     }
     
     private func validate(price: Observable<String?>) -> Observable<Bool> {
-        return price.map { price -> Bool in
+        return price.map{ price -> Bool in
             guard let price = price else { return false }
-            return price.isEmpty ? false : true
-        }
+            return price.isEmpty ? false : true }
     }
     
     private func validate(stock: Observable<String?>) -> Observable<Bool> {
-        return stock.map { stock -> Bool in
+        return stock.map{ stock -> Bool in
             guard let stock = stock else { return false }
-            return stock.isEmpty ? false : true
-        }
+            return stock.isEmpty ? false : true }
     }
     
     private func validate(description: Observable<String?>) -> Observable<Bool> {
-        return description.map { description -> Bool in
+        return description.map{ description -> Bool in
             guard let text = description else { return false }
             if text == MarketCommon.descriptionTextViewPlaceHolder.rawValue { return false }
-            return text.count >= 10 && text.count <= 1000 ? true : false
-        }
+            return text.count >= 10 && text.count <= 1000 ? true : false }
     }
 
 }
 
 // MARK: - API Request
+
 extension ProductEditSceneViewModel {
     
     enum ViewModelError: Error {
@@ -242,7 +234,7 @@ extension ProductEditSceneViewModel {
     }
 
     private func createEditRequest(with productInfo: EditProductInfo?) -> Observable<ProductEditRequest> {
-        let editRequest = Observable<ProductEditRequest>.create { observer in
+        let editRequest = Observable<ProductEditRequest>.create{ observer in
             guard let id = self.productID,
                 let productInfo = productInfo else {
                 observer.onError(ViewModelError.requestCreationFail)

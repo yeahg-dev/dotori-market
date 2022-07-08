@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 import RxSwift
 
 struct MarketAPIService: APIServcie {
@@ -70,7 +71,7 @@ struct MarketAPIService: APIServcie {
     
     func requestRx<T: APIRequest>(
         _ request: T) -> Observable<T.Response> {
-            let observable = Observable<T.Response>.create { observer in
+            let observable = Observable<T.Response>.create{ observer in
                 self.request(request) { result in
                     switch result {
                     case.success(let response):

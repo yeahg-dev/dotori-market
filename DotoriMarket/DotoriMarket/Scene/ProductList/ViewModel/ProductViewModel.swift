@@ -5,12 +5,12 @@
 //  Created by 1 on 2022/06/17.
 //
 
-import Foundation
 import UIKit
 
 struct ProductViewModel {
     
     // MARK: - Model data
+    
     private let currencyData: Currency
     private let priceData: Double
     private let bargainPriceData: Double
@@ -18,6 +18,7 @@ struct ProductViewModel {
     private let stockData: Int
     
     // MARK: - View Model
+    
     let id: Int
     let name: String
     let thumbnail: String
@@ -49,6 +50,8 @@ struct ProductViewModel {
         self.stockData = product.stock
     }
 }
+
+// MARK: - Extension
 
 extension ProductViewModel {
     

@@ -8,6 +8,7 @@
 import Foundation
 
 // MARK: - HealthChekcer / GET
+
 struct HealthCheckerRequest: APIRequest {
     
     typealias Response = String
@@ -27,6 +28,7 @@ struct HealthCheckerRequest: APIRequest {
 }
 
 // MARK: - 상품 등록 / POST
+
 struct ProductRegistrationRequest: APIRequest {
     
     typealias Response = ProductDetailResponse
@@ -102,6 +104,7 @@ struct ProductRegistrationRequest: APIRequest {
 }
 
 // MARK: - 상품 수정 / PATCH
+
 struct ProductEditRequest: APIRequest {
     
     typealias Response = ProductDetailResponse
@@ -133,6 +136,7 @@ struct ProductEditRequest: APIRequest {
 }
 
 // MARK: - 상품 삭제 Secret 조회 / POST
+
 struct ProductSecretRequest: APIRequest {
     
     typealias Response = String
@@ -165,6 +169,7 @@ struct ProductSecretRequest: APIRequest {
 }
 
 // MARK: - 상품 삭제 / DELETE
+
 struct ProductDeletionRequest: APIRequest {
     
     typealias Response = ProductDetailResponse
@@ -222,6 +227,7 @@ struct ProductDetailRequest: APIRequest {
 }
 
 // MARK: - 상품 리스트 조회 / GET
+
 struct ProductsListPageRequest: APIRequest {
     
     typealias Response = ProductsListPageResponse

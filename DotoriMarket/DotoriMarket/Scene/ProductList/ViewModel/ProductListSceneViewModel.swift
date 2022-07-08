@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 import RxSwift
 
 final class ProductListSceneViewModel {
@@ -32,30 +33,27 @@ final class ProductListSceneViewModel {
     
     func transform(input: Input) -> Output {
         let viewWillAppear = input.viewWillAppear
-            .do(onNext: { _ in
-                self.resetPage()})
+            .do(onNext: { self.resetPage() })
                 
         let pagination = input.willDisplayCell
-            .filter { currentRow in
+            .filter{ currentRow in
                 currentRow == self.productsViewModels.count - self.paginationBuffer }
-            .filter { _ in self.hasNextPage == true }
-            .map {_ in }
+            .filter{ _ in self.hasNextPage == true }
+            .map{ _ in }
         
         let willRefreshPage = input.willRefrsesh
-            .do { _ in
-                self.resetPage() }
+            .do(onNext: { self.resetPage() })
             
         let products = Observable.of(viewWillAppear, pagination, willRefreshPage)
             .merge()
-            .flatMap { _ -> Observable<ProductsListPageResponse> in
+            .flatMap{ _ -> Observable<ProductsListPageResponse> in
                 let request = ProductsListPageRequest(pageNo: self.currentPage + 1, itemsPerPage: 20)
                 return self.APIService.requestRx(request) }
-            .map({ response in response.toDomain() })
-            .do(onNext: {listPage in
+            .map{ response in response.toDomain() }
+            .do(onNext: { listPage in
                 self.currentPage += 1
-                self.hasNextPage = listPage.hasNext
-            })
-            .map { (listPage: ProductListPage) -> [ProductViewModel] in
+                self.hasNextPage = listPage.hasNext })
+            .map{ (listPage: ProductListPage) -> [ProductViewModel] in
                 let products = listPage.pages.map { product in
                     ProductViewModel(product: product)}
                 self.productsViewModels.append(contentsOf: products)
@@ -65,13 +63,10 @@ final class ProductListSceneViewModel {
         let endRefresh = products.map { _ in }
         
         let pushProductDetailView = input.didSelectRowAt
-            .map { index -> Int in
-                guard let product = self.productsViewModels[safe: index] else {
-                    return .zero
-                }
+            .map{ index -> Int in
+                guard let product = self.productsViewModels[safe: index] else { return .zero }
                 return product.id }
-            .do(onNext: { _ in
-                self.resetPage() })
+            .do(onNext: { _ in self.resetPage() })
                 
        return Output(products: products,
                      endRefresh: endRefresh,

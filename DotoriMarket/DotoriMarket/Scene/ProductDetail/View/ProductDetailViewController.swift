@@ -6,12 +6,14 @@
 //
 
 import UIKit
+
 import RxSwift
 import RxCocoa
 
 final class ProductDetailViewController: UIViewController {
     
     // MARK: - IBOutlet
+    
     @IBOutlet private weak var productImageCollectionView: UICollectionView?
     @IBOutlet weak var productInfoStackView: UIStackView?
     @IBOutlet private weak var productNameLabel: UILabel?
@@ -23,15 +25,18 @@ final class ProductDetailViewController: UIViewController {
     @IBOutlet private weak var productDescriptionTextView: UITextView?
     
     // MARK: - UI Property
+    
     private let imagePageControl = UIPageControl()
     private let flowLayout = UICollectionViewFlowLayout()
     
     // MARK: - Property
+    
     private var productID: Int?
     private let viewModel = ProductDetailSceneViewModel(APIService: MarketAPIService())
     private let disposeBag = DisposeBag()
     
     // MARK: - View Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureStackViewLayout()
@@ -43,46 +48,49 @@ final class ProductDetailViewController: UIViewController {
     }
     
     // MARK: - binding
+    
     func bindViewModel() {
-        let input = ProductDetailSceneViewModel.Input(viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in self.productID!})
-        
+        let input = ProductDetailSceneViewModel.Input(
+            viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in self.productID! })
         let output = viewModel.transform(input: input)
         
         output.prdouctName
             .observe(on: MainScheduler.instance)
-            .subscribe (onNext:{ [weak self] name in
+            .subscribe(onNext:{ [weak self] name in
                 self?.configureNavigationTitle(with: name)
                 self?.productNameLabel?.text = name })
             .disposed(by: disposeBag)
         
         output.productImagesURL
             .observe(on: MainScheduler.instance)
-            .bind(to: productImageCollectionView!.rx.items(cellIdentifier: "PrdouctDetailCollectionViewCell", cellType: PrdouctDetailCollectionViewCell.self)) { (row, element, cell) in
+            .bind(to: productImageCollectionView!.rx.items(cellIdentifier: "PrdouctDetailCollectionViewCell",
+                                                           cellType: PrdouctDetailCollectionViewCell.self))
+        { (row, element, cell) in
                 if let imageURL = URL(string: element.thumbnailURL) {
-                    cell.fill(with: imageURL) }}
+                    cell.fill(with: imageURL) } }
             .disposed(by: disposeBag)
         
         output.productImagesURL
             .observe(on: MainScheduler.instance)
-            .subscribe { images in
+            .subscribe{ images in
                 self.imagePageControl.numberOfPages = images.count }
             .disposed(by: disposeBag)
         
         output.productPrice
             .observe(on: MainScheduler.instance)
-            .subscribe { [weak self] price in
+            .subscribe{ [weak self] price in
                 self?.productPriceLabel?.text = price }
             .disposed(by: disposeBag)
         
         output.prodcutSellingPrice
             .observe(on: MainScheduler.instance)
-            .subscribe { [weak self] sellingPrice in
+            .subscribe{ [weak self] sellingPrice in
                 self?.productSellingPriceLabel?.text = sellingPrice }
             .disposed(by: disposeBag)
         
         output.productDiscountedRate
             .observe(on: MainScheduler.instance)
-            .subscribe (onNext:{ [weak self] discountedRate in
+            .subscribe(onNext: { [weak self] discountedRate in
                 if discountedRate == nil {
                     self?.productSellingPriceStackView?.spacing = .zero }
                 self?.productDiscountRateLabel?.text = discountedRate })
@@ -90,7 +98,7 @@ final class ProductDetailViewController: UIViewController {
         
         output.productStock
             .observe(on: MainScheduler.instance)
-            .subscribe { stock in
+            .subscribe{ stock in
                 self.productStockLabel?.text = stock }
             .disposed(by: disposeBag)
         
@@ -103,6 +111,7 @@ final class ProductDetailViewController: UIViewController {
     }
     
     // MARK: - Configure UI
+    
     private func configureStackViewLayout() {
         guard let productInfoStackView = self.productInfoStackView,
               let productStockLabel = self.productStockLabel else {
@@ -142,11 +151,13 @@ final class ProductDetailViewController: UIViewController {
     }
     
     // MARK: - API
+    
     func setProduct(_ id: Int) {
         self.productID = id
     }
     
     // MARK: - Transition View
+    
     @objc private func presentProductModificationView() {
         guard let productEditVC = self.storyboard?.instantiateViewController(withIdentifier: "ProductEidtViewController") as? ProductEidtViewController,
               let productID = self.productID else {
@@ -160,6 +171,7 @@ final class ProductDetailViewController: UIViewController {
 }
 
 // MARK: - UICollectionViewDelegate
+
 extension ProductDetailViewController: UICollectionViewDelegate {
     
     private func configureScrollViewdelegate() {
@@ -172,9 +184,9 @@ extension ProductDetailViewController: UICollectionViewDelegate {
 }
 
 // MARK: - UIScrollViewDelegate
+
 extension ProductDetailViewController: UIScrollViewDelegate {
     
-   
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let page = Int(targetContentOffset.pointee.x / self.view.frame.width)
         self.imagePageControl.currentPage = page

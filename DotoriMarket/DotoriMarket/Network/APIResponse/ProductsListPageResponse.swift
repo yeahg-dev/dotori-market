@@ -34,7 +34,7 @@ struct ProductsListPageResponse: Codable, ResponseDataType {
 extension ProductsListPageResponse {
 
     func toDomain() -> ProductListPage {
-        return ProductListPage(pages: self.pages.map{$0.toDomain()},
+        return ProductListPage(pages: self.pages.map{ $0.toDomain() },
                                hasNext: self.hasNext)
     }
 }

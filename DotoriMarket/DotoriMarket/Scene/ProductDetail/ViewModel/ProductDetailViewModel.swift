@@ -10,12 +10,14 @@ import Foundation
 struct ProductDetailViewModel {
     
     // MARK: - Model data
+    
     private let priceData: Double
     private let bargainPriceData: Double
     private let discountedPriceData: Double
     private let stockData: Int
     
     // MARK: - View Model
+    
     let id: Int
     let name: String
     let description: String
@@ -32,7 +34,6 @@ struct ProductDetailViewModel {
     
     var discountedRate: String? {
         if self.discountedPriceData.isZero {
-            // 스택뷰 spacing 조정 필요
             return nil
         }
         

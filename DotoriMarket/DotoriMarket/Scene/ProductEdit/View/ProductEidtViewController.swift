@@ -6,12 +6,14 @@
 //
 
 import UIKit
+
 import RxSwift
 import RxCocoa
 
 final class ProductEidtViewController: UIViewController {
     
     // MARK: - IBOutlet
+    
     @IBOutlet weak var scrollView: UIScrollView?
     @IBOutlet weak var productImageCollectionView: UICollectionView?
     @IBOutlet weak var productNameField: UITextField?
@@ -23,12 +25,14 @@ final class ProductEidtViewController: UIViewController {
     @IBOutlet weak var doneButton: UIBarButtonItem?
     
     // MARK: - Property
+    
     private var productID: Int?
     private let viewModel = ProductEditSceneViewModel(APIService: MarketAPIService())
     private let disposeBag = DisposeBag()
     private let secret = PublishSubject<String>()
  
     // MARK: - View Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureCollectionViewLayout()
@@ -39,71 +43,73 @@ final class ProductEidtViewController: UIViewController {
     }
     
     // MARK: - binding
+    
     func bindViewModel() {
-        let input = ProductEditSceneViewModel.Input(viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in self.productID!},
-                                                            productName: self.productNameField!.rx.text.asObservable(),
-                                                            productPrice: self.prdouctPriceField!.rx.text.asObservable(),
-                                                            productDiscountedPrice: self.productDisconutPriceField!.rx.text.asObservable(),
-                                                            productCurrencyIndex: self.productCurrencySegmentedControl!.rx.selectedSegmentIndex.asObservable(),
-                                                            productStock: self.productStockField!.rx.text.asObservable(),
-                                                            productDescription: self.productDescriptionTextView!.rx.text.asObservable(),
-                                                            didDoneTapped: self.doneButton!.rx.tap.asObservable(),
-                                                            didReceiveSecret: self.secret.asObservable())
+        let input = ProductEditSceneViewModel.Input(
+            viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in self.productID!},
+            productName: self.productNameField!.rx.text.asObservable(),
+            productPrice: self.prdouctPriceField!.rx.text.asObservable(),
+            productDiscountedPrice: self.productDisconutPriceField!.rx.text.asObservable(),
+            productCurrencyIndex: self.productCurrencySegmentedControl!.rx.selectedSegmentIndex.asObservable(),
+            productStock: self.productStockField!.rx.text.asObservable(),
+            productDescription: self.productDescriptionTextView!.rx.text.asObservable(),
+            didDoneTapped: self.doneButton!.rx.tap.asObservable(),
+            didReceiveSecret: self.secret.asObservable())
         
         let output = viewModel.transform(input: input)
         
         output.prdouctName
             .observe(on: MainScheduler.instance)
-            .subscribe { [weak self] name in
+            .subscribe{ [weak self] name in
                 self?.productNameField?.text = name }
             .disposed(by: disposeBag)
         
         output.productImagesURL
             .observe(on: MainScheduler.instance)
-            .bind(to: productImageCollectionView!.rx.items(cellIdentifier: "PrdouctImageCollectionViewCell", cellType: ProductImageCollectionViewCell.self)) { (row, element, cell) in
+            .bind(to: productImageCollectionView!.rx.items(cellIdentifier: "PrdouctImageCollectionViewCell",
+                                                           cellType: ProductImageCollectionViewCell.self))
+        { (row, element, cell) in
                 guard let imageURL = URL(string: element.thumbnailURL) else { return }
                 if row == .zero {
                     cell.update(image: nil, url: imageURL, isRepresentaion: true)
                 } else {
                     cell.update(image: nil, url: imageURL, isRepresentaion: false)
-                }}
+                } }
             .disposed(by: disposeBag)
         
         output.productPrice
             .observe(on: MainScheduler.instance)
-            .subscribe { [weak self] price in
+            .subscribe{ [weak self] price in
                 self?.prdouctPriceField?.text = price }
             .disposed(by: disposeBag)
         
         output.productPrice
             .observe(on: MainScheduler.instance)
-            .subscribe { [weak self] sellingPrice in
+            .subscribe{ [weak self] sellingPrice in
                 self?.prdouctPriceField?.text = sellingPrice }
             .disposed(by: disposeBag)
         
         output.productStock
             .observe(on: MainScheduler.instance)
-            .subscribe { [weak self] stock in
-                self?.productStockField?.text = stock
-            }
+            .subscribe{ [weak self] stock in
+                self?.productStockField?.text = stock }
             .disposed(by: disposeBag)
         
         output.prodcutDiscountedPrice
             .observe(on: MainScheduler.instance)
-            .subscribe { [weak self] price in
-                self?.productDisconutPriceField?.text = price
-            }
+            .subscribe{ [weak self] price in
+                self?.productDisconutPriceField?.text = price }
             .disposed(by: disposeBag)
         
         output.productCurrencyIndex
             .observe(on: MainScheduler.instance)
-            .subscribe { [weak self] index in
+            .subscribe{ [weak self] index in
                 self?.productCurrencySegmentedControl?.selectedSegmentIndex = index }
             .disposed(by: disposeBag)
         
         output.productDescription
             .observe(on: MainScheduler.instance)
-            .subscribe { [weak self] description in
+            .subscribe{ [weak self] description in
                 self?.productDescriptionTextView?.text = description }
             .disposed(by: disposeBag)
         
@@ -115,13 +121,13 @@ final class ProductEidtViewController: UIViewController {
 
         output.requireSecret
             .observe(on: MainScheduler.instance)
-            .subscribe (onNext:{ viewModel in
+            .subscribe(onNext:{ viewModel in
                 self.presentRequireSecretAlert(viewModel: viewModel) })
             .disposed(by: disposeBag)
         
         output.registrationFailureAlert
             .observe(on: MainScheduler.instance)
-            .subscribe (onNext:{ [weak self] viewModel in
+            .subscribe(onNext:{ [weak self] viewModel in
                 self?.presentRequestFailureAlert(viewModel: viewModel) })
             .disposed(by: disposeBag)
 
@@ -133,6 +139,7 @@ final class ProductEidtViewController: UIViewController {
     }
     
     // MARK: - Configure UI
+    
     private func configureCollectionViewLayout() {
         self.productImageCollectionView?.showsVerticalScrollIndicator = false
         self.productImageCollectionView?.showsHorizontalScrollIndicator = false
@@ -151,6 +158,7 @@ final class ProductEidtViewController: UIViewController {
     }
 
     // MARK: - Present Alert
+    
     private func presentValidationFailureAlert(viewModel: String?) {
         let alert = UIAlertController(title: viewModel, message: nil, preferredStyle: .alert)
         let okAction = UIAlertAction(title: MarketCommon.confirm.rawValue, style: .default) { _ in
@@ -184,11 +192,13 @@ final class ProductEidtViewController: UIViewController {
     }
     
     // MARK: - IBAction
+    
     @IBAction func cancelButtonTapped(_ sender: Any) {
         self.dismiss(animated: true)
     }
     
     // MARK: API
+    
     func setProduct(_ productID: Int) {
         self.productID = productID
     }
@@ -196,6 +206,7 @@ final class ProductEidtViewController: UIViewController {
 }
 
 // MARK: - Keyboard
+
 extension ProductEidtViewController {
     
     private func addKeyboardNotificationObserver() {
@@ -240,6 +251,7 @@ extension ProductEidtViewController {
 }
 
 // MARK: - UITextFieldDelegate
+
 extension ProductEidtViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 import RxSwift
 
 final class ProductDetailSceneViewModel {
@@ -32,22 +33,21 @@ final class ProductDetailSceneViewModel {
     
     func transform(input: Input) -> Output {
         let productDetail = input.viewWillAppear
-            .map { productID in
+            .map{ productID in
                 ProductDetailRequest(productID: productID) }
-            .flatMap { request -> Observable<ProductDetailResponse> in
+            .flatMap{ request -> Observable<ProductDetailResponse> in
                 self.APIService.requestRx(request) }
-            .map { $0.toDomain() }
-            .map { productDetail in
-                ProductDetailViewModel(product: productDetail) }
+            .map{ $0.toDomain() }
+            .map{ ProductDetailViewModel(product: $0) }
             .share(replay: 1)
         
-        let productName = productDetail.map { $0.name }
-        let productPrice = productDetail.map { $0.price }
-        let productSellingPrice = productDetail.map { $0.sellingPrice }
-        let productDiscountedRate = productDetail.map { $0.discountedRate }
-        let productStock = productDetail.map { $0.stock }
-        let prodcutDescription = productDetail.map { $0.description }
-        let productImages = productDetail.map { $0.images }
+        let productName = productDetail.map{ $0.name }
+        let productPrice = productDetail.map{ $0.price }
+        let productSellingPrice = productDetail.map{ $0.sellingPrice }
+        let productDiscountedRate = productDetail.map{ $0.discountedRate }
+        let productStock = productDetail.map{ $0.stock }
+        let prodcutDescription = productDetail.map{ $0.description }
+        let productImages = productDetail.map{ $0.images }
         
         return Output(prdouctName: productName,
                       productImagesURL: productImages,

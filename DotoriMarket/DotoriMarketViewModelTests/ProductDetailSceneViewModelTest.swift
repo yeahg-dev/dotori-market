@@ -6,9 +6,11 @@
 //
 
 import XCTest
+@testable import DotoriMarket
+
 import RxSwift
 import RxTest
-@testable import DotoriMarket
+
 
 class ProductDetailSceneViewModelTest: XCTestCase {
     

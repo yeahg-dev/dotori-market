@@ -7,13 +7,6 @@
 
 import UIKit
 
-protocol Cancellable {
-    
-    func cancel()
-}
-
-extension URLSessionDataTask: Cancellable { }
-
 extension UIImageView {
     
     func setImage(with url: URL, invalidImage: UIImage) -> Cancellable? {
