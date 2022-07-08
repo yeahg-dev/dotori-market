@@ -25,7 +25,6 @@ final class ProductCollectionViewController: UICollectionViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.loadingIndicator.startAnimating()
     }
     
     override func viewDidLoad() {
@@ -47,12 +46,21 @@ final class ProductCollectionViewController: UICollectionViewController {
             cellDidSelectedAt: self.collectionView.rx.itemSelected.map{ $0.row })
         let output = self.viewModel.transform(input: input)
         
+        output.willStartLoadingIndicator
+            .observe(on: MainScheduler.instance)
+            .subscribe{ [weak self] _ in
+                self?.loadingIndicator.startAnimating() }
+            .disposed(by: disposeBag)
+        
+        output.willEndLoadingIndicator
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] _ in
+                self?.loadingIndicator.stopAnimating() }
+            .disposed(by: disposeBag)
+        
         output.products
             .observe(on: MainScheduler.instance)
-            .do(onNext: { [weak self] _ in
-                guard ((self?.loadingIndicator.isAnimating) != nil) else { return }
-                self?.loadingIndicator.stopAnimating()
-            }, onError: { _ in
+            .do(onError: { _ in
                 self.presentNetworkErrorAlert() })
             .retry(when: { _ in self.collectionView.refreshControl!.rx.controlEvent(.valueChanged).asObservable() })
             .bind(to: collectionView.rx.items(cellIdentifier: "ProductCollectionViewCell",

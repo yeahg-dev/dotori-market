@@ -26,24 +26,31 @@ final class ProductListSceneViewModel {
     }
     
     struct Output {
+        let willStartLoadingIndicator: Observable<Void>
+        let willEndLoadingIndicator: Observable<Void>
         let products: Observable<[ProductViewModel]>
         let listViewWillEndRefresh: Observable<Void>
         let pushProductDetailView: Observable<Int>
     }
     
     func transform(input: Input) -> Output {
+        let willStartLoadingIndicator = PublishSubject<Void>()
+        let willEndLoadingIndicator = PublishSubject<Void>()
+        
         let viewWillAppear = input.viewWillAppear
-            .do(onNext: { self.resetPage() })
+            .do(onNext: { self.resetPage()
+                willStartLoadingIndicator.onNext(()) })
                 
         let pagination = input.willDisplayCellAtIndex
             .filter{ currentRow in
                 (currentRow == self.productsViewModels.count - self.paginationBuffer) &&  self.hasNextPage }
             .map{ _ in }
+            .do(onNext: { willStartLoadingIndicator.onNext(()) })
         
-        let willRefreshPage = input.listViewDidStartRefresh
+        let listViewDidStartRefresh = input.listViewDidStartRefresh
             .do(onNext: { self.resetPage() })
             
-        let products = Observable.merge(viewWillAppear, pagination, willRefreshPage)
+        let products = Observable.merge(viewWillAppear, pagination, listViewDidStartRefresh)
             .flatMap{ _ -> Observable<ProductsListPageResponse> in
                 let request = ProductsListPageRequest(pageNo: self.currentPage + 1, itemsPerPage: 20)
                 return self.APIService.requestRx(request) }
@@ -56,6 +63,7 @@ final class ProductListSceneViewModel {
                     ProductViewModel(product: product)}
                 self.productsViewModels.append(contentsOf: products)
                 return self.productsViewModels }
+            .do(onNext: { _ in willEndLoadingIndicator.onNext(()) })
             .share(replay: 1)
         
         let endRefresh = products.map { _ in }
@@ -66,10 +74,12 @@ final class ProductListSceneViewModel {
                 return product.id }
             .do(onNext: { _ in self.resetPage() })
                 
-       return Output(products: products,
-                     listViewWillEndRefresh: endRefresh,
-                     pushProductDetailView: pushProductDetailView)
-    }
+        return Output(willStartLoadingIndicator: willStartLoadingIndicator.asObservable(),
+                      willEndLoadingIndicator: willEndLoadingIndicator.asObservable(),
+                      products: products,
+                      listViewWillEndRefresh: endRefresh,
+                      pushProductDetailView: pushProductDetailView)
+                }
     
     private func resetPage() {
         self.currentPage = 0
