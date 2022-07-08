@@ -43,7 +43,6 @@
 		63AB3A3E28583F5A003305D0 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 63AB3A3D28583F5A003305D0 /* RxSwift */; };
 		63B6502F279E866700818CDD /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B6502E279E866600818CDD /* UIViewController+Extension.swift */; };
 		63C1904F27A38E4A00210BE3 /* CellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C1904E27A38E4A00210BE3 /* CellType.swift */; };
-		63CD42BC287701D400EAFA81 /* RxTest in Frameworks */ = {isa = PBXBuildFile; productRef = 63CD42BB287701D400EAFA81 /* RxTest */; };
 		63CD42BE2877038900EAFA81 /* RxTest in Frameworks */ = {isa = PBXBuildFile; productRef = 63CD42BD2877038900EAFA81 /* RxTest */; };
 		63CD42C02877038F00EAFA81 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 63CD42BF2877038F00EAFA81 /* RxSwift */; };
 		63CD42C228771B2200EAFA81 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CD42C128771B2200EAFA81 /* MockURLProtocol.swift */; };
@@ -200,7 +199,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				63AB3A3E28583F5A003305D0 /* RxSwift in Frameworks */,
-				63CD42BC287701D400EAFA81 /* RxTest in Frameworks */,
 				63AB3A3C28583F5A003305D0 /* RxCocoa in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -629,7 +627,6 @@
 			packageProductDependencies = (
 				63AB3A3B28583F5A003305D0 /* RxCocoa */,
 				63AB3A3D28583F5A003305D0 /* RxSwift */,
-				63CD42BB287701D400EAFA81 /* RxTest */,
 			);
 			productName = OpenMarket;
 			productReference = C70FB0F725BEF61C00C9924E /* DotoriMarket.app */;
@@ -1135,11 +1132,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 63AB3A3A28583F5A003305D0 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
-		};
-		63CD42BB287701D400EAFA81 /* RxTest */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 63AB3A3A28583F5A003305D0 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxTest;
 		};
 		63CD42BD2877038900EAFA81 /* RxTest */ = {
 			isa = XCSwiftPackageProductDependency;

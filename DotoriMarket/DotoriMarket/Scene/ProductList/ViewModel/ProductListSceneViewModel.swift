@@ -37,15 +37,13 @@ final class ProductListSceneViewModel {
                 
         let pagination = input.willDisplayCellAtIndex
             .filter{ currentRow in
-                currentRow == self.productsViewModels.count - self.paginationBuffer }
-            .filter{ _ in self.hasNextPage == true }
+                (currentRow == self.productsViewModels.count - self.paginationBuffer) &&  self.hasNextPage }
             .map{ _ in }
         
         let willRefreshPage = input.listViewDidStartRefresh
             .do(onNext: { self.resetPage() })
             
-        let products = Observable.of(viewWillAppear, pagination, willRefreshPage)
-            .merge()
+        let products = Observable.merge(viewWillAppear, pagination, willRefreshPage)
             .flatMap{ _ -> Observable<ProductsListPageResponse> in
                 let request = ProductsListPageRequest(pageNo: self.currentPage + 1, itemsPerPage: 20)
                 return self.APIService.requestRx(request) }
