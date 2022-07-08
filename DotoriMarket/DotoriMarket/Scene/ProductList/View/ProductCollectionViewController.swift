@@ -42,9 +42,9 @@ final class ProductCollectionViewController: UICollectionViewController {
     private func bindViewModel() {
         let input = ProductListSceneViewModel.Input(
             viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in },
-            willDisplayCell: self.collectionView.rx.willDisplayCell.map({ cell, index in index.row }),
-            willRefrsesh: self.collectionView.refreshControl!.rx.controlEvent(.valueChanged).asObservable(),
-            didSelectRowAt: self.collectionView.rx.itemSelected.map{ $0.row })
+            willDisplayCellAtIndex: self.collectionView.rx.willDisplayCell.map({ cell, index in index.row }),
+            listViewDidStartRefresh: self.collectionView.refreshControl!.rx.controlEvent(.valueChanged).asObservable(),
+            cellDidSelectedAt: self.collectionView.rx.itemSelected.map{ $0.row })
         let output = self.viewModel.transform(input: input)
         
         output.products
@@ -61,7 +61,7 @@ final class ProductCollectionViewController: UICollectionViewController {
                 cell.fill(with: element) }
             .disposed(by: disposeBag)
         
-        output.endRefresh
+        output.listViewWillEndRefresh
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] _ in
                 self?.collectionView.refreshControl?.endRefreshing() })

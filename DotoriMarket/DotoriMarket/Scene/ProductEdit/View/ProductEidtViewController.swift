@@ -53,7 +53,7 @@ final class ProductEidtViewController: UIViewController {
             productCurrencyIndex: self.productCurrencySegmentedControl!.rx.selectedSegmentIndex.asObservable(),
             productStock: self.productStockField!.rx.text.asObservable(),
             productDescription: self.productDescriptionTextView!.rx.text.asObservable(),
-            didDoneTapped: self.doneButton!.rx.tap.asObservable(),
+            doneDidTapped: self.doneButton!.rx.tap.asObservable(),
             didReceiveSecret: self.secret.asObservable())
         
         let output = viewModel.transform(input: input)

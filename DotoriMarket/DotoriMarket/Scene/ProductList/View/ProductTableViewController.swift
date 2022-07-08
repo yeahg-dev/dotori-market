@@ -41,9 +41,9 @@ final class ProductTableViewController: UITableViewController {
     private func bindViewModel() {
         let input = ProductListSceneViewModel.Input(
             viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in },
-            willDisplayCell: self.tableView.rx.willDisplayCell.map{ $0.indexPath.row },
-            willRefrsesh: self.tableView.refreshControl!.rx.controlEvent(.valueChanged).asObservable(),
-            didSelectRowAt: self.tableView.rx.itemSelected.map{ $0.row })
+            willDisplayCellAtIndex: self.tableView.rx.willDisplayCell.map{ $0.indexPath.row },
+            listViewDidStartRefresh: self.tableView.refreshControl!.rx.controlEvent(.valueChanged).asObservable(),
+            cellDidSelectedAt: self.tableView.rx.itemSelected.map{ $0.row })
         let output = self.viewModel.transform(input: input)
         
         output.products
@@ -60,7 +60,7 @@ final class ProductTableViewController: UITableViewController {
                 cell.fill(with: element) }
             .disposed(by: disposeBag)
         
-        output.endRefresh
+        output.listViewWillEndRefresh
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] _ in
                 self?.tableView.refreshControl?.endRefreshing() })

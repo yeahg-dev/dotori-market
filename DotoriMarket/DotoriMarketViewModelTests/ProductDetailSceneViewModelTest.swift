@@ -11,7 +11,6 @@ import XCTest
 import RxSwift
 import RxTest
 
-
 class ProductDetailSceneViewModelTest: XCTestCase {
     
     private var sut: ProductDetailSceneViewModel!

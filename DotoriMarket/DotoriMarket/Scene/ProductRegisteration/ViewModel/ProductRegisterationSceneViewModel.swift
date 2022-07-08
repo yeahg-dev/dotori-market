@@ -24,15 +24,15 @@ final class ProductRegisterationSceneViewModel {
     
     struct Input {
         let viewWillAppear: Observable<Void>
-        let itemSelected: Observable<Int>
-        let didSelectImage: Observable<UIImage>
+        let cellDidSelected: Observable<Int>
+        let imageDidSelected: Observable<UIImage>
         let productTitle: Observable<String?>
         let productCurrency: Observable<Int>
         let productPrice: Observable<String?>
         let prdouctDiscountedPrice: Observable<String?>
         let productStock: Observable<String?>
         let productDescriptionText: Observable<String?>
-        let didDoneTapped: Observable<Void>
+        let doneDidTapped: Observable<Void>
         let didReceiveSecret: Observable<String>
     }
     
@@ -56,7 +56,7 @@ final class ProductRegisterationSceneViewModel {
         let defaultImage = input.viewWillAppear
             .map{ _ in [(CellType.imagePickerCell, UIImage())] }
         
-        let selectedImage = input.didSelectImage
+        let selectedImage = input.imageDidSelected
             .map{ image in return [(CellType.productImageCell, image)] }
         
         let productImages = Observable.merge(defaultImage, selectedImage)
@@ -68,14 +68,14 @@ final class ProductRegisterationSceneViewModel {
             .map{ images in
                 images.count < self.maximutProductImageCellCount }
         
-        let presentImagePicker = input.itemSelected
+        let presentImagePicker = input.cellDidSelected
             .filter { row in row == .zero }
             .withLatestFrom(isAbleToPickImage) { row, isAbleToPickImage in
                 return isAbleToPickImage }
             .filter{ $0 == true }
             .map{ _ in }
         
-        let excessImageAlert = input.itemSelected
+        let excessImageAlert = input.cellDidSelected
             .filter{ row in row == .zero }
             .withLatestFrom(isAbleToPickImage) { row, isAbleToPickImage in
                 return isAbleToPickImage }
@@ -103,11 +103,11 @@ final class ProductRegisterationSceneViewModel {
             .filter{ (result, descritption) in result == .success }
             .map{ _ in }
         
-        let requireSecret = input.didDoneTapped
+        let requireSecret = input.doneDidTapped
             .withLatestFrom(validationSuccess)
             .map{ _ in RequireSecretAlertViewModel() }
     
-        let validationFail = input.didDoneTapped
+        let validationFail = input.doneDidTapped
             .withLatestFrom(validation) { (request, validationResult) in return validationResult }
             .filter{ $0.0 == .failure }
             .map{ $0.1 }

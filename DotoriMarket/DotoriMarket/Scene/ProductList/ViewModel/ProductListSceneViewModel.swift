@@ -20,14 +20,14 @@ final class ProductListSceneViewModel {
     
     struct Input {
         let viewWillAppear: Observable<Void>
-        let willDisplayCell: Observable<Int>
-        let willRefrsesh: Observable<Void>
-        let didSelectRowAt: Observable<Int>
+        let willDisplayCellAtIndex: Observable<Int>
+        let listViewDidStartRefresh: Observable<Void>
+        let cellDidSelectedAt: Observable<Int>
     }
     
     struct Output {
         let products: Observable<[ProductViewModel]>
-        let endRefresh: Observable<Void>
+        let listViewWillEndRefresh: Observable<Void>
         let pushProductDetailView: Observable<Int>
     }
     
@@ -35,13 +35,13 @@ final class ProductListSceneViewModel {
         let viewWillAppear = input.viewWillAppear
             .do(onNext: { self.resetPage() })
                 
-        let pagination = input.willDisplayCell
+        let pagination = input.willDisplayCellAtIndex
             .filter{ currentRow in
                 currentRow == self.productsViewModels.count - self.paginationBuffer }
             .filter{ _ in self.hasNextPage == true }
             .map{ _ in }
         
-        let willRefreshPage = input.willRefrsesh
+        let willRefreshPage = input.listViewDidStartRefresh
             .do(onNext: { self.resetPage() })
             
         let products = Observable.of(viewWillAppear, pagination, willRefreshPage)
@@ -62,14 +62,14 @@ final class ProductListSceneViewModel {
         
         let endRefresh = products.map { _ in }
         
-        let pushProductDetailView = input.didSelectRowAt
+        let pushProductDetailView = input.cellDidSelectedAt
             .map{ index -> Int in
                 guard let product = self.productsViewModels[safe: index] else { return .zero }
                 return product.id }
             .do(onNext: { _ in self.resetPage() })
                 
        return Output(products: products,
-                     endRefresh: endRefresh,
+                     listViewWillEndRefresh: endRefresh,
                      pushProductDetailView: pushProductDetailView)
     }
     

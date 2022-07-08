@@ -61,15 +61,15 @@ final class ProductRegistrationViewController: UIViewController {
         
         let input = ProductRegisterationSceneViewModel.Input(
             viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{_ in },
-            itemSelected: self.productImageCollectionView!.rx.itemSelected.map{ index in index.row },
-            didSelectImage: self.pickerImage,
+            cellDidSelected: self.productImageCollectionView!.rx.itemSelected.map{ index in index.row },
+            imageDidSelected: self.pickerImage,
             productTitle: self.nameTextField!.rx.text.asObservable(),
             productCurrency: self.currencySegmentedControl!.rx.value.asObservable(),
             productPrice: self.priceTextField!.rx.text.asObservable(),
             prdouctDiscountedPrice: self.discountedPriceTextField!.rx.text.asObservable(),
             productStock: self.stockTextField!.rx.text.asObservable(),
             productDescriptionText: self.descriptionsTextView!.rx.text.asObservable(),
-            didDoneTapped: doneButton.rx.tap.asObservable(),
+            doneDidTapped: doneButton.rx.tap.asObservable(),
             didReceiveSecret: self.secret.asObservable())
         
         let output = self.viewModel.transform(input: input)

@@ -27,7 +27,7 @@ final class ProductEditSceneViewModel {
         let productCurrencyIndex: Observable<Int>
         let productStock: Observable<String?>
         let productDescription: Observable<String?>
-        let didDoneTapped: Observable<Void>
+        let doneDidTapped: Observable<Void>
         let didReceiveSecret: Observable<String>
     }
     
@@ -82,14 +82,14 @@ final class ProductEditSceneViewModel {
         let isValidStock = self.validate(stock: productStockInput).share(replay: 1)
         let isvalidDescription = self.validate(description: productDescriptionInput).share(replay: 1)
         
-        let requireSecret = input.didDoneTapped
+        let requireSecret = input.doneDidTapped
             .flatMap{ _ in
                 Observable.zip(isValidName, isValidPrice, isValidStock, isvalidDescription,
                                resultSelector: { self.validate(isValidName: $0, isValidPrice: $1, isValidStock: $2, isValidDescription: $3) }) }
             .filter{ (result, descritpion) in result == .success }
             .map{ _ in RequireSecretAlertViewModel() }
     
-        let validationFail = input.didDoneTapped
+        let validationFail = input.doneDidTapped
             .flatMap{ _ in
                 Observable.zip(isValidName, isValidPrice, isValidStock, isvalidDescription,
                                resultSelector: { self.validate(isValidName: $0, isValidPrice: $1, isValidStock: $2, isValidDescription: $3) }) }
