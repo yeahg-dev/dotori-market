@@ -267,10 +267,6 @@ extension ProductRegisterationSceneViewModel {
 
     // MARK: - API Request
     
-    enum ViewModelError: Error {
-        case requestCreationFail
-    }
-
     private func createRegistrationRequest(with productInfo: NewProductInfo, productImages: [(CellType, Data)]) -> ProductRegistrationRequest {
         let imageDatas = productImages.filter{ image in image.0 == .productImageCell }
             .map{ image in image.1 }
