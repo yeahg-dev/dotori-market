@@ -29,10 +29,9 @@ final class ProductCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.configureGridLayout()
+        self.setUpCollectionView()
         self.configureLoadingIndicator()
         self.configureRefreshControl()
-        self.collectionView.dataSource = nil
         self.bindViewModel()
     }
     
@@ -84,7 +83,12 @@ final class ProductCollectionViewController: UICollectionViewController {
     
     // MARK: - Configure UI
     
-    private func configureGridLayout() {
+    private func setUpCollectionView() {
+        self.collectionView.collectionViewLayout = self.configureGridLayout()
+        self.collectionView.dataSource = nil
+    }
+    
+    private func configureGridLayout() -> UICollectionViewFlowLayout {
         let flowLayout = UICollectionViewFlowLayout()
         let cellWidth = view.bounds.size.width / 2 - 10
         flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth * 1.55)
@@ -92,7 +96,7 @@ final class ProductCollectionViewController: UICollectionViewController {
         flowLayout.minimumInteritemSpacing = 10
         flowLayout.scrollDirection = .vertical
         flowLayout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: .zero, right: 5)
-        collectionView.collectionViewLayout = flowLayout
+        return flowLayout
     }
     
     private func configureLoadingIndicator() {
