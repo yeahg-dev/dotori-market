@@ -112,7 +112,7 @@ final class ProductRegisterationSceneViewModel {
             .filter{ $0.0 == .failure }
             .map{ $0.1 }
     
-        let registrationFailure = PublishSubject<RegistrationFailureAlertViewModel>()
+        let registrationFailureAlert = PublishSubject<RegistrationFailureAlertViewModel>()
         
         let newProductInfo = input.didReceiveSecret
             .flatMap{ secret -> Observable<NewProductInfo> in
@@ -121,12 +121,14 @@ final class ProductRegisterationSceneViewModel {
                     return self.createNewProductInfo(name: name, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, description: descritpion, secret: secret)
                 }) }
         
-        let registerationResponse = newProductInfo.withLatestFrom(productImages,
-                                                                  resultSelector: { newProductInfo, imgaes in
-            self.createRegistrationRequest(with: newProductInfo, productImages: imgaes) })
-            .flatMap{ request in self.APIService.requestRx(request) }
+        let requestProductRegistration = newProductInfo.withLatestFrom(productImages,
+                                                                       resultSelector: { newProductInfo, imgaes in
+                 self.createRegistrationRequest(with: newProductInfo, productImages: imgaes) })
+                 .flatMap{ request in self.APIService.requestRx(request) }
+        
+        let registerationSucessAlert = requestProductRegistration
             .do(onError: { _ in
-                registrationFailure.onNext(RegistrationFailureAlertViewModel()) })
+                registrationFailureAlert.onNext(RegistrationFailureAlertViewModel()) })
             .retry(when: { _ in requireSecret })
             .map{ _ in return RegistrationSuccessAlertViewModel() }
         
@@ -136,8 +138,8 @@ final class ProductRegisterationSceneViewModel {
                       productImages: productImages,
                       excessImageAlert: excessImageAlert,
                       validationFailureAlert: validationFail,
-                      registrationSuccessAlert: registerationResponse,
-                      registrationFailureAlert: registrationFailure.asObservable())
+                      registrationSuccessAlert: registerationSucessAlert,
+                      registrationFailureAlert: registrationFailureAlert.asObservable())
     }
     
 }

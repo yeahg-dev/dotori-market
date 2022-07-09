@@ -65,7 +65,7 @@ final class ProductTableViewController: UITableViewController {
             .bind(to: tableView.rx.items(cellIdentifier: "ProductTableViewCell",
                                          cellType: ProductTableViewCell.self))
             { (row, element, cell) in
-                cell.fill(with: element) }
+                cell.fillContent(of: element) }
             .disposed(by: disposeBag)
         
         output.listViewWillEndRefresh

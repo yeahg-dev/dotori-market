@@ -65,7 +65,7 @@ final class ProductCollectionViewController: UICollectionViewController {
             .bind(to: collectionView.rx.items(cellIdentifier: "ProductCollectionViewCell",
                                               cellType: ProductCollectionViewCell.self))
             { (row, element, cell) in
-                cell.fill(with: element) }
+                cell.fillContent(of: element) }
             .disposed(by: disposeBag)
         
         output.listViewWillEndRefresh
@@ -75,7 +75,6 @@ final class ProductCollectionViewController: UICollectionViewController {
             .disposed(by: disposeBag)
         
         output.pushProductDetailView
-            .observe(on: MainScheduler.instance)
             .subscribe{ [weak self] productID in
                 self?.pushProductDetailView(of: productID) }
             .disposed(by: disposeBag)
@@ -111,7 +110,6 @@ final class ProductCollectionViewController: UICollectionViewController {
 
     private func configureRefreshControl() {
         self.collectionView.refreshControl = UIRefreshControl()
-
     }
 
     // MARK: - Transition View

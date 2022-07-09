@@ -27,7 +27,7 @@ final class ProductTableViewCell: UITableViewCell {
         self.cancellableImageTask?.cancel()
     }
     
-    func fill(with product: ProductViewModel) {
+    func fillContent(of product: ProductViewModel) {
         if let url = URL(string: product.thumbnail) {
             self.cancellableImageTask = self.productThumbnail?.setImage(
                 with: url,
