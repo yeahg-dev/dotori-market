@@ -35,13 +35,13 @@ final class ProductRegisterationSceneViewModel {
     
     struct Output {
         let textViewPlaceholder: Observable<String>
-        let requireSecret: Observable<RequireSecretAlertViewModel>
+        let requireSecret: Observable<AlertViewModel>
         let presentImagePicker: Observable<Void>
         let productImages: Observable<[(CellType, Data)]>
-        let excessImageAlert: Observable<ExecessImageAlertViewModel>
-        let validationFailureAlert: Observable<String?>
-        let registrationSuccessAlert: Observable<RegistrationSuccessAlertViewModel>
-        let registrationFailureAlert: Observable<RegistrationFailureAlertViewModel>
+        let excessImageAlert: Observable<AlertViewModel>
+        let validationFailureAlert: Observable<AlertViewModel>
+        let registrationSuccessAlert: Observable<AlertViewModel>
+        let registrationFailureAlert: Observable<AlertViewModel>
     }
     
     func transform(input: Input) -> Output {
@@ -75,7 +75,7 @@ final class ProductRegisterationSceneViewModel {
             .withLatestFrom(isAbleToPickImage) { row, isAbleToPickImage in
                 return isAbleToPickImage }
             .filter{ $0 == false }
-            .map{ _ in ExecessImageAlertViewModel() }
+            .map{ _ in ExecessImageAlertViewModel() as AlertViewModel }
         
         let productName = input.productTitle.share(replay: 1)
         let productPrice = input.productPrice.share(replay: 1)
@@ -99,16 +99,16 @@ final class ProductRegisterationSceneViewModel {
             .filter{ (result, descritption) in result == .success }
             .map{ _ in }
         
-        let requireSecret = input.doneDidTapped
+        let requireSecretAlert = input.doneDidTapped
             .withLatestFrom(validationSuccess)
-            .map{ _ in RequireSecretAlertViewModel() }
+            .map{ _ in RequireSecretAlertViewModel() as AlertViewModel }
     
-        let validationFail = input.doneDidTapped
+        let validationFailAlert = input.doneDidTapped
             .withLatestFrom(validation) { (request, validationResult) in return validationResult }
             .filter{ $0.0 == .failure }
-            .map{ $0.1 }
+            .map{ ValidationFailureAlertViewModel(title: $0.1, message: nil, actionTitle: MarketCommon.confirm.rawValue) as AlertViewModel }
     
-        let registrationFailureAlert = PublishSubject<RegistrationFailureAlertViewModel>()
+        let registrationFailureAlert = PublishSubject<AlertViewModel>()
         
         let newProductInfo = input.didReceiveSecret
             .flatMap{ secret -> Observable<NewProductInfo> in
@@ -125,15 +125,15 @@ final class ProductRegisterationSceneViewModel {
         let registerationSucessAlert = requestProductRegistration
             .do(onError: { _ in
                 registrationFailureAlert.onNext(RegistrationFailureAlertViewModel()) })
-            .retry(when: { _ in requireSecret })
-            .map{ _ in return RegistrationSuccessAlertViewModel() }
+            .retry(when: { _ in requireSecretAlert })
+            .map{ _ in return RegistrationSuccessAlertViewModel() as AlertViewModel }
         
         return Output(textViewPlaceholder: textViewPlaceholder,
-                      requireSecret: requireSecret,
+                      requireSecret: requireSecretAlert,
                       presentImagePicker: presentImagePicker,
                       productImages: productImages,
                       excessImageAlert: excessImageAlert,
-                      validationFailureAlert: validationFail,
+                      validationFailureAlert: validationFailAlert,
                       registrationSuccessAlert: registerationSucessAlert,
                       registrationFailureAlert: registrationFailureAlert.asObservable())
     }
@@ -143,31 +143,42 @@ final class ProductRegisterationSceneViewModel {
 // MARK: - Alert View Model
 
 extension ProductRegisterationSceneViewModel {
+    
+    struct ValidationFailureAlertViewModel: AlertViewModel {
+        
+        var title: String?
+        var message: String?
+        var actionTitle: String?
+    
+    }
  
-    struct ExecessImageAlertViewModel {
+    struct ExecessImageAlertViewModel: AlertViewModel {
         
-        let title: String? = "사진은 최대 \(ProductRegisterationSceneViewModel.maximumProductImageCount)장까지 첨부할 수 있어요"
-        let message: String? = nil
-        let actionTitle: String? = "확인"
+        var title: String? = "사진은 최대 \(ProductRegisterationSceneViewModel.maximumProductImageCount)장까지 첨부할 수 있어요"
+        var message: String? = nil
+        var actionTitle: String? = "확인"
     }
     
-    struct RequireSecretAlertViewModel {
+    struct RequireSecretAlertViewModel: AlertViewModel {
         
-        let title = "판매자 비밀번호를 입력해주세요"
-        let actionTitle = "등록"
+        var title: String? = "판매자 비밀번호를 입력해주세요"
+        var actionTitle: String? = "등록"
+        var message: String?
+        
     }
     
-    struct RegistrationSuccessAlertViewModel {
+    struct RegistrationSuccessAlertViewModel: AlertViewModel {
         
-        let title = "성공적으로 등록되었습니다"
-        let actionTitle = "상품 리스토로 돌아가기"
+        var title: String? = "성공적으로 등록되었습니다"
+        var message: String?
+        var actionTitle: String? = "상품 리스토로 돌아가기"
     }
     
-    struct RegistrationFailureAlertViewModel {
+    struct RegistrationFailureAlertViewModel: AlertViewModel {
         
-        let title = "등록에 실패했습니다"
-        let message = "다시 시도 해주세요"
-        let actionTitle = "확인"
+        var title: String? = "등록에 실패했습니다"
+        var message: String? = "다시 시도 해주세요"
+        var actionTitle: String? = "확인"
     }
     
     // MARK: - Input Validation
