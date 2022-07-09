@@ -70,7 +70,7 @@ final class ProductRegistrationViewController: UIViewController {
         
         let input = ProductRegisterationSceneViewModel.Input(
             viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{_ in },
-            cellDidSelected: productImageCollectionView.rx.itemSelected.map{ index in index.row },
+            imagePickerCellDidSelected: productImageCollectionView.rx.itemSelected.map{ index in index.row }.filter{ $0 == .zero },
             imageDidSelected: self.pickerImage,
             productTitle: nameTextField.rx.text.asObservable(),
             productCurrency: currencySegmentedControl.rx.value.asObservable(),

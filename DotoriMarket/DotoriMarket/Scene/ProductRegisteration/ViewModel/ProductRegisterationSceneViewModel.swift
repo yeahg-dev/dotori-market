@@ -21,7 +21,7 @@ final class ProductRegisterationSceneViewModel {
     
     struct Input {
         let viewWillAppear: Observable<Void>
-        let cellDidSelected: Observable<Int>
+        let imagePickerCellDidSelected: Observable<Int>
         let imageDidSelected: Observable<Data>
         let productTitle: Observable<String?>
         let productCurrency: Observable<Int>
@@ -65,15 +65,13 @@ final class ProductRegisterationSceneViewModel {
             .map{ images in
                 images.count < self.maximutProductImageCellCount }
         
-        let presentImagePicker = input.cellDidSelected
-            .filter { row in row == .zero }
+        let presentImagePicker = input.imagePickerCellDidSelected
             .withLatestFrom(isAbleToPickImage) { row, isAbleToPickImage in
                 return isAbleToPickImage }
             .filter{ $0 == true }
             .map{ _ in }
         
-        let excessImageAlert = input.cellDidSelected
-            .filter{ row in row == .zero }
+        let excessImageAlert = input.imagePickerCellDidSelected
             .withLatestFrom(isAbleToPickImage) { row, isAbleToPickImage in
                 return isAbleToPickImage }
             .filter{ $0 == false }
