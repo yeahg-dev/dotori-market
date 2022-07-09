@@ -50,13 +50,13 @@ final class ProductRegisterationSceneViewModel {
         let textViewPlaceholder = input.viewWillAppear
             .map{ textViewPlaceholderText }
         
-        let defaultImage = input.viewWillAppear
+        let pickerCellImage = input.viewWillAppear
             .map{ _ in [(CellType.imagePickerCell, Data())] }
         
         let selectedImage = input.imageDidSelected
             .map{ image in return [(CellType.productImageCell, image)] }
         
-        let productImages = Observable.merge(defaultImage, selectedImage)
+        let productImages = Observable.merge(pickerCellImage, selectedImage)
             .scan(into: []) { images, addedImage in
                 images.append(contentsOf: addedImage) }
             .share(replay: 1)
