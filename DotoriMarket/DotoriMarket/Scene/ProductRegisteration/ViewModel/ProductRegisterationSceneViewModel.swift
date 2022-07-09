@@ -91,9 +91,10 @@ final class ProductRegisterationSceneViewModel {
         let isValidPrice = self.validate(price: productPrice).share(replay: 1)
         let isValidStock = self.validate(stock: productStock).share(replay: 1)
         let isvalidDescription = self.validate(description: productDescription).share(replay: 1)
+        let isValidDiscountedPrice = self.validate(discountedPrice: productDiscountedPrice, price: productPrice)
         
-        let validation = Observable.combineLatest(isValidImage, isValidName, isValidPrice, isValidStock, isvalidDescription, resultSelector: {
-            self.validate(isValidImage: $0, isValidName: $1, isValidPrice: $2, isValidStock: $3, isValidDescription: $4)})
+        let validation = Observable.combineLatest(isValidImage, isValidName, isValidPrice, isValidStock, isvalidDescription, isValidDiscountedPrice, resultSelector: {
+            self.validate(isValidImage: $0, isValidName: $1, isValidPrice: $2, isValidStock: $3, isValidDescription: $4, isValidDiscountedPrice: $5)})
             .share(replay: 1)
         
         let validationSuccess = validation
@@ -183,8 +184,13 @@ extension ProductRegisterationSceneViewModel {
                           isValidName: Bool,
                           isValidPrice: Bool,
                           isValidStock: Bool,
-                          isValidDescription: Bool) -> (ValidationResult, String?) {
-        let category = [isValidImage, isValidName, isValidPrice, isValidStock, isValidDescription]
+                          isValidDescription: Bool,
+                          isValidDiscountedPrice: Bool) -> (ValidationResult, String?) {
+        let category = [isValidImage, isValidName, isValidPrice, isValidStock, isValidDescription, isValidDiscountedPrice]
+        
+        if !isValidDiscountedPrice {
+            return (ValidationResult.failure, "할인금액은 상품가격보다 클 수 없습니다.")
+        }
         
         if category.contains(false) {
             let description = self.makeAlertDescription(isValidImage: isValidImage,
@@ -251,6 +257,14 @@ extension ProductRegisterationSceneViewModel {
             guard let text = description else { return false }
             if text == MarketCommon.descriptionTextViewPlaceHolder.rawValue { return false }
             return text.count >= 10 && text.count <= 1000 ? true : false }
+    }
+    
+    private func validate(discountedPrice: Observable<String?>, price: Observable<String?>) -> Observable<Bool> {
+        return Observable.combineLatest(discountedPrice, price) { (discountedPrice, price) -> Bool in
+            let disconutPrice = Int(discountedPrice ?? "") ?? 0
+            let price = Int(price ?? "") ?? 0
+            return disconutPrice <= price
+        }
     }
 
     // MARK: - API Request
