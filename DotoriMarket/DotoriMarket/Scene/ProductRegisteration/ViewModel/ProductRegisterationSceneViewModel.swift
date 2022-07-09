@@ -5,7 +5,7 @@
 //  Created by 1 on 2022/06/20.
 //
 
-import UIKit
+import Foundation
 
 import RxSwift
 
@@ -22,7 +22,7 @@ final class ProductRegisterationSceneViewModel {
     struct Input {
         let viewWillAppear: Observable<Void>
         let cellDidSelected: Observable<Int>
-        let imageDidSelected: Observable<UIImage>
+        let imageDidSelected: Observable<Data>
         let productTitle: Observable<String?>
         let productCurrency: Observable<Int>
         let productPrice: Observable<String?>
@@ -37,7 +37,7 @@ final class ProductRegisterationSceneViewModel {
         let textViewPlaceholder: Observable<String>
         let requireSecret: Observable<RequireSecretAlertViewModel>
         let presentImagePicker: Observable<Void>
-        let productImages: Observable<[(CellType, UIImage)]>
+        let productImages: Observable<[(CellType, Data)]>
         let excessImageAlert: Observable<ExecessImageAlertViewModel>
         let validationFailureAlert: Observable<String?>
         let registrationSuccessAlert: Observable<RegistrationSuccessAlertViewModel>
@@ -51,7 +51,7 @@ final class ProductRegisterationSceneViewModel {
             .map{ textViewPlaceholderText }
         
         let defaultImage = input.viewWillAppear
-            .map{ _ in [(CellType.imagePickerCell, UIImage())] }
+            .map{ _ in [(CellType.imagePickerCell, Data())] }
         
         let selectedImage = input.imageDidSelected
             .map{ image in return [(CellType.productImageCell, image)] }
@@ -259,10 +259,10 @@ extension ProductRegisterationSceneViewModel {
         case requestCreationFail
     }
 
-    private func createRegistrationRequest(with productInfo: NewProductInfo, productImages: [(CellType, UIImage)]) -> ProductRegistrationRequest {
-        let images = productImages.filter{ image in image.0 == .productImageCell }
+    private func createRegistrationRequest(with productInfo: NewProductInfo, productImages: [(CellType, Data)]) -> ProductRegistrationRequest {
+        let imageDatas = productImages.filter{ image in image.0 == .productImageCell }
             .map{ image in image.1 }
-        let imageFiles = self.createImageFiles(newProductName: productInfo.name, productImages: images)
+        let imageFiles = imageDatas.imageFile(fileName: productInfo.name)
         let registrationRequest = ProductRegistrationRequest(identifier: SellerInformation.identifier.rawValue,
                                                              params: productInfo,
                                                              images: imageFiles)
@@ -299,19 +299,6 @@ extension ProductRegisterationSceneViewModel {
             discountedPrice: ( discountedPrice as NSString).doubleValue,
             stock: (stock as NSString).integerValue,
             secret: secret )
-    }
-    
-    private func createImageFiles(newProductName: String, productImages: [UIImage]) -> [ImageFile] {
-        var imageFileNumber = 1
-        var newProductImages: [ImageFile] = []
-        productImages.forEach{ image in
-            let imageFile = ImageFile(
-                fileName: "\(newProductName)-\(imageFileNumber)",
-                image: image
-            )
-            imageFileNumber += 1
-            newProductImages.append(imageFile) }
-        return newProductImages
     }
     
 }

@@ -35,7 +35,7 @@ struct ProductRegistrationRequest: APIRequest {
     
     private let identifier: String
     private let params: NewProductInfo
-    private let images: [ImageFile]
+    private let images: [ImageFile?]
     private let boundary: String
     var url: URL? {
         return APIURL.productRegistration.url
@@ -53,7 +53,7 @@ struct ProductRegistrationRequest: APIRequest {
         return createBody(params: params, images: images, encodingStyle: .utf8)
     }
     
-    init(identifier: String, params: NewProductInfo, images: [ImageFile]) {
+    init(identifier: String, params: NewProductInfo, images: [ImageFile?]) {
         self.identifier = identifier
         self.params = params
         self.images = images
@@ -62,7 +62,7 @@ struct ProductRegistrationRequest: APIRequest {
     
     private func createBody(
         params productInfo: NewProductInfo,
-        images: [ImageFile],
+        images: [ImageFile?],
         encodingStyle: String.Encoding
     ) -> Data? {
         var body = Data()
@@ -82,18 +82,20 @@ struct ProductRegistrationRequest: APIRequest {
         body.append(encodedProductInfo)
         body.append(lineBreak + lineBreak, using: encodingStyle)
 
-        images.forEach { imageFile in
+        for image in images {
+            guard let image = image, let data = image.data else {
+                continue
+            }
             body.append(boundary + lineBreak, using: encodingStyle)
             body.append(
-                "Content-Disposition: form-data; name=\"images\"; filename=\"\(imageFile.fileName + imageFile.type.rawValue)\"" + lineBreak,
+                "Content-Disposition: form-data; name=\"images\"; filename=\"\(image.fileName + image.type.rawValue)\"" + lineBreak,
                 using: encodingStyle
             )
             body.append(
-                "Content-Type: " + imageFile.type.description + lineBreak,
+                "Content-Type: " + image.type.description + lineBreak,
                 using: encodingStyle
             )
             body.append(lineBreak, using: encodingStyle)
-            guard let data = imageFile.data else { return }
             body.append(data)
             body.append(lineBreak + lineBreak, using: encodingStyle)
         }

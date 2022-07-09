@@ -39,7 +39,7 @@ final class ProductRegistrationViewController: UIViewController {
     
     private let viewModel = ProductRegisterationSceneViewModel(APIService: MarketAPIService())
     private let disposeBag = DisposeBag()
-    private let pickerImage = PublishSubject<UIImage>()
+    private let pickerImage = PublishSubject<Data>()
     private let secret = PublishSubject<String>()
     private var cells: [CellType] = [.imagePickerCell]
  
@@ -119,10 +119,11 @@ final class ProductRegistrationViewController: UIViewController {
                     guard let cell = self?.productImageCollectionView?.dequeueReusableCell(withReuseIdentifier: "ProductImageCollectionViewCell", for: indexPath) as? ProductImageCollectionViewCell else {
                         return ProductImageCollectionViewCell()
                     }
+                    let image = UIImage(data: element.1) ?? UIImage(systemName: "exclamationmark.icloud")
                     if row == 1 {
-                        cell.updateProductImageView(image: element.1, isRepresentaion: true)
+                        cell.updateProductImageView(image: image, isRepresentaion: true)
                     } else {
-                        cell.updateProductImageView(image: element.1, isRepresentaion: false)
+                        cell.updateProductImageView(image: image, isRepresentaion: false)
                     }
                     return cell }}
                 .disposed(by: disposeBag)
@@ -301,10 +302,12 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UI
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         
-        if let possibleImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            self.pickerImage.onNext(possibleImage)
-        } else if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            self.pickerImage.onNext(possibleImage)
+        if let possibleImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage,
+           let data = possibleImage.jpegData(compressionQuality: 1) {
+            self.pickerImage.onNext(data)
+        } else if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage,
+                  let data = possibleImage.jpegData(compressionQuality: 1){
+            self.pickerImage.onNext(data)
         }
         cells.append(.productImageCell)
         self.imagePicker.dismiss(animated: true, completion: nil)
