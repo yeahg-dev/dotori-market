@@ -50,8 +50,13 @@ final class ProductDetailViewController: UIViewController {
     // MARK: - binding
     
     func bindViewModel() {
+        guard let productImageCollectionView = self.productImageCollectionView,
+              let productID = self.productID else {
+            return
+        }
+        
         let input = ProductDetailSceneViewModel.Input(
-            viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in self.productID! })
+            viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in productID })
         let output = viewModel.transform(input: input)
         
         output.prdouctName
@@ -63,9 +68,9 @@ final class ProductDetailViewController: UIViewController {
         
         output.productImagesURL
             .observe(on: MainScheduler.instance)
-            .bind(to: productImageCollectionView!.rx.items(cellIdentifier: "PrdouctDetailCollectionViewCell",
+            .bind(to: productImageCollectionView.rx.items(cellIdentifier: "PrdouctDetailCollectionViewCell",
                                                            cellType: PrdouctDetailCollectionViewCell.self))
-        { (row, element, cell) in
+        { (_, element, cell) in
                 if let imageURL = URL(string: element.thumbnailURL) {
                     cell.fill(with: imageURL) } }
             .disposed(by: disposeBag)
@@ -98,8 +103,8 @@ final class ProductDetailViewController: UIViewController {
         
         output.productStock
             .observe(on: MainScheduler.instance)
-            .subscribe{ stock in
-                self.productStockLabel?.text = stock }
+            .subscribe{ [weak self] stock in
+                self?.productStockLabel?.text = stock }
             .disposed(by: disposeBag)
         
         output.productDescription
@@ -135,14 +140,17 @@ final class ProductDetailViewController: UIViewController {
     }
     
     private func layoutImagePageControl() {
+        guard let productImageCollectionView = self.productImageCollectionView else {
+            return
+        }
         self.view.addSubview(imagePageControl)
-        self.productImageCollectionView?.translatesAutoresizingMaskIntoConstraints = false
+        productImageCollectionView.translatesAutoresizingMaskIntoConstraints = false
         self.imagePageControl.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             self.imagePageControl.centerXAnchor.constraint(
-                equalTo: self.productImageCollectionView!.centerXAnchor),
+                equalTo: productImageCollectionView.centerXAnchor),
             self.imagePageControl.bottomAnchor.constraint(
-                equalTo: self.productImageCollectionView!.bottomAnchor)
+                equalTo: productImageCollectionView.bottomAnchor)
         ])
     }
     

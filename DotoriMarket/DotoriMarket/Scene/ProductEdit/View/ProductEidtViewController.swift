@@ -45,15 +45,27 @@ final class ProductEidtViewController: UIViewController {
     // MARK: - binding
     
     func bindViewModel() {
+        guard let productNameField = self.productNameField,
+              let prdouctPriceField = self.prdouctPriceField,
+              let productDisconutPriceField = self.productDisconutPriceField,
+              let productCurrencySegmentedControl = self.productCurrencySegmentedControl,
+              let productStockField = self.productStockField,
+              let productDescriptionTextView = self.productDescriptionTextView,
+              let doneButton = self.doneButton,
+              let productImageCollectionView = self.productImageCollectionView,
+              let productID = self.productID else {
+            return
+        }
+        
         let input = ProductEditSceneViewModel.Input(
-            viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in self.productID!},
-            productName: self.productNameField!.rx.text.asObservable(),
-            productPrice: self.prdouctPriceField!.rx.text.asObservable(),
-            productDiscountedPrice: self.productDisconutPriceField!.rx.text.asObservable(),
-            productCurrencyIndex: self.productCurrencySegmentedControl!.rx.selectedSegmentIndex.asObservable(),
-            productStock: self.productStockField!.rx.text.asObservable(),
-            productDescription: self.productDescriptionTextView!.rx.text.asObservable(),
-            doneDidTapped: self.doneButton!.rx.tap.asObservable(),
+            viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in productID},
+            productName: productNameField.rx.text.asObservable(),
+            productPrice: prdouctPriceField.rx.text.asObservable(),
+            productDiscountedPrice: productDisconutPriceField.rx.text.asObservable(),
+            productCurrencyIndex: productCurrencySegmentedControl.rx.selectedSegmentIndex.asObservable(),
+            productStock: productStockField.rx.text.asObservable(),
+            productDescription: productDescriptionTextView.rx.text.asObservable(),
+            doneDidTapped: doneButton.rx.tap.asObservable(),
             didReceiveSecret: self.secret.asObservable())
         
         let output = viewModel.transform(input: input)
@@ -66,7 +78,7 @@ final class ProductEidtViewController: UIViewController {
         
         output.productImagesURL
             .observe(on: MainScheduler.instance)
-            .bind(to: productImageCollectionView!.rx.items(cellIdentifier: "PrdouctImageCollectionViewCell",
+            .bind(to: productImageCollectionView.rx.items(cellIdentifier: "PrdouctImageCollectionViewCell",
                                                            cellType: ProductImageCollectionViewCell.self))
         { (row, element, cell) in
                 guard let imageURL = URL(string: element.thumbnailURL) else { return }

@@ -32,7 +32,6 @@ final class ProductRegistrationViewController: UIViewController {
         imagePicker.allowsEditing = true
         return imagePicker
     }()
-    private var productImages: [UIImage] = []
     private let flowLayout = UICollectionViewFlowLayout()
     private var textViewPlaceHolder: String?
     
@@ -57,18 +56,28 @@ final class ProductRegistrationViewController: UIViewController {
     // MARK: - binding
     
     private func bindViewModel() {
+        guard let productImageCollectionView = self.productImageCollectionView,
+              let nameTextField = self.nameTextField,
+              let currencySegmentedControl = self.currencySegmentedControl,
+              let priceTextField = self.priceTextField,
+              let discountedPriceTextField = self.discountedPriceTextField,
+              let stockTextField = self.stockTextField,
+              let descriptionsTextView = self.descriptionsTextView else {
+            return
+        }
+
         guard let doneButton = self.navigationBar?.items?[0].rightBarButtonItem as? UIBarButtonItem else { return }
         
         let input = ProductRegisterationSceneViewModel.Input(
             viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{_ in },
-            cellDidSelected: self.productImageCollectionView!.rx.itemSelected.map{ index in index.row },
+            cellDidSelected: productImageCollectionView.rx.itemSelected.map{ index in index.row },
             imageDidSelected: self.pickerImage,
-            productTitle: self.nameTextField!.rx.text.asObservable(),
-            productCurrency: self.currencySegmentedControl!.rx.value.asObservable(),
-            productPrice: self.priceTextField!.rx.text.asObservable(),
-            prdouctDiscountedPrice: self.discountedPriceTextField!.rx.text.asObservable(),
-            productStock: self.stockTextField!.rx.text.asObservable(),
-            productDescriptionText: self.descriptionsTextView!.rx.text.asObservable(),
+            productTitle: nameTextField.rx.text.asObservable(),
+            productCurrency: currencySegmentedControl.rx.value.asObservable(),
+            productPrice: priceTextField.rx.text.asObservable(),
+            prdouctDiscountedPrice: discountedPriceTextField.rx.text.asObservable(),
+            productStock: stockTextField.rx.text.asObservable(),
+            productDescriptionText: descriptionsTextView.rx.text.asObservable(),
             doneDidTapped: doneButton.rx.tap.asObservable(),
             didReceiveSecret: self.secret.asObservable())
         
@@ -94,7 +103,7 @@ final class ProductRegistrationViewController: UIViewController {
         
         productImages
             .observe(on: MainScheduler.instance)
-            .bind(to: productImageCollectionView!.rx.items) { [weak self] (tableView, row, element) in
+            .bind(to: productImageCollectionView.rx.items) { [weak self] (tableView, row, element) in
                 let indexPath = IndexPath(row: row, section: 0)
                 let cellType = element.0
                 
@@ -132,8 +141,8 @@ final class ProductRegistrationViewController: UIViewController {
         
         output.requireSecret
             .observe(on: MainScheduler.instance)
-            .subscribe(onNext:{ viewModel in
-                self.presentRequireSecretAlert(viewModel: viewModel) })
+            .subscribe(onNext:{ [weak self] viewModel in
+                self?.presentRequireSecretAlert(viewModel: viewModel) })
             .disposed(by: disposeBag)
         
         output.registrationFailureAlert

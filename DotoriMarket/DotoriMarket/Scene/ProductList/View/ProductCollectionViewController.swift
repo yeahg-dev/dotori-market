@@ -38,10 +38,14 @@ final class ProductCollectionViewController: UICollectionViewController {
     // MARK: - binding
     
     private func bindViewModel() {
+        guard let refreshControl = self.collectionView.refreshControl else {
+            return
+        }
+        
         let input = ProductListSceneViewModel.Input(
             viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in },
             willDisplayCellAtIndex: self.collectionView.rx.willDisplayCell.map({ cell, index in index.row }),
-            listViewDidStartRefresh: self.collectionView.refreshControl!.rx.controlEvent(.valueChanged).asObservable(),
+            listViewDidStartRefresh: refreshControl.rx.controlEvent(.valueChanged).asObservable(),
             cellDidSelectedAt: self.collectionView.rx.itemSelected.map{ $0.row })
         let output = self.viewModel.transform(input: input)
         
@@ -59,9 +63,9 @@ final class ProductCollectionViewController: UICollectionViewController {
         
         output.products
             .observe(on: MainScheduler.instance)
-            .do(onError: { _ in
-                self.presentNetworkErrorAlert() })
-            .retry(when: { _ in self.collectionView.refreshControl!.rx.controlEvent(.valueChanged).asObservable() })
+            .do(onError: { [weak self] _ in
+                self?.presentNetworkErrorAlert() })
+            .retry(when: { _ in refreshControl.rx.controlEvent(.valueChanged).asObservable() })
             .bind(to: collectionView.rx.items(cellIdentifier: "ProductCollectionViewCell",
                                               cellType: ProductCollectionViewCell.self))
             { (row, element, cell) in
@@ -70,8 +74,8 @@ final class ProductCollectionViewController: UICollectionViewController {
         
         output.listViewWillEndRefresh
             .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] _ in
-                self?.collectionView.refreshControl?.endRefreshing() })
+            .subscribe(onNext: { _ in
+                refreshControl.endRefreshing() })
             .disposed(by: disposeBag)
         
         output.pushProductDetailView

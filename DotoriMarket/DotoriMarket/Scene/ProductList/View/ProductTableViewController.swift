@@ -38,10 +38,14 @@ final class ProductTableViewController: UITableViewController {
     // MARK: - binding
     
     private func bindViewModel() {
+        guard let refreshControl = self.tableView.refreshControl else {
+            return
+        }
+        
         let input = ProductListSceneViewModel.Input(
             viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in },
             willDisplayCellAtIndex: self.tableView.rx.willDisplayCell.map{ $0.indexPath.row },
-            listViewDidStartRefresh: self.tableView.refreshControl!.rx.controlEvent(.valueChanged).asObservable(),
+            listViewDidStartRefresh: refreshControl.rx.controlEvent(.valueChanged).asObservable(),
             cellDidSelectedAt: self.tableView.rx.itemSelected.map{ $0.row })
         let output = self.viewModel.transform(input: input)
         
@@ -59,9 +63,9 @@ final class ProductTableViewController: UITableViewController {
 
         output.products
             .observe(on: MainScheduler.instance)
-            .do(onError: { _ in
-                self.presentNetworkErrorAlert()})
-            .retry(when: { _ in self.tableView.refreshControl!.rx.controlEvent(.valueChanged).asObservable()})
+            .do(onError: { [weak self] _ in
+                self?.presentNetworkErrorAlert()})
+            .retry(when: { _ in refreshControl.rx.controlEvent(.valueChanged).asObservable()})
             .bind(to: tableView.rx.items(cellIdentifier: "ProductTableViewCell",
                                          cellType: ProductTableViewCell.self))
             { (row, element, cell) in
@@ -75,7 +79,6 @@ final class ProductTableViewController: UITableViewController {
             .disposed(by: disposeBag)
         
         output.pushProductDetailView
-            .observe(on: MainScheduler.instance)
             .subscribe{ [weak self] productID in
                 self?.pushProductDetailView(of: productID) }
             .disposed(by: disposeBag)
