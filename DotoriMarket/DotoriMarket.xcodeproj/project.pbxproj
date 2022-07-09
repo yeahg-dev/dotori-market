@@ -34,6 +34,7 @@
 		6396C2572874A1410076356D /* MockMarketAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6396C2562874A1410076356D /* MockMarketAPIService.swift */; };
 		639A28AB28784ED100BE7DC8 /* Cancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639A28AA28784ED100BE7DC8 /* Cancellable.swift */; };
 		639A28AD28784F0400BE7DC8 /* ResponseDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639A28AC28784F0400BE7DC8 /* ResponseDataType.swift */; };
+		639A28AF2879963300BE7DC8 /* SellerInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639A28AE2879963300BE7DC8 /* SellerInformation.swift */; };
 		63A2029927853300003A1112 /* ImageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A2029827853300003A1112 /* ImageResponse.swift */; };
 		63A2029B278533E7003A1112 /* VendorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A2029A278533E7003A1112 /* VendorResponse.swift */; };
 		63A2029D2785447E003A1112 /* ProductDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A2029C2785447E003A1112 /* ProductDetail.swift */; };
@@ -128,6 +129,7 @@
 		6396C2562874A1410076356D /* MockMarketAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMarketAPIService.swift; sourceTree = "<group>"; };
 		639A28AA28784ED100BE7DC8 /* Cancellable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cancellable.swift; sourceTree = "<group>"; };
 		639A28AC28784F0400BE7DC8 /* ResponseDataType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseDataType.swift; sourceTree = "<group>"; };
+		639A28AE2879963300BE7DC8 /* SellerInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellerInformation.swift; sourceTree = "<group>"; };
 		63A2029827853300003A1112 /* ImageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResponse.swift; sourceTree = "<group>"; };
 		63A2029A278533E7003A1112 /* VendorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorResponse.swift; sourceTree = "<group>"; };
 		63A2029C2785447E003A1112 /* ProductDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetail.swift; sourceTree = "<group>"; };
@@ -403,6 +405,7 @@
 				63D660E42787F09400A450DE /* ImageFile.swift */,
 				6396C24A287449FF0076356D /* Image.swift */,
 				6396C2482874489E0076356D /* Currency.swift */,
+				639A28AE2879963300BE7DC8 /* SellerInformation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -786,6 +789,7 @@
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				C1C4FFB2279A7AFB00294962 /* ProductRegistrationViewController.swift in Sources */,
 				63DA95B1285219D7004CB9C1 /* ProductEidtViewController.swift in Sources */,
+				639A28AF2879963300BE7DC8 /* SellerInformation.swift in Sources */,
 				C1CBA3D8278F086200BAC0B8 /* ProductCollectionViewController.swift in Sources */,
 				63ED8DE1279FDB9D00932E87 /* UITableViewController+Extension.swift in Sources */,
 				639358D52786ED9600412958 /* NewProductInfo.swift in Sources */,

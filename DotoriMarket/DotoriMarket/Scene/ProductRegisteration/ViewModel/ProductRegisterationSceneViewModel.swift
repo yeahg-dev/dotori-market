@@ -13,11 +13,8 @@ final class ProductRegisterationSceneViewModel {
     
     private var APIService: APIServcie
     static let maximumProductImageCount = 5
-    private lazy var maximutProductImageCellCount = ProductRegisterationSceneViewModel.maximumProductImageCount + 1
-    
-    private let sellerIdentifier = "c4dedd67-71fc-11ec-abfa-fd97ecfece87"
-    private let secretkey = "aFJkk2KmB53A*6LT"
-    
+    private var maximutProductImageCellCount: Int { ProductRegisterationSceneViewModel.maximumProductImageCount + 1 }
+
     init(APIService: APIServcie) {
         self.APIService = APIService
     }
@@ -266,7 +263,7 @@ extension ProductRegisterationSceneViewModel {
         let images = productImages.filter{ image in image.0 == .productImageCell }
             .map{ image in image.1 }
         let imageFiles = self.createImageFiles(newProductName: productInfo.name, productImages: images)
-        let registrationRequest = ProductRegistrationRequest(identifier: self.sellerIdentifier,
+        let registrationRequest = ProductRegistrationRequest(identifier: SellerInformation.identifier.rawValue,
                                                              params: productInfo,
                                                              images: imageFiles)
         return registrationRequest
