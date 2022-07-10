@@ -71,39 +71,34 @@ final class ProductRegistrationViewController: UIViewController {
         let input = ProductRegisterationSceneViewModel.Input(
             viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{_ in },
             imagePickerCellDidSelected: productImageCollectionView.rx.itemSelected.map{ index in index.row }.filter{ $0 == .zero },
-            imageDidSelected: self.pickerImage,
-            productTitle: nameTextField.rx.text.asObservable(),
-            productCurrency: currencySegmentedControl.rx.value.asObservable(),
-            productPrice: priceTextField.rx.text.asObservable(),
-            prdouctDiscountedPrice: discountedPriceTextField.rx.text.asObservable(),
-            productStock: stockTextField.rx.text.asObservable(),
-            productDescriptionText: descriptionsTextView.rx.text.asObservable(),
-            doneDidTapped: doneButton.rx.tap.asObservable(),
+            imageDidSelected: self.pickerImage.asObservable(),
+            productTitle: nameTextField.rx.text,
+            productCurrency: currencySegmentedControl.rx.value,
+            productPrice: priceTextField.rx.text,
+            prdouctDiscountedPrice: discountedPriceTextField.rx.text,
+            productStock: stockTextField.rx.text,
+            productDescriptionText: descriptionsTextView.rx.text,
+            doneDidTapped: doneButton.rx.tap,
             didReceiveSecret: self.secret.asObservable())
         
         let output = self.viewModel.transform(input: input)
         
-        let productImages = output.productImages.share(replay: 1)
-        
         output.presentImagePicker
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] _ in
+            .drive(onNext: { [weak self] _ in
                 guard let imagePickerController = self?.imagePicker else { return }
                 self?.present(imagePickerController, animated: false) })
             .disposed(by: disposeBag)
         
         output.textViewPlaceholder
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] (placeholder: String) in
+            .drive(onNext: { [weak self] (placeholder: String) in
                 self?.textViewPlaceHolder = placeholder
                 self?.descriptionsTextView?.text = placeholder
                 self?.descriptionsTextView?.font = .preferredFont(forTextStyle: .footnote)
                 self?.descriptionsTextView?.textColor = .systemGray2 })
             .disposed(by: disposeBag)
         
-        productImages
-            .observe(on: MainScheduler.instance)
-            .bind(to: productImageCollectionView.rx.items) { [weak self] (tableView, row, element) in
+        output.productImages
+            .drive(productImageCollectionView.rx.items) { [weak self] (tableView, row, element) in
                 let indexPath = IndexPath(row: row, section: 0)
                 let cellType = element.0
                 
@@ -129,32 +124,27 @@ final class ProductRegistrationViewController: UIViewController {
                 .disposed(by: disposeBag)
         
         output.excessImageAlert
-            .observe(on: MainScheduler.instance)
-            .subscribe{ [weak self] excessImageAlert in
+            .drive{ [weak self] excessImageAlert in
                 self?.presentAlertWithDismiss(alertViewModel: excessImageAlert) }
             .disposed(by: disposeBag)
         
         output.validationFailureAlert
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] viewModel in
+            .drive(onNext: { [weak self] viewModel in
                 self?.presentAlertWithDismiss(alertViewModel: viewModel) })
             .disposed(by: disposeBag)
         
         output.requireSecret
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext:{ [weak self] viewModel in
+            .drive(onNext:{ [weak self] viewModel in
                 self?.presentRequireSecretAlert(viewModel: viewModel) }) 
             .disposed(by: disposeBag)
         
         output.registrationFailureAlert
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext:{ [weak self] viewModel in
+            .drive(onNext:{ [weak self] viewModel in
                 self?.presentAlertWithDismiss(alertViewModel: viewModel) })
             .disposed(by: disposeBag)
 
         output.registrationSuccessAlert
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] viewModel in
+            .drive(onNext: { [weak self] viewModel in
                 self?.presentRegistrationSuccessAlert(viewModel: viewModel) })
             .disposed(by: disposeBag)
                 

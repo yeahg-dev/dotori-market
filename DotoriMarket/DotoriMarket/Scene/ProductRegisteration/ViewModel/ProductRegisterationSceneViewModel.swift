@@ -8,6 +8,7 @@
 import Foundation
 
 import RxSwift
+import RxCocoa
 
 final class ProductRegisterationSceneViewModel {
     
@@ -23,25 +24,25 @@ final class ProductRegisterationSceneViewModel {
         let viewWillAppear: Observable<Void>
         let imagePickerCellDidSelected: Observable<Int>
         let imageDidSelected: Observable<Data>
-        let productTitle: Observable<String?>
-        let productCurrency: Observable<Int>
-        let productPrice: Observable<String?>
-        let prdouctDiscountedPrice: Observable<String?>
-        let productStock: Observable<String?>
-        let productDescriptionText: Observable<String?>
-        let doneDidTapped: Observable<Void>
+        let productTitle: ControlProperty<String?>
+        let productCurrency: ControlProperty<Int>
+        let productPrice: ControlProperty<String?>
+        let prdouctDiscountedPrice: ControlProperty<String?>
+        let productStock: ControlProperty<String?>
+        let productDescriptionText: ControlProperty<String?>
+        let doneDidTapped: ControlEvent<Void>
         let didReceiveSecret: Observable<String>
     }
     
     struct Output {
-        let textViewPlaceholder: Observable<String>
-        let requireSecret: Observable<AlertViewModel>
-        let presentImagePicker: Observable<Void>
-        let productImages: Observable<[(CellType, Data)]>
-        let excessImageAlert: Observable<AlertViewModel>
-        let validationFailureAlert: Observable<AlertViewModel>
-        let registrationSuccessAlert: Observable<AlertViewModel>
-        let registrationFailureAlert: Observable<AlertViewModel>
+        let textViewPlaceholder: Driver<String>
+        let requireSecret: Driver<AlertViewModel>
+        let presentImagePicker: Driver<Void>
+        let productImages: Driver<[(CellType, Data)]>
+        let excessImageAlert: Driver<AlertViewModel>
+        let validationFailureAlert: Driver<AlertViewModel>
+        let registrationSuccessAlert: Driver<AlertViewModel>
+        let registrationFailureAlert: Driver<AlertViewModel>
     }
     
     func transform(input: Input) -> Output {
@@ -49,6 +50,7 @@ final class ProductRegisterationSceneViewModel {
         
         let textViewPlaceholder = input.viewWillAppear
             .map{ textViewPlaceholderText }
+            .asDriver(onErrorJustReturn: "")
         
         let pickerCellImage = input.viewWillAppear
             .map{ _ in [(CellType.imagePickerCell, Data())] }
@@ -59,9 +61,10 @@ final class ProductRegisterationSceneViewModel {
         let productImages = Observable.merge(pickerCellImage, selectedImage)
             .scan(into: []) { images, addedImage in
                 images.append(contentsOf: addedImage) }
-            .share(replay: 1)
+            .asDriver(onErrorJustReturn: [])
         
         let isAbleToPickImage: Observable<Bool> = productImages
+            .asObservable()
             .map{ images in
                 images.count < self.maximutProductImageCellCount }
         
@@ -70,26 +73,23 @@ final class ProductRegisterationSceneViewModel {
                 return isAbleToPickImage }
             .filter{ $0 == true }
             .map{ _ in }
+            .asDriver(onErrorJustReturn: ())
         
         let excessImageAlert = input.imagePickerCellDidSelected
             .withLatestFrom(isAbleToPickImage) { row, isAbleToPickImage in
                 return isAbleToPickImage }
             .filter{ $0 == false }
             .map{ _ in ExecessImageAlertViewModel() as AlertViewModel }
+            .asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel)
         
-        let productName = input.productTitle.share(replay: 1)
-        let productPrice = input.productPrice.share(replay: 1)
-        let productStock = input.productStock.share(replay: 1)
-        let productDescription = input.productDescriptionText.share(replay: 1)
-        let productCurrency = input.productCurrency
-        let productDiscountedPrice = input.prdouctDiscountedPrice
-        
-        let isValidImage = productImages.map { images in images.count > 1 }
-        let isValidName = self.validate(name: productName).share(replay: 1)
-        let isValidPrice = self.validate(price: productPrice).share(replay: 1)
-        let isValidStock = self.validate(stock: productStock).share(replay: 1)
-        let isvalidDescription = self.validate(description: productDescription).share(replay: 1)
-        let isValidDiscountedPrice = self.validate(discountedPrice: productDiscountedPrice, price: productPrice)
+        let productCurrency = input.productCurrency.asObservable()
+
+        let isValidImage = productImages.asObservable().map { images in images.count > 1 }
+        let isValidName = self.validate(name: input.productTitle.asObservable())
+        let isValidPrice = self.validate(price: input.productPrice.asObservable())
+        let isValidStock = self.validate(stock: input.productStock.asObservable())
+        let isvalidDescription = self.validate(description: input.productDescriptionText.asObservable())
+        let isValidDiscountedPrice = self.validate(discountedPrice: input.prdouctDiscountedPrice.asObservable(), price: input.productPrice.asObservable())
         
         let validation = Observable.combineLatest(isValidImage, isValidName, isValidPrice, isValidStock, isvalidDescription, isValidDiscountedPrice, resultSelector: {
             self.validate(isValidImage: $0, isValidName: $1, isValidPrice: $2, isValidStock: $3, isValidDescription: $4, isValidDiscountedPrice: $5)})
@@ -102,17 +102,19 @@ final class ProductRegisterationSceneViewModel {
         let requireSecretAlert = input.doneDidTapped
             .withLatestFrom(validationSuccess)
             .map{ _ in RequireSecretAlertViewModel() as AlertViewModel }
+            .asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel)
     
         let validationFailAlert = input.doneDidTapped
             .withLatestFrom(validation) { (request, validationResult) in return validationResult }
             .filter{ $0.0 == .failure }
             .map{ ValidationFailureAlertViewModel(title: $0.1, message: nil, actionTitle: MarketCommon.confirm.rawValue) as AlertViewModel }
+            .asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel)
     
         let registrationFailureAlert = PublishSubject<AlertViewModel>()
         
         let newProductInfo = input.didReceiveSecret
             .flatMap{ secret -> Observable<NewProductInfo> in
-                return Observable.combineLatest(productName, productPrice, productDiscountedPrice, productCurrency, productStock, productDescription, Observable.just(secret),
+                return Observable.combineLatest(input.productTitle.asObservable(), input.productPrice.asObservable(), input.prdouctDiscountedPrice.asObservable(), productCurrency, input.productStock.asObservable(), input.productDescriptionText.asObservable(), Observable.just(secret),
                                    resultSelector: { (name, price, discountedPrice, currency, stock, descritpion, secret) -> NewProductInfo in
                     return self.createNewProductInfo(name: name, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, description: descritpion, secret: secret)
                 }) }
@@ -125,17 +127,18 @@ final class ProductRegisterationSceneViewModel {
         let registerationSucessAlert = requestProductRegistration
             .do(onError: { _ in
                 registrationFailureAlert.onNext(RegistrationFailureAlertViewModel()) })
-            .retry(when: { _ in requireSecretAlert })
+            .retry(when: { _ in requireSecretAlert.asObservable() })
             .map{ _ in return RegistrationSuccessAlertViewModel() as AlertViewModel }
+            .asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel)
         
         return Output(textViewPlaceholder: textViewPlaceholder,
                       requireSecret: requireSecretAlert,
                       presentImagePicker: presentImagePicker,
                       productImages: productImages,
                       excessImageAlert: excessImageAlert,
-                      validationFailureAlert: validationFailAlert,
+                      validationFailureAlert: validationFailAlert.asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel),
                       registrationSuccessAlert: registerationSucessAlert,
-                      registrationFailureAlert: registrationFailureAlert.asObservable())
+                      registrationFailureAlert: registrationFailureAlert .asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel))
     }
     
 }
