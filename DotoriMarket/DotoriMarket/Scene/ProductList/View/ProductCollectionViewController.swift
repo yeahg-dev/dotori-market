@@ -50,15 +50,13 @@ final class ProductCollectionViewController: UICollectionViewController {
         let output = self.viewModel.transform(input: input)
         
         output.willStartLoadingIndicator
-            .observe(on: MainScheduler.instance)
-            .subscribe{ [weak self] _ in
-                self?.loadingIndicator.startAnimating() }
+            .drive(onNext:{ [weak self] _ in
+                self?.loadingIndicator.startAnimating() })
             .disposed(by: disposeBag)
         
         output.willEndLoadingIndicator
-            .observe(on: MainScheduler.instance)
-            .subscribe { [weak self] _ in
-                self?.loadingIndicator.stopAnimating() }
+            .drive(onNext:{ [weak self] _ in
+                self?.loadingIndicator.stopAnimating() })
             .disposed(by: disposeBag)
         
         output.products
@@ -69,19 +67,18 @@ final class ProductCollectionViewController: UICollectionViewController {
             .disposed(by: disposeBag)
         
         output.networkErrorAlert
-            .drive { [weak self] viewModel in
+            .drive{ [weak self] viewModel in
                 self?.presentNetworkErrorAlert(viewModel: viewModel) }
             .disposed(by: disposeBag)
         
         output.listViewWillEndRefresh
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { _ in
-                refreshControl.endRefreshing() })
+            .drive(onNext: { [weak self] _ in
+                self?.collectionView?.refreshControl?.endRefreshing() })
             .disposed(by: disposeBag)
         
         output.pushProductDetailView
-            .subscribe{ [weak self] productID in
-                self?.pushProductDetailView(of: productID) }
+            .drive(onNext:{ [weak self] productID in
+                self?.pushProductDetailView(of: productID) })
             .disposed(by: disposeBag)
     }
     

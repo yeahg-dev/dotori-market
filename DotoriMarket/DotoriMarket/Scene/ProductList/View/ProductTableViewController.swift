@@ -50,14 +50,12 @@ final class ProductTableViewController: UITableViewController {
         let output = self.viewModel.transform(input: input)
         
         output.willStartLoadingIndicator
-            .observe(on: MainScheduler.instance)
-            .subscribe{ [weak self] _ in
+            .drive{ [weak self] _ in
                 self?.loadingIndicator.startAnimating() }
             .disposed(by: disposeBag)
         
         output.willEndLoadingIndicator
-            .observe(on: MainScheduler.instance)
-            .subscribe { [weak self] _ in
+            .drive{ [weak self] _ in
                 self?.loadingIndicator.stopAnimating() }
             .disposed(by: disposeBag)
 
@@ -69,18 +67,17 @@ final class ProductTableViewController: UITableViewController {
             .disposed(by: disposeBag)
         
         output.networkErrorAlert
-            .drive { [weak self] viewModel in
+            .drive{ [weak self] viewModel in
                 self?.presentNetworkErrorAlert(viewModel: viewModel) }
             .disposed(by: disposeBag)
         
         output.listViewWillEndRefresh
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] _ in
-                self?.tableView.refreshControl?.endRefreshing() })
+            .drive(onNext: { [weak self] _ in
+                self?.tableView?.refreshControl?.endRefreshing() })
             .disposed(by: disposeBag)
         
         output.pushProductDetailView
-            .subscribe{ [weak self] productID in
+            .drive{ [weak self] productID in
                 self?.pushProductDetailView(of: productID) }
             .disposed(by: disposeBag)
     }

@@ -27,11 +27,11 @@ final class ProductListSceneViewModel {
     }
     
     struct Output {
-        let willStartLoadingIndicator: Observable<Void>
-        let willEndLoadingIndicator: Observable<Void>
+        let willStartLoadingIndicator: Driver<Void>
+        let willEndLoadingIndicator: Driver<Void>
         let products: Driver<[ProductViewModel]>
-        let listViewWillEndRefresh: Observable<Void>
-        let pushProductDetailView: Observable<Int>
+        let listViewWillEndRefresh: Driver<Void>
+        let pushProductDetailView: Driver<Int>
         let networkErrorAlert: Driver<AlertViewModel>
     }
     
@@ -73,16 +73,17 @@ final class ProductListSceneViewModel {
             .do(onNext: { _ in willEndLoadingIndicator.onNext(()) })
             .asDriver(onErrorJustReturn: [])
         
-        let endRefresh = products.map { _ in }.asObservable()
+        let endRefresh = products.map { _ in }.asDriver(onErrorJustReturn: ())
         
         let pushProductDetailView = input.cellDidSelectedAt
             .map{ index -> Int in
                 guard let product = self.productsViewModels[safe: index] else { return .zero }
                 return product.id }
             .do(onNext: { _ in self.resetPage() })
+            .asDriver(onErrorJustReturn: 0)
                 
-        return Output(willStartLoadingIndicator: willStartLoadingIndicator.asObservable(),
-                      willEndLoadingIndicator: willEndLoadingIndicator.asObservable(),
+        return Output(willStartLoadingIndicator: willStartLoadingIndicator.asDriver(onErrorJustReturn: ()),
+                      willEndLoadingIndicator: willEndLoadingIndicator.asDriver(onErrorJustReturn: ()),
                       products: products,
                       listViewWillEndRefresh: endRefresh,
                       pushProductDetailView: pushProductDetailView,
