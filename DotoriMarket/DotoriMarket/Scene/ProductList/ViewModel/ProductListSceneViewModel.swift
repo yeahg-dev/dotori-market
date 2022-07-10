@@ -8,6 +8,7 @@
 import Foundation
 
 import RxSwift
+import RxCocoa
 
 final class ProductListSceneViewModel {
     
@@ -28,9 +29,10 @@ final class ProductListSceneViewModel {
     struct Output {
         let willStartLoadingIndicator: Observable<Void>
         let willEndLoadingIndicator: Observable<Void>
-        let products: Observable<[ProductViewModel]>
+        let products: Driver<[ProductViewModel]>
         let listViewWillEndRefresh: Observable<Void>
         let pushProductDetailView: Observable<Int>
+        let networkErrorAlert: Driver<AlertViewModel>
     }
     
     func transform(input: Input) -> Output {
@@ -49,11 +51,16 @@ final class ProductListSceneViewModel {
         
         let listViewDidStartRefresh = input.listViewDidStartRefresh
             .do(onNext: { self.resetPage() })
-            
+        
+        let networkErrorAlert = PublishSubject<AlertViewModel>()
+                
         let products = Observable.merge(viewWillAppear, pagination, listViewDidStartRefresh)
             .flatMap{ _ -> Observable<ProductsListPageResponse> in
                 let request = ProductsListPageRequest(pageNo: self.currentPage + 1, itemsPerPage: 20)
                 return self.APIService.requestRx(request) }
+            .do(onError: { _ in
+                networkErrorAlert.onNext(NetworkErrorAlertViewModel() as AlertViewModel)
+            } )
             .map{ response in response.toDomain() }
             .do(onNext: { listPage in
                 self.currentPage += 1
@@ -64,9 +71,9 @@ final class ProductListSceneViewModel {
                 self.productsViewModels.append(contentsOf: products)
                 return self.productsViewModels }
             .do(onNext: { _ in willEndLoadingIndicator.onNext(()) })
-            .share(replay: 1)
+            .asDriver(onErrorJustReturn: [])
         
-        let endRefresh = products.map { _ in }
+        let endRefresh = products.map { _ in }.asObservable()
         
         let pushProductDetailView = input.cellDidSelectedAt
             .map{ index -> Int in
@@ -78,7 +85,8 @@ final class ProductListSceneViewModel {
                       willEndLoadingIndicator: willEndLoadingIndicator.asObservable(),
                       products: products,
                       listViewWillEndRefresh: endRefresh,
-                      pushProductDetailView: pushProductDetailView)
+                      pushProductDetailView: pushProductDetailView,
+                      networkErrorAlert: networkErrorAlert.asDriver(onErrorJustReturn: NetworkErrorAlertViewModel() as AlertViewModel))
                 }
     
     private func resetPage() {
@@ -87,3 +95,12 @@ final class ProductListSceneViewModel {
     }
 }
 
+extension ProductListSceneViewModel {
+    
+    struct NetworkErrorAlertViewModel: AlertViewModel {
+        
+        var title: String? = "다시 시도해주세요😢"
+        var message: String? = "통신 에러가 발생했어요"
+        var actionTitle: String? = MarketCommon.confirm.rawValue
+    }
+}

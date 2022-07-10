@@ -62,14 +62,15 @@ final class ProductTableViewController: UITableViewController {
             .disposed(by: disposeBag)
 
         output.products
-            .observe(on: MainScheduler.instance)
-            .do(onError: { [weak self] _ in
-                self?.presentNetworkErrorAlert()})
-            .retry(when: { _ in refreshControl.rx.controlEvent(.valueChanged).asObservable()})
-            .bind(to: tableView.rx.items(cellIdentifier: "ProductTableViewCell",
+            .drive(tableView.rx.items(cellIdentifier: "ProductTableViewCell",
                                          cellType: ProductTableViewCell.self))
-            { (row, element, cell) in
+            { (_, element, cell) in
                 cell.fillContent(of: element) }
+            .disposed(by: disposeBag)
+        
+        output.networkErrorAlert
+            .drive { [weak self] viewModel in
+                self?.presentNetworkErrorAlert(viewModel: viewModel) }
             .disposed(by: disposeBag)
         
         output.listViewWillEndRefresh
@@ -113,9 +114,9 @@ final class ProductTableViewController: UITableViewController {
 
     // MARK: - Present Alert
     
-    private func presentNetworkErrorAlert() {
-        let alert = UIAlertController(title: "다시 시도해주세요😢", message: "통신 에러가 발생했어요", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .default)
+    private func presentNetworkErrorAlert(viewModel: AlertViewModel) {
+        let alert = UIAlertController(title: viewModel.title, message: viewModel.message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: viewModel.actionTitle, style: .default)
         alert.addAction(okAction)
         self.present(alert, animated: false)
     }
