@@ -8,6 +8,7 @@
 import Foundation
 
 import RxSwift
+import RxCocoa
 
 final class ProductEditSceneViewModel {
     
@@ -21,28 +22,28 @@ final class ProductEditSceneViewModel {
     
     struct Input {
         let viewWillAppear: Observable<Int>
-        let productName: Observable<String?>
-        let productPrice: Observable<String?>
-        let productDiscountedPrice: Observable<String?>
-        let productCurrencyIndex: Observable<Int>
-        let productStock: Observable<String?>
-        let productDescription: Observable<String?>
-        let doneDidTapped: Observable<Void>
+        let productName: ControlProperty<String?>
+        let productPrice: ControlProperty<String?>
+        let productDiscountedPrice: ControlProperty<String?>
+        let productCurrencyIndex: ControlProperty<Int>
+        let productStock: ControlProperty<String?>
+        let productDescription: ControlProperty<String?>
+        let doneDidTapped: ControlEvent<Void>
         let didReceiveSecret: Observable<String>
     }
     
     struct Output {
-        let prdouctName: Observable<String>
-        let productImagesURL: Observable<[Image]>
-        let productPrice: Observable<String?>
-        let prodcutDiscountedPrice: Observable<String?>
-        let productCurrencyIndex: Observable<Int>
-        let productStock: Observable<String>
-        let productDescription: Observable<String>
-        let validationFailureAlert: Observable<String?>
-        let requireSecret: Observable<RequireSecretAlertViewModel>
-        let registrationSuccessAlert: Observable<Void>
-        let registrationFailureAlert: Observable<RequestFailureAlertViewModel>
+        let prdouctName: Driver<String>
+        let productImagesURL: Driver<[String]>
+        let productPrice: Driver<String?>
+        let productDiscountedPrice: Driver<String?>
+        let productCurrencyIndex: Driver<Int>
+        let productStock: Driver<String>
+        let productDescription: Driver<String>
+        let validationFailureAlert: Driver<AlertViewModel>
+        let requireSecret: Driver<AlertViewModel>
+        let registrationSuccessAlert: Driver<Void>
+        let registrationFailureAlert: Driver<AlertViewModel>
     }
     
     func transform(input: Input) -> Output {
@@ -57,11 +58,17 @@ final class ProductEditSceneViewModel {
             .share(replay: 1)
         
         let productName = productDetail.map{ $0.name }
+            .asDriver(onErrorJustReturn: MarketCommon.downloadErrorPlacehodler.rawValue)
         let productPrice = productDetail.map{ $0.price }
+            .asDriver(onErrorJustReturn: MarketCommon.downloadErrorPlacehodler.rawValue)
         let productDiscountedPrice = productDetail.map{ $0.discountedPrice }
+            .asDriver(onErrorJustReturn: MarketCommon.downloadErrorPlacehodler.rawValue)
         let productStock = productDetail.map{ $0.stock }
+            .asDriver(onErrorJustReturn: MarketCommon.downloadErrorPlacehodler.rawValue)
         let prodcutDescription = productDetail.map{ $0.description }
-        let productImages = productDetail.map{ $0.images }
+            .asDriver(onErrorJustReturn: MarketCommon.downloadErrorPlacehodler.rawValue)
+        let productImagesURL = productDetail.map{ $0.images }.map{ $0.map{ $0.thumbnailURL }}
+            .asDriver(onErrorJustReturn: [])
         let productCurrencyIndex = productDetail.map{ $0.currency }
             .map{ currency -> Int in
                 switch currency {
@@ -70,17 +77,12 @@ final class ProductEditSceneViewModel {
                 case .usd:
                     return 1
                 }
-            }
+            }.asDriver(onErrorJustReturn: 0)
         
-        let productNameInput = input.productName.share(replay: 1)
-        let productPriceInput = input.productPrice.share(replay: 1)
-        let productStockInput = input.productStock.share(replay: 1)
-        let productDescriptionInput = input.productDescription.share(replay: 1)
-        
-        let isValidName = self.validate(name: productNameInput).share(replay: 1)
-        let isValidPrice = self.validate(price: productPriceInput).share(replay: 1)
-        let isValidStock = self.validate(stock: productStockInput).share(replay: 1)
-        let isvalidDescription = self.validate(description: productDescriptionInput).share(replay: 1)
+        let isValidName = self.validate(name: input.productName.asObservable())
+        let isValidPrice = self.validate(price: input.productPrice.asObservable())
+        let isValidStock = self.validate(stock: input.productStock.asObservable())
+        let isvalidDescription = self.validate(description: input.productDescription.asObservable())
         
         let requireSecret = input.doneDidTapped
             .flatMap{ _ in
@@ -88,39 +90,44 @@ final class ProductEditSceneViewModel {
                                resultSelector: { self.validate(isValidName: $0, isValidPrice: $1, isValidStock: $2, isValidDescription: $3) }) }
             .filter{ (result, descritpion) in result == .success }
             .map{ _ in RequireSecretAlertViewModel() }
+            .asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel)
     
-        let validationFail = input.doneDidTapped
+        let validationFailureAlert = input.doneDidTapped
             .flatMap{ _ in
                 Observable.zip(isValidName, isValidPrice, isValidStock, isvalidDescription,
                                resultSelector: { self.validate(isValidName: $0, isValidPrice: $1, isValidStock: $2, isValidDescription: $3) }) }
             .filter{ (result, descritpion) in result == .failure }
             .map{ (result, description) in description }
+            .map { ValidationFailureAlertViewModel(title: $0)
+            as AlertViewModel }
+            .asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel)
         
-        let registrationFailure = PublishSubject<RequestFailureAlertViewModel>()
+        let registrationFailureAlert = PublishSubject<AlertViewModel>()
         
         let registerationResponse = input.didReceiveSecret
             .flatMap{ secret -> Observable<EditProductInfo?> in
-                return Observable.combineLatest(productNameInput, productPriceInput, input.productDiscountedPrice, input.productCurrencyIndex, productStockInput, productDescriptionInput, Observable.just(secret),
+                return Observable.combineLatest(input.productName.asObservable(), input.productPrice.asObservable(), input.productDiscountedPrice, input.productCurrencyIndex.asObservable(), input.productStock.asObservable(), input.productDescription.asObservable(), Observable.just(secret),
                                    resultSelector: { (name, price, discountedPrice, currency, stock, descritpion, secret) -> EditProductInfo? in
                     return self.createEditProductInfo(name: name, description: descritpion, price: price, currencyIndex: currency, discountedPrice: discountedPrice, stock: stock, secret: secret) }) }
             .flatMap{ productInfo in self.createEditRequest(with: productInfo) }
             .flatMap{ request in self.APIService.requestRx(request) }
             .do(onError: { _ in
-                registrationFailure.onNext(RequestFailureAlertViewModel()) })
-            .retry(when: { _ in requireSecret })
+                registrationFailureAlert.onNext(RequestFailureAlertViewModel()) })
+                .retry(when: { _ in requireSecret.asObservable() })
             .map{ _ in }
+            .asDriver(onErrorJustReturn: ())
         
         return Output(prdouctName: productName,
-                      productImagesURL: productImages,
+                      productImagesURL: productImagesURL,
                       productPrice: productPrice,
-                      prodcutDiscountedPrice: productDiscountedPrice,
+                      productDiscountedPrice: productDiscountedPrice,
                       productCurrencyIndex: productCurrencyIndex,
                       productStock: productStock,
                       productDescription: prodcutDescription,
-                      validationFailureAlert: validationFail,
+                      validationFailureAlert: validationFailureAlert,
                       requireSecret: requireSecret,
                       registrationSuccessAlert: registerationResponse,
-                      registrationFailureAlert: registrationFailure)
+                      registrationFailureAlert: registrationFailureAlert.asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel))
     }
 }
 
@@ -128,19 +135,27 @@ final class ProductEditSceneViewModel {
 
 extension ProductEditSceneViewModel {
     
-    struct RequireSecretAlertViewModel {
+    struct RequireSecretAlertViewModel: AlertViewModel {
         
-        let title = "판매자 비밀번호를 입력해주세요"
-        let actionTitle = "수정"
+        var title: String? = "판매자 비밀번호를 입력해주세요"
+        var message: String?
+        var actionTitle: String?  = "수정"
     }
    
-    struct RequestFailureAlertViewModel {
+    struct RequestFailureAlertViewModel: AlertViewModel {
         
-        let title = "수정에 실패했습니다"
-        let message = "다시 시도 해주세요"
-        let actionTitle = "확인"
+        var title: String? = "수정에 실패했습니다"
+        var message: String? = "다시 시도 해주세요"
+        var actionTitle: String? = "확인"
     }
     
+    struct ValidationFailureAlertViewModel: AlertViewModel {
+        
+        var title: String?
+        var message: String? = "다시 시도 해주세요"
+        var actionTitle: String? = "확인"
+    }
+
 }
 
 // MARK: - Input Validation

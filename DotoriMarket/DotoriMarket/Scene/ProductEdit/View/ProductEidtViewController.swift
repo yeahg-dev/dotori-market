@@ -12,12 +12,16 @@ import RxCocoa
 
 final class ProductEidtViewController: UIViewController {
     
+    deinit {
+        print("메모리 해제")
+    }
+    
     // MARK: - IBOutlet
     
     @IBOutlet weak var scrollView: UIScrollView?
     @IBOutlet weak var productImageCollectionView: UICollectionView?
     @IBOutlet weak var productNameField: UITextField?
-    @IBOutlet weak var prdouctPriceField: UITextField?
+    @IBOutlet weak var productPriceField: UITextField?
     @IBOutlet weak var productCurrencySegmentedControl: UISegmentedControl?
     @IBOutlet weak var productDisconutPriceField: UITextField?
     @IBOutlet weak var productStockField: UITextField?
@@ -46,7 +50,7 @@ final class ProductEidtViewController: UIViewController {
     
     func bindViewModel() {
         guard let productNameField = self.productNameField,
-              let prdouctPriceField = self.prdouctPriceField,
+              let productPriceField = self.productPriceField,
               let productDisconutPriceField = self.productDisconutPriceField,
               let productCurrencySegmentedControl = self.productCurrencySegmentedControl,
               let productStockField = self.productStockField,
@@ -59,29 +63,26 @@ final class ProductEidtViewController: UIViewController {
         
         let input = ProductEditSceneViewModel.Input(
             viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in productID},
-            productName: productNameField.rx.text.asObservable(),
-            productPrice: prdouctPriceField.rx.text.asObservable(),
-            productDiscountedPrice: productDisconutPriceField.rx.text.asObservable(),
-            productCurrencyIndex: productCurrencySegmentedControl.rx.selectedSegmentIndex.asObservable(),
-            productStock: productStockField.rx.text.asObservable(),
-            productDescription: productDescriptionTextView.rx.text.asObservable(),
-            doneDidTapped: doneButton.rx.tap.asObservable(),
+            productName: productNameField.rx.text,
+            productPrice: productPriceField.rx.text,
+            productDiscountedPrice: productDisconutPriceField.rx.text,
+            productCurrencyIndex: productCurrencySegmentedControl.rx.selectedSegmentIndex,
+            productStock: productStockField.rx.text,
+            productDescription: productDescriptionTextView.rx.text,
+            doneDidTapped: doneButton.rx.tap,
             didReceiveSecret: self.secret.asObservable())
         
         let output = viewModel.transform(input: input)
         
         output.prdouctName
-            .observe(on: MainScheduler.instance)
-            .subscribe{ [weak self] name in
-                self?.productNameField?.text = name }
+            .drive(productNameField.rx.text)
             .disposed(by: disposeBag)
         
         output.productImagesURL
-            .observe(on: MainScheduler.instance)
-            .bind(to: productImageCollectionView.rx.items(cellIdentifier: "PrdouctImageCollectionViewCell",
+            .drive( productImageCollectionView.rx.items(cellIdentifier: "PrdouctImageCollectionViewCell",
                                                            cellType: ProductImageCollectionViewCell.self))
         { (row, element, cell) in
-                guard let imageURL = URL(string: element.thumbnailURL) else { return }
+                guard let imageURL = URL(string: element) else { return }
                 if row == .zero {
                     cell.update(image: nil, url: imageURL, isRepresentaion: true)
                 } else {
@@ -90,62 +91,42 @@ final class ProductEidtViewController: UIViewController {
             .disposed(by: disposeBag)
         
         output.productPrice
-            .observe(on: MainScheduler.instance)
-            .subscribe{ [weak self] price in
-                self?.prdouctPriceField?.text = price }
+            .drive(productPriceField.rx.text)
             .disposed(by: disposeBag)
         
-        output.productPrice
-            .observe(on: MainScheduler.instance)
-            .subscribe{ [weak self] sellingPrice in
-                self?.prdouctPriceField?.text = sellingPrice }
+        output.productDiscountedPrice
+            .drive(productDisconutPriceField.rx.text)
             .disposed(by: disposeBag)
         
         output.productStock
-            .observe(on: MainScheduler.instance)
-            .subscribe{ [weak self] stock in
-                self?.productStockField?.text = stock }
-            .disposed(by: disposeBag)
-        
-        output.prodcutDiscountedPrice
-            .observe(on: MainScheduler.instance)
-            .subscribe{ [weak self] price in
-                self?.productDisconutPriceField?.text = price }
+            .drive(productStockField.rx.text)
             .disposed(by: disposeBag)
         
         output.productCurrencyIndex
-            .observe(on: MainScheduler.instance)
-            .subscribe{ [weak self] index in
-                self?.productCurrencySegmentedControl?.selectedSegmentIndex = index }
+            .drive(productCurrencySegmentedControl.rx.selectedSegmentIndex)
             .disposed(by: disposeBag)
         
         output.productDescription
-            .observe(on: MainScheduler.instance)
-            .subscribe{ [weak self] description in
-                self?.productDescriptionTextView?.text = description }
+            .drive(productDescriptionTextView.rx.text)
             .disposed(by: disposeBag)
         
         output.validationFailureAlert
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] description in
-                self?.presentValidationFailureAlert(viewModel: description) })
+            .drive(onNext: { [weak self] description in
+                self?.presentAlertWithDismiss(viewModel: description) })
             .disposed(by: disposeBag)
 
         output.requireSecret
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext:{ viewModel in
-                self.presentRequireSecretAlert(viewModel: viewModel) })
+            .drive(onNext:{ [weak self] viewModel in
+                self?.presentRequireSecretAlert(viewModel: viewModel) })
             .disposed(by: disposeBag)
         
         output.registrationFailureAlert
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext:{ [weak self] viewModel in
-                self?.presentRequestFailureAlert(viewModel: viewModel) })
+            .drive(onNext:{ [weak self] viewModel in
+                self?.presentAlertWithDismiss(viewModel: viewModel) })
             .disposed(by: disposeBag)
 
         output.registrationSuccessAlert
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] _ in
+            .drive(onNext: { [weak self] _ in
                 self?.dismiss(animated: false) })
             .disposed(by: disposeBag)
     }
@@ -171,35 +152,27 @@ final class ProductEidtViewController: UIViewController {
 
     // MARK: - Present Alert
     
-    private func presentValidationFailureAlert(viewModel: String?) {
-        let alert = UIAlertController(title: viewModel, message: nil, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: MarketCommon.confirm.rawValue, style: .default) { _ in
-            alert.dismiss(animated: false)
-        }
-        alert.addAction(okAction)
-        self.present(alert, animated: false)
-    }
-    
-    private func presentRequireSecretAlert(viewModel: ProductEditSceneViewModel.RequireSecretAlertViewModel) {
-        let alert = UIAlertController(title: viewModel.title, message: nil, preferredStyle: .alert)
-        alert.addTextField()
-        alert.textFields?[0].isSecureTextEntry = true
-        let sendAction = UIAlertAction(title: viewModel.actionTitle, style: .default) { _ in
-            guard let secret = alert.textFields?[0].text else { return }
-            self.secret.onNext(secret)
-            alert.dismiss(animated: false)
-        }
-        alert.addAction(sendAction)
-
-        self.present(alert, animated: false)
-    }
-    
-    private func presentRequestFailureAlert(viewModel: ProductEditSceneViewModel.RequestFailureAlertViewModel) {
-        let alert = UIAlertController(title: viewModel.title , message: viewModel.message, preferredStyle: .alert)
+    private func presentAlertWithDismiss(viewModel: AlertViewModel) {
+        let alert = UIAlertController(title: viewModel.title, message: viewModel.message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: viewModel.actionTitle, style: .default) { _ in
             alert.dismiss(animated: false)
         }
         alert.addAction(okAction)
+        
+        self.present(alert, animated: false)
+    }
+    
+    private func presentRequireSecretAlert(viewModel: AlertViewModel) {
+        let alert = UIAlertController(title: viewModel.title, message: viewModel.message, preferredStyle: .alert)
+        alert.addTextField()
+        alert.textFields?[0].isSecureTextEntry = true
+        let sendAction = UIAlertAction(title: viewModel.actionTitle, style: .default) { [weak self] _ in
+            guard let secret = alert.textFields?[0].text else { return }
+            self?.secret.onNext(secret)
+            alert.dismiss(animated: false)
+        }
+        alert.addAction(sendAction)
+        
         self.present(alert, animated: false)
     }
     
