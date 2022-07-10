@@ -8,6 +8,7 @@
 import Foundation
 
 import RxSwift
+import RxCocoa
 
 final class ProductDetailSceneViewModel {
     
@@ -22,13 +23,13 @@ final class ProductDetailSceneViewModel {
     }
     
     struct Output {
-        let prdouctName: Observable<String>
-        let productImagesURL: Observable<[Image]> 
-        let productPrice: Observable<String?>
-        let prodcutSellingPrice: Observable<String>
-        let productDiscountedRate: Observable<String?>
-        let productStock: Observable<String>
-        let productDescription: Observable<String>
+        let prdouctName: Driver<String>
+        let productImagesURL: Driver<[String]>
+        let productPrice: Driver<String?>
+        let prodcutSellingPrice: Driver<String>
+        let productDiscountedRate: Driver<String?>
+        let productStock: Driver<String>
+        let productDescription: Driver<String>
     }
     
     func transform(input: Input) -> Output {
@@ -42,15 +43,23 @@ final class ProductDetailSceneViewModel {
             .share(replay: 1)
         
         let productName = productDetail.map{ $0.name }
+            .asDriver(onErrorJustReturn: MarketCommon.downloadErrorPlacehodler.rawValue)
         let productPrice = productDetail.map{ $0.price }
+            .asDriver(onErrorJustReturn: MarketCommon.downloadErrorPlacehodler.rawValue)
         let productSellingPrice = productDetail.map{ $0.sellingPrice }
+            .asDriver(onErrorJustReturn: MarketCommon.downloadErrorPlacehodler.rawValue)
         let productDiscountedRate = productDetail.map{ $0.discountedRate }
+            .asDriver(onErrorJustReturn: MarketCommon.downloadErrorPlacehodler.rawValue)
         let productStock = productDetail.map{ $0.stock }
+            .asDriver(onErrorJustReturn: MarketCommon.downloadErrorPlacehodler.rawValue)
         let prodcutDescription = productDetail.map{ $0.description }
-        let productImages = productDetail.map{ $0.images }
+            .asDriver(onErrorJustReturn: MarketCommon.downloadErrorPlacehodler.rawValue)
+        let productImageURLs = productDetail.map{ $0.images }
+            .map{ $0.map{ $0.thumbnailURL } }
+            .asDriver(onErrorJustReturn: [])
         
         return Output(prdouctName: productName,
-                      productImagesURL: productImages,
+                      productImagesURL: productImageURLs,
                       productPrice: productPrice,
                       prodcutSellingPrice: productSellingPrice,
                       productDiscountedRate: productDiscountedRate,

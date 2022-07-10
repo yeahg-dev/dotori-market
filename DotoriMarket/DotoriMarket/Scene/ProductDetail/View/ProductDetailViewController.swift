@@ -51,6 +51,10 @@ final class ProductDetailViewController: UIViewController {
     
     func bindViewModel() {
         guard let productImageCollectionView = self.productImageCollectionView,
+              let productPriceLabel = self.productPriceLabel,
+              let productSellingPriceLabel = self.productSellingPriceLabel,
+              let productStockLabel = self.productStockLabel,
+              let productDescriptionTextView = self.productDescriptionTextView,
               let productID = self.productID else {
             return
         }
@@ -60,57 +64,45 @@ final class ProductDetailViewController: UIViewController {
         let output = viewModel.transform(input: input)
         
         output.prdouctName
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext:{ [weak self] name in
+            .drive(onNext:{ [weak self] name in
                 self?.configureNavigationTitle(with: name)
                 self?.productNameLabel?.text = name })
             .disposed(by: disposeBag)
         
         output.productImagesURL
-            .observe(on: MainScheduler.instance)
-            .bind(to: productImageCollectionView.rx.items(cellIdentifier: "PrdouctDetailCollectionViewCell",
+            .drive(productImageCollectionView.rx.items(cellIdentifier: "PrdouctDetailCollectionViewCell",
                                                            cellType: PrdouctDetailCollectionViewCell.self))
         { (_, element, cell) in
-                if let imageURL = URL(string: element.thumbnailURL) {
+                if let imageURL = URL(string: element) {
                     cell.fill(with: imageURL) } }
             .disposed(by: disposeBag)
         
         output.productImagesURL
-            .observe(on: MainScheduler.instance)
-            .subscribe{ images in
-                self.imagePageControl.numberOfPages = images.count }
+            .drive{ [weak self] images in
+                self?.imagePageControl.numberOfPages = images.count }
             .disposed(by: disposeBag)
         
         output.productPrice
-            .observe(on: MainScheduler.instance)
-            .subscribe{ [weak self] price in
-                self?.productPriceLabel?.text = price }
+            .drive(productPriceLabel.rx.text)
             .disposed(by: disposeBag)
         
         output.prodcutSellingPrice
-            .observe(on: MainScheduler.instance)
-            .subscribe{ [weak self] sellingPrice in
-                self?.productSellingPriceLabel?.text = sellingPrice }
+            .drive(productSellingPriceLabel.rx.text)
             .disposed(by: disposeBag)
         
         output.productDiscountedRate
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] discountedRate in
+            .drive(onNext: { [weak self] discountedRate in
                 if discountedRate == nil {
                     self?.productSellingPriceStackView?.spacing = .zero }
                 self?.productDiscountRateLabel?.text = discountedRate })
             .disposed(by: disposeBag)
         
         output.productStock
-            .observe(on: MainScheduler.instance)
-            .subscribe{ [weak self] stock in
-                self?.productStockLabel?.text = stock }
+            .drive(productStockLabel.rx.text)
             .disposed(by: disposeBag)
         
         output.productDescription
-            .observe(on: MainScheduler.instance)
-            .subscribe { [weak self] description in
-                self?.productDescriptionTextView?.text = description }
+            .drive(productDescriptionTextView.rx.text)
             .disposed(by: disposeBag)
         
     }

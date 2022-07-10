@@ -11,11 +11,7 @@ import RxSwift
 import RxCocoa
 
 final class ProductEidtViewController: UIViewController {
-    
-    deinit {
-        print("메모리 해제")
-    }
-    
+
     // MARK: - IBOutlet
     
     @IBOutlet weak var scrollView: UIScrollView?
