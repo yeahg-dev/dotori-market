@@ -20,6 +20,9 @@
 		634B855C285CCA5700F931EF /* ProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634B855B285CCA5700F931EF /* ProductViewModel.swift */; };
 		634B8564285CD5ED00F931EF /* ProductViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634B8563285CD5ED00F931EF /* ProductViewModelTest.swift */; };
 		634D897C287C4398005B3661 /* ProductInputChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634D897B287C4398005B3661 /* ProductInputChecker.swift */; };
+		634D897E287C4CF2005B3661 /* ProductListSceneAlertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634D897D287C4CF2005B3661 /* ProductListSceneAlertViewModel.swift */; };
+		634D8980287C4D0E005B3661 /* ProductRegistrationSceneAlertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634D897F287C4D0E005B3661 /* ProductRegistrationSceneAlertViewModel.swift */; };
+		634D8982287C4D5A005B3661 /* ProductEditSceneAlertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634D8981287C4D5A005B3661 /* ProductEditSceneAlertViewModel.swift */; };
 		6365F48C286755B000E0498E /* ProductDetailSceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6365F48B286755B000E0498E /* ProductDetailSceneViewModel.swift */; };
 		6365F48F28676BD300E0498E /* ProductEditSceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6365F48E28676BD300E0498E /* ProductEditSceneViewModel.swift */; };
 		639358D22786C5B500412958 /* MarketAPIURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639358D12786C5B500412958 /* MarketAPIURL.swift */; };
@@ -117,6 +120,9 @@
 		634B8561285CD5ED00F931EF /* DotoriMarketViewModelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DotoriMarketViewModelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		634B8563285CD5ED00F931EF /* ProductViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewModelTest.swift; sourceTree = "<group>"; };
 		634D897B287C4398005B3661 /* ProductInputChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInputChecker.swift; sourceTree = "<group>"; };
+		634D897D287C4CF2005B3661 /* ProductListSceneAlertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListSceneAlertViewModel.swift; sourceTree = "<group>"; };
+		634D897F287C4D0E005B3661 /* ProductRegistrationSceneAlertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegistrationSceneAlertViewModel.swift; sourceTree = "<group>"; };
+		634D8981287C4D5A005B3661 /* ProductEditSceneAlertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductEditSceneAlertViewModel.swift; sourceTree = "<group>"; };
 		6365F48B286755B000E0498E /* ProductDetailSceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailSceneViewModel.swift; sourceTree = "<group>"; };
 		6365F48E28676BD300E0498E /* ProductEditSceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductEditSceneViewModel.swift; sourceTree = "<group>"; };
 		639358D12786C5B500412958 /* MarketAPIURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketAPIURL.swift; sourceTree = "<group>"; };
@@ -216,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				632ADA5228607F77000B318B /* ProductRegisterationSceneViewModel.swift */,
+				634D897F287C4D0E005B3661 /* ProductRegistrationSceneAlertViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -267,8 +274,9 @@
 		634B855A285CCA3200F931EF /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				634B855B285CCA5700F931EF /* ProductViewModel.swift */,
 				63A424E5285E132E00E7D8E6 /* ProductListSceneViewModel.swift */,
+				634D897D287C4CF2005B3661 /* ProductListSceneAlertViewModel.swift */,
+				634B855B285CCA5700F931EF /* ProductViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -288,6 +296,7 @@
 			isa = PBXGroup;
 			children = (
 				6365F48E28676BD300E0498E /* ProductEditSceneViewModel.swift */,
+				634D8981287C4D5A005B3661 /* ProductEditSceneAlertViewModel.swift */,
 				631AD76828688215002E6416 /* ProductDetailEditViewModel.swift */,
 			);
 			path = ViewModel;
@@ -515,8 +524,8 @@
 		63E2CD472865B38B008E0275 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				63E2CD482865B3A0008E0275 /* ProductDetailViewModel.swift */,
 				6365F48B286755B000E0498E /* ProductDetailSceneViewModel.swift */,
+				63E2CD482865B3A0008E0275 /* ProductDetailViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -741,6 +750,7 @@
 				634B8558285B0D7300F931EF /* Int+Extension.swift in Sources */,
 				63A2029927853300003A1112 /* ImageResponse.swift in Sources */,
 				6396C253287497B70076356D /* APIService.swift in Sources */,
+				634D8982287C4D5A005B3661 /* ProductEditSceneAlertViewModel.swift in Sources */,
 				63D660E82787F87B00A450DE /* Data+Extension.swift in Sources */,
 				6365F48F28676BD300E0498E /* ProductEditSceneViewModel.swift in Sources */,
 				634B2B602797FAD10009E6CD /* UIImageView+Extension.swift in Sources */,
@@ -752,6 +762,7 @@
 				6396C244287442E60076356D /* ProductDetailResponse.swift in Sources */,
 				63A2029D2785447E003A1112 /* ProductDetail.swift in Sources */,
 				6365F48C286755B000E0498E /* ProductDetailSceneViewModel.swift in Sources */,
+				634D897E287C4CF2005B3661 /* ProductListSceneAlertViewModel.swift in Sources */,
 				639358D22786C5B500412958 /* MarketAPIURL.swift in Sources */,
 				63D660E52787F09400A450DE /* ImageFile.swift in Sources */,
 				63C1904F27A38E4A00210BE3 /* CellType.swift in Sources */,
@@ -783,6 +794,7 @@
 				63DA95A92851ABF0004CB9C1 /* PrdouctDetailCollectionViewCell.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C13DFAC1279126D9003A1A2E /* NSAttributedString+Extension.swift in Sources */,
+				634D8980287C4D0E005B3661 /* ProductRegistrationSceneAlertViewModel.swift in Sources */,
 				6396C25028744BB50076356D /* EditProductInfo.swift in Sources */,
 				631AD76928688215002E6416 /* ProductDetailEditViewModel.swift in Sources */,
 				63DA95AB285205EA004CB9C1 /* MarketCommon.swift in Sources */,

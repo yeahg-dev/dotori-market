@@ -93,7 +93,7 @@ final class ProductEditSceneViewModel {
             .filter{ (result, descritpion) in result == .success }
             .map{ _ in RequireSecretAlertViewModel() }
             .asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel)
-    
+        
         let validationFailureAlert = input.doneDidTapped
             .flatMap{ _ in
                 Observable.zip(isValidName, isValidPrice, isValidStock, isvalidDescription,isValidDiscountedPrice,
@@ -101,7 +101,7 @@ final class ProductEditSceneViewModel {
             .filter{ (result, descritpion) in result == .failure }
             .map{ (result, description) in description }
             .map { ValidationFailureAlertViewModel(title: $0)
-            as AlertViewModel }
+                as AlertViewModel }
             .asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel)
         
         let registrationFailureAlert = PublishSubject<AlertViewModel>()
@@ -109,13 +109,13 @@ final class ProductEditSceneViewModel {
         let registerationResponse = input.didReceiveSecret
             .flatMap{ secret -> Observable<EditProductInfo?> in
                 return Observable.combineLatest(input.productName.asObservable(), input.productPrice.asObservable(), input.productDiscountedPrice, input.productCurrencyIndex.asObservable(), input.productStock.asObservable(), input.productDescription.asObservable(), Observable.just(secret),
-                                   resultSelector: { (name, price, discountedPrice, currency, stock, descritpion, secret) -> EditProductInfo? in
+                                                resultSelector: { (name, price, discountedPrice, currency, stock, descritpion, secret) -> EditProductInfo? in
                     return self.createEditProductInfo(name: name, description: descritpion, price: price, currencyIndex: currency, discountedPrice: discountedPrice, stock: stock, secret: secret) }) }
             .flatMap{ productInfo in self.createEditRequest(with: productInfo) }
             .flatMap{ request in self.APIService.requestRx(request) }
             .do(onError: { _ in
                 registrationFailureAlert.onNext(RequestFailureAlertViewModel()) })
-                .retry(when: { _ in requireSecret.asObservable() })
+            .retry(when: { _ in requireSecret.asObservable() })
             .map{ _ in }
             .asDriver(onErrorJustReturn: ())
         
@@ -133,33 +133,6 @@ final class ProductEditSceneViewModel {
     }
 }
 
-// MARK: - AlertViewModel
-
-extension ProductEditSceneViewModel {
-    
-    struct RequireSecretAlertViewModel: AlertViewModel {
-        
-        var title: String? = "판매자 비밀번호를 입력해주세요"
-        var message: String?
-        var actionTitle: String?  = "수정"
-    }
-   
-    struct RequestFailureAlertViewModel: AlertViewModel {
-        
-        var title: String? = "수정에 실패했습니다"
-        var message: String? = "다시 시도 해주세요"
-        var actionTitle: String? = "확인"
-    }
-    
-    struct ValidationFailureAlertViewModel: AlertViewModel {
-        
-        var title: String?
-        var message: String? = "다시 시도 해주세요"
-        var actionTitle: String? = "확인"
-    }
-
-}
-
 // MARK: - API Request
 
 extension ProductEditSceneViewModel {
@@ -167,11 +140,11 @@ extension ProductEditSceneViewModel {
     enum ViewModelError: Error {
         case requestCreationFail
     }
-
+    
     private func createEditRequest(with productInfo: EditProductInfo?) -> Observable<ProductEditRequest> {
         let editRequest = Observable<ProductEditRequest>.create{ observer in
             guard let id = self.productID,
-                let productInfo = productInfo else {
+                  let productInfo = productInfo else {
                 observer.onError(ViewModelError.requestCreationFail)
                 return Disposables.create()
             }
@@ -199,7 +172,7 @@ extension ProductEditSceneViewModel {
         } else {
             currency = .usd
         }
-
+        
         return EditProductInfo(name: name,
                                descriptions: description,
                                thumbnailID: nil,
@@ -209,5 +182,5 @@ extension ProductEditSceneViewModel {
                                stock: (stock as NSString).integerValue,
                                secret: secret)
     }
-
+    
 }
