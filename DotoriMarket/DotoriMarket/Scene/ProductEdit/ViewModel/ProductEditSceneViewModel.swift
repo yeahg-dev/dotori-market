@@ -13,6 +13,7 @@ import RxCocoa
 final class ProductEditSceneViewModel {
     
     private var APIService: APIServcie
+    private let productInputChecker = ProductInputChecker()
     private let sellerIdentifier = "c4dedd67-71fc-11ec-abfa-fd97ecfece87"
     private var productID: Int?
     
@@ -79,23 +80,24 @@ final class ProductEditSceneViewModel {
                 }
             }.asDriver(onErrorJustReturn: 0)
         
-        let isValidName = self.validate(name: input.productName.asObservable())
-        let isValidPrice = self.validate(price: input.productPrice.asObservable())
-        let isValidStock = self.validate(stock: input.productStock.asObservable())
-        let isvalidDescription = self.validate(description: input.productDescription.asObservable())
+        let isValidName = productInputChecker.isValid(name: input.productName.asObservable())
+        let isValidPrice = productInputChecker.isValid(price: input.productPrice.asObservable())
+        let isValidStock = productInputChecker.isValid(stock: input.productStock.asObservable())
+        let isvalidDescription = productInputChecker.isValid(description: input.productDescription.asObservable())
+        let isValidDiscountedPrice = productInputChecker.isValid(discountedPrice: input.productDiscountedPrice.asObservable(), price: input.productPrice.asObservable())
         
         let requireSecret = input.doneDidTapped
             .flatMap{ _ in
-                Observable.zip(isValidName, isValidPrice, isValidStock, isvalidDescription,
-                               resultSelector: { self.validate(isValidName: $0, isValidPrice: $1, isValidStock: $2, isValidDescription: $3) }) }
+                Observable.zip(isValidName, isValidPrice, isValidStock, isvalidDescription,isValidDiscountedPrice,
+                               resultSelector: { self.productInputChecker.validationResultOf( isValidName: $0, isValidPrice: $1, isValidStock: $2, isValidDescription: $3, isValidDiscountedPrice: $4) }) }
             .filter{ (result, descritpion) in result == .success }
             .map{ _ in RequireSecretAlertViewModel() }
             .asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel)
     
         let validationFailureAlert = input.doneDidTapped
             .flatMap{ _ in
-                Observable.zip(isValidName, isValidPrice, isValidStock, isvalidDescription,
-                               resultSelector: { self.validate(isValidName: $0, isValidPrice: $1, isValidStock: $2, isValidDescription: $3) }) }
+                Observable.zip(isValidName, isValidPrice, isValidStock, isvalidDescription,isValidDiscountedPrice,
+                               resultSelector: { self.productInputChecker.validationResultOf( isValidName: $0, isValidPrice: $1, isValidStock: $2, isValidDescription: $3, isValidDiscountedPrice: $4) }) }
             .filter{ (result, descritpion) in result == .failure }
             .map{ (result, description) in description }
             .map { ValidationFailureAlertViewModel(title: $0)
@@ -154,88 +156,6 @@ extension ProductEditSceneViewModel {
         var title: String?
         var message: String? = "다시 시도 해주세요"
         var actionTitle: String? = "확인"
-    }
-
-}
-
-// MARK: - Input Validation
-
-extension ProductEditSceneViewModel {
-
-    enum ValidationResult {
-        
-        case success
-        case failure
-    }
-    
-    private func validate(isValidName: Bool,
-                          isValidPrice: Bool,
-                          isValidStock: Bool,
-                          isValidDescription: Bool) -> (ValidationResult, String?) {
-        let category = [isValidName, isValidPrice, isValidStock, isValidDescription]
-        
-        if category.contains(false) {
-            let description = self.makeAlertDescription(isValidName: isValidName,
-                                                        isValidPrice: isValidPrice,
-                                                        isValidStock: isValidStock,
-                                                        isValidDescription: isValidDescription)
-            return (ValidationResult.failure, description)
-        } else {
-            return (ValidationResult.success, nil)
-        }
-    }
-    
-    private func makeAlertDescription(isValidName: Bool,
-                                      isValidPrice: Bool,
-                                      isValidStock: Bool,
-                                      isValidDescription: Bool) -> String {
-        let name = isValidName ? "" : "상품명"
-        let price = isValidPrice ? "" : "가격"
-        let stock = isValidStock ? "" : "재고"
-        let description = isValidDescription ? "" : "상세정보"
-        
-        if isValidName == true && isValidPrice == true
-            && isValidStock == true && isValidDescription == false {
-            return "상세정보는 10자이상 1,000자이하로 작성해주세요"
-        } else {
-            let categories = [name, price, stock, description]
-           
-            let description = categories
-                .filter{ !$0.isEmpty }
-                .reduce("") { partialResult, category in
-                    partialResult.isEmpty ? category : "\(partialResult), \(category)" }
-            
-            if isValidDescription == false || isValidStock == false {
-                return "\(description)는 필수 입력 항목이에요"
-            } else {
-                return "\(description)은 필수 입력 항목이에요"
-            }
-        }
-    }
-    
-    private func validate(name: Observable<String?>) -> Observable<Bool> {
-        return name.map{ name -> Bool in
-            guard let name = name else { return false }
-            return name.isEmpty ? false : true }
-    }
-    
-    private func validate(price: Observable<String?>) -> Observable<Bool> {
-        return price.map{ price -> Bool in
-            guard let price = price else { return false }
-            return price.isEmpty ? false : true }
-    }
-    
-    private func validate(stock: Observable<String?>) -> Observable<Bool> {
-        return stock.map{ stock -> Bool in
-            guard let stock = stock else { return false }
-            return stock.isEmpty ? false : true }
-    }
-    
-    private func validate(description: Observable<String?>) -> Observable<Bool> {
-        return description.map{ description -> Bool in
-            guard let text = description else { return false }
-            if text == MarketCommon.descriptionTextViewPlaceHolder.rawValue { return false }
-            return text.count >= 10 && text.count <= 1000 ? true : false }
     }
 
 }

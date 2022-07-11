@@ -13,6 +13,7 @@ import RxCocoa
 final class ProductRegisterationSceneViewModel {
     
     private var APIService: APIServcie
+    private let productInputChecker = ProductInputChecker()
     static let maximumProductImageCount = 5
     private var maximutProductImageCellCount: Int { ProductRegisterationSceneViewModel.maximumProductImageCount + 1 }
 
@@ -85,14 +86,14 @@ final class ProductRegisterationSceneViewModel {
         let productCurrency = input.productCurrency.asObservable()
 
         let isValidImage = productImages.asObservable().map { images in images.count > 1 }
-        let isValidName = self.validate(name: input.productTitle.asObservable())
-        let isValidPrice = self.validate(price: input.productPrice.asObservable())
-        let isValidStock = self.validate(stock: input.productStock.asObservable())
-        let isvalidDescription = self.validate(description: input.productDescriptionText.asObservable())
-        let isValidDiscountedPrice = self.validate(discountedPrice: input.prdouctDiscountedPrice.asObservable(), price: input.productPrice.asObservable())
+        let isValidName = productInputChecker.isValid(name: input.productTitle.asObservable())
+        let isValidPrice = productInputChecker.isValid(price: input.productPrice.asObservable())
+        let isValidStock = productInputChecker.isValid(stock: input.productStock.asObservable())
+        let isvalidDescription = productInputChecker.isValid(description: input.productDescriptionText.asObservable())
+        let isValidDiscountedPrice = productInputChecker.isValid(discountedPrice: input.prdouctDiscountedPrice.asObservable(), price: input.productPrice.asObservable())
         
         let validation = Observable.combineLatest(isValidImage, isValidName, isValidPrice, isValidStock, isvalidDescription, isValidDiscountedPrice, resultSelector: {
-            self.validate(isValidImage: $0, isValidName: $1, isValidPrice: $2, isValidStock: $3, isValidDescription: $4, isValidDiscountedPrice: $5)})
+            self.productInputChecker.validationResultOf(isValidImage: $0, isValidName: $1, isValidPrice: $2, isValidStock: $3, isValidDescription: $4, isValidDiscountedPrice: $5)})
             .share(replay: 1)
         
         let validationSuccess = validation
@@ -184,101 +185,6 @@ extension ProductRegisterationSceneViewModel {
         var actionTitle: String? = "확인"
     }
     
-    // MARK: - Input Validation
-    
-    enum ValidationResult {
-        
-        case success
-        case failure
-    }
-    
-    private func validate(isValidImage: Bool,
-                          isValidName: Bool,
-                          isValidPrice: Bool,
-                          isValidStock: Bool,
-                          isValidDescription: Bool,
-                          isValidDiscountedPrice: Bool) -> (ValidationResult, String?) {
-        let category = [isValidImage, isValidName, isValidPrice, isValidStock, isValidDescription, isValidDiscountedPrice]
-        
-        if !isValidDiscountedPrice {
-            return (ValidationResult.failure, "할인금액은 상품가격보다 클 수 없습니다.")
-        }
-        
-        if category.contains(false) {
-            let description = self.makeAlertDescription(isValidImage: isValidImage,
-                                                        isValidName: isValidName,
-                                                        isValidPrice: isValidPrice,
-                                                        isValidStock: isValidStock,
-                                                        isValidDescription: isValidDescription)
-            return (ValidationResult.failure, description)
-        } else {
-            return (ValidationResult.success, nil)
-        }
-    }
-    
-    private func makeAlertDescription(isValidImage: Bool,
-                                      isValidName: Bool,
-                                      isValidPrice: Bool,
-                                      isValidStock: Bool,
-                                      isValidDescription: Bool) -> String {
-        let image = isValidImage ? "" : "대표 사진"
-        let name = isValidName ? "" : "상품명"
-        let price = isValidPrice ? "" : "가격"
-        let stock = isValidStock ? "" : "재고"
-        let description = isValidDescription ? "" : "상세정보"
-        
-        if isValidName == true && isValidPrice == true
-            && isValidStock == true && isValidDescription == false {
-            return "상세정보는 10자이상 1,000자이하로 작성해주세요"
-        } else {
-            let categories = [image, name, price, stock, description]
-           
-            let description = categories
-                .filter{ !$0.isEmpty }
-                .reduce("") { partialResult, category in
-                    partialResult.isEmpty ? category : "\(partialResult), \(category)" }
-            
-            if isValidDescription == false || isValidStock == false {
-                return "\(description)는 필수 입력 항목이에요"
-            } else {
-                return "\(description)은 필수 입력 항목이에요"
-            }
-        }
-    }
-    
-    private func validate(name: Observable<String?>) -> Observable<Bool> {
-        return name.map{ name -> Bool in
-            guard let name = name else { return false }
-            return name.isEmpty ? false : true }
-    }
-    
-    private func validate(price: Observable<String?>) -> Observable<Bool> {
-        return price.map{ price -> Bool in
-            guard let price = price else { return false }
-            return price.isEmpty ? false : true }
-    }
-    
-    private func validate(stock: Observable<String?>) -> Observable<Bool> {
-        return stock.map{ stock -> Bool in
-            guard let stock = stock else { return false }
-            return stock.isEmpty ? false : true }
-    }
-    
-    private func validate(description: Observable<String?>) -> Observable<Bool> {
-        return description.map{ description -> Bool in
-            guard let text = description else { return false }
-            if text == MarketCommon.descriptionTextViewPlaceHolder.rawValue { return false }
-            return text.count >= 10 && text.count <= 1000 ? true : false }
-    }
-    
-    private func validate(discountedPrice: Observable<String?>, price: Observable<String?>) -> Observable<Bool> {
-        return Observable.combineLatest(discountedPrice, price) { (discountedPrice, price) -> Bool in
-            let disconutPrice = Int(discountedPrice ?? "") ?? 0
-            let price = Int(price ?? "") ?? 0
-            return disconutPrice <= price
-        }
-    }
-
     // MARK: - API Request
     
     private func createRegistrationRequest(with productInfo: NewProductInfo, productImages: [(CellType, Data)]) -> ProductRegistrationRequest {
