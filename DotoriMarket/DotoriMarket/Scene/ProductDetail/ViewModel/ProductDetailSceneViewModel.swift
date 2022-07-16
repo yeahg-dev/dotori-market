@@ -1,0 +1,69 @@
+//
+//  ProductDetailSceneViewModel.swift
+//  OpenMarket
+//
+//  Created by 1 on 2022/06/25.
+//
+
+import Foundation
+
+import RxSwift
+import RxCocoa
+
+final class ProductDetailSceneViewModel {
+    
+    private var APIService: APIServcie
+    
+    init(APIService: APIServcie) {
+        self.APIService = APIService
+    }
+    
+    struct Input {
+        let viewWillAppear: Observable<Int>
+    }
+    
+    struct Output {
+        let prdouctName: Driver<String>
+        let productImagesURL: Driver<[String]>
+        let productPrice: Driver<String?>
+        let prodcutSellingPrice: Driver<String>
+        let productDiscountedRate: Driver<String?>
+        let productStock: Driver<String>
+        let productDescription: Driver<String>
+    }
+    
+    func transform(input: Input) -> Output {
+        let productDetail = input.viewWillAppear
+            .map{ productID in
+                ProductDetailRequest(productID: productID) }
+            .flatMap{ request -> Observable<ProductDetailResponse> in
+                self.APIService.requestRx(request) }
+            .map{ $0.toDomain() }
+            .map{ ProductDetailViewModel(product: $0) }
+            .share(replay: 1)
+        
+        let productName = productDetail.map{ $0.name }
+            .asDriver(onErrorJustReturn: MarketCommon.downloadErrorPlacehodler.rawValue)
+        let productPrice = productDetail.map{ $0.price }
+            .asDriver(onErrorJustReturn: MarketCommon.downloadErrorPlacehodler.rawValue)
+        let productSellingPrice = productDetail.map{ $0.sellingPrice }
+            .asDriver(onErrorJustReturn: MarketCommon.downloadErrorPlacehodler.rawValue)
+        let productDiscountedRate = productDetail.map{ $0.discountedRate }
+            .asDriver(onErrorJustReturn: MarketCommon.downloadErrorPlacehodler.rawValue)
+        let productStock = productDetail.map{ $0.stock }
+            .asDriver(onErrorJustReturn: MarketCommon.downloadErrorPlacehodler.rawValue)
+        let prodcutDescription = productDetail.map{ $0.description }
+            .asDriver(onErrorJustReturn: MarketCommon.downloadErrorPlacehodler.rawValue)
+        let productImageURLs = productDetail.map{ $0.images }
+            .map{ $0.map{ $0.thumbnailURL } }
+            .asDriver(onErrorJustReturn: [])
+        
+        return Output(prdouctName: productName,
+                      productImagesURL: productImageURLs,
+                      productPrice: productPrice,
+                      prodcutSellingPrice: productSellingPrice,
+                      productDiscountedRate: productDiscountedRate,
+                      productStock: productStock,
+                      productDescription: prodcutDescription)
+    }
+}
