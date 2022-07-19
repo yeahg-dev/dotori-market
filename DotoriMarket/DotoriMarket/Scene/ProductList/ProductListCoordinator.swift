@@ -25,11 +25,7 @@ class ProductListCoordinator: Coordinator {
     }
     
     func pushProuductDetail(of productID: Int) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let productDetailVC = storyboard.instantiateViewController(
-            withIdentifier: "ProductDetailViewController") as? ProductDetailViewController else {
-            return
-        }
+        let productDetailVC = UIStoryboard.initiateViewController(ProductDetailViewController.self)
         productDetailVC.setProduct(productID)
         self.navigationController.setNavigationBarHidden(false, animated: false)
         self.navigationController.pushViewController(productDetailVC,

@@ -25,13 +25,9 @@ final class ProductCollectionViewController: UICollectionViewController {
     // MARK: - Load from Storyboard
     
     static func make(coordinator: ProductListCoordinator) -> ProductCollectionViewController {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let productListViewController = storyboard.instantiateViewController(
-            withIdentifier: "ProductCollectionViewController") as? ProductCollectionViewController else {
-            return ProductCollectionViewController()
-        }
-        productListViewController.coordinator = coordinator
-        return productListViewController
+        let productListVC = UIStoryboard.initiateViewController(ProductCollectionViewController.self)
+        productListVC.coordinator = coordinator
+        return productListVC
     }
     
     // MARK: - View Life Cycle
