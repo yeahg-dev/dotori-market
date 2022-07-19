@@ -10,18 +10,38 @@ import UIKit
 enum TabBar {
     
     case productList
-    case myDotori
+    case myProduct
     case liked
     
-    func components() -> TabBarComponent {
+    func coordinator() -> TabCoordinator {
         switch self {
         case .productList:
-           return ProductListTabBar()
-        case .myDotori:
-            return ProductListTabBar()
+            return ProductListCoordinator()
+        case .myProduct:
+            return ProductListCoordinator()
         case .liked:
-            return ProductListTabBar()
+            return ProductListCoordinator()
         }
     }
     
+    func navigationControllerWithTabBarItem() -> UINavigationController {
+        switch self {
+        case .productList:
+            let tabBarItem = ProductListTabBarItem().tabBarItem
+            let navigationVC = self.coordinator().tabViewController()
+            navigationVC.tabBarItem = tabBarItem
+            return navigationVC
+        case .myProduct:
+            let tabBarItem = MyProductTabBarItem().tabBarItem
+            let navigationVC = self.coordinator().tabViewController()
+            navigationVC.tabBarItem = tabBarItem
+            return navigationVC
+        case .liked:
+            let tabBarItem = LikedTabBarItem().tabBarItem
+            let navigationVC = self.coordinator().tabViewController()
+            navigationVC.tabBarItem = tabBarItem
+            return navigationVC
+        }
+    }
+
 }

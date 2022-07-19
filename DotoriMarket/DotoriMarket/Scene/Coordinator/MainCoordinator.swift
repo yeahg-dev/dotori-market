@@ -18,13 +18,17 @@ class MainCoordinator: Coordinator {
     
     func start() {
         let tabBarController = UITabBarController()
-        let tabBars: [TabBar] = [.myDotori, .productList, .liked]
-        let tabControllers = tabBars.map { $0.components() }
-            .map { $0.tabViewController() }
-        tabBarController.setViewControllers(tabControllers, animated: false)
+        let tabBars: [TabBar] = [.myProduct, .productList, .liked]
+        self.childCoordinator = tabBars.map { $0.coordinator() }
         
-        navigationController.setNavigationBarHidden(true, animated: false)
-        navigationController.pushViewController(tabBarController, animated: false)
+        let tabViewControllerss = tabBars.map { $0.navigationControllerWithTabBarItem()}
+        
+        tabBarController.setViewControllers(
+            tabViewControllerss,
+            animated: false)
+        
+        self.navigationController.setNavigationBarHidden(true, animated: false)
+        self.navigationController.pushViewController(tabBarController, animated: false)
     }
     
 }
