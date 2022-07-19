@@ -19,7 +19,6 @@ class ProductListCoordinator: Coordinator {
     
     func start() {
         let productListVC = ProductCollectionViewController.make(coordinator: self)
-        self.navigationController.setNavigationBarHidden(true, animated: false)
         self.navigationController.pushViewController(productListVC,
                                                      animated: false)
     }
@@ -30,6 +29,18 @@ class ProductListCoordinator: Coordinator {
         self.navigationController.setNavigationBarHidden(false, animated: false)
         self.navigationController.pushViewController(productDetailVC,
                                                      animated: true)
+    }
+    
+    func toggleViewMode(from vc: UIViewController) {
+        if vc.className == ProductCollectionViewController.className {
+            let productListVC = ProductTableViewController.make(coordinator: self)
+            self.navigationController.setViewControllers([productListVC],
+                                                         animated: false)
+        } else {
+            let productListVC = ProductCollectionViewController.make(coordinator: self)
+            self.navigationController.setViewControllers([productListVC],
+                                                         animated: false)
+        }
     }
     
     func childDidFinish(_ child: Coordinator?){

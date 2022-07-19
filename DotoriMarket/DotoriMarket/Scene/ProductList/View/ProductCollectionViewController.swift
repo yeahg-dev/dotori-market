@@ -41,6 +41,7 @@ final class ProductCollectionViewController: UICollectionViewController {
         self.setUpCollectionView()
         self.configureLoadingIndicator()
         self.configureRefreshControl()
+        self.confiureNavigationItem()
         self.bindViewModel()
     }
     
@@ -121,6 +122,21 @@ final class ProductCollectionViewController: UICollectionViewController {
 
     private func configureRefreshControl() {
         self.collectionView.refreshControl = UIRefreshControl()
+    }
+    
+    private func confiureNavigationItem() {
+        let toggleViewModeButton = UIBarButtonItem(
+            image: UIImage(systemName: "list.dash"),
+            style: .plain,
+            target: self,
+            action: #selector(toggleViewMode))
+        self.navigationItem.setRightBarButton(toggleViewModeButton, animated: false)
+        
+        self.navigationItem.title = "상품 보기"
+    }
+    
+    @objc func toggleViewMode() {
+        coordinator?.toggleViewMode(from: self)
     }
 
     // MARK: - Present Alert

@@ -46,12 +46,7 @@ final class ProductDetailViewController: UIViewController {
         self.configureScrollViewdelegate()
         self.bindViewModel()
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-    }
-    
+ 
     // MARK: - binding
     
     func bindViewModel() {

@@ -18,8 +18,19 @@ final class ProductTableViewController: UITableViewController {
     
     // MARK: - Property
     
+    private var coordinator: ProductListCoordinator?
+    
     private let disposeBag = DisposeBag()
     private let viewModel = ProductListSceneViewModel()
+    
+    // MARK: - Load from Storyboard
+    
+    static func make(coordinator: ProductListCoordinator) -> ProductTableViewController {
+        let productListVC = UIStoryboard.initiateViewController(ProductTableViewController.self)
+        productListVC.coordinator = coordinator
+        return productListVC
+    }
+    
     
     // MARK: - View Life Cycle
     
@@ -32,6 +43,7 @@ final class ProductTableViewController: UITableViewController {
         self.configureLoadingIndicator()
         self.configureRefreshControl()
         self.tableView.dataSource = nil
+        self.confiureNavigationItem()
         self.bindViewModel()
     }
     
@@ -98,6 +110,23 @@ final class ProductTableViewController: UITableViewController {
     private func configureRefreshControl() {
         self.tableView.refreshControl = UIRefreshControl()
     }
+    
+    
+    private func confiureNavigationItem() {
+        let toggleViewModeButton = UIBarButtonItem(
+            image: UIImage(systemName: "squareshape.split.2x2"),
+            style: .plain,
+            target: self,
+            action: #selector(toggleViewMode))
+        self.navigationItem.setRightBarButton(toggleViewModeButton, animated: false)
+        
+        self.navigationItem.title = "상품 보기"
+    }
+    
+    @objc func toggleViewMode() {
+        coordinator?.toggleViewMode(from: self)
+    }
+
     
     // MARK: - Transition View
     
