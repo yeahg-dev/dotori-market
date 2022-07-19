@@ -47,6 +47,11 @@ final class ProductDetailViewController: UIViewController {
         self.bindViewModel()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
     // MARK: - binding
     
     func bindViewModel() {
@@ -127,9 +132,28 @@ final class ProductDetailViewController: UIViewController {
     }
     
     private func configureNavigationItem() {
-        let composeButton = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(presentProductModificationView))
+        let leftButton = UIBarButtonItem(
+            image: UIImage(systemName: "chevron.backward"),
+            landscapeImagePhone: nil,
+            style: .plain,
+            target: self,
+            action: #selector(pop))
+        self.navigationItem.setLeftBarButton(leftButton, animated: true)
+    
+    }
+    
+    private func configrueEditButton() {
+        let composeButton = UIBarButtonItem(
+            barButtonSystemItem: .compose,
+            target: self,
+            action: #selector(presentProductModificationView))
         self.navigationItem.setRightBarButton(composeButton, animated: true)
     }
+    
+    @objc func pop() {
+        self.navigationController?.popViewController(animated: true)
+    }
+
     
     private func layoutImagePageControl() {
         guard let productImageCollectionView = self.productImageCollectionView else {

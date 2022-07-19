@@ -9,6 +9,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    var mainCooridinator: Coordinator?
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -21,6 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let mainCooordinator = MainCoordinator(
             navigationController: navigationController)
+        mainCooridinator = mainCooordinator
         mainCooordinator.start()
     }
 

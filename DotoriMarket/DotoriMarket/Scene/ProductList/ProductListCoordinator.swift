@@ -32,6 +32,19 @@ class ProductListCoordinator: Coordinator {
                                                      animated: true)
     }
     
+    func childDidFinish(_ child: Coordinator?){
+        guard let child = child else {
+            return
+        }
+
+        for (index, coordinator) in self.childCoordinator.enumerated() {
+            if coordinator === child {
+                self.childCoordinator.remove(at: index)
+                break
+            }
+        }
+    }
+    
 }
 
 extension ProductListCoordinator: TabCoordinator {
