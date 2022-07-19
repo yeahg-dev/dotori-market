@@ -17,9 +17,22 @@ final class ProductCollectionViewController: UICollectionViewController {
     private let loadingIndicator = UIActivityIndicatorView()
     
     // MARK: - Property
+    private var coordinator: ProductListCoordinator?
     
     private let viewModel = ProductListSceneViewModel()
     private let disposeBag = DisposeBag()
+    
+    // MARK: - Load from Storyboard
+    
+    static func make(coordinator: ProductListCoordinator) -> ProductCollectionViewController {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let productListViewController = storyboard.instantiateViewController(
+            withIdentifier: "ProductCollectionViewController") as? ProductCollectionViewController else {
+            return ProductCollectionViewController()
+        }
+        productListViewController.coordinator = coordinator
+        return productListViewController
+    }
     
     // MARK: - View Life Cycle
     
@@ -78,7 +91,7 @@ final class ProductCollectionViewController: UICollectionViewController {
         
         output.pushProductDetailView
             .drive(onNext:{ [weak self] productID in
-                self?.pushProductDetailView(of: productID) })
+                self?.coordinator?.pushProuductDetail(of: productID) })
             .disposed(by: disposeBag)
     }
     
@@ -112,16 +125,6 @@ final class ProductCollectionViewController: UICollectionViewController {
 
     private func configureRefreshControl() {
         self.collectionView.refreshControl = UIRefreshControl()
-    }
-
-    // MARK: - Transition View
-    
-    private func pushProductDetailView(of productID: Int) {
-        guard let productDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "ProductDetailViewController") as? ProductDetailViewController else {
-            return
-        }
-        productDetailVC.setProduct(productID)
-        self.navigationController?.pushViewController(productDetailVC, animated: true)
     }
 
     // MARK: - Present Alert
