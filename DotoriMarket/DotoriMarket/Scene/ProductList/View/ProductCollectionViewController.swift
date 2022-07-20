@@ -19,7 +19,7 @@ final class ProductCollectionViewController: UICollectionViewController {
     // MARK: - Property
     private var coordinator: ProductListCoordinator?
     
-    private let viewModel = ProductListSceneViewModel(usecase: AllProductListUsecase())
+    private let viewModel = ProductListSceneViewModel(usecase: AllProductGridUsecase())
     private let disposeBag = DisposeBag()
     
     // MARK: - Load from Storyboard

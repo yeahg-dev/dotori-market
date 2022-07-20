@@ -12,6 +12,7 @@
 		632493082887A2CE00502DBE /* NavigationBarComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632493072887A2CE00502DBE /* NavigationBarComponent.swift */; };
 		6324930D2887A9F300502DBE /* ProductListUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6324930C2887A9F300502DBE /* ProductListUsecase.swift */; };
 		6324930F2887F26A00502DBE /* AllProductListUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6324930E2887F26A00502DBE /* AllProductListUsecase.swift */; };
+		632493112887F88600502DBE /* AllProductGridUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632493102887F88600502DBE /* AllProductGridUsecase.swift */; };
 		632ADA5328607F77000B318B /* ProductRegisterationSceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632ADA5228607F77000B318B /* ProductRegisterationSceneViewModel.swift */; };
 		632B9FFD27955A8F0099E121 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632B9FFC27955A8F0099E121 /* NetworkTests.swift */; };
 		63471CD727993E2600D50E7B /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63471CD627993E2600D50E7B /* UITableView+Extension.swift */; };
@@ -124,6 +125,7 @@
 		632493072887A2CE00502DBE /* NavigationBarComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarComponent.swift; sourceTree = "<group>"; };
 		6324930C2887A9F300502DBE /* ProductListUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListUsecase.swift; sourceTree = "<group>"; };
 		6324930E2887F26A00502DBE /* AllProductListUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllProductListUsecase.swift; sourceTree = "<group>"; };
+		632493102887F88600502DBE /* AllProductGridUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllProductGridUsecase.swift; sourceTree = "<group>"; };
 		632ADA5228607F77000B318B /* ProductRegisterationSceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegisterationSceneViewModel.swift; sourceTree = "<group>"; };
 		632B9FFC27955A8F0099E121 /* NetworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
 		63471CD627993E2600D50E7B /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 			children = (
 				6324930C2887A9F300502DBE /* ProductListUsecase.swift */,
 				6324930E2887F26A00502DBE /* AllProductListUsecase.swift */,
+				632493102887F88600502DBE /* AllProductGridUsecase.swift */,
 			);
 			path = Usecase;
 			sourceTree = "<group>";
@@ -831,6 +834,7 @@
 				63D97B6F27842307009E2516 /* CurrencyResponse.swift in Sources */,
 				6396C244287442E60076356D /* ProductDetailResponse.swift in Sources */,
 				63A2029D2785447E003A1112 /* ProductDetail.swift in Sources */,
+				632493112887F88600502DBE /* AllProductGridUsecase.swift in Sources */,
 				6365F48C286755B000E0498E /* ProductDetailSceneViewModel.swift in Sources */,
 				634D897E287C4CF2005B3661 /* ProductListSceneAlertViewModel.swift in Sources */,
 				639358D22786C5B500412958 /* MarketAPIURL.swift in Sources */,
