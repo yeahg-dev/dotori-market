@@ -26,6 +26,7 @@ class MainCoordinator: Coordinator {
         tabBarController.setViewControllers(
             tabViewControllerss,
             animated: false)
+        tabBarController.selectedIndex = 1
         
         self.navigationController.setNavigationBarHidden(true, animated: false)
         self.navigationController.pushViewController(tabBarController, animated: false)
