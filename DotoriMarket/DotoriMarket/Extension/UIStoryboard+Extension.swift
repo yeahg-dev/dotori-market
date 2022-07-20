@@ -21,6 +21,8 @@ enum StoryboardType {
 }
 
 extension UIStoryboard {
+    
+    static let main = UIStoryboard(name: StoryboardType.main.name, bundle: nil)
 
     class func initiateViewController<T: UIViewController>(_ type: T.Type, storyboardType: StoryboardType = .main) -> T {
         let storyboard = UIStoryboard(name: storyboardType.name, bundle: nil)

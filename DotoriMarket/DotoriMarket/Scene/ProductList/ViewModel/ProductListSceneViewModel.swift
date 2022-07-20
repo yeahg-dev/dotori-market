@@ -13,7 +13,7 @@ import RxCocoa
 final class ProductListSceneViewModel {
     
     private var productListUsecase: ProductListUsecase
-    private let APIService = MarketAPIService()
+    
     private var productsViewModels: [ProductViewModel] = []
     private let paginationBuffer = 3
     private var currentPage: Int = 0
@@ -47,7 +47,9 @@ final class ProductListSceneViewModel {
         
         let navigationBarComponent = self.productListUsecase
             .fetchNavigationBarComponent()
-            .asDriver(onErrorJustReturn: NavigationBarComponent(title: "보기", rightBarButtonImageSystemName: "squareshape.split.2x2"))
+            .asDriver(onErrorJustReturn: NavigationBarComponent(
+                title: "보기",
+                rightBarButtonImageSystemName: "squareshape.split.2x2"))
         
         let viewWillAppear = input.viewWillAppear
             .do(onNext: { self.resetPage()

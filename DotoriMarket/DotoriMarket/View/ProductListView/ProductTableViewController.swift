@@ -21,16 +21,21 @@ final class ProductTableViewController: UITableViewController {
     private var coordinator: ProductListCoordinator?
     
     private let disposeBag = DisposeBag()
-    private let viewModel = ProductListSceneViewModel(usecase: AllProductListUsecase())
+    private let viewModel: ProductListSceneViewModel
     
-    // MARK: - Load from Storyboard
+    // MARK: - Initializer
     
-    static func make(coordinator: ProductListCoordinator) -> ProductTableViewController {
-        let productListVC = UIStoryboard.initiateViewController(ProductTableViewController.self)
-        productListVC.coordinator = coordinator
-        return productListVC
+    init?(viewModel: ProductListSceneViewModel,
+          coordinator: ProductListCoordinator,
+          coder: NSCoder) {
+        self.viewModel = viewModel
+        self.coordinator = coordinator
+        super.init(coder: coder)
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - View Life Cycle
     
@@ -59,6 +64,11 @@ final class ProductTableViewController: UITableViewController {
             listViewDidStartRefresh: refreshControl.rx.controlEvent(.valueChanged).asObservable(),
             cellDidSelectedAt: self.tableView.rx.itemSelected.map{ $0.row })
         let output = self.viewModel.transform(input: input)
+        
+        output.navigationBarComponent
+            .drive(onNext: {[weak self] component in
+                self?.confiureNavigationItem(with: component) })
+            .disposed(by: disposeBag)
         
         output.willStartLoadingIndicator
             .drive{ [weak self] _ in
@@ -110,11 +120,21 @@ final class ProductTableViewController: UITableViewController {
         self.tableView.refreshControl = UIRefreshControl()
     }
     
+    private func confiureNavigationItem(with navigationBarComponent: NavigationBarComponent) {
+        let toggleViewModeButton = UIBarButtonItem(
+            image: UIImage(systemName: navigationBarComponent.rightBarButtonImageSystemName),
+            style: .plain,
+            target: self,
+            action: #selector(toggleViewMode))
+        self.navigationItem.setRightBarButton(toggleViewModeButton, animated: false)
+        
+        self.navigationItem.title = navigationBarComponent.title
+    }
+ 
     @objc func toggleViewMode() {
         coordinator?.toggleViewMode(from: self)
     }
 
-    
     // MARK: - Transition View
     
     private func pushProductDetailView(of productID: Int) {

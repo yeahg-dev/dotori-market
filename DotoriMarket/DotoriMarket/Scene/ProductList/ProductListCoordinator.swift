@@ -33,7 +33,9 @@ class ProductListCoordinator: Coordinator {
     
     func toggleViewMode(from vc: UIViewController) {
         if vc.className == ProductCollectionViewController.className {
-            let productListVC = ProductTableViewController.make(coordinator: self)
+            let productListVC = ProductListViewFactory().make(
+                viewType: .allProduct,
+                coordinator: self)
             self.navigationController.setViewControllers([productListVC],
                                                          animated: false)
         } else {
