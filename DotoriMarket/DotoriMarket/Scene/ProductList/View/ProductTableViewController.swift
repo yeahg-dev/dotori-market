@@ -21,7 +21,7 @@ final class ProductTableViewController: UITableViewController {
     private var coordinator: ProductListCoordinator?
     
     private let disposeBag = DisposeBag()
-    private let viewModel = ProductListSceneViewModel()
+    private let viewModel = ProductListSceneViewModel(usecase: AllProductListUsecase())
     
     // MARK: - Load from Storyboard
     

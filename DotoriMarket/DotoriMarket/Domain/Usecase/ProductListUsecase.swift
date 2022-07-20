@@ -14,7 +14,7 @@ protocol ProductListUsecase {
     
     func fetchPrdoucts(
         pageNo: Int,
-        itemsPerPage: Int) -> Observable<[ProductViewModel]>
+        itemsPerPage: Int) -> Observable<([ProductViewModel], Bool)>
     
     func fetchNavigationBarComponent() -> Observable<NavigationBarComponent>
     

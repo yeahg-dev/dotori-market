@@ -12,12 +12,17 @@ import RxCocoa
 
 final class ProductListSceneViewModel {
     
+    private var productListUsecase: ProductListUsecase
     private let APIService = MarketAPIService()
     private var productsViewModels: [ProductViewModel] = []
     private let paginationBuffer = 3
     private var currentPage: Int = 0
     private let itemsPerPage = 20
     private var hasNextPage: Bool = false
+    
+    init(usecase: ProductListUsecase) {
+        self.productListUsecase = usecase
+    }
     
     struct Input {
         let viewWillAppear: Observable<Void>
@@ -40,10 +45,9 @@ final class ProductListSceneViewModel {
         let willStartLoadingIndicator = PublishSubject<Void>()
         let willEndLoadingIndicator = PublishSubject<Void>()
         
-        let navigationBarComponent = Driver.just(
-            NavigationBarComponent(
-                title: "상품 보기",
-                rightBarButtonImageSystemName: "squareshape.split.2x2"))
+        let navigationBarComponent = self.productListUsecase
+            .fetchNavigationBarComponent()
+            .asDriver(onErrorJustReturn: NavigationBarComponent(title: "보기", rightBarButtonImageSystemName: "squareshape.split.2x2"))
         
         let viewWillAppear = input.viewWillAppear
             .do(onNext: { self.resetPage()
@@ -61,23 +65,21 @@ final class ProductListSceneViewModel {
         let networkErrorAlert = PublishSubject<AlertViewModel>()
                 
         let products = Observable.merge(viewWillAppear, pagination, listViewDidStartRefresh)
-            .flatMap{ _ -> Observable<ProductsListPageResponse> in
-                let request = ProductsListPageRequest(pageNo: self.currentPage + 1, itemsPerPage: 20)
-                return self.APIService.requestRx(request) }
+            .flatMap{ _ -> Observable<([ProductViewModel], Bool)> in
+                self.productListUsecase.fetchPrdoucts(
+                    pageNo: self.currentPage + 1,
+                    itemsPerPage: 20) }
             .do(onError: { _ in
                 networkErrorAlert.onNext(NetworkErrorAlertViewModel() as AlertViewModel)
             } )
-            .map{ response in response.toDomain() }
-            .do(onNext: { listPage in
+            .do(onNext: { (viewModels, hasNextPage) in
                 self.currentPage += 1
-                self.hasNextPage = listPage.hasNext })
-            .map{ (listPage: ProductListPage) -> [ProductViewModel] in
-                let products = listPage.pages.map { product in
-                    ProductViewModel(product: product)}
-                self.productsViewModels.append(contentsOf: products)
+                self.hasNextPage = hasNextPage })
+            .map{ (viewModels, hasNextPage) in
+                self.productsViewModels.append(contentsOf: viewModels)
                 return self.productsViewModels }
             .do(onNext: { _ in willEndLoadingIndicator.onNext(()) })
-            .asDriver(onErrorJustReturn: [])
+            .asDriver(onErrorJustReturn: Array<ProductViewModel>())
         
         let endRefresh = products.map { _ in }.asDriver(onErrorJustReturn: ())
         
