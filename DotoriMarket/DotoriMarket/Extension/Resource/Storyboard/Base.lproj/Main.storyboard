@@ -215,7 +215,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="852"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="KU3-z8-kKa">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="953.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="889.5"/>
                                         <subviews>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="UjT-Jt-0gl">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="414"/>
@@ -257,10 +257,10 @@
                                                 </cells>
                                             </collectionView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ckn-FL-pw8">
-                                                <rect key="frame" x="0.0" y="414" width="414" height="539.5"/>
+                                                <rect key="frame" x="0.0" y="414" width="414" height="475.5"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Ajx-BT-1Cl">
-                                                        <rect key="frame" x="15" y="10" width="384" height="519.5"/>
+                                                        <rect key="frame" x="15" y="10" width="384" height="455.5"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="상품명" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B5p-yx-wy7">
                                                                 <rect key="frame" x="0.0" y="0.0" width="49.5" height="23"/>
@@ -298,7 +298,7 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="qcd-Vu-SK0">
-                                                                <rect key="frame" x="0.0" y="107" width="384" height="412.5"/>
+                                                                <rect key="frame" x="0.0" y="107" width="384" height="348.5"/>
                                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                                 <color key="textColor" systemColor="labelColor"/>
@@ -329,18 +329,25 @@
                                 <viewLayoutGuide key="contentLayoutGuide" id="FeW-hR-noL"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="pXQ-Ys-4Y8"/>
                             </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1c5-zM-MK5">
+                                <rect key="frame" x="354" y="778" width="30" height="34"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="H2Y-dj-vlC"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="UjT-Jt-0gl" firstAttribute="width" secondItem="KU3-z8-kKa" secondAttribute="width" priority="999" id="0yS-AG-pC2"/>
                             <constraint firstItem="RyJ-h5-rKN" firstAttribute="width" secondItem="edW-4e-myx" secondAttribute="width" id="O3f-ua-Xaj"/>
+                            <constraint firstItem="H2Y-dj-vlC" firstAttribute="trailing" secondItem="1c5-zM-MK5" secondAttribute="trailing" constant="30" id="OEx-og-ORn"/>
                             <constraint firstItem="RyJ-h5-rKN" firstAttribute="leading" secondItem="H2Y-dj-vlC" secondAttribute="leading" id="aGw-qZ-8T0"/>
                             <constraint firstItem="RyJ-h5-rKN" firstAttribute="bottom" secondItem="edW-4e-myx" secondAttribute="bottom" id="bSs-Y2-Jyn"/>
                             <constraint firstItem="RyJ-h5-rKN" firstAttribute="top" secondItem="H2Y-dj-vlC" secondAttribute="top" id="cJc-Hw-y7a"/>
+                            <constraint firstItem="H2Y-dj-vlC" firstAttribute="bottom" secondItem="1c5-zM-MK5" secondAttribute="bottom" constant="50" id="zV5-q0-bvs"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="likeButton" destination="1c5-zM-MK5" id="6bh-CZ-Lmx"/>
                         <outlet property="productDescriptionTextView" destination="qcd-Vu-SK0" id="mVf-B2-aHR"/>
                         <outlet property="productDiscountRateLabel" destination="QcO-xA-mzv" id="eti-j1-ME6"/>
                         <outlet property="productImageCollectionView" destination="UjT-Jt-0gl" id="qHc-BC-lqC"/>
@@ -354,7 +361,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uDw-pO-kwo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1251" y="819"/>
+            <point key="canvasLocation" x="1250.7246376811595" y="818.97321428571422"/>
         </scene>
         <!--Product Registration View Controller-->
         <scene sceneID="MrP-Cb-goH">

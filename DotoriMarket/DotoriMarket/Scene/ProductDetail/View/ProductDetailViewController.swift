@@ -23,6 +23,7 @@ final class ProductDetailViewController: UIViewController {
     @IBOutlet private weak var productDiscountRateLabel: UILabel?
     @IBOutlet weak var productStockLabel: UILabel?
     @IBOutlet private weak var productDescriptionTextView: UITextView?
+    @IBOutlet weak var likeButton: UIButton?
     
     // MARK: - UI Property
     
@@ -45,6 +46,23 @@ final class ProductDetailViewController: UIViewController {
         self.layoutImagePageControl()
         self.configureScrollViewdelegate()
         self.bindViewModel()
+        self.configureLikeButton()
+        self.tabBarController?.tabBar.isHidden = true
+    }
+ 
+    private func configureLikeButton() {
+        let image = UIImage(systemName: "heart.circle.fill")?
+            .resizeImageTo(size: CGSize(width: 55, height: 55))
+        let selectedImage = UIImage(systemName: "heart.circle")?
+            .resizeImageTo(size: CGSize(width: 55, height: 55))
+        self.likeButton?.setImage(image, for: .normal)
+        self.likeButton?.setImage(selectedImage, for: .selected)
+        self.likeButton?.titleLabel?.text = nil
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.tabBarController?.tabBar.isHidden = false
     }
  
     // MARK: - binding
