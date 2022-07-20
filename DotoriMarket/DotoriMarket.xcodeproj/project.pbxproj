@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6308660827901A1A0092991A /* ProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6308660727901A1A0092991A /* ProductCollectionViewCell.swift */; };
 		631AD76928688215002E6416 /* ProductDetailEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 631AD76828688215002E6416 /* ProductDetailEditViewModel.swift */; };
+		632493082887A2CE00502DBE /* NavigationBarComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632493072887A2CE00502DBE /* NavigationBarComponent.swift */; };
 		632ADA5328607F77000B318B /* ProductRegisterationSceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632ADA5228607F77000B318B /* ProductRegisterationSceneViewModel.swift */; };
 		632B9FFD27955A8F0099E121 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632B9FFC27955A8F0099E121 /* NetworkTests.swift */; };
 		63471CD727993E2600D50E7B /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63471CD627993E2600D50E7B /* UITableView+Extension.swift */; };
@@ -118,6 +119,7 @@
 /* Begin PBXFileReference section */
 		6308660727901A1A0092991A /* ProductCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCollectionViewCell.swift; sourceTree = "<group>"; };
 		631AD76828688215002E6416 /* ProductDetailEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailEditViewModel.swift; sourceTree = "<group>"; };
+		632493072887A2CE00502DBE /* NavigationBarComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarComponent.swift; sourceTree = "<group>"; };
 		632ADA5228607F77000B318B /* ProductRegisterationSceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegisterationSceneViewModel.swift; sourceTree = "<group>"; };
 		632B9FFC27955A8F0099E121 /* NetworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
 		63471CD627993E2600D50E7B /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
@@ -285,6 +287,7 @@
 			children = (
 				63DA95AA285205E9004CB9C1 /* MarketCommon.swift */,
 				639A28B02879E4D600BE7DC8 /* AlertViewModel.swift */,
+				632493072887A2CE00502DBE /* NavigationBarComponent.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -869,6 +872,7 @@
 				C1C4FFB2279A7AFB00294962 /* ProductRegistrationViewController.swift in Sources */,
 				63DA95B1285219D7004CB9C1 /* ProductEidtViewController.swift in Sources */,
 				63BD69882885ADED0011ECAE /* ProductListTabBarItem.swift in Sources */,
+				632493082887A2CE00502DBE /* NavigationBarComponent.swift in Sources */,
 				639A28AF2879963300BE7DC8 /* SellerInformation.swift in Sources */,
 				C1CBA3D8278F086200BAC0B8 /* ProductCollectionViewController.swift in Sources */,
 				63ED8DE1279FDB9D00932E87 /* UITableViewController+Extension.swift in Sources */,

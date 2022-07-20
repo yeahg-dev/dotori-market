@@ -41,7 +41,6 @@ final class ProductCollectionViewController: UICollectionViewController {
         self.setUpCollectionView()
         self.configureLoadingIndicator()
         self.configureRefreshControl()
-        self.confiureNavigationItem()
         self.bindViewModel()
     }
     
@@ -58,6 +57,11 @@ final class ProductCollectionViewController: UICollectionViewController {
             listViewDidStartRefresh: refreshControl.rx.controlEvent(.valueChanged).asObservable(),
             cellDidSelectedAt: self.collectionView.rx.itemSelected.map{ $0.row })
         let output = self.viewModel.transform(input: input)
+        
+        output.navigationBarComponent
+            .drive(onNext: {[weak self] component in
+                self?.confiureNavigationItem(with: component) })
+            .disposed(by: disposeBag)
         
         output.willStartLoadingIndicator
             .drive(onNext:{ [weak self] _ in
@@ -124,15 +128,15 @@ final class ProductCollectionViewController: UICollectionViewController {
         self.collectionView.refreshControl = UIRefreshControl()
     }
     
-    private func confiureNavigationItem() {
+    private func confiureNavigationItem(with navigationBarComponent: NavigationBarComponent) {
         let toggleViewModeButton = UIBarButtonItem(
-            image: UIImage(systemName: "list.dash"),
+            image: UIImage(systemName: navigationBarComponent.rightBarButtonImageSystemName),
             style: .plain,
             target: self,
             action: #selector(toggleViewMode))
         self.navigationItem.setRightBarButton(toggleViewModeButton, animated: false)
         
-        self.navigationItem.title = "상품 보기"
+        self.navigationItem.title = navigationBarComponent.title
     }
     
     @objc func toggleViewMode() {

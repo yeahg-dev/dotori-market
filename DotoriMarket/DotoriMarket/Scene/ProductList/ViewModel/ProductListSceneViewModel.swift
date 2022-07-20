@@ -27,6 +27,7 @@ final class ProductListSceneViewModel {
     }
     
     struct Output {
+        let navigationBarComponent: Driver<NavigationBarComponent>
         let willStartLoadingIndicator: Driver<Void>
         let willEndLoadingIndicator: Driver<Void>
         let products: Driver<[ProductViewModel]>
@@ -38,6 +39,11 @@ final class ProductListSceneViewModel {
     func transform(input: Input) -> Output {
         let willStartLoadingIndicator = PublishSubject<Void>()
         let willEndLoadingIndicator = PublishSubject<Void>()
+        
+        let navigationBarComponent = Driver.just(
+            NavigationBarComponent(
+                title: "상품 보기",
+                rightBarButtonImageSystemName: "squareshape.split.2x2"))
         
         let viewWillAppear = input.viewWillAppear
             .do(onNext: { self.resetPage()
@@ -81,8 +87,9 @@ final class ProductListSceneViewModel {
                 return product.id }
             .do(onNext: { _ in self.resetPage() })
             .asDriver(onErrorJustReturn: 0)
-                
-        return Output(willStartLoadingIndicator: willStartLoadingIndicator.asDriver(onErrorJustReturn: ()),
+        
+        return Output(navigationBarComponent: navigationBarComponent,
+                      willStartLoadingIndicator: willStartLoadingIndicator.asDriver(onErrorJustReturn: ()),
                       willEndLoadingIndicator: willEndLoadingIndicator.asDriver(onErrorJustReturn: ()),
                       products: products,
                       listViewWillEndRefresh: endRefresh,
