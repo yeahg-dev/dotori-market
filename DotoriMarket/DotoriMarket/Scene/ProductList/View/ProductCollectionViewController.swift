@@ -17,14 +17,14 @@ final class ProductCollectionViewController: UICollectionViewController {
     private let loadingIndicator = UIActivityIndicatorView()
     
     // MARK: - Property
-    private var coordinator: ProductListCoordinator?
+    private var coordinator: AllProductListCoordinator?
     
     private let viewModel = ProductListSceneViewModel(usecase: AllProductGridUsecase())
     private let disposeBag = DisposeBag()
     
     // MARK: - Load from Storyboard
     
-    static func make(coordinator: ProductListCoordinator) -> ProductCollectionViewController {
+    static func make(coordinator: AllProductListCoordinator) -> ProductCollectionViewController {
         let productListVC = UIStoryboard.initiateViewController(ProductCollectionViewController.self)
         productListVC.coordinator = coordinator
         return productListVC
@@ -140,7 +140,7 @@ final class ProductCollectionViewController: UICollectionViewController {
     }
     
     @objc func toggleViewMode() {
-        coordinator?.toggleViewMode(from: self)
+        coordinator?.rightNavigationItemDidTapped(from: self)
     }
 
     // MARK: - Present Alert

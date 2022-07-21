@@ -24,12 +24,11 @@ struct LikeProductRecorder {
     }
     
     func recordUnlikeProduct(productID: Int) {
-        let unlikeProduct = LikeProduct()
-        unlikeProduct.id = Int64(productID)
-        unlikeProduct.isLike = false
-        
+        let products = realm.objects(LikeProduct.self)
+        let likedProducts = products.where { $0.id == Int64(productID) }[0]
+      
         try? realm.write {
-            realm.add(unlikeProduct)
+            likedProducts.isLike = false
         }
     }
     

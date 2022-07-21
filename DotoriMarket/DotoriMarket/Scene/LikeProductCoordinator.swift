@@ -1,13 +1,14 @@
 //
-//  ProductListCoordinator.swift
+//  LikeProductCoordinator.swift
 //  DotoriMarket
 //
-//  Created by 1 on 2022/07/19.
+//  Created by 1 on 2022/07/21.
 //
+
 
 import UIKit
 
-class ProductListCoordinator: Coordinator {
+class LikeProductListCoordinator: ProductListCoordinator {
     
     var childCoordinator = [Coordinator]()
     
@@ -18,7 +19,9 @@ class ProductListCoordinator: Coordinator {
     }
     
     func start() {
-        let productListVC = ProductCollectionViewController.make(coordinator: self)
+        let productListVC = ProductListViewFactory().make(
+            viewType: .likedProuduct,
+            coordinator: self)
         self.navigationController.pushViewController(productListVC,
                                                      animated: false)
     }
@@ -31,23 +34,13 @@ class ProductListCoordinator: Coordinator {
                                                      animated: true)
     }
     
-    func toggleViewMode(from vc: UIViewController) {
-        if vc.className == ProductCollectionViewController.className {
-            let productListVC = ProductListViewFactory().make(
-                viewType: .allProduct,
-                coordinator: self)
-            self.navigationController.setViewControllers([productListVC],
-                                                         animated: false)
-        } else {
-            let productListVC = ProductCollectionViewController.make(coordinator: self)
-            self.navigationController.setViewControllers([productListVC],
-                                                         animated: false)
-        }
+    func rightNavigationItemDidTapped(from: UIViewController) {
+        // no action needed
     }
-    
+
 }
 
-extension ProductListCoordinator: TabCoordinator {
+extension LikeProductListCoordinator: TabCoordinator {
     
     func tabViewController() -> UINavigationController {
         self.start()

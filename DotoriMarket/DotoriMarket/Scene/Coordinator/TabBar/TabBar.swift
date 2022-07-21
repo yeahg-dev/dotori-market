@@ -16,11 +16,11 @@ enum TabBar {
     func coordinator() -> TabCoordinator {
         switch self {
         case .productList:
-            return ProductListCoordinator()
+            return AllProductListCoordinator()
         case .myProduct:
-            return ProductListCoordinator()
+            return AllProductListCoordinator()
         case .liked:
-            return ProductListCoordinator()
+            return LikeProductListCoordinator()
         }
     }
     

@@ -132,7 +132,7 @@ final class ProductTableViewController: UITableViewController {
     }
  
     @objc func toggleViewMode() {
-        coordinator?.toggleViewMode(from: self)
+        coordinator?.rightNavigationItemDidTapped(from: self)
     }
 
     // MARK: - Transition View
