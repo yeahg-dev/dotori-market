@@ -11,12 +11,7 @@ import RealmSwift
 
 class LikeProduct: Object {
     
-    var id: Int
-    var isLike: Bool
-    
-    init(id: Int, isLike: Bool) {
-        self.id = id
-        self.isLike = isLike
-    }
-    
+    @objc dynamic var id: Int64 = 0
+    @objc dynamic var isLike: Bool = false
+ 
 }

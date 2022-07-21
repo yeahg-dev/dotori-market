@@ -13,8 +13,10 @@ struct LikeProductRecorder {
     
     let realm = try! Realm()
     
-    func recordLikeProduct(producutID: Int) {
-        let likeProduct = LikeProduct(id: producutID, isLike: true)
+    func recordLikeProduct(productID: Int) {
+        let likeProduct = LikeProduct()
+        likeProduct.id = Int64(productID)
+        likeProduct.isLike = true
         
         try? realm.write {
             realm.add(likeProduct)
@@ -22,7 +24,9 @@ struct LikeProductRecorder {
     }
     
     func recordUnlikeProduct(productID: Int) {
-        let unlikeProduct = LikeProduct(id: productID, isLike: false)
+        let unlikeProduct = LikeProduct()
+        unlikeProduct.id = Int64(productID)
+        unlikeProduct.isLike = false
         
         try? realm.write {
             realm.add(unlikeProduct)
@@ -32,15 +36,15 @@ struct LikeProductRecorder {
     func readlikeProductIDs() -> [Int] {
         let products = realm.objects(LikeProduct.self)
 
-        let likedProducts = Array(products.filter("isLike == true"))
+        let likedProducts = Array(products.filter("isLike == YES"))
         
-        return likedProducts.map{ $0.id }
+        return likedProducts.compactMap{ $0.id }.map{ Int($0) }
     }
     
     func readIsLike(productID: Int) -> Bool {
         let products = realm.objects(LikeProduct.self)
         
-        let product = Array(products.filter("id == %@")).first
+        let product = Array(products.where { $0.id == Int64(productID) }).first
         
         return product?.isLike ?? false
     }

@@ -13,6 +13,8 @@ import RxCocoa
 final class ProductDetailSceneViewModel {
     
     private var APIService: APIServcie
+    private let likeProductRecorder = LikeProductRecorder()
+    private let disposeBag = DisposeBag()
     
     init(APIService: APIServcie) {
         self.APIService = APIService
@@ -20,6 +22,8 @@ final class ProductDetailSceneViewModel {
     
     struct Input {
         let viewWillAppear: Observable<Int>
+        let productDidLike: Observable<Int>
+        let productDidUnlike: Observable<Int>
     }
     
     struct Output {
@@ -30,9 +34,20 @@ final class ProductDetailSceneViewModel {
         let productDiscountedRate: Driver<String?>
         let productStock: Driver<String>
         let productDescription: Driver<String>
+        let isLikeProduct: Driver<Bool>
     }
     
     func transform(input: Input) -> Output {
+        input.productDidLike
+            .subscribe{ productID in
+                self.likeProductRecorder.recordLikeProduct(productID: productID) }
+            .disposed(by: disposeBag)
+        
+        input.productDidUnlike
+            .subscribe { productID in
+                self.likeProductRecorder.recordUnlikeProduct(productID: productID) }
+            .disposed(by: disposeBag)
+
         let productDetail = input.viewWillAppear
             .map{ productID in
                 ProductDetailRequest(productID: productID) }
@@ -41,6 +56,12 @@ final class ProductDetailSceneViewModel {
             .map{ $0.toDomain() }
             .map{ ProductDetailViewModel(product: $0) }
             .share(replay: 1)
+        
+        let isLikeProduct = productDetail
+            .observe(on: MainScheduler.instance)
+            .map{ productDetail in
+                self.likeProductRecorder.readIsLike(productID: productDetail.id) }
+            .asDriver(onErrorJustReturn: false)
         
         let productName = productDetail.map{ $0.name }
             .asDriver(onErrorJustReturn: MarketCommon.downloadErrorPlacehodler.rawValue)
@@ -64,6 +85,7 @@ final class ProductDetailSceneViewModel {
                       prodcutSellingPrice: productSellingPrice,
                       productDiscountedRate: productDiscountedRate,
                       productStock: productStock,
-                      productDescription: prodcutDescription)
+                      productDescription: prodcutDescription,
+                      isLikeProduct: isLikeProduct)
     }
 }

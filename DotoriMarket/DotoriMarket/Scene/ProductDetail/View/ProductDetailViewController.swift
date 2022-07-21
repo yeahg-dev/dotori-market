@@ -36,6 +36,9 @@ final class ProductDetailViewController: UIViewController {
     private let viewModel = ProductDetailSceneViewModel(APIService: MarketAPIService())
     private let disposeBag = DisposeBag()
     
+    private let productDidLike = PublishSubject<Int>()
+    private let productDidUnlike = PublishSubject<Int>()
+    
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
@@ -48,16 +51,6 @@ final class ProductDetailViewController: UIViewController {
         self.bindViewModel()
         self.configureLikeButton()
         self.tabBarController?.tabBar.isHidden = true
-    }
- 
-    private func configureLikeButton() {
-        let image = UIImage(systemName: "heart.circle.fill")?
-            .resizeImageTo(size: CGSize(width: 55, height: 55))
-        let selectedImage = UIImage(systemName: "heart.circle")?
-            .resizeImageTo(size: CGSize(width: 55, height: 55))
-        self.likeButton?.setImage(image, for: .normal)
-        self.likeButton?.setImage(selectedImage, for: .selected)
-        self.likeButton?.titleLabel?.text = nil
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -73,13 +66,20 @@ final class ProductDetailViewController: UIViewController {
               let productSellingPriceLabel = self.productSellingPriceLabel,
               let productStockLabel = self.productStockLabel,
               let productDescriptionTextView = self.productDescriptionTextView,
-              let productID = self.productID else {
+              let productID = self.productID,
+              let likeButton = self.likeButton else {
             return
         }
         
         let input = ProductDetailSceneViewModel.Input(
-            viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in productID })
+            viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in productID },
+            productDidLike: self.productDidLike.asObservable(),
+            productDidUnlike: self.productDidUnlike.asObservable())
         let output = viewModel.transform(input: input)
+        
+        output.isLikeProduct
+            .drive(likeButton.rx.isSelected)
+            .disposed(by: disposeBag)
         
         output.prdouctName
             .drive(onNext:{ [weak self] name in
@@ -88,8 +88,9 @@ final class ProductDetailViewController: UIViewController {
             .disposed(by: disposeBag)
         
         output.productImagesURL
-            .drive(productImageCollectionView.rx.items(cellIdentifier: "PrdouctDetailCollectionViewCell",
-                                                           cellType: PrdouctDetailCollectionViewCell.self))
+            .drive(productImageCollectionView.rx.items(
+                cellIdentifier: "PrdouctDetailCollectionViewCell",
+                cellType: PrdouctDetailCollectionViewCell.self))
         { (_, element, cell) in
                 if let imageURL = URL(string: element) {
                     cell.fill(with: imageURL) } }
@@ -185,6 +186,32 @@ final class ProductDetailViewController: UIViewController {
     
     private func configureNavigationTitle(with title: String) {
         self.navigationItem.title = title
+    }
+    
+    private func configureLikeButton() {
+        let image = UIImage(systemName: "heart.circle.fill")?
+            .resizeImageTo(size: CGSize(width: 55, height: 55))
+        let selectedImage = UIImage(systemName: "heart.circle")?
+            .resizeImageTo(size: CGSize(width: 55, height: 55))
+        self.likeButton?.setImage(image, for: .normal)
+        self.likeButton?.setImage(selectedImage, for: .selected)
+        self.likeButton?.addTarget(
+            self,
+            action: #selector(likeButtonDidTapped(_:)),
+            for: .touchUpInside)
+        self.likeButton?.titleLabel?.text = nil
+    }
+    
+    @objc private func likeButtonDidTapped(_ sender: UIButton) {
+        guard let productID = self.productID else {
+            return
+        }
+        
+        if sender.isSelected {
+            self.productDidLike.onNext(productID)
+        } else {
+            self.productDidUnlike.onNext(productID)
+        }
     }
     
     // MARK: - API
