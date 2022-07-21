@@ -33,7 +33,16 @@ struct LikeProductRecorder {
         let products = realm.objects(LikeProduct.self)
 
         let likedProducts = Array(products.filter("isLike == true"))
+        
         return likedProducts.map{ $0.id }
+    }
+    
+    func readIsLike(productID: Int) -> Bool {
+        let products = realm.objects(LikeProduct.self)
+        
+        let product = Array(products.filter("id == %@")).first
+        
+        return product?.isLike ?? false
     }
     
 }
