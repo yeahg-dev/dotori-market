@@ -18,8 +18,8 @@ final class ProductCollectionViewCell: UICollectionViewCell {
     private var cancellableImageTask: Cancellable?
     
     private let invalidImage: UIImage = {
-        let invalidImage = UIImage(systemName: "xmark.icloud") ?? UIImage()
-        return invalidImage.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
+        let invalidImage = UIImage(systemName: "photo.fill") ?? UIImage()
+        return invalidImage.withTintColor(.systemBrown, renderingMode: .alwaysOriginal)
     }()
     
     override func awakeFromNib() {
