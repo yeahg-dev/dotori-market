@@ -10,7 +10,7 @@ import RxSwift
 
 class AllProductListUsecase: ProductListUsecase {
 
-    var service =  MarketAPIService()
+    let service =  MarketAPIService()
     
     func fetchPrdoucts(
         pageNo: Int,

@@ -33,7 +33,7 @@ final class ProductDetailViewController: UIViewController {
     // MARK: - Property
     
     private var productID: Int?
-    private let viewModel = ProductDetailSceneViewModel(APIService: MarketAPIService())
+    private let viewModel = ProductDetailSceneViewModel(usecase: LookProductDetaiUsecase())
     private let disposeBag = DisposeBag()
     
     private let productDidLike = PublishSubject<Int>()

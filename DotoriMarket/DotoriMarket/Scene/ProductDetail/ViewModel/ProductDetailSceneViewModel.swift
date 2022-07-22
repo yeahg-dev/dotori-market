@@ -12,12 +12,12 @@ import RxCocoa
 
 final class ProductDetailSceneViewModel {
     
-    private var APIService: APIServcie
-    private let likeProductRecorder = LikeProductRecorder()
+    private let usecase: LookProductDetaiUsecase
+    
     private let disposeBag = DisposeBag()
     
-    init(APIService: APIServcie) {
-        self.APIService = APIService
+    init(usecase: LookProductDetaiUsecase) {
+        self.usecase = usecase
     }
     
     struct Input {
@@ -40,27 +40,23 @@ final class ProductDetailSceneViewModel {
     func transform(input: Input) -> Output {
         input.productDidLike
             .subscribe{ productID in
-                self.likeProductRecorder.recordLikeProduct(productID: productID) }
+                self.usecase.recordLikeProduct(of: productID) }
             .disposed(by: disposeBag)
         
         input.productDidUnlike
             .subscribe { productID in
-                self.likeProductRecorder.recordUnlikeProduct(productID: productID) }
+                self.usecase.recordUnlikeProduct(of: productID)}
             .disposed(by: disposeBag)
 
         let productDetail = input.viewWillAppear
-            .map{ productID in
-                ProductDetailRequest(productID: productID) }
-            .flatMap{ request -> Observable<ProductDetailResponse> in
-                self.APIService.requestRx(request) }
-            .map{ $0.toDomain() }
-            .map{ ProductDetailViewModel(product: $0) }
+            .flatMap({ id in
+                self.usecase.fetchPrdouctDetail(of: id) })
             .share(replay: 1)
         
         let isLikeProduct = productDetail
             .observe(on: MainScheduler.instance)
             .map{ productDetail in
-                self.likeProductRecorder.readIsLike(productID: productDetail.id) }
+                self.usecase.readIsLikeProduct(of: productDetail.id) }
             .asDriver(onErrorJustReturn: false)
         
         let productName = productDetail.map{ $0.name }
