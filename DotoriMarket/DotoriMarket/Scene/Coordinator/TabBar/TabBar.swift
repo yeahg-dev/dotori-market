@@ -27,7 +27,7 @@ enum TabBar {
     func navigationControllerWithTabBarItem() -> UINavigationController {
         switch self {
         case .productList:
-            let tabBarItem = ProductListTabBarItem().tabBarItem
+            let tabBarItem = AllProductTabBarItem().tabBarItem
             let navigationVC = self.coordinator().tabViewController()
             navigationVC.tabBarItem = tabBarItem
             return navigationVC
@@ -37,7 +37,7 @@ enum TabBar {
             navigationVC.tabBarItem = tabBarItem
             return navigationVC
         case .liked:
-            let tabBarItem = LikedTabBarItem().tabBarItem
+            let tabBarItem = LikeProductTabBarItem().tabBarItem
             let navigationVC = self.coordinator().tabViewController()
             navigationVC.tabBarItem = tabBarItem
             return navigationVC

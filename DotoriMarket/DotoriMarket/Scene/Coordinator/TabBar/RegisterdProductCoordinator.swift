@@ -9,7 +9,7 @@ import Foundation
 
 import UIKit
 
-class RegisterdProductCoordinator: ProductListCoordinator {
+class RegisterdProductCoordinator: ProductListCoordinator, TabCoordinator {
     
     var childCoordinator = [Coordinator]()
     
@@ -47,13 +47,4 @@ class RegisterdProductCoordinator: ProductListCoordinator {
         self.navigationController.present(productRegisterationVC, animated: true)
     }
 
-}
-
-extension RegisterdProductCoordinator: TabCoordinator {
-    
-    func tabViewController() -> UINavigationController {
-        self.start()
-        return self.navigationController
-    }
-    
 }

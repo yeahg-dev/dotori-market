@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LikeProductListCoordinator: ProductListCoordinator {
+class LikeProductListCoordinator: ProductListCoordinator, TabCoordinator {
     
     var childCoordinator = [Coordinator]()
     
@@ -38,13 +38,4 @@ class LikeProductListCoordinator: ProductListCoordinator {
         // no action needed
     }
 
-}
-
-extension LikeProductListCoordinator: TabCoordinator {
-    
-    func tabViewController() -> UINavigationController {
-        self.start()
-        return self.navigationController
-    }
-    
 }

@@ -14,7 +14,7 @@ protocol ProductListCoordinator: Coordinator {
     
 }
 
-class AllProductListCoordinator: ProductListCoordinator {
+class AllProductListCoordinator: ProductListCoordinator, TabCoordinator {
     
     var childCoordinator = [Coordinator]()
     
@@ -50,15 +50,6 @@ class AllProductListCoordinator: ProductListCoordinator {
             self.navigationController.setViewControllers([productListVC],
                                                          animated: false)
         }
-    }
-    
-}
-
-extension AllProductListCoordinator: TabCoordinator {
-    
-    func tabViewController() -> UINavigationController {
-        self.start()
-        return self.navigationController
     }
     
 }

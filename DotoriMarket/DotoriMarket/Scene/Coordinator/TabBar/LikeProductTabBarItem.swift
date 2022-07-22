@@ -1,5 +1,5 @@
 //
-//  LikedTabBarItem.swift
+//  LikeProductTabBarItem.swift
 //  DotoriMarket
 //
 //  Created by 1 on 2022/07/19.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LikedTabBarItem {
+class LikeProductTabBarItem {
   
     lazy var tabBarItem: UITabBarItem  = {
         let list = UITabBarItem(title: "좋아요",

@@ -9,6 +9,13 @@ import UIKit
 
 protocol TabCoordinator: Coordinator {
     
-    func tabViewController() -> UINavigationController
+}
+
+extension TabCoordinator {
+    
+    func tabViewController() -> UINavigationController {
+        self.start()
+        return self.navigationController
+    }
     
 }
