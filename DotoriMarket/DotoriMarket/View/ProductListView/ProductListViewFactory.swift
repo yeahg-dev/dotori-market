@@ -44,7 +44,7 @@ struct ProductListViewFactory {
         case .myProduct:
             return UIStoryboard.main.instantiateViewController(
                 identifier: "ProductTableViewController", creator:  { coder -> ProductTableViewController in
-                    let viewModel = ProductListSceneViewModel(usecase: AllProductListUsecase())
+                    let viewModel = ProductListSceneViewModel(usecase: RegisterdProductUsecase())
                     let vc = ProductTableViewController(
                         viewModel: viewModel,
                         coordinator: coordinator,

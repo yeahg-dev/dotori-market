@@ -18,7 +18,7 @@ enum TabBar {
         case .productList:
             return AllProductListCoordinator()
         case .myProduct:
-            return AllProductListCoordinator()
+            return RegisterdProductCoordinator()
         case .liked:
             return LikeProductListCoordinator()
         }

@@ -366,7 +366,7 @@
         <!--Product Registration View Controller-->
         <scene sceneID="MrP-Cb-goH">
             <objects>
-                <viewController id="Fin-Xs-O08" customClass="ProductRegistrationViewController" customModule="DotoriMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProductRegistrationViewController" id="Fin-Xs-O08" customClass="ProductRegistrationViewController" customModule="DotoriMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KrM-WY-Hm3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
