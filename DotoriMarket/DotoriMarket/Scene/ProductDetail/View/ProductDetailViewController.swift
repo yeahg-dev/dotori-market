@@ -156,14 +156,6 @@ final class ProductDetailViewController: UIViewController {
     
     }
     
-    private func configrueEditButton() {
-        let composeButton = UIBarButtonItem(
-            barButtonSystemItem: .compose,
-            target: self,
-            action: #selector(presentProductModificationView))
-        self.navigationItem.setRightBarButton(composeButton, animated: true)
-    }
-    
     @objc func pop() {
         self.navigationController?.popViewController(animated: true)
     }
@@ -218,18 +210,6 @@ final class ProductDetailViewController: UIViewController {
     
     func setProduct(_ id: Int) {
         self.productID = id
-    }
-    
-    // MARK: - Transition View
-    
-    @objc private func presentProductModificationView() {
-        guard let productEditVC = self.storyboard?.instantiateViewController(withIdentifier: "ProductEidtViewController") as? ProductEidtViewController,
-              let productID = self.productID else {
-            return
-        }
-        productEditVC.setProduct(productID)
-        productEditVC.modalPresentationStyle = .fullScreen
-        self.present(productEditVC, animated: false)
     }
     
 }

@@ -28,10 +28,16 @@ class RegisterdProductCoordinator: ProductListCoordinator {
     }
     
     func pushProuductDetail(of productID: Int) {
-        let productDetailVC = UIStoryboard.initiateViewController(ProductDetailViewController.self)
-        productDetailVC.setProduct(productID)
+        
+        guard let productEditVC = UIStoryboard.main.instantiateViewController(
+            withIdentifier: "ProductEidtViewController") as? ProductEidtViewController else {
+            return
+        }
+        productEditVC.setProduct(productID)
+        productEditVC.modalPresentationStyle = .fullScreen
+
         self.navigationController.setNavigationBarHidden(false, animated: false)
-        self.navigationController.pushViewController(productDetailVC,
+        self.navigationController.pushViewController(productEditVC,
                                                      animated: true)
     }
     
