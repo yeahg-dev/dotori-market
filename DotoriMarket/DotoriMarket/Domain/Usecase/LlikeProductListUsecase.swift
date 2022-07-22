@@ -20,18 +20,19 @@ class LlikeProductListUsecase: ProductListUsecase {
     func fetchPrdoucts(
         pageNo: Int,
         itemsPerPage: Int) -> Observable<([ProductViewModel], Bool)> {
-        if self.likeProducts.isEmpty {
+        if self.likeProducts.isEmpty ||
+                self.likeProducts != self.likeProductRecorder.readlikeProductIDs() {
             self.readLikeProductIDs()
         }
         
-        guard let productPage = self.likeProductPages[safe: pageNo - 1],
+        guard let pageToRequest = self.likeProductPages[safe: pageNo - 1],
               let lastPage = self.likeProductPages.last  else {
         return Observable.just(([ProductViewModel](), false))
         }
         
-        let hasNext = (lastPage == productPage) ? false :true
+        let hasNext = (lastPage == pageToRequest) ? false :true
         
-        return self.requestProductViewModels(of: productPage)
+            return self.requestProductViewModels(of: pageToRequest)
             .map{ ($0, hasNext) }
         }
     
@@ -44,24 +45,28 @@ class LlikeProductListUsecase: ProductListUsecase {
     
     
     private func readLikeProductIDs() {
-        likeProducts = self.likeProductRecorder.readlikeProductIDs()
+        self.likeProducts = self.likeProductRecorder.readlikeProductIDs()
         self.likeProductPages = likeProducts.chunked(into: 20)
     }
     
     private func requestProductViewModels(of page: [Int]) -> Observable<[ProductViewModel]> {
-        let productViewModel = Observable.from(page)
+        let requests = Observable.from(page)
             .map{ ProductDetailRequest(productID: $0) }
             .flatMap{ request in
                 self.service.requestRx(request)}
             .map{ $0.toDomain() }
-            .map { detail in
+     
+        let productViewModels = requests
+            .map{ detail in
                 Product(id: detail.id, vendorID: detail.vendorID, name: detail.name, thumbnail: detail.thumbnail, currency: detail.currency, price: detail.price, bargainPrice: detail.bargainPrice, discountedPrice: detail.discountedPrice, stock: detail.stock) }
-            .map{ProductViewModel(product: $0)}
-            .buffer(timeSpan: .seconds(3),
-                    count: self.likeProducts.count,
-                    scheduler: MainScheduler.instance)
-        
-      return productViewModel
+            .map{ ProductViewModel(product: $0) }
+            .take(page.count)
+            .reduce([]) { acc, element in return acc + [element] }
+            .map { array in
+                array.sorted { $0.id > $1.id }
+            }
+            
+      return productViewModels
     }
     
     

@@ -24,24 +24,29 @@ struct LikeProductRecorder {
     }
     
     func recordUnlikeProduct(productID: Int) {
-        let products = realm.objects(LikeProduct.self)
-        let likedProducts = products.where { $0.id == Int64(productID) }[0]
+        let likeProducts = realm.objects(LikeProduct.self)
+        // FIXME: - Index Out of bounds 크러쉬 
+        let likeProduct = likeProducts.where { $0.id == Int64(productID) }[0]
       
         try? realm.write {
-            likedProducts.isLike = false
+            realm.delete(likeProduct)
         }
     }
     
     func readlikeProductIDs() -> [Int] {
         let products = realm.objects(LikeProduct.self)
 
-        let likedProducts = Array(products.filter("isLike == YES"))
-        
-        return likedProducts.compactMap{ $0.id }.map{ Int($0) }
+        let likedProducts = products.filter("isLike == YES")
+
+        return Array(likedProducts).compactMap{ $0.id }.map{ Int($0) }
     }
     
     func readIsLike(productID: Int) -> Bool {
         let products = realm.objects(LikeProduct.self)
+        
+        guard products.count > 1 else {
+            return false
+        }
         
         let product = Array(products.where { $0.id == Int64(productID) }).first
         

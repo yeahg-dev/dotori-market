@@ -39,10 +39,6 @@ final class ProductTableViewController: UITableViewController {
     
     // MARK: - View Life Cycle
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureLoadingIndicator()
@@ -99,7 +95,7 @@ final class ProductTableViewController: UITableViewController {
         
         output.pushProductDetailView
             .drive{ [weak self] productID in
-                self?.pushProductDetailView(of: productID) }
+                self?.coordinator?.pushProuductDetail(of: productID) }
             .disposed(by: disposeBag)
     }
     
@@ -135,16 +131,6 @@ final class ProductTableViewController: UITableViewController {
         coordinator?.rightNavigationItemDidTapped(from: self)
     }
 
-    // MARK: - Transition View
-    
-    private func pushProductDetailView(of productID: Int) {
-        guard let productDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "ProductDetailViewController") as? ProductDetailViewController else {
-            return
-        }
-        productDetailVC.setProduct(productID)
-        self.navigationController?.pushViewController(productDetailVC, animated: true)
-    }
-
     // MARK: - Present Alert
     
     private func presentNetworkErrorAlert(viewModel: AlertViewModel) {
@@ -153,4 +139,5 @@ final class ProductTableViewController: UITableViewController {
         alert.addAction(okAction)
         self.present(alert, animated: false)
     }
+
 }

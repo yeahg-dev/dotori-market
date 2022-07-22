@@ -13,5 +13,6 @@ class LikeProduct: Object {
     
     @objc dynamic var id: Int64 = 0
     @objc dynamic var isLike: Bool = false
+    @objc dynamic var likedDate: Date = Date()
  
 }

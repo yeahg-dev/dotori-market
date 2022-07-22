@@ -10,6 +10,7 @@ import UIKit
 protocol ProductListCoordinator: Coordinator {
     
     func rightNavigationItemDidTapped(from: UIViewController)
+    func pushProuductDetail(of productID: Int) 
     
 }
 
