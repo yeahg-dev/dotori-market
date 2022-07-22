@@ -14,6 +14,8 @@ final class ProductRegisterationSceneViewModel {
     
     private var APIService: APIServcie
     private let productInputChecker = ProductInputChecker()
+    private let productRegisterationRecorder = ProductRegisterationRecorder()
+    
     static let maximumProductImageCount = 5
     private var maximutProductImageCellCount: Int { ProductRegisterationSceneViewModel.maximumProductImageCount + 1 }
 
@@ -126,7 +128,10 @@ final class ProductRegisterationSceneViewModel {
                  .flatMap{ request in self.APIService.requestRx(request) }
         
         let registerationSucessAlert = requestProductRegistration
-            .do(onError: { _ in
+            .observe(on: MainScheduler.instance)
+            .do(onNext: { product in
+                self.productRegisterationRecorder.recordProductRegistraion(productID: product.id)
+            }, onError: { _ in
                 registrationFailureAlert.onNext(RegistrationFailureAlertViewModel()) })
             .retry(when: { _ in requireSecretAlert.asObservable() })
             .map{ _ in return RegistrationSuccessAlertViewModel() as AlertViewModel }

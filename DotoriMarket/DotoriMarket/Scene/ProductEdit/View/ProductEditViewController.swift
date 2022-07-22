@@ -1,5 +1,5 @@
 //
-//  ProductEidtViewController.swift
+//  ProductEditViewController.swift
 //  OpenMarket
 //
 //  Created by 1 on 2022/06/09.
@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class ProductEidtViewController: UIViewController {
+final class ProductEditViewController: UIViewController {
 
     // MARK: - IBOutlet
     
@@ -22,7 +22,10 @@ final class ProductEidtViewController: UIViewController {
     @IBOutlet weak var productDisconutPriceField: UITextField?
     @IBOutlet weak var productStockField: UITextField?
     @IBOutlet weak var productDescriptionTextView: UITextView?
-    @IBOutlet weak var doneButton: UIBarButtonItem?
+    private let doneButton: UIBarButtonItem = UIBarButtonItem(
+        barButtonSystemItem: .done,
+        target: nil,
+        action: nil)
     
     // MARK: - Property
     
@@ -36,6 +39,7 @@ final class ProductEidtViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureCollectionViewLayout()
+        self.configureNavigationBarItemLayout()
         self.addKeyboardNotificationObserver()
         self.addKeyboardDismissGestureRecognizer()
         self.configureDelegate()
@@ -51,7 +55,6 @@ final class ProductEidtViewController: UIViewController {
               let productCurrencySegmentedControl = self.productCurrencySegmentedControl,
               let productStockField = self.productStockField,
               let productDescriptionTextView = self.productDescriptionTextView,
-              let doneButton = self.doneButton,
               let productImageCollectionView = self.productImageCollectionView,
               let productID = self.productID else {
             return
@@ -65,7 +68,7 @@ final class ProductEidtViewController: UIViewController {
             productCurrencyIndex: productCurrencySegmentedControl.rx.selectedSegmentIndex,
             productStock: productStockField.rx.text,
             productDescription: productDescriptionTextView.rx.text,
-            doneDidTapped: doneButton.rx.tap,
+            doneDidTapped: self.doneButton.rx.tap,
             didReceiveSecret: self.secret.asObservable())
         
         let output = viewModel.transform(input: input)
@@ -75,8 +78,9 @@ final class ProductEidtViewController: UIViewController {
             .disposed(by: disposeBag)
         
         output.productImagesURL
-            .drive( productImageCollectionView.rx.items(cellIdentifier: "PrdouctImageCollectionViewCell",
-                                                           cellType: ProductImageCollectionViewCell.self))
+            .drive( productImageCollectionView.rx.items(
+                cellIdentifier: "PrdouctImageCollectionViewCell",
+                cellType: ProductImageCollectionViewCell.self))
         { (row, element, cell) in
                 guard let imageURL = URL(string: element) else { return }
                 if row == .zero {
@@ -123,11 +127,15 @@ final class ProductEidtViewController: UIViewController {
 
         output.registrationSuccessAlert
             .drive(onNext: { [weak self] _ in
-                self?.dismiss(animated: false) })
+                self?.navigationController?.popViewController(animated: true) })
             .disposed(by: disposeBag)
     }
     
     // MARK: - Configure UI
+    
+    private func configureNavigationBarItemLayout() {
+        self.navigationItem.rightBarButtonItem = self.doneButton
+    }
     
     private func configureCollectionViewLayout() {
         self.productImageCollectionView?.showsVerticalScrollIndicator = false
@@ -172,13 +180,11 @@ final class ProductEidtViewController: UIViewController {
         self.present(alert, animated: false)
     }
     
-    // MARK: - IBAction
-    
-    @IBAction func cancelButtonTapped(_ sender: Any) {
+    @objc func cancelButtonTapped() {
         self.dismiss(animated: true)
     }
-    
-    // MARK: API
+
+    // MARK: - API
     
     func setProduct(_ productID: Int) {
         self.productID = productID
@@ -188,7 +194,7 @@ final class ProductEidtViewController: UIViewController {
 
 // MARK: - Keyboard
 
-extension ProductEidtViewController {
+extension ProductEditViewController {
     
     private func addKeyboardNotificationObserver() {
         NotificationCenter.default.addObserver(
@@ -233,7 +239,7 @@ extension ProductEidtViewController {
 
 // MARK: - UITextFieldDelegate
 
-extension ProductEidtViewController: UITextFieldDelegate {
+extension ProductEditViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.productNameField?.resignFirstResponder()

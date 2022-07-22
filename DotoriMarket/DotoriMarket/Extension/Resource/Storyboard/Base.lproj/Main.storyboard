@@ -569,10 +569,10 @@
             </objects>
             <point key="canvasLocation" x="837.68115942028987" y="69.642857142857139"/>
         </scene>
-        <!--Product Eidt View Controller-->
+        <!--Product Edit View Controller-->
         <scene sceneID="3R0-9z-fDt">
             <objects>
-                <viewController storyboardIdentifier="ProductEidtViewController" id="pik-Y7-Iif" customClass="ProductEidtViewController" customModule="DotoriMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProductEditViewController" id="pik-Y7-Iif" customClass="ProductEditViewController" customModule="DotoriMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8Ts-vm-lxQ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -594,7 +594,7 @@
                                 </items>
                             </navigationBar>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="pyD-9A-nr2">
-                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="4rv-dM-n31">
                                         <rect key="frame" x="10" y="0.0" width="394" height="358"/>
@@ -749,7 +749,7 @@
                         <constraints>
                             <constraint firstItem="gRa-eV-Gaw" firstAttribute="height" secondItem="8Ts-vm-lxQ" secondAttribute="width" multiplier="0.33" id="1rm-xe-HA9"/>
                             <constraint firstItem="pyD-9A-nr2" firstAttribute="trailing" secondItem="f6Y-ft-Aus" secondAttribute="trailing" id="4eX-XJ-83E"/>
-                            <constraint firstItem="pyD-9A-nr2" firstAttribute="top" secondItem="vLi-fX-KJ2" secondAttribute="bottom" id="EyR-QQ-GJC"/>
+                            <constraint firstItem="pyD-9A-nr2" firstAttribute="top" secondItem="f6Y-ft-Aus" secondAttribute="top" id="EyR-QQ-GJC"/>
                             <constraint firstItem="f6Y-ft-Aus" firstAttribute="trailing" secondItem="vLi-fX-KJ2" secondAttribute="trailing" id="JyX-9c-2Ip"/>
                             <constraint firstItem="pyD-9A-nr2" firstAttribute="leading" secondItem="f6Y-ft-Aus" secondAttribute="leading" id="VHO-8L-M4R"/>
                             <constraint firstAttribute="bottom" secondItem="pyD-9A-nr2" secondAttribute="bottom" id="sX8-mY-ZRq"/>
@@ -758,7 +758,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="doneButton" destination="gvt-95-lUr" id="5As-88-gVO"/>
                         <outlet property="productCurrencySegmentedControl" destination="Ji6-zS-lxm" id="amE-bi-89e"/>
                         <outlet property="productDescriptionTextView" destination="j35-lJ-ItT" id="6jZ-Ct-WYW"/>
                         <outlet property="productDisconutPriceField" destination="O9E-lr-kYd" id="mkF-Yn-5VQ"/>

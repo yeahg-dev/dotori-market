@@ -30,7 +30,7 @@ class RegisterdProductCoordinator: ProductListCoordinator {
     func pushProuductDetail(of productID: Int) {
         
         guard let productEditVC = UIStoryboard.main.instantiateViewController(
-            withIdentifier: "ProductEidtViewController") as? ProductEidtViewController else {
+            withIdentifier: "ProductEditViewController") as? ProductEditViewController else {
             return
         }
         productEditVC.setProduct(productID)
