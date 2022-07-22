@@ -29,7 +29,7 @@ class AllProductListUsecase: ProductListUsecase {
         return Observable.just(
             NavigationBarComponent(
                 title: "상품 보기",
-                rightBarButtonImageSystemName: "squareshape.split.2x2"))
+                rightBarButtonImageSystemName: "square.grid.2x2.fill"))
     }
     
 }
