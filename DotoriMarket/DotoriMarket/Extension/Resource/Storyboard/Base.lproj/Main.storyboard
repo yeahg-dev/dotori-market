@@ -33,7 +33,7 @@
                                             </constraints>
                                         </imageView>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="92" translatesAutoresizingMaskIntoConstraints="NO" id="DqR-th-mfr">
-                                            <rect key="frame" x="180.5" y="10" width="207" height="41"/>
+                                            <rect key="frame" x="180.5" y="20" width="207" height="41"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="9fM-fz-8Sn">
                                                     <rect key="frame" x="0.0" y="0.0" width="76" height="41"/>
@@ -79,7 +79,7 @@
                                         <constraint firstItem="FeZ-6q-gRf" firstAttribute="leading" secondItem="8nm-x3-Aqm" secondAttribute="leading" constant="5" id="WFR-Q5-F4x"/>
                                         <constraint firstItem="DqR-th-mfr" firstAttribute="width" secondItem="8nm-x3-Aqm" secondAttribute="width" multiplier="0.5" id="Z7e-ZO-R7Y"/>
                                         <constraint firstItem="DqR-th-mfr" firstAttribute="leading" secondItem="FeZ-6q-gRf" secondAttribute="trailing" constant="10" id="bDY-c5-dzS"/>
-                                        <constraint firstItem="DqR-th-mfr" firstAttribute="top" secondItem="FeZ-6q-gRf" secondAttribute="top" id="iAn-yO-1fZ"/>
+                                        <constraint firstItem="DqR-th-mfr" firstAttribute="top" secondItem="FeZ-6q-gRf" secondAttribute="top" constant="10" id="iAn-yO-1fZ"/>
                                         <constraint firstItem="F2u-ke-WOI" firstAttribute="bottom" secondItem="FeZ-6q-gRf" secondAttribute="bottom" id="iGi-vS-YIY"/>
                                         <constraint firstAttribute="trailing" secondItem="F2u-ke-WOI" secondAttribute="trailing" constant="10" id="tDh-U9-88a"/>
                                     </constraints>
