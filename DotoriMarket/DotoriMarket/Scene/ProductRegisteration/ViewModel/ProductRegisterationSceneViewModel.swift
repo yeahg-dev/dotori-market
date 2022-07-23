@@ -4,7 +4,7 @@
 //
 //  Created by 1 on 2022/06/20.
 //
-
+ 
 import Foundation
 
 import RxSwift
@@ -133,7 +133,6 @@ final class ProductRegisterationSceneViewModel {
                 self.productRegisterationRecorder.recordProductRegistraion(productID: product.id)
             }, onError: { _ in
                 registrationFailureAlert.onNext(RegistrationFailureAlertViewModel()) })
-            .retry(when: { _ in requireSecretAlert.asObservable() })
             .map{ _ in return RegistrationSuccessAlertViewModel() as AlertViewModel }
             .asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel)
         
