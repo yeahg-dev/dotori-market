@@ -112,7 +112,7 @@ final class ProductDetailViewController: UIViewController {
         output.productDiscountedRate
             .drive(onNext: { [weak self] discountedRate in
                 if discountedRate == nil {
-                    self?.productSellingPriceStackView?.spacing = .zero }
+                    self?.productDiscountRateLabel?.isHidden = true }
                 self?.productDiscountRateLabel?.text = discountedRate })
             .disposed(by: disposeBag)
         
