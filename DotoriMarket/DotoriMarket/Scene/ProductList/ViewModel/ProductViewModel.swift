@@ -24,15 +24,33 @@ struct ProductViewModel {
     let thumbnail: String
 
     var price: NSAttributedString {
-        return self.toAttributedPrice(discountedPrice: self.discountedPriceData,
-                                      price: self.priceData,
-                                      currency: self.currencyData)
+        return self.toAttributedPrice(
+            discountedPrice: self.discountedPriceData,
+            price: self.priceData,
+            currency: self.currencyData)
+    }
+    
+    var sellingPrice: String {
+        if discountedPriceData.isZero {
+            return currencyData.composePriceTag(of: self.priceData.decimalFormatted)
+        } else {
+            return currencyData.composePriceTag(of: self.bargainPriceData.decimalFormatted)
+        }
+    }
+    
+    var discountedRate: String? {
+        if self.discountedPriceData.isZero {
+            return nil
+        }
+        let discountRate = self.discountedPriceData / self.priceData
+        return discountRate.formattedPercent
     }
     
     var bargainPrice: NSAttributedString {
-        return self.toAttributedBargainPrice(discountedPrice: self.discountedPriceData,
-                                             bargainPrice: self.bargainPriceData,
-                                             currency: self.currencyData)
+        return self.toAttributedBargainPrice(
+            discountedPrice: self.discountedPriceData,
+            bargainPrice: self.bargainPriceData,
+            currency: self.currencyData)
     }
     
     var stock: NSAttributedString {

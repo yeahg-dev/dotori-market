@@ -11,9 +11,9 @@ final class ProductCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet private weak var productThumbnail: UIImageView?
     @IBOutlet private weak var productName: UILabel?
-    @IBOutlet private weak var productPrice: UILabel?
-    @IBOutlet private weak var productBargainPrice: UILabel?
-    @IBOutlet private weak var productStock: UILabel?
+    @IBOutlet private weak var productDiscountedRateLabel: UILabel?
+    @IBOutlet private weak var productSellingPriceLabel: UILabel?
+    @IBOutlet weak var productStockLabel: UILabel!
     
     private var cancellableImageTask: Cancellable?
     
@@ -21,13 +21,6 @@ final class ProductCollectionViewCell: UICollectionViewCell {
         let invalidImage = UIImage(systemName: "photo.fill") ?? UIImage()
         return invalidImage.withTintColor(.systemBrown, renderingMode: .alwaysOriginal)
     }()
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.layer.borderColor = UIColor.systemGray.cgColor
-        self.layer.borderWidth = 1
-        self.layer.cornerRadius = 5
-    }
     
     override func prepareForReuse() {
         self.productThumbnail?.image = nil
@@ -42,8 +35,12 @@ final class ProductCollectionViewCell: UICollectionViewCell {
             )
         }
         self.productName?.text = product.name
-        self.productPrice?.attributedText = product.price
-        self.productBargainPrice?.attributedText = product.bargainPrice
-        self.productStock?.attributedText = product.stock
+        self.productSellingPriceLabel?.text = product.sellingPrice
+        self.productStockLabel.attributedText = product.stock
+        guard let _ = product.discountedRate else {
+            self.productDiscountedRateLabel?.isHidden = true
+            return
+        }
+        self.productDiscountedRateLabel?.text = product.discountedRate
     }
 }
