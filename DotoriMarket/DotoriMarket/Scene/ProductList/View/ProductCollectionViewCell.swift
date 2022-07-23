@@ -9,11 +9,11 @@ import UIKit
 
 final class ProductCollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet private weak var productThumbnail: UIImageView?
-    @IBOutlet private weak var productName: UILabel?
+    @IBOutlet private weak var productThumbnailImageView: UIImageView?
+    @IBOutlet private weak var productNameLabel: UILabel?
     @IBOutlet private weak var productDiscountedRateLabel: UILabel?
     @IBOutlet private weak var productSellingPriceLabel: UILabel?
-    @IBOutlet weak var productStockLabel: UILabel!
+    @IBOutlet private weak var productStockLabel: UILabel!
     
     private var cancellableImageTask: Cancellable?
     
@@ -23,18 +23,19 @@ final class ProductCollectionViewCell: UICollectionViewCell {
     }()
     
     override func prepareForReuse() {
-        self.productThumbnail?.image = nil
+        self.productThumbnailImageView?.image = nil
+        self.productDiscountedRateLabel?.isHidden = false
         self.cancellableImageTask?.cancel()
     }
     
     func fillContent(of product: ProductViewModel) {
         if let url = URL(string: product.thumbnail) {
-            self.cancellableImageTask = self.productThumbnail?.setImage(
+            self.cancellableImageTask = self.productThumbnailImageView?.setImage(
                 with: url,
                 invalidImage: invalidImage
             )
         }
-        self.productName?.text = product.name
+        self.productNameLabel?.text = product.name
         self.productSellingPriceLabel?.text = product.sellingPrice
         self.productStockLabel.attributedText = product.stock
         guard let _ = product.discountedRate else {

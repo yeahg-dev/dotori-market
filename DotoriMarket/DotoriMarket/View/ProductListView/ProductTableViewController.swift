@@ -43,10 +43,11 @@ final class ProductTableViewController: UITableViewController {
         super.viewDidLoad()
         self.configureLoadingIndicator()
         self.configureRefreshControl()
+        self.configureTableViewLayout()
         self.tableView.dataSource = nil
         self.bindViewModel()
     }
-    
+
     // MARK: - binding
     
     private func bindViewModel() {
@@ -130,7 +131,12 @@ final class ProductTableViewController: UITableViewController {
     @objc func toggleViewMode() {
         coordinator?.rightNavigationItemDidTapped(from: self)
     }
-
+    
+    private func configureTableViewLayout() {
+        self.tableView.rowHeight = UITableView.automaticDimension
+        self.tableView.separatorStyle = .none
+    }
+    
     // MARK: - Present Alert
     
     private func presentNetworkErrorAlert(viewModel: AlertViewModel) {
