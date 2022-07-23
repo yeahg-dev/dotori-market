@@ -1,5 +1,5 @@
 //
-//  RegisterdProductCoordinator.swift
+//  MyProductCoordinator.swift
 //  DotoriMarket
 //
 //  Created by 1 on 2022/07/22.
@@ -9,7 +9,7 @@ import Foundation
 
 import UIKit
 
-class RegisterdProductCoordinator: ProductListCoordinator, TabCoordinator {
+class MyProductCoordinator: ProductListCoordinator, TabCoordinator {
     
     var childCoordinator = [Coordinator]()
     
@@ -29,7 +29,6 @@ class RegisterdProductCoordinator: ProductListCoordinator, TabCoordinator {
     }
     
     func pushProuductDetail(of productID: Int) {
-        
         guard let productEditVC = UIStoryboard.main.instantiateViewController(
             withIdentifier: "ProductEditViewController") as? ProductEditViewController else {
             return
@@ -43,9 +42,10 @@ class RegisterdProductCoordinator: ProductListCoordinator, TabCoordinator {
     }
     
     func rightNavigationItemDidTapped(from: UIViewController) {
-        let productRegisterationVC =  UIStoryboard.initiateViewController(ProductRegistrationViewController.self)
-        productRegisterationVC.modalPresentationStyle = .overFullScreen
-        self.navigationController.present(productRegisterationVC, animated: true)
+        let productRegisterationCoordinator = ProductRegisterationCoordinator(
+            navigationController: self.navigationController)
+        childCoordinator.append(productRegisterationCoordinator)
+        productRegisterationCoordinator.start()
     }
 
     private func desingNavigationController() {

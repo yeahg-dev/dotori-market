@@ -2,7 +2,7 @@
 //  SellerInformation.swift
 //  DotoriMarket
 //
-//  Created by 1 on 2022/07/09.
+//  Creatad by 1 on 2022/07/09.
 //
 
 import Foundation

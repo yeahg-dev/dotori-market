@@ -37,12 +37,27 @@ final class ProductRegistrationViewController: UIViewController {
     
     // MARK: - Property
     
-    private let viewModel = ProductRegisterationSceneViewModel(APIService: MarketAPIService())
+    private let coordinator: ProductRegisterationCoordinator
+    private let viewModel: ProductRegisterationSceneViewModel
     private let disposeBag = DisposeBag()
     private let pickerImage = PublishSubject<Data>()
     private let secret = PublishSubject<String>()
     private var cells: [CellType] = [.imagePickerCell]
- 
+    
+    // MARK: - Initializer
+    
+    init?(viewModel: ProductRegisterationSceneViewModel,
+          coordinator: ProductRegisterationCoordinator,
+          coder: NSCoder) {
+        self.viewModel = viewModel
+        self.coordinator = coordinator
+        super.init(coder: coder)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
@@ -219,6 +234,8 @@ final class ProductRegistrationViewController: UIViewController {
         let alert = UIAlertController(title: viewModel.title, message: nil, preferredStyle: .alert)
         let okAction = UIAlertAction(title: viewModel.actionTitle, style: .default) { [weak self] _ in
             alert.dismiss(animated: false)
+            self?.coordinator.transitionToAllProduct()
+            self?.coordinator.childDidFinish(self?.coordinator)
             self?.dismiss(animated: false)
         }
         okAction.setValue(DotoriColorPallete.identityHighlightColor,
