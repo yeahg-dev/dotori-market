@@ -23,13 +23,6 @@ struct ProductViewModel {
     let name: String
     let thumbnail: String
 
-    var price: NSAttributedString {
-        return self.toAttributedPrice(
-            discountedPrice: self.discountedPriceData,
-            price: self.priceData,
-            currency: self.currencyData)
-    }
-    
     var sellingPrice: String {
         if discountedPriceData.isZero {
             return currencyData.composePriceTag(of: self.priceData.decimalFormatted)
@@ -45,14 +38,7 @@ struct ProductViewModel {
         let discountRate = self.discountedPriceData / self.priceData
         return discountRate.formattedPercent
     }
-    
-    var bargainPrice: NSAttributedString {
-        return self.toAttributedBargainPrice(
-            discountedPrice: self.discountedPriceData,
-            bargainPrice: self.bargainPriceData,
-            currency: self.currencyData)
-    }
-    
+  
     var stock: NSAttributedString {
         return self.toAttributedStock(stock: self.stockData)
     }
@@ -72,39 +58,6 @@ struct ProductViewModel {
 // MARK: - Extension
 
 extension ProductViewModel {
-    
-    private func toAttributedPrice(discountedPrice: Double, price: Double, currency: Currency) -> NSAttributedString {
-        let attributedPrice: NSAttributedString
-        if discountedPrice == .zero {
-            attributedPrice = NSAttributedString(
-                string: currency.composePriceTag(of: price.decimalFormatted),
-                attributes: [.font: UIFont.preferredFont(forTextStyle: .callout),
-                             .foregroundColor: UIColor.systemGray]
-            )
-        } else {
-            attributedPrice = NSAttributedString(
-                string: currency.composePriceTag(of: price.decimalFormatted),
-                attributes: [.font: UIFont.preferredFont(forTextStyle: .callout),
-                             .foregroundColor: UIColor.systemRed,
-                             .strikethroughStyle: NSUnderlineStyle.single.rawValue]
-            )
-        }
-        return attributedPrice
-    }
-    
-    private func toAttributedBargainPrice(discountedPrice: Double, bargainPrice: Double, currency: Currency) -> NSAttributedString {
-        let attributedBargainPrice: NSAttributedString
-        if discountedPrice == .zero {
-            attributedBargainPrice = NSAttributedString(string: .empty)
-        } else {
-            attributedBargainPrice = NSAttributedString(
-                string: currency.composePriceTag(of: bargainPrice.decimalFormatted),
-                attributes: [.font: UIFont.preferredFont(forTextStyle: .callout),
-                             .foregroundColor: UIColor.systemGray]
-            )
-        }
-        return attributedBargainPrice
-    }
     
     private func toAttributedStock(stock: Int) -> NSAttributedString {
         switch stock {
