@@ -26,6 +26,7 @@ class AllProductListCoordinator: ProductListCoordinator, TabCoordinator {
     
     func start() {
         let productListVC = ProductCollectionViewController.make(coordinator: self)
+        self.desingNavigationController()
         self.navigationController.pushViewController(productListVC,
                                                      animated: false)
     }
@@ -50,6 +51,10 @@ class AllProductListCoordinator: ProductListCoordinator, TabCoordinator {
             self.navigationController.setViewControllers([productListVC],
                                                          animated: false)
         }
+    }
+    
+    private func desingNavigationController() {
+        self.navigationController.navigationBar.tintColor = DotoriColorPallete.identityColor
     }
     
 }

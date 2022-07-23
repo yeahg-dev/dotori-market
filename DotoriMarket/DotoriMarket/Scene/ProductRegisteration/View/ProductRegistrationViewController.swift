@@ -162,6 +162,7 @@ final class ProductRegistrationViewController: UIViewController {
         let navigationAppearance = UINavigationBarAppearance()
         navigationAppearance.configureWithTransparentBackground()
         self.navigationBar?.standardAppearance = navigationAppearance
+        self.navigationBar?.tintColor = DotoriColorPallete.identityColor
     }
     
     private func configureFlowLayout() {
@@ -192,6 +193,8 @@ final class ProductRegistrationViewController: UIViewController {
                                    style: .default) { _ in
             alert.dismiss(animated: false)
         }
+        action.setValue(DotoriColorPallete.identityHighlightColor,
+                        forKey: "titleTextColor")
         alert.addAction(action)
         self.present(alert, animated: false)
     }
@@ -205,6 +208,8 @@ final class ProductRegistrationViewController: UIViewController {
             self.secret.onNext(secret)
             alert.dismiss(animated: false)
         }
+        sendAction.setValue(DotoriColorPallete.identityHighlightColor,
+                            forKey: "titleTextColor")
         alert.addAction(sendAction)
         
         self.present(alert, animated: false)
@@ -216,6 +221,8 @@ final class ProductRegistrationViewController: UIViewController {
             alert.dismiss(animated: false)
             self?.dismiss(animated: false)
         }
+        okAction.setValue(DotoriColorPallete.identityHighlightColor,
+                          forKey: "titleTextColor")
         alert.addAction(okAction)
         self.present(alert, animated: false)
     }

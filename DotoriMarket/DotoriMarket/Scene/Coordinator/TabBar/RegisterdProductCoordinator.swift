@@ -23,6 +23,7 @@ class RegisterdProductCoordinator: ProductListCoordinator, TabCoordinator {
         let productListVC = ProductListViewFactory().make(
             viewType: .myProduct,
             coordinator: self)
+        self.desingNavigationController()
         self.navigationController.pushViewController(productListVC,
                                                      animated: false)
     }
@@ -47,4 +48,8 @@ class RegisterdProductCoordinator: ProductListCoordinator, TabCoordinator {
         self.navigationController.present(productRegisterationVC, animated: true)
     }
 
+    private func desingNavigationController() {
+        self.navigationController.navigationBar.tintColor = DotoriColorPallete.identityColor
+    }
+    
 }

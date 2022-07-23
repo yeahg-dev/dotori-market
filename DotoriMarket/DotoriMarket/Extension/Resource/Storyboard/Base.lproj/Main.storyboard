@@ -377,13 +377,13 @@
                                 <items>
                                     <navigationItem title="상품등록" id="MHr-vw-xsj">
                                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="TrP-J0-FeD">
-                                            <color key="tintColor" systemColor="systemIndigoColor"/>
+                                            <color key="tintColor" systemColor="systemBrownColor"/>
                                             <connections>
                                                 <action selector="cancelButtonTapped:" destination="Fin-Xs-O08" id="8ps-TY-Xy9"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="7HH-Xi-DyK">
-                                            <color key="tintColor" systemColor="systemIndigoColor"/>
+                                            <color key="tintColor" systemColor="systemBrownColor"/>
                                             <connections>
                                                 <action selector="doneButtonTapped:" destination="Fin-Xs-O08" id="7cS-Nr-EZu"/>
                                             </connections>
@@ -419,7 +419,7 @@
                                                                     <subviews>
                                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="A4V-De-pWQ">
                                                                             <rect key="frame" x="0.0" y="0.5" width="41.5" height="39.5"/>
-                                                                            <color key="tintColor" systemColor="systemGrayColor"/>
+                                                                            <color key="tintColor" red="0.35089253138432275" green="0.17359323040703414" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="width" secondItem="A4V-De-pWQ" secondAttribute="height" multiplier="1:1" id="szU-Lh-WeU"/>
                                                                             </constraints>
@@ -780,6 +780,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBrownColor">
+            <color red="0.63529411764705879" green="0.51764705882352946" blue="0.36862745098039218" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGrayColor">
             <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

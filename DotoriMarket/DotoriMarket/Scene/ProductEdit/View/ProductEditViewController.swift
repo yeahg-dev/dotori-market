@@ -161,6 +161,8 @@ final class ProductEditViewController: UIViewController {
         let okAction = UIAlertAction(title: viewModel.actionTitle, style: .default) { _ in
             alert.dismiss(animated: false)
         }
+        okAction.setValue(DotoriColorPallete.identityHighlightColor,
+                          forKey: "titleTextColor")
         alert.addAction(okAction)
         
         self.present(alert, animated: false)
@@ -175,6 +177,8 @@ final class ProductEditViewController: UIViewController {
             self?.secret.onNext(secret)
             alert.dismiss(animated: false)
         }
+        sendAction.setValue(DotoriColorPallete.identityHighlightColor,
+                            forKey: "titleTextColor")
         alert.addAction(sendAction)
         
         self.present(alert, animated: false)

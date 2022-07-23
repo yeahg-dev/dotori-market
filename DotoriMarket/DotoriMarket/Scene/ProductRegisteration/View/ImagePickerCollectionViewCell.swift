@@ -23,7 +23,7 @@ final class ImagePickerCollectionViewCell: UICollectionViewCell {
         let addedImageCount = NSAttributedString(
             string: "\(productImageCount)",
             attributes: [.font: UIFont.preferredFont(forTextStyle: .callout),
-                         .foregroundColor: UIColor.systemIndigo]
+                         .foregroundColor: DotoriColorPallete.identityColor]
         )
         let maximumImageNumber = NSAttributedString(
             string: " / \(maximumImageCount)",

@@ -152,6 +152,7 @@ final class ProductDetailViewController: UIViewController {
             style: .plain,
             target: self,
             action: #selector(pop))
+        leftButton.tintColor = DotoriColorPallete.identityColor
         self.navigationItem.setLeftBarButton(leftButton, animated: true)
     
     }
@@ -183,10 +184,15 @@ final class ProductDetailViewController: UIViewController {
     private func configureLikeButton() {
         let image = UIImage(systemName: "heart.circle.fill")?
             .resizeImageTo(size: CGSize(width: 55, height: 55))
+        let coloredImage = image?.withTintColor(DotoriColorPallete.likeColor,
+                             renderingMode: .alwaysTemplate)
         let selectedImage = UIImage(systemName: "heart.circle")?
             .resizeImageTo(size: CGSize(width: 55, height: 55))
-        self.likeButton?.setImage(image, for: .normal)
-        self.likeButton?.setImage(selectedImage, for: .selected)
+        let coloredSelectedImage = selectedImage?.withTintColor(DotoriColorPallete.likeColor,
+                                     renderingMode: .alwaysTemplate)
+        self.likeButton?.setImage(coloredImage, for: .normal)
+        self.likeButton?.setImage(coloredSelectedImage, for: .selected)
+        self.likeButton?.tintColor = DotoriColorPallete.likeColor
         self.likeButton?.addTarget(
             self,
             action: #selector(likeButtonDidTapped(_:)),

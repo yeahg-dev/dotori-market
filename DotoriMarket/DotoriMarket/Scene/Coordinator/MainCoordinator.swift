@@ -27,9 +27,18 @@ class MainCoordinator: Coordinator {
             tabViewControllers,
             animated: false)
         tabBarController.selectedIndex = 1
+        let designedVC = self.designTabBarController(tabBarController)
         
         self.navigationController.setNavigationBarHidden(true, animated: false)
-        self.navigationController.pushViewController(tabBarController, animated: false)
+        self.navigationController.pushViewController(designedVC, animated: false)
+    }
+    
+    private func designTabBarController(_ vc: UITabBarController) -> UITabBarController {
+        vc.tabBar.unselectedItemTintColor = DotoriColorPallete.identityColor
+        vc.tabBar.tintColor = DotoriColorPallete.identityHighlightColor
+        vc.tabBar.barTintColor = DotoriColorPallete.identityBackgroundColor
+        
+        return vc
     }
     
 }
