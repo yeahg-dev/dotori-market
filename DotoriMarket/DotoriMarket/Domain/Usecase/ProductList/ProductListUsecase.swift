@@ -11,7 +11,7 @@ import RxSwift
 
 protocol ProductListUsecase {
     
-    var service: MarketAPIService { get }
+    var service: APIServcie { get }
     
     func fetchPrdoucts(
         pageNo: Int,

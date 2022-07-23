@@ -11,7 +11,7 @@ import RxSwift
 
 class LlikeProductListUsecase: ProductListUsecase {
 
-    var service =  MarketAPIService()
+    var service: APIServcie =  MarketAPIService()
     private let likeProductRecorder = LikeProductRecorder()
     
     private var likeProducts = [Int]()

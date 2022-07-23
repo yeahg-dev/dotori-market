@@ -11,7 +11,7 @@ import RxSwift
 
 class RegisterdProductUsecase: ProductListUsecase {
     
-    var service =  MarketAPIService()
+    var service: APIServcie =  MarketAPIService()
     private let productRegisterationRecorder = ProductRegisterationRecorder()
     
     private var registerdProducts = [Int]()
