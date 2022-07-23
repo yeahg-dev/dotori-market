@@ -26,7 +26,7 @@ class LikeProductListCoordinator: ProductListCoordinator, TabCoordinator {
                                                      animated: false)
     }
     
-    func pushProuductDetail(of productID: Int) {
+    func cellDidTapped(of productID: Int) {
         let productDetailVC = UIStoryboard.initiateViewController(ProductDetailViewController.self)
         productDetailVC.setProduct(productID)
         self.navigationController.setNavigationBarHidden(false, animated: false)

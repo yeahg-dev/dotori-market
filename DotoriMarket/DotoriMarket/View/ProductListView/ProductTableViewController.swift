@@ -96,7 +96,7 @@ final class ProductTableViewController: UITableViewController {
         
         output.pushProductDetailView
             .drive{ [weak self] productID in
-                self?.coordinator?.pushProuductDetail(of: productID) }
+                self?.coordinator?.cellDidTapped(of: productID) }
             .disposed(by: disposeBag)
     }
     

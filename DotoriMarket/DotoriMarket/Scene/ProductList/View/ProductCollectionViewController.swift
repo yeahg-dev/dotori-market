@@ -92,7 +92,7 @@ final class ProductCollectionViewController: UICollectionViewController {
         
         output.pushProductDetailView
             .drive(onNext:{ [weak self] productID in
-                self?.coordinator?.pushProuductDetail(of: productID) })
+                self?.coordinator?.cellDidTapped(of: productID) })
             .disposed(by: disposeBag)
     }
     

@@ -28,7 +28,7 @@ class MyProductCoordinator: ProductListCoordinator, TabCoordinator {
                                                      animated: false)
     }
     
-    func pushProuductDetail(of productID: Int) {
+    func cellDidTapped(of productID: Int) {
         guard let productEditVC = UIStoryboard.main.instantiateViewController(
             withIdentifier: "ProductEditViewController") as? ProductEditViewController else {
             return

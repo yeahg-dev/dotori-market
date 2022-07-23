@@ -10,7 +10,7 @@ import UIKit
 protocol ProductListCoordinator: Coordinator {
     
     func rightNavigationItemDidTapped(from: UIViewController)
-    func pushProuductDetail(of productID: Int) 
+    func cellDidTapped(of productID: Int) 
     
 }
 
@@ -31,7 +31,7 @@ class AllProductListCoordinator: ProductListCoordinator, TabCoordinator {
                                                      animated: false)
     }
     
-    func pushProuductDetail(of productID: Int) {
+    func cellDidTapped(of productID: Int) {
         let productDetailVC = UIStoryboard.initiateViewController(ProductDetailViewController.self)
         productDetailVC.setProduct(productID)
         self.navigationController.setNavigationBarHidden(false, animated: false)
