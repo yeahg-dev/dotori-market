@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LikeProductListCoordinator: ProductListCoordinator, TabCoordinator {
+final class LikeProductListCoordinator: ProductListCoordinator, TabCoordinator {
     
     var childCoordinator = [Coordinator]()
     

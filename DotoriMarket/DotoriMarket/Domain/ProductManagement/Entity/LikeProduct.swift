@@ -9,7 +9,7 @@ import Foundation
 
 import RealmSwift
 
-class LikeProduct: Object {
+final class LikeProduct: Object {
     
     @objc dynamic var id: Int64 = 0
     @objc dynamic var isLike: Bool = false

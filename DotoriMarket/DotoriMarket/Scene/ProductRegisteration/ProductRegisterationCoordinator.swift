@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProductRegisterationCoordinator: Coordinator {
+final class ProductRegisterationCoordinator: Coordinator {
     
     var childCoordinator = [Coordinator]()
     

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LikeProductTabBarItem {
+final class LikeProductTabBarItem {
   
     lazy var tabBarItem: UITabBarItem  = {
         let list = UITabBarItem(title: "좋아요",

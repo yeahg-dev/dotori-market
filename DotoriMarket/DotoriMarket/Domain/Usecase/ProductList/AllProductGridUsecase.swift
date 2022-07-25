@@ -9,7 +9,7 @@ import Foundation
 
 import RxSwift
 
-class AllProductGridUsecase: AllProductListUsecase {
+final class AllProductGridUsecase: AllProductListUsecase {
     
     override func fetchNavigationBarComponent() -> Observable<NavigationBarComponent> {
         return Observable.just(

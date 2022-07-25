@@ -9,7 +9,7 @@ import Foundation
 
 import RxSwift
 
-class LlikeProductListUsecase: ProductListUsecase {
+final class LlikeProductListUsecase: ProductListUsecase {
 
     var service: APIServcie =  MarketAPIService()
     private let likeProductRecorder = LikeProductRecorder()

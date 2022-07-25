@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MyProductTabBarItem {
+final class MyProductTabBarItem {
   
     lazy var tabBarItem: UITabBarItem  = {
         let list = UITabBarItem(title: "내 상품",

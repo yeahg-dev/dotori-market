@@ -9,7 +9,7 @@ import Foundation
 
 import RealmSwift
 
-class RegisterdProduct: Object {
+final class RegisterdProduct: Object {
     
     @objc dynamic var id: Int64 = 0
     @objc dynamic var registerationDate: Date = Date()

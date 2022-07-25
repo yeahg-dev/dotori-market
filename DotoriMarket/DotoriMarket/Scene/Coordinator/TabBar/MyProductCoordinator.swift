@@ -5,11 +5,9 @@
 //  Created by 1 on 2022/07/22.
 //
 
-import Foundation
-
 import UIKit
 
-class MyProductCoordinator: ProductListCoordinator, TabCoordinator {
+final class MyProductCoordinator: ProductListCoordinator, TabCoordinator {
     
     var childCoordinator = [Coordinator]()
     

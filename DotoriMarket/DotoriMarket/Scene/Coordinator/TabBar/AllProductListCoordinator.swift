@@ -14,7 +14,7 @@ protocol ProductListCoordinator: Coordinator {
     
 }
 
-class AllProductListCoordinator: ProductListCoordinator, TabCoordinator {
+final class AllProductListCoordinator: ProductListCoordinator, TabCoordinator {
     
     var childCoordinator = [Coordinator]()
     
