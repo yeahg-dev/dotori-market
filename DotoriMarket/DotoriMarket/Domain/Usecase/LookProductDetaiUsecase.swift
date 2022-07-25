@@ -11,8 +11,12 @@ import RxSwift
 
 struct LookProductDetaiUsecase {
     
-    private let service = MarketAPIService()
+    private let service: MarketAPIService
     private let likeProductRecorder = LikeProductRecorder()
+    
+    init(service: MarketAPIService = MarketAPIService()) {
+        self.service = service
+    }
     
     func fetchPrdouctDetail(
         of productID: Int) -> Observable<(ProductDetailViewModel)> {

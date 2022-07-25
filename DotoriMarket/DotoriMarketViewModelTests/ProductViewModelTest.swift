@@ -36,13 +36,10 @@ class ProductViewModelTest: XCTestCase {
     
     func test_currency가_krw일때_price_화폐단위_변환() {
         let viewModel = ProductViewModel(product: mockProduct)
-        let priceResult = viewModel.price.string
-        let bargainPriceResult = viewModel.bargainPrice.string
-        let priceExpectation = "1,690,000원"
-        let bargainPriceExpectation = "1,689,000원"
+        let priceResult = viewModel.sellingPrice
+        let priceExpectation = "1,689,000원"
         
         XCTAssertEqual(priceResult, priceExpectation)
-        XCTAssertEqual(bargainPriceResult, bargainPriceExpectation)
     }
     
     func test_currency가_usd일때_price_화폐단위_변환() {
@@ -56,13 +53,10 @@ class ProductViewModelTest: XCTestCase {
                               discountedPrice: 10,
                               stock: 9999)
         let viewModel = ProductViewModel(product: product)
-        let priceResult = viewModel.price.string
-        let bargainPriceResult = viewModel.bargainPrice.string
-        let priceExpectation = "$1,690"
-        let bargainPriceExpectation = "$1,680"
+        let priceResult = viewModel.sellingPrice
+        let priceExpectation = "$1,680"
         
         XCTAssertEqual(priceResult, priceExpectation)
-        XCTAssertEqual(bargainPriceResult, bargainPriceExpectation)
     }
     
     func test_stock이_0일때_SOLDOUT변환() {
@@ -94,7 +88,7 @@ class ProductViewModelTest: XCTestCase {
                               stock: 99999)
         let viewModel = ProductViewModel(product: product)
         let result = viewModel.stock.string
-        let expectation = "잔여 수량 99,999"
+        let expectation = "재고 99,999"
         
         XCTAssertEqual(result, expectation)
     }
@@ -111,7 +105,7 @@ class ProductViewModelTest: XCTestCase {
                               stock: 99)
         let viewModel = ProductViewModel(product: product)
         let result = viewModel.stock.string
-        let expectation = "잔여 수량 99"
+        let expectation = "재고 99"
         
         XCTAssertEqual(result, expectation)
     }

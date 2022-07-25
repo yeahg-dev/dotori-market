@@ -57,9 +57,9 @@ final class ProductTableViewController: UITableViewController {
         
         let input = ProductListSceneViewModel.Input(
             viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in },
-            willDisplayCellAtIndex: self.tableView.rx.willDisplayCell.map{ $0.indexPath.row },
+            willDisplayCellAtIndex: self.tableView.rx.willDisplayCell.map{ $1 },
             listViewDidStartRefresh: refreshControl.rx.controlEvent(.valueChanged).asObservable(),
-            cellDidSelectedAt: self.tableView.rx.itemSelected.map{ $0.row })
+            cellDidSelectedAt: self.tableView.rx.itemSelected.asObservable())
         let output = self.viewModel.transform(input: input)
         
         output.navigationBarComponent

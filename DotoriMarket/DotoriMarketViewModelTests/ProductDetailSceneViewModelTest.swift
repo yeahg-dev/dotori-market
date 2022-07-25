@@ -53,9 +53,10 @@ class ProductDetailSceneViewModelTest: XCTestCase {
         try super.setUpWithError()
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
-        let urlSession = URLSession(configuration: configuration)
-        let mockAPIService = MarketAPIService(urlSession: urlSession)
-        self.sut = ProductDetailSceneViewModel(APIService: mockAPIService)
+        let mockURLSession = URLSession(configuration: configuration)
+        let mockAPIService = MarketAPIService(urlSession: mockURLSession)
+        let testUsecase = LookProductDetaiUsecase(service: mockAPIService)
+        self.sut = ProductDetailSceneViewModel(usecase: testUsecase)
     }
     
     override func tearDownWithError() throws {
@@ -74,25 +75,28 @@ class ProductDetailSceneViewModelTest: XCTestCase {
         }
         
         let trigger = PublishSubject<Int>()
-        let input = ProductDetailSceneViewModel.Input(viewWillAppear: trigger.asObservable())
+        let input = ProductDetailSceneViewModel.Input(
+            viewWillAppear: trigger.asObservable(),
+            productDidLike: trigger.asObservable(),
+            productDidUnlike: trigger.asObservable())
         let output = sut.transform(input: input)
         
         let productNameObserver = scheduler.createObserver(String.self)
-        let proudctSellingPriceObserver = scheduler.createObserver(String.self)
+        let productSellingPriceObserver = scheduler.createObserver(String.self)
         
         output.prdouctName
             .do(afterNext: { _ in
                 expectation.fulfill() })
-            .bind(to: productNameObserver)
+            .drive(productNameObserver)
             .disposed(by: disposeBag)
                 
         output.prodcutSellingPrice
             .do(afterNext: { _ in
                 expectation.fulfill() })
-            .bind(to: proudctSellingPriceObserver)
+            .drive(productSellingPriceObserver)
             .disposed(by: disposeBag)
                     
-        self.scheduler.createColdObservable([(.next(5, 100))])
+        self.scheduler.createColdObservable([(.next(5, 1000))])
             .bind(to: trigger)
             .disposed(by: disposeBag)
                     
@@ -101,7 +105,7 @@ class ProductDetailSceneViewModelTest: XCTestCase {
         wait(for: [expectation], timeout: 10)
                     
         XCTAssertEqual(productNameObserver.events, [.next(5, "아이폰13")])
-        XCTAssertEqual(proudctSellingPriceObserver.events, [.next(5, "1,300,000원")])
+        XCTAssertEqual(productSellingPriceObserver.events, [.next(5, "1,300,000원")])
     }
     
 }
