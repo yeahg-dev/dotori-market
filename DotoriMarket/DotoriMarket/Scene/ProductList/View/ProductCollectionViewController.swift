@@ -53,9 +53,9 @@ final class ProductCollectionViewController: UICollectionViewController {
         
         let input = ProductListSceneViewModel.Input(
             viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in },
-            willDisplayCellAtIndex: self.collectionView.rx.willDisplayCell.map({ cell, index in index.row }),
+            willDisplayCellAtIndex: self.collectionView.rx.willDisplayCell.map{ $1 },
             listViewDidStartRefresh: refreshControl.rx.controlEvent(.valueChanged).asObservable(),
-            cellDidSelectedAt: self.collectionView.rx.itemSelected.map{ $0.row })
+            cellDidSelectedAt: self.collectionView.rx.itemSelected.asObservable())
         let output = self.viewModel.transform(input: input)
         
         output.navigationBarComponent

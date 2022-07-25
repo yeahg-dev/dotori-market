@@ -26,9 +26,9 @@ final class ProductListSceneViewModel {
     
     struct Input {
         let viewWillAppear: Observable<Void>
-        let willDisplayCellAtIndex: Observable<Int>
+        let willDisplayCellAtIndex: Observable<IndexPath>
         let listViewDidStartRefresh: Observable<Void>
-        let cellDidSelectedAt: Observable<Int>
+        let cellDidSelectedAt: Observable<IndexPath>
     }
     
     struct Output {
@@ -56,6 +56,7 @@ final class ProductListSceneViewModel {
                 willStartLoadingIndicator.onNext(()) })
                 
         let pagination = input.willDisplayCellAtIndex
+                .map{ $0.row }
             .filter{ currentRow in
                 (currentRow == self.productsViewModels.count - self.paginationBuffer) &&  self.hasNextPage }
             .map{ _ in }
@@ -86,6 +87,7 @@ final class ProductListSceneViewModel {
         let endRefresh = products.map { _ in }.asDriver(onErrorJustReturn: ())
         
         let pushProductDetailView = input.cellDidSelectedAt
+                .map{ $0.row }
             .map{ index -> Int in
                 guard let product = self.productsViewModels[safe: index] else { return .zero }
                 return product.id }
