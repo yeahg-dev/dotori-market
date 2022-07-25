@@ -10,14 +10,16 @@ import UIKit
 extension UIImageView {
     
     func setImage(with url: URL, invalidImage: UIImage) -> Cancellable? {
-        let cacheKey = url.absoluteString as NSString
+        let imageCacheStorage = ImageCacheStorage()
+        let cacheKey = url.absoluteString
         
-        if let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey) {
+        if let cachedImage = imageCacheStorage.getImage(of: cacheKey) {
             self.image = cachedImage
             return nil
         }
-        
-        let task = URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
+   
+        let task = URLSession.shared.dataTask(with: url) {
+            [weak self] data, _, error in
             if let _ = error {
                 DispatchQueue.main.async {
                     self?.image = invalidImage
@@ -26,9 +28,10 @@ extension UIImageView {
             } else {
                 DispatchQueue.main.async {
                     guard let imageData = data,
-                          let image = UIImage(data: imageData) else { return }
+                          let image = UIImage(data: imageData) else {
+                        return }
                     self?.image = image
-                    ImageCacheManager.shared.setObject(image, forKey: cacheKey)
+                    imageCacheStorage.cache(image, of: cacheKey)
                 }
             }
         }
