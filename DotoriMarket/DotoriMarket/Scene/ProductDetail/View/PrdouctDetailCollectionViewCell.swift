@@ -20,7 +20,7 @@ final class PrdouctDetailCollectionViewCell: UICollectionViewCell {
     }
     
     func fill(with imageURL: URL) {
-        self.cancellableImageTask = prdouctImage.setImage(with: imageURL, invalidImage: invalidImage!)
+        self.cancellableImageTask = prdouctImage.setImage(with: imageURL, defaultImage: invalidImage!)
     }
     
 }

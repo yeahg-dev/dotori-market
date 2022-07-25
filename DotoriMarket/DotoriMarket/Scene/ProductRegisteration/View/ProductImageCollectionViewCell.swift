@@ -29,7 +29,7 @@ final class ProductImageCollectionViewCell: UICollectionViewCell {
         if let image = image {
             self.productImageView?.image = image
         } else {
-            self.cancellableTask = self.productImageView?.setImage(with: url, invalidImage: invalidImage)
+            self.cancellableTask = self.productImageView?.setImage(with: url, defaultImage: invalidImage)
         }
         self.represntaionLabel?.isHidden = !isRepresentaion
     }

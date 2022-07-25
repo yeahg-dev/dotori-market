@@ -9,7 +9,7 @@ import UIKit
 
 extension UIImageView {
     
-    func setImage(with url: URL, invalidImage: UIImage) -> Cancellable? {
+    func setImage(with url: URL, defaultImage: UIImage) -> Cancellable? {
         let imageCacheStorage = ImageCacheStorage()
         let cacheKey = url.absoluteString
         
@@ -22,7 +22,7 @@ extension UIImageView {
             [weak self] data, _, error in
             if let _ = error {
                 DispatchQueue.main.async {
-                    self?.image = invalidImage
+                    self?.image = defaultImage
                 }
                 return
             } else {

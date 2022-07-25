@@ -32,7 +32,7 @@ final class ProductTableViewCell: UITableViewCell {
         if let url = URL(string: product.thumbnail) {
             self.cancellableImageTask = self.productThumbnailImageView?.setImage(
                 with: url,
-                invalidImage: invalidImage
+                defaultImage: invalidImage
             )
         }
         self.productNameLabel?.text = product.name
