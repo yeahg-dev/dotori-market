@@ -11,11 +11,15 @@ import RxSwift
 
 final class LlikeProductListUsecase: ProductListUsecase {
 
-    var service: APIServcie =  MarketAPIService()
+    var productRepository: ProductRepository
     private let likeProductRecorder = LikeProductRecorder()
     
     private var likeProducts = [Int]()
     private var likeProductPages = [[Int]]()
+    
+    init(productRepository: ProductRepository = MarketProductRepository()) {
+        self.productRepository = productRepository
+    }
     
     func fetchPrdoucts(
         pageNo: Int,
@@ -32,7 +36,7 @@ final class LlikeProductListUsecase: ProductListUsecase {
         
         let hasNext = (lastPage == pageToRequest) ? false :true
         
-            return self.requestProductViewModels(of: pageToRequest)
+            return self.fetchProductViewModels(of: pageToRequest)
             .map{ ($0, hasNext) }
         }
     
@@ -49,12 +53,10 @@ final class LlikeProductListUsecase: ProductListUsecase {
         self.likeProductPages = likeProducts.chunked(into: 20)
     }
     
-    private func requestProductViewModels(of page: [Int]) -> Observable<[ProductViewModel]> {
+    private func fetchProductViewModels(of page: [Int]) -> Observable<[ProductViewModel]> {
         let requests = Observable.from(page)
-            .map{ ProductDetailRequest(productID: $0) }
-            .flatMap{ request in
-                self.service.requestRx(request)}
-            .map{ $0.toDomain() }
+            .flatMap({ id in
+                self.productRepository.fetchProductDetail(of: id) })
      
         let productViewModels = requests
             .map{ detail in

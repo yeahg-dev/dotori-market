@@ -12,13 +12,12 @@ import RxCocoa
 
 final class ProductEditSceneViewModel {
     
-    private var APIService: APIServcie
+    private let usecase: EditProductUsecase
     private let productInputChecker = ProductInputChecker()
-    private let sellerIdentifier = "c4dedd67-71fc-11ec-abfa-fd97ecfece87"
     private var productID: Int?
     
-    init(APIService: APIServcie) {
-        self.APIService = APIService
+    init(usecase: EditProductUsecase) {
+        self.usecase = usecase
     }
     
     struct Input {
@@ -49,12 +48,8 @@ final class ProductEditSceneViewModel {
     
     func transform(input: Input) -> Output {
         let productDetail = input.viewWillAppear
-            .do(onNext: { productID in
-                self.productID = productID })
-            .map{ ProductDetailRequest(productID: $0) }
-            .flatMap{ request -> Observable<ProductDetailResponse> in
-                self.APIService.requestRx(request) }
-            .map{ $0.toDomain() }
+            .flatMap({ id in
+                self.usecase.fetchPrdouctDetail(of: id) })
             .map{ ProductDetailEditViewModel(product: $0) }
             .share(replay: 1)
         
@@ -112,7 +107,8 @@ final class ProductEditSceneViewModel {
                                                 resultSelector: { (name, price, discountedPrice, currency, stock, descritpion, secret) -> EditProductInfo? in
                     return self.createEditProductInfo(name: name, description: descritpion, price: price, currencyIndex: currency, discountedPrice: discountedPrice, stock: stock, secret: secret) }) }
             .flatMap{ productInfo in self.createEditRequest(with: productInfo) }
-            .flatMap{ request in self.APIService.requestRx(request) }
+            .flatMap({ request in
+                self.usecase.requestProductEdit(with: request) })
             .do(onError: { _ in
                 registrationFailureAlert.onNext(RequestFailureAlertViewModel()) })
             .retry(when: { _ in requireSecret.asObservable() })
@@ -149,7 +145,7 @@ extension ProductEditSceneViewModel {
                 return Disposables.create()
             }
             let request = ProductEditRequest(
-                identifier: self.sellerIdentifier,
+                identifier: SellerInformation.identifier.rawValue,
                 productID: id,
                 productInfo: productInfo)
             observer.onNext(request)

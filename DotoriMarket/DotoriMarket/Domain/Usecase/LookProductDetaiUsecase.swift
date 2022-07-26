@@ -11,21 +11,20 @@ import RxSwift
 
 struct LookProductDetaiUsecase {
     
-    private let service: MarketAPIService
+    private let productRepository: ProductRepository
     private let likeProductRecorder = LikeProductRecorder()
     
-    init(service: MarketAPIService = MarketAPIService()) {
-        self.service = service
+    init(productRepository: MarketProductRepository = MarketProductRepository()) {
+        self.productRepository = productRepository
     }
     
     func fetchPrdouctDetail(
         of productID: Int) -> Observable<(ProductDetailViewModel)> {
-         let request = ProductDetailRequest(productID: productID)
-            
-        return self.service.requestRx(request)
-            .map{ $0.toDomain() }
-            .map{ ProductDetailViewModel(product: $0) }
-        }
+        self.productRepository.fetchProductDetail(of: productID)
+            .map { detail in
+                return ProductDetailViewModel(product: detail)
+            }
+    }
     
     func readIsLikeProduct(of productID: Int) -> Bool {
         return self.likeProductRecorder.readIsLike(productID: productID)

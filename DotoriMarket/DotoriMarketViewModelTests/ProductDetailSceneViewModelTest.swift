@@ -55,7 +55,8 @@ class ProductDetailSceneViewModelTest: XCTestCase {
         configuration.protocolClasses = [MockURLProtocol.self]
         let mockURLSession = URLSession(configuration: configuration)
         let mockAPIService = MarketAPIService(urlSession: mockURLSession)
-        let testUsecase = LookProductDetaiUsecase(service: mockAPIService)
+        let testUsecase = LookProductDetaiUsecase(
+            productRepository: MarketProductRepository(service: mockAPIService))
         self.sut = ProductDetailSceneViewModel(usecase: testUsecase)
     }
     

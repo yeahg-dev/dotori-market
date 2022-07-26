@@ -11,8 +11,17 @@ import RxSwift
 
 protocol ProductRepository {
     
-    func fetchProductListPage(of page: Int) -> Observable<ProductListPage>
+    func fetchProductListPage(
+        of page: Int,
+        itemsPerPage: Int) -> Observable<ProductListPage>
     
-    func fetchProductDetail(of productID: Int) -> Observable<ProductDetail>
+    func fetchProductDetail(
+        of productID: Int) -> Observable<ProductDetail>
+    
+    func requestProductEdit(
+        with request: ProductEditRequest) -> Observable<ProductDetail>
+    
+    func requestProductRegisteration(
+        with request: ProductRegistrationRequest) -> Observable<ProductDetail>
 
 }

@@ -10,17 +10,20 @@ import RxSwift
 
 class AllProductListUsecase: ProductListUsecase {
 
-    let service: APIServcie = MarketAPIService()
+    var productRepository: ProductRepository
+    
+    init(productRepository: ProductRepository = MarketProductRepository()) {
+        self.productRepository = productRepository
+    }
     
     func fetchPrdoucts(
         pageNo: Int,
         itemsPerPage: Int) -> Observable<([ProductViewModel], Bool)> {
-        let request = ProductsListPageRequest(pageNo: pageNo, itemsPerPage: itemsPerPage)
-        return self.service.requestRx(request)
-            .map{ response in response.toDomain()}
-            .map{ listPage in
-                let products = listPage.pages.map { product in
-                    ProductViewModel(product: product)}
+            self.productRepository.fetchProductListPage(
+                of: pageNo,
+                itemsPerPage: itemsPerPage)
+            .map { listPage -> ([ProductViewModel], Bool)in
+                let products = listPage.pages.map{ ProductViewModel(product: $0)}
                 return (products, listPage.hasNext)
             }
         }

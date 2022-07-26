@@ -11,4 +11,6 @@ enum APIError: Error {
 
     case invalidURL
     case invalidResponseDate
+    case URLRequestCreationFail
+    
 }

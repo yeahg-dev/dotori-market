@@ -12,15 +12,15 @@ import RxCocoa
 
 final class ProductRegisterationSceneViewModel {
     
-    private var APIService: APIServcie
+    private let usecase: RegisterProductUsecase
     private let productInputChecker = ProductInputChecker()
     private let productRegisterationRecorder = ProductRegisterationRecorder()
     
     static let maximumProductImageCount = 5
     private var maximutProductImageCellCount: Int { ProductRegisterationSceneViewModel.maximumProductImageCount + 1 }
 
-    init(APIService: APIServcie) {
-        self.APIService = APIService
+    init(usecase: RegisterProductUsecase) {
+        self.usecase = usecase
     }
     
     struct Input {
@@ -125,7 +125,7 @@ final class ProductRegisterationSceneViewModel {
         let requestProductRegistration = newProductInfo.withLatestFrom(productImages,
                                                                        resultSelector: { newProductInfo, imgaes in
                  self.createRegistrationRequest(with: newProductInfo, productImages: imgaes) })
-                 .flatMap{ request in self.APIService.requestRx(request) }
+            .flatMap{ request in self.usecase.requestRegisterProduct(reqeust: request) }
         
         let registerationSucessAlert = requestProductRegistration
             .observe(on: MainScheduler.instance)

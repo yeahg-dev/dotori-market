@@ -11,8 +11,12 @@ import RxSwift
 
 final class RegisterdProductUsecase: ProductListUsecase {
     
-    var service: APIServcie =  MarketAPIService()
+    let productRepository: ProductRepository
     private let productRegisterationRecorder = ProductRegisterationRecorder()
+    
+    init(productRepository: ProductRepository = MarketProductRepository()) {
+        self.productRepository = productRepository
+    }
     
     private var registerdProducts = [Int]()
     private var registerdProductPages = [[Int]]()
@@ -32,7 +36,7 @@ final class RegisterdProductUsecase: ProductListUsecase {
         
         let hasNext = (lastPage == pageToRequest) ? false :true
         
-            return self.requestProductViewModels(of: pageToRequest)
+            return self.fetchProductViewModels(of: pageToRequest)
             .map{ ($0, hasNext) }
         }
     
@@ -48,12 +52,10 @@ final class RegisterdProductUsecase: ProductListUsecase {
         self.registerdProductPages = registerdProducts.chunked(into: 20)
     }
     
-    private func requestProductViewModels(of page: [Int]) -> Observable<[ProductViewModel]> {
+    private func fetchProductViewModels(of page: [Int]) -> Observable<[ProductViewModel]> {
         let requests = Observable.from(page)
-            .map{ ProductDetailRequest(productID: $0) }
-            .flatMap{ request in
-                self.service.requestRx(request)}
-            .map{ $0.toDomain() }
+            .flatMap({ id in
+                self.productRepository.fetchProductDetail(of: id) })
      
         let productViewModels = requests
             .map{ detail in

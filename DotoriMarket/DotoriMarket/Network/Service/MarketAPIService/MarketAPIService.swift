@@ -18,8 +18,8 @@ struct MarketAPIService: APIServcie {
     }
     
     func requestRx<T: APIRequest>(
-        _ request: T) -> Observable<T.Response> {
-            let observable = Observable<T.Response>.create{ observer in
+        _ request: T) -> Observable<Data> {
+            let observable = Observable<Data>.create{ observer in
                 self.request(request) { result in
                     switch result {
                     case.success(let response):
@@ -35,19 +35,19 @@ struct MarketAPIService: APIServcie {
     
     func request<T: APIRequest>(
         _ request: T,
-        completion: @escaping (Result<T.Response, Error>
+        completion: @escaping (Result<Data, Error>
         ) -> Void) {
         guard let urlRequest = request.urlRequest() else {
-            completion(.failure(MarketAPIServiceError.URLRequestCreationFail))
+            completion(.failure(APIError.URLRequestCreationFail))
             return
         }
         
         self.executeURLRequest(of: urlRequest, completion)
     }
 
-    func executeURLRequest<T: Decodable>(
+    func executeURLRequest(
         of request: URLRequest,
-        _ completion: @escaping (Result<T, Error>
+        _ completion: @escaping (Result<Data, Error>
         ) -> Void ) {
         let dataTask = session.dataTask(with: request) { data, response, error in
             if let error = error {
@@ -62,17 +62,10 @@ struct MarketAPIService: APIServcie {
             }
             
             guard let data = data else { return }
-            guard let decoded: T = JSONCodable().decode(from: data) else {
-                return
-            }
-            completion(.success(decoded))
+
+            completion(.success(data))
         }
         dataTask.resume()
     }
     
-    enum MarketAPIServiceError: Error {
-        
-        case URLRequestCreationFail
-        
-    }
 }
