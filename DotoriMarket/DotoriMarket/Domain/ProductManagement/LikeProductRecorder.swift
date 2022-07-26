@@ -2,7 +2,7 @@
 //  LikeProductRecorder.swift
 //  DotoriMarket
 //
-//  Created by 1 on 2022/07/21.
+//  Created by lily on 2022/07/21.
 //
 
 import Foundation

@@ -1,8 +1,8 @@
 //
 //  ProductRegisterationSceneViewModel.swift
-//  OpenMarket
+//  DotoriMarket
 //
-//  Created by 1 on 2022/06/20.
+//  Created by lily on 2022/06/20.
 //
  
 import Foundation

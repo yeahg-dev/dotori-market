@@ -1,8 +1,8 @@
 //
 //  ProductCollectionViewController.swift
-//  OpenMarket
+//  DotoriMarket
 //
-//  Created by 예거 on 2022/01/12.
+//  Created by lily on 2022/01/12.
 //
 
 import UIKit

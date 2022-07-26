@@ -1,8 +1,9 @@
 //
-//  OpenMarket - AppDelegate.swift
-//  Created by yagom. 
-//  Copyright © yagom. All rights reserved.
-// 
+//  AppDelegate.swift
+//  DotoriMarket
+//
+//  Created by lily on 2022/07/21.
+//
 
 import UIKit
 

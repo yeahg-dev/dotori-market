@@ -1,8 +1,8 @@
 //
 //  ProductEditViewController.swift
-//  OpenMarket
+//  DotoriMarket
 //
-//  Created by 1 on 2022/06/09.
+//  Created by lily on 2022/06/09.
 //
 
 import UIKit

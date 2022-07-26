@@ -2,7 +2,7 @@
 //  LookProductDetaiUsecase.swift
 //  DotoriMarket
 //
-//  Created by 1 on 2022/07/22.
+//  Created by lily on 2022/07/22.
 //
 
 import Foundation

@@ -2,7 +2,7 @@
 //  Image.swift
 //  DotoriMarket
 //
-//  Created by 1 on 2022/07/05.
+//  Created by lily on 2022/07/05.
 //
 
 import Foundation

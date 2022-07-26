@@ -1,6 +1,6 @@
 //
 //  CurrencyResponse.swift
-//  OpenMarket
+//  DotoriMarket
 //
 //  Created by lily on 2022/01/04.
 //

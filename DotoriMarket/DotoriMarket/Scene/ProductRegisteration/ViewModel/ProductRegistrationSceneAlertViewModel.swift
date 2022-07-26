@@ -2,7 +2,7 @@
 //  ProductRegistrationSceneAlertViewModel.swift
 //  DotoriMarket
 //
-//  Created by 1 on 2022/07/11.
+//  Created by lily on 2022/07/11.
 //
 
 import Foundation

@@ -2,7 +2,7 @@
 //  AlertViewModel.swift
 //  DotoriMarket
 //
-//  Created by 1 on 2022/07/10.
+//  Created by lily on 2022/07/10.
 //
 
 import Foundation
