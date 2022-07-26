@@ -1,5 +1,5 @@
 //
-//  EditProductUsecase.swift
+//  ProductEditUsecase.swift
 //  DotoriMarket
 //
 //  Created by lily on 2022/07/26.
@@ -9,7 +9,7 @@ import Foundation
 
 import RxSwift
 
-struct EditProductUsecase {
+struct ProductEditUsecase {
     
     private let productRepository: ProductRepository
     private let inputChecker = ProductInputChecker()
@@ -23,17 +23,12 @@ struct EditProductUsecase {
         return self.productRepository.fetchProductDetail(of: productID)
     }
     
-    func requestProductEdit(with request: ProductEditRequest) -> Observable<ProductDetail> {
-        return self.productRepository.requestProductEdit(with: request)
-    }
-    
-    func requestProductEdit(eidtProductInfo: EditProductInfo?, productID: Int?) -> Observable<ProductDetail> {
-        return self.createEditRequest(with: eidtProductInfo, productID: productID)
-            .flatMap{ request in
-                self.productRepository.requestProductEdit(with: request) }
-    }
-    
-    func isValidInput(name: Observable<String?>, price: Observable<String?>, stock: Observable<String?>, description: Observable<String?>, discountedPrice: Observable<String?> ) -> Observable<(ProductInputChecker.ValidationResult, String?)> {
+    func isValidInput(
+        name: Observable<String?>,
+        price: Observable<String?>,
+        stock: Observable<String?>,
+        description: Observable<String?>,
+        discountedPrice: Observable<String?> ) -> Observable<(ProductInputChecker.ValidationResult, String?)> {
         let isValdName = self.inputChecker.isValid(name: name)
         let isValidPrice = self.inputChecker.isValid(price: price)
         let isValidStock = self.inputChecker.isValid(stock: stock)
@@ -43,13 +38,29 @@ struct EditProductUsecase {
         return Observable.zip(isValdName, isValidPrice, isValidStock, isValidDescription, isValidDiscountedPrice) { self.inputChecker.validationResultOf( isValidName: $0, isValidPrice: $1, isValidStock: $2, isValidDescription: $3, isValidDiscountedPrice: $4) }
     }
     
-    func createEditProductInfo(name: String?, description: String?, price: String?, currencyIndex: Int, discountedPrice: String?, stock: String?, secret: String) -> EditProductInfo? {
+    func requestProductEdit(
+        eidtProductInfo: EditProductInfo?,
+        productID: Int?) -> Observable<ProductDetail> {
+        return self.createEditRequest(with: eidtProductInfo, productID: productID)
+            .flatMap{ request in
+                self.productRepository.requestProductEdit(with: request) }
+    }
+    
+    func createEditProductInfo(
+        name: String?,
+        description: String?,
+        price: String?,
+        currencyIndex: Int,
+        discountedPrice: String?,
+        stock: String?,
+        secret: String) -> EditProductInfo? {
         guard let name = name,
               let description = description,
               let price = price,
               let stock = stock else {
             return nil
         }
+            
         let currency: Currency
         if currencyIndex == .zero {
             currency = .krw
@@ -66,7 +77,9 @@ struct EditProductUsecase {
                                secret: secret)
     }
     
-    private func createEditRequest(with productInfo: EditProductInfo?, productID: Int?) -> Observable<ProductEditRequest> {
+    private func createEditRequest(
+        with productInfo: EditProductInfo?,
+        productID: Int?) -> Observable<ProductEditRequest> {
         let editRequest = Observable<ProductEditRequest>.create{ observer in
             guard let id = productID,
                   let productInfo = productInfo else {
@@ -86,4 +99,5 @@ struct EditProductUsecase {
     enum EditProductUsecaseError: Error {
         case requestCreationFail
     }
+    
 }

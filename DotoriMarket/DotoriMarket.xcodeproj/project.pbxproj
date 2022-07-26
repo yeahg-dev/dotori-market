@@ -85,7 +85,7 @@
 		63C97864288FCB9100755708 /* ProductRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C97863288FCB9100755708 /* ProductRepository.swift */; };
 		63C97867288FCE9400755708 /* MarketProductRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C97866288FCE9400755708 /* MarketProductRepository.swift */; };
 		63C97869288FE66900755708 /* RxSwift+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C97868288FE66900755708 /* RxSwift+Extension.swift */; };
-		63C9786B288FE7C600755708 /* EditProductUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C9786A288FE7C600755708 /* EditProductUsecase.swift */; };
+		63C9786B288FE7C600755708 /* ProductEditUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C9786A288FE7C600755708 /* ProductEditUsecase.swift */; };
 		63C9786D288FEDAE00755708 /* RegisterProductUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C9786C288FEDAE00755708 /* RegisterProductUsecase.swift */; };
 		63C978712890057900755708 /* SellerInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 63C978702890057900755708 /* SellerInfo.plist */; };
 		63C978732890063400755708 /* DotoriMarket++Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C978722890063400755708 /* DotoriMarket++Bundle.swift */; };
@@ -220,7 +220,7 @@
 		63C97863288FCB9100755708 /* ProductRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRepository.swift; sourceTree = "<group>"; };
 		63C97866288FCE9400755708 /* MarketProductRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketProductRepository.swift; sourceTree = "<group>"; };
 		63C97868288FE66900755708 /* RxSwift+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RxSwift+Extension.swift"; sourceTree = "<group>"; };
-		63C9786A288FE7C600755708 /* EditProductUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProductUsecase.swift; sourceTree = "<group>"; };
+		63C9786A288FE7C600755708 /* ProductEditUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductEditUsecase.swift; sourceTree = "<group>"; };
 		63C9786C288FEDAE00755708 /* RegisterProductUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterProductUsecase.swift; sourceTree = "<group>"; };
 		63C978702890057900755708 /* SellerInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = SellerInfo.plist; sourceTree = "<group>"; };
 		63C978722890063400755708 /* DotoriMarket++Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DotoriMarket++Bundle.swift"; sourceTree = "<group>"; };
@@ -299,7 +299,7 @@
 			children = (
 				63ABC448288AF70F00A2ED63 /* ProductListScene */,
 				63ABC43C288AB72900A2ED63 /* LookProductDetaiUsecase.swift */,
-				63C9786A288FE7C600755708 /* EditProductUsecase.swift */,
+				63C9786A288FE7C600755708 /* ProductEditUsecase.swift */,
 				63C9786C288FEDAE00755708 /* RegisterProductUsecase.swift */,
 			);
 			path = Usecase;
@@ -1035,7 +1035,7 @@
 				639A28B12879E4D600BE7DC8 /* AlertViewModel.swift in Sources */,
 				63BD69862885ACCB0011ECAE /* TabCoordinator.swift in Sources */,
 				63D97B6D278419C0009E2516 /* Product.swift in Sources */,
-				63C9786B288FE7C600755708 /* EditProductUsecase.swift in Sources */,
+				63C9786B288FE7C600755708 /* ProductEditUsecase.swift in Sources */,
 				C10797202784214200B16C62 /* ProductsListPageResponse.swift in Sources */,
 				634EAD0128868E5100668A56 /* AllProductListCoordinator.swift in Sources */,
 				63B6502F279E866700818CDD /* UIViewController+Extension.swift in Sources */,

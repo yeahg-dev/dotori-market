@@ -12,11 +12,11 @@ import RxCocoa
 
 final class ProductEditSceneViewModel {
     
-    private let usecase: EditProductUsecase
+    private let usecase: ProductEditUsecase
     private let productInputChecker = ProductInputChecker()
     private var productID: Int?
     
-    init(usecase: EditProductUsecase) {
+    init(usecase: ProductEditUsecase) {
         self.usecase = usecase
     }
     
@@ -110,9 +110,18 @@ final class ProductEditSceneViewModel {
                     input.productDescription.asObservable(),
                     Observable.just(secret),
                     resultSelector: { (name, price, discountedPrice, currency, stock, descritpion, secret) -> EditProductInfo? in
-                        return self.usecase.createEditProductInfo(name: name, description: descritpion, price: price, currencyIndex: currency, discountedPrice: discountedPrice, stock: stock, secret: secret) }) }
+                        return self.usecase.createEditProductInfo(
+                            name: name,
+                            description: descritpion,
+                            price: price,
+                            currencyIndex: currency,
+                            discountedPrice: discountedPrice,
+                            stock: stock,
+                            secret: secret) }) }
             .flatMap({ editInfo in
-                self.usecase.requestProductEdit(eidtProductInfo: editInfo, productID: self.productID) })
+                self.usecase.requestProductEdit(
+                    eidtProductInfo: editInfo,
+                    productID: self.productID) })
             .do(onError: { _ in
                 registrationFailureAlert.onNext(RequestFailureAlertViewModel()) })
             .retry(when: { _ in requireSecret.asObservable() })
