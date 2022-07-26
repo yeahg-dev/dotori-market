@@ -15,4 +15,21 @@ protocol APIRequest {
     var httpMethod: HTTPMethod { get }
     var header: [String: String] { get }
     var body: Data? { get }
+    
+}
+
+extension APIRequest {
+    
+    func urlRequest() -> URLRequest? {
+        guard let url = url else {
+            return nil
+        }
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = httpMethod.rawValue
+        urlRequest.allHTTPHeaderFields = header
+        urlRequest.httpBody = body
+        return urlRequest
+    }
+    
 }

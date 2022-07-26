@@ -20,6 +20,20 @@
                ReferencedContainer = "container:DotoriMarket.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "634B8560285CD5ED00F931EF"
+               BuildableName = "DotoriMarketViewModelTests.xctest"
+               BlueprintName = "DotoriMarketViewModelTests"
+               ReferencedContainer = "container:DotoriMarket.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

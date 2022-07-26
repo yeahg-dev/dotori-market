@@ -16,8 +16,6 @@ protocol APIServcie {
         completion: @escaping (Result<T.Response, Error>
         ) -> Void)
     
-    func createURLRequest<T: APIRequest>(of APIRequest: T) -> URLRequest?
-    
     func executeURLRequest<T: Decodable>(
         of request: URLRequest,
         _ completion: @escaping (Result<T, Error>

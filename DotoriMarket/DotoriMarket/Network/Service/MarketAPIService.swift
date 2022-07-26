@@ -17,33 +17,34 @@ struct MarketAPIService: APIServcie {
         self.session = urlSession
     }
     
+    func requestRx<T: APIRequest>(
+        _ request: T) -> Observable<T.Response> {
+            let observable = Observable<T.Response>.create{ observer in
+                self.request(request) { result in
+                    switch result {
+                    case.success(let response):
+                        observer.onNext(response)
+                    case .failure(let error):
+                        observer.onError(error)
+                    }
+                }
+                return Disposables.create()
+            }
+            return observable
+        }
+    
     func request<T: APIRequest>(
         _ request: T,
         completion: @escaping (Result<T.Response, Error>
         ) -> Void) {
-        guard let urlRequest = self.createURLRequest(of: request) else {
+        guard let urlRequest = request.urlRequest() else {
+            completion(.failure(MarketAPIServiceError.URLRequestCreationFail))
             return
         }
         
-        executeURLRequest(of: urlRequest, completion)
+        self.executeURLRequest(of: urlRequest, completion)
     }
-    
-    func createURLRequest<T: APIRequest>(of APIRequest: T) -> URLRequest? {
-        
-        guard let url = APIRequest.url else { return nil}
-        var urlRequest = URLRequest(url: url)
-        
-        urlRequest.httpMethod = APIRequest.httpMethod.rawValue
-        
-        APIRequest.header.forEach { (key, value) in
-            urlRequest.addValue(value, forHTTPHeaderField: key)
-        }
-        
-        urlRequest.httpBody = APIRequest.body
-        
-        return urlRequest
-    }
-    
+
     func executeURLRequest<T: Decodable>(
         of request: URLRequest,
         _ completion: @escaping (Result<T, Error>
@@ -69,19 +70,9 @@ struct MarketAPIService: APIServcie {
         dataTask.resume()
     }
     
-    func requestRx<T: APIRequest>(
-        _ request: T) -> Observable<T.Response> {
-            let observable = Observable<T.Response>.create{ observer in
-                self.request(request) { result in
-                    switch result {
-                    case.success(let response):
-                        observer.onNext(response)
-                    case .failure(let error):
-                        observer.onError(error)
-                    }
-                }
-                return Disposables.create()
-            }
-            return observable
-        }
+    enum MarketAPIServiceError: Error {
+        
+        case URLRequestCreationFail
+        
+    }
 }
