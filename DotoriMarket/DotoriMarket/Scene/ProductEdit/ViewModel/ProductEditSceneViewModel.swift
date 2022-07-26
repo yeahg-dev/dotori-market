@@ -51,6 +51,7 @@ final class ProductEditSceneViewModel {
             .flatMap({ id in
                 self.usecase.fetchPrdouctDetail(of: id) })
             .map{ ProductDetailEditViewModel(product: $0) }
+            .do(onNext: { self.productID = $0.id })
             .share(replay: 1)
         
         let productName = productDetail.map{ $0.name }
@@ -75,24 +76,21 @@ final class ProductEditSceneViewModel {
                 }
             }.asDriver(onErrorJustReturn: 0)
         
-        let isValidName = productInputChecker.isValid(name: input.productName.asObservable())
-        let isValidPrice = productInputChecker.isValid(price: input.productPrice.asObservable())
-        let isValidStock = productInputChecker.isValid(stock: input.productStock.asObservable())
-        let isvalidDescription = productInputChecker.isValid(description: input.productDescription.asObservable())
-        let isValidDiscountedPrice = productInputChecker.isValid(discountedPrice: input.productDiscountedPrice.asObservable(), price: input.productPrice.asObservable())
+        let isValidInput = input.doneDidTapped
+            .flatMap { self.usecase.isValidInput(
+                name: input.productName.asObservable(),
+                price: input.productPrice.asObservable(),
+                stock: input.productStock.asObservable(),
+                description: input.productDescription.asObservable(),
+                discountedPrice: input.productDiscountedPrice.asObservable())
+            }
         
-        let requireSecret = input.doneDidTapped
-            .flatMap{ _ in
-                Observable.zip(isValidName, isValidPrice, isValidStock, isvalidDescription,isValidDiscountedPrice,
-                               resultSelector: { self.productInputChecker.validationResultOf( isValidName: $0, isValidPrice: $1, isValidStock: $2, isValidDescription: $3, isValidDiscountedPrice: $4) }) }
+        let requireSecret = isValidInput
             .filter{ (result, descritpion) in result == .success }
             .map{ _ in RequireSecretAlertViewModel() }
             .asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel)
         
-        let validationFailureAlert = input.doneDidTapped
-            .flatMap{ _ in
-                Observable.zip(isValidName, isValidPrice, isValidStock, isvalidDescription,isValidDiscountedPrice,
-                               resultSelector: { self.productInputChecker.validationResultOf( isValidName: $0, isValidPrice: $1, isValidStock: $2, isValidDescription: $3, isValidDiscountedPrice: $4) }) }
+        let validationFailureAlert = isValidInput
             .filter{ (result, descritpion) in result == .failure }
             .map{ (result, description) in description }
             .map { ValidationFailureAlertViewModel(title: $0)
@@ -102,13 +100,19 @@ final class ProductEditSceneViewModel {
         let registrationFailureAlert = PublishSubject<AlertViewModel>()
         
         let registerationResponse = input.didReceiveSecret
-            .flatMap{ secret -> Observable<EditProductInfo?> in
-                return Observable.combineLatest(input.productName.asObservable(), input.productPrice.asObservable(), input.productDiscountedPrice, input.productCurrencyIndex.asObservable(), input.productStock.asObservable(), input.productDescription.asObservable(), Observable.just(secret),
-                                                resultSelector: { (name, price, discountedPrice, currency, stock, descritpion, secret) -> EditProductInfo? in
-                    return self.createEditProductInfo(name: name, description: descritpion, price: price, currencyIndex: currency, discountedPrice: discountedPrice, stock: stock, secret: secret) }) }
-            .flatMap{ productInfo in self.createEditRequest(with: productInfo) }
-            .flatMap({ request in
-                self.usecase.requestProductEdit(with: request) })
+            .flatMap{ secret in
+                return Observable.combineLatest(
+                    input.productName.asObservable(),
+                    input.productPrice.asObservable(),
+                    input.productDiscountedPrice.asObservable(),
+                    input.productCurrencyIndex.asObservable(),
+                    input.productStock.asObservable(),
+                    input.productDescription.asObservable(),
+                    Observable.just(secret),
+                    resultSelector: { (name, price, discountedPrice, currency, stock, descritpion, secret) -> EditProductInfo? in
+                        return self.usecase.createEditProductInfo(name: name, description: descritpion, price: price, currencyIndex: currency, discountedPrice: discountedPrice, stock: stock, secret: secret) }) }
+            .flatMap({ editInfo in
+                self.usecase.requestProductEdit(eidtProductInfo: editInfo, productID: self.productID) })
             .do(onError: { _ in
                 registrationFailureAlert.onNext(RequestFailureAlertViewModel()) })
             .retry(when: { _ in requireSecret.asObservable() })
@@ -127,56 +131,4 @@ final class ProductEditSceneViewModel {
                       registrationSuccessAlert: registerationResponse,
                       registrationFailureAlert: registrationFailureAlert.asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel))
     }
-}
-
-// MARK: - API Request
-
-extension ProductEditSceneViewModel {
-    
-    enum ViewModelError: Error {
-        case requestCreationFail
-    }
-    
-    private func createEditRequest(with productInfo: EditProductInfo?) -> Observable<ProductEditRequest> {
-        let editRequest = Observable<ProductEditRequest>.create{ observer in
-            guard let id = self.productID,
-                  let productInfo = productInfo else {
-                observer.onError(ViewModelError.requestCreationFail)
-                return Disposables.create()
-            }
-            let request = ProductEditRequest(
-                identifier: Bundle.main.sellerIdentifier,
-                productID: id,
-                productInfo: productInfo)
-            observer.onNext(request)
-            return Disposables.create()
-        }
-        return editRequest
-    }
-    
-    private func createEditProductInfo(name: String?, description: String?, price: String?, currencyIndex: Int, discountedPrice: String?, stock: String?, secret: String) -> EditProductInfo? {
-        guard let name = name,
-              let description = description,
-              let price = price,
-              let discountedPrice = discountedPrice,
-              let stock = stock else {
-            return nil
-        }
-        let currency: Currency
-        if currencyIndex == .zero {
-            currency = .krw
-        } else {
-            currency = .usd
-        }
-        
-        return EditProductInfo(name: name,
-                               descriptions: description,
-                               thumbnailID: nil,
-                               price: (price as NSString).doubleValue,
-                               currency: currency.toEntity(),
-                               discountedPrice: (discountedPrice as NSString).doubleValue,
-                               stock: (stock as NSString).integerValue,
-                               secret: secret)
-    }
-    
 }
