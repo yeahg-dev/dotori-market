@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum APIURL {
+enum MarketAPIURL {
 
     private static let apiHost = "https://market-training.yagom-academy.kr/"
 
