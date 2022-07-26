@@ -145,7 +145,7 @@ extension ProductEditSceneViewModel {
                 return Disposables.create()
             }
             let request = ProductEditRequest(
-                identifier: SellerInformation.identifier.rawValue,
+                identifier: Bundle.main.sellerIdentifier,
                 productID: id,
                 productInfo: productInfo)
             observer.onNext(request)

@@ -156,7 +156,7 @@ extension ProductRegisterationSceneViewModel {
         let imageDatas = productImages.filter{ image in image.0 == .productImageCell }
             .map{ image in image.1 }
         let imageFiles = imageDatas.imageFile(fileName: productInfo.name)
-        let registrationRequest = ProductRegistrationRequest(identifier: SellerInformation.identifier.rawValue,
+        let registrationRequest = ProductRegistrationRequest(identifier: Bundle.main.sellerIdentifier,
                                                              params: productInfo,
                                                              images: imageFiles)
         return registrationRequest
