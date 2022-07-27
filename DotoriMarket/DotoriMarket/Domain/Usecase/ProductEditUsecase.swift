@@ -39,14 +39,38 @@ struct ProductEditUsecase {
     }
     
     func requestProductEdit(
-        eidtProductInfo: EditProductInfo?,
+        name: Observable<String?>,
+        description: Observable<String?>,
+        price: Observable<String?>,
+        currencyIndex: Observable<Int>,
+        discountedPrice: Observable<String?>,
+        stock: Observable<String?>,
+        secret: Observable<String>,
         productID: Int?) -> Observable<ProductDetail> {
-        return self.createEditRequest(with: eidtProductInfo, productID: productID)
-            .flatMap{ request in
-                self.productRepository.requestProductEdit(with: request) }
+            Observable.combineLatest(
+                name,
+                price,
+                discountedPrice,
+                currencyIndex,
+                stock,
+                description,
+                secret,
+                resultSelector: { (name, price, discountedPrice, currency, stock, descritpion, secret) -> EditProductInfo? in
+                    return self.createEditProductInfo(
+                        name: name,
+                        description: descritpion,
+                        price: price,
+                        currencyIndex: currency,
+                        discountedPrice: discountedPrice,
+                        stock: stock,
+                        secret: secret) })
+            .flatMap { editInfo in
+                self.createEditRequest(with: editInfo, productID: productID) }
+            .flatMap { request in
+                self.request(productEditRequest: request) }
     }
     
-    func createEditProductInfo(
+    private func createEditProductInfo(
         name: String?,
         description: String?,
         price: String?,
@@ -96,6 +120,11 @@ struct ProductEditUsecase {
         return editRequest
     }
     
+    private func request(
+        productEditRequest: ProductEditRequest) -> Observable<ProductDetail> {
+        return self.productRepository.requestProductEdit(with: productEditRequest)
+    }
+   
     enum EditProductUsecaseError: Error {
         case requestCreationFail
     }

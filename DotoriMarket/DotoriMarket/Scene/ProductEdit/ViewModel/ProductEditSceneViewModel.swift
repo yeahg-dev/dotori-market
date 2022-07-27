@@ -13,7 +13,6 @@ import RxCocoa
 final class ProductEditSceneViewModel {
     
     private let usecase: ProductEditUsecase
-    private let productInputChecker = ProductInputChecker()
     private var productID: Int?
     
     init(usecase: ProductEditUsecase) {
@@ -101,27 +100,15 @@ final class ProductEditSceneViewModel {
         
         let registerationResponse = input.didReceiveSecret
             .flatMap{ secret in
-                return Observable.combineLatest(
-                    input.productName.asObservable(),
-                    input.productPrice.asObservable(),
-                    input.productDiscountedPrice.asObservable(),
-                    input.productCurrencyIndex.asObservable(),
-                    input.productStock.asObservable(),
-                    input.productDescription.asObservable(),
-                    Observable.just(secret),
-                    resultSelector: { (name, price, discountedPrice, currency, stock, descritpion, secret) -> EditProductInfo? in
-                        return self.usecase.createEditProductInfo(
-                            name: name,
-                            description: descritpion,
-                            price: price,
-                            currencyIndex: currency,
-                            discountedPrice: discountedPrice,
-                            stock: stock,
-                            secret: secret) }) }
-            .flatMap({ editInfo in
                 self.usecase.requestProductEdit(
-                    eidtProductInfo: editInfo,
-                    productID: self.productID) })
+                    name: input.productName.asObservable(),
+                    description: input.productDescription.asObservable(),
+                    price: input.productPrice.asObservable(),
+                    currencyIndex: input.productCurrencyIndex.asObservable(),
+                    discountedPrice: input.productDiscountedPrice.asObservable(),
+                    stock: input.productStock.asObservable(),
+                    secret: Observable.just(secret),
+                    productID: self.productID) }
             .do(onError: { _ in
                 registrationFailureAlert.onNext(RequestFailureAlertViewModel()) })
             .retry(when: { _ in requireSecret.asObservable() })
@@ -140,4 +127,5 @@ final class ProductEditSceneViewModel {
                       registrationSuccessAlert: registerationResponse,
                       registrationFailureAlert: registrationFailureAlert.asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel))
     }
+    
 }
