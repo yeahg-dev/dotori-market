@@ -13,7 +13,6 @@ import RxCocoa
 final class ProductDetailSceneViewModel {
     
     private let usecase: LookProductDetaiUsecase
-    
     private let disposeBag = DisposeBag()
     
     init(usecase: LookProductDetaiUsecase) {
