@@ -20,7 +20,7 @@ final class ProductRegisterationCoordinator: Coordinator {
     func start() {
         let registerationVC = UIStoryboard.main.instantiateViewController(
             identifier: "ProductRegistrationViewController", creator:  { coder -> ProductRegistrationViewController in
-                let viewModel = ProductRegisterationSceneViewModel(usecase: RegisterProductUsecase())
+                let viewModel = ProductRegisterationSceneViewModel(usecase: ProductRegisterationUsecase())
                 let vc = ProductRegistrationViewController(
                     viewModel: viewModel,
                     coordinator: self,

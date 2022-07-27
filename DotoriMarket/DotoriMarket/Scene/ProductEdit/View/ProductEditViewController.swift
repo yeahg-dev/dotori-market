@@ -30,7 +30,7 @@ final class ProductEditViewController: UIViewController {
     // MARK: - Property
     
     private var productID: Int?
-    private let viewModel = ProductEditSceneViewModel(usecase: EditProductUsecase())
+    private let viewModel = ProductEditSceneViewModel(usecase: ProductEditUsecase())
     private let disposeBag = DisposeBag()
     private let secret = PublishSubject<String>()
     

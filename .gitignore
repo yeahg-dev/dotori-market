@@ -1,3 +1,5 @@
+/SellerInfo.plist
+
 
 # Created by https://www.toptal.com/developers/gitignore/api/xcode,macos,linux,windows,sublimetext,swift,swiftpackagemanager,swiftpm,objective-c
 # Edit at https://www.toptal.com/developers/gitignore?templates=xcode,macos,linux,windows,sublimetext,swift,swiftpackagemanager,swiftpm,objective-c
@@ -144,3 +146,5 @@ bh_unicode_properties.cache
 # Sublime-github package stores a github token in this file
 # https://packagecontrol.io/packages/sublime-github
 GitHub.sublime-settings
+SellerInfo.plist
+DotoriMarket/DotoriMarket/SellerInfo.plist

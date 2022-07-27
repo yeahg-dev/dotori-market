@@ -17,6 +17,10 @@ struct ProductInputChecker {
         case failure
     }
     
+    func isVald(image: Observable<[(CellType, Data)]>) -> Observable<Bool> {
+        return image.map { $0.count > 1 }
+    }
+    
     func isValid(name: Observable<String?>) -> Observable<Bool> {
         return name.map{ name -> Bool in
             guard let name = name else { return false }
