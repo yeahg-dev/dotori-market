@@ -89,6 +89,7 @@
 		63C9786D288FEDAE00755708 /* ProductRegisterationUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C9786C288FEDAE00755708 /* ProductRegisterationUsecase.swift */; };
 		63C978712890057900755708 /* SellerInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 63C978702890057900755708 /* SellerInfo.plist */; };
 		63C978732890063400755708 /* DotoriMarket++Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C978722890063400755708 /* DotoriMarket++Bundle.swift */; };
+		63C9787728913BCC00755708 /* FavoriteProductRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C9787628913BCC00755708 /* FavoriteProductRepository.swift */; };
 		63CD42BE2877038900EAFA81 /* RxTest in Frameworks */ = {isa = PBXBuildFile; productRef = 63CD42BD2877038900EAFA81 /* RxTest */; };
 		63CD42C02877038F00EAFA81 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 63CD42BF2877038F00EAFA81 /* RxSwift */; };
 		63CD42C228771B2200EAFA81 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CD42C128771B2200EAFA81 /* MockURLProtocol.swift */; };
@@ -224,6 +225,7 @@
 		63C9786C288FEDAE00755708 /* ProductRegisterationUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegisterationUsecase.swift; sourceTree = "<group>"; };
 		63C978702890057900755708 /* SellerInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = SellerInfo.plist; sourceTree = "<group>"; };
 		63C978722890063400755708 /* DotoriMarket++Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DotoriMarket++Bundle.swift"; sourceTree = "<group>"; };
+		63C9787628913BCC00755708 /* FavoriteProductRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteProductRepository.swift; sourceTree = "<group>"; };
 		63CD42C128771B2200EAFA81 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		63D660E42787F09400A450DE /* ImageFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFile.swift; sourceTree = "<group>"; };
 		63D660E72787F87B00A450DE /* Data+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
@@ -368,7 +370,6 @@
 		634B8552285AF2AA00F931EF /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				6396C251287497A40076356D /* Protocol */,
 				63C97853288FC21E00755708 /* MarketAPIService */,
 			);
 			path = Service;
@@ -427,6 +428,7 @@
 			children = (
 				C19123FD278D5C3700171DEB /* HTTPMethod.swift */,
 				C10797AF2786DF4D00B16C62 /* APIError.swift */,
+				6396C251287497A40076356D /* Protocol */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -488,7 +490,6 @@
 			isa = PBXGroup;
 			children = (
 				6396C234287433E80076356D /* Common */,
-				634B8552285AF2AA00F931EF /* Service */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -504,7 +505,6 @@
 		63ABC440288ADC7400A2ED63 /* ProductManagement */ = {
 			isa = PBXGroup;
 			children = (
-				63ABC44A288AF7F800A2ED63 /* Entity */,
 				6324931E288850A300502DBE /* LikeProductRecorder.swift */,
 				63ABC442288ADC9E00A2ED63 /* ProductRegisterationRecorder.swift */,
 			);
@@ -595,8 +595,25 @@
 			isa = PBXGroup;
 			children = (
 				63C97863288FCB9100755708 /* ProductRepository.swift */,
+				63C9787628913BCC00755708 /* FavoriteProductRepository.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		63C9787428913AE400755708 /* DB */ = {
+			isa = PBXGroup;
+			children = (
+				63C9787528913AEC00755708 /* Realm */,
+			);
+			path = DB;
+			sourceTree = "<group>";
+		};
+		63C9787528913AEC00755708 /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+				63ABC44A288AF7F800A2ED63 /* Entity */,
+			);
+			path = Realm;
 			sourceTree = "<group>";
 		};
 		63D660E62787F86700A450DE /* Extension */ = {
@@ -810,6 +827,8 @@
 				632493132887FD7000502DBE /* View */,
 				63C97862288FCA9E00755708 /* Repository */,
 				63A202B32785C310003A1112 /* Network */,
+				634B8552285AF2AA00F931EF /* Service */,
+				63C9787428913AE400755708 /* DB */,
 				C10797B3278713C700B16C62 /* Utility */,
 				63D660E62787F86700A450DE /* Extension */,
 			);
@@ -1001,6 +1020,7 @@
 				C1AF6256279FDDE20016ACE9 /* UICollectionViewController+Extension.swift in Sources */,
 				63471CD927993E6A00D50E7B /* UICollectionView+Extension.swift in Sources */,
 				63C978732890063400755708 /* DotoriMarket++Bundle.swift in Sources */,
+				63C9787728913BCC00755708 /* FavoriteProductRepository.swift in Sources */,
 				63C9786D288FEDAE00755708 /* ProductRegisterationUsecase.swift in Sources */,
 				63AA3B11288C0C3600A8877B /* ProductRegisterationCoordinator.swift in Sources */,
 				63D97B6F27842307009E2516 /* CurrencyResponse.swift in Sources */,
