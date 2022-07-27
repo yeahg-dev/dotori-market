@@ -11,21 +11,23 @@ import RxSwift
 
 final class LlikeProductListUsecase: ProductListUsecase {
 
-    var productRepository: ProductRepository
-    private let likeProductRecorder = LikeProductRecorder()
+    let productRepository: ProductRepository
+    private let favoriteProductRepository: FavoriteProductRepository
     
     private var likeProducts = [Int]()
     private var likeProductPages = [[Int]]()
     
-    init(productRepository: ProductRepository = MarketProductRepository()) {
+    init(productRepository: ProductRepository = MarketProductRepository(),
+         favoriteProdcutRepository: FavoriteProductRepository = MarketFavoriteProductRepository()) {
         self.productRepository = productRepository
+        self.favoriteProductRepository = favoriteProdcutRepository
     }
     
     func fetchPrdoucts(
         pageNo: Int,
         itemsPerPage: Int) -> Observable<([ProductViewModel], Bool)> {
         if self.likeProducts.isEmpty ||
-                self.likeProducts != self.likeProductRecorder.readlikeProductIDs() {
+            self.likeProducts != self.favoriteProductRepository.fetchFavoriteProductIDs() {
             self.readLikeProductIDs()
         }
         
@@ -49,7 +51,7 @@ final class LlikeProductListUsecase: ProductListUsecase {
     
     
     private func readLikeProductIDs() {
-        self.likeProducts = self.likeProductRecorder.readlikeProductIDs()
+        self.likeProducts = self.favoriteProductRepository.fetchFavoriteProductIDs()
         self.likeProductPages = likeProducts.chunked(into: 20)
     }
     

@@ -12,10 +12,12 @@ import RxSwift
 struct LookProductDetaiUsecase {
     
     private let productRepository: ProductRepository
-    private let likeProductRecorder = LikeProductRecorder()
+    private let favoriteProductRepository: FavoriteProductRepository
     
-    init(productRepository: MarketProductRepository = MarketProductRepository()) {
+    init(productRepository: MarketProductRepository = MarketProductRepository(),
+         favoriteProductRepository: FavoriteProductRepository = MarketFavoriteProductRepository()) {
         self.productRepository = productRepository
+        self.favoriteProductRepository = favoriteProductRepository
     }
     
     func fetchPrdouctDetail(
@@ -27,15 +29,15 @@ struct LookProductDetaiUsecase {
     }
     
     func readIsLikeProduct(of productID: Int) -> Bool {
-        return self.likeProductRecorder.readIsLike(productID: productID)
+        return self.favoriteProductRepository.fetchIsLikeProduct(productID: productID)
     }
     
     func recordLikeProduct(of productID: Int) {
-        likeProductRecorder.recordLikeProduct(productID: productID)
+        self.favoriteProductRepository.createFavoriteProduct(productID: productID)
     }
     
     func recordUnlikeProduct(of productID: Int) {
-        likeProductRecorder.recordUnlikeProduct(productID: productID)
+        self.favoriteProductRepository.deletFavoriteProduct(productID: productID)
     }
     
 }
