@@ -13,10 +13,10 @@ import RxCocoa
 final class ProductRegisterationSceneViewModel {
     
     private let usecase: ProductRegisterationUsecase
-    private let productRegisterationRecorder = ProductRegisterationRecorder()
     
     static let maximumProductImageCount = 5
-    private var maximutProductImageCellCount: Int { ProductRegisterationSceneViewModel.maximumProductImageCount + 1 }
+    private var maximutProductImageCellCount: Int {
+        ProductRegisterationSceneViewModel.maximumProductImageCount + 1 }
 
     init(usecase: ProductRegisterationUsecase) {
         self.usecase = usecase
@@ -84,8 +84,6 @@ final class ProductRegisterationSceneViewModel {
             .map{ _ in ExecessImageAlertViewModel() as AlertViewModel }
             .asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel)
         
-        let productCurrency = input.productCurrency.asObservable()
-        
         let isValidInput = self.usecase.isValidInput(
             image: productImages.asObservable(),
             name: input.productTitle.asObservable(),
@@ -104,44 +102,33 @@ final class ProductRegisterationSceneViewModel {
             .asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel)
     
         let validationFailAlert = input.doneDidTapped
-            .withLatestFrom(isValidInput) { (request, validationResult) in return validationResult }
+            .withLatestFrom(isValidInput) { (request, validationResult) in
+                return validationResult }
             .filter{ $0.0 == .failure }
-            .map{ ValidationFailureAlertViewModel(title: $0.1, message: nil, actionTitle: MarketCommon.confirm.rawValue) as AlertViewModel }
+            .map{ ValidationFailureAlertViewModel(
+                title: $0.1,
+                message: nil,
+                actionTitle: MarketCommon.confirm.rawValue) as AlertViewModel }
             .asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel)
     
         let registrationFailureAlert = PublishSubject<AlertViewModel>()
         
         let registerationRequestResponse = input.didReceiveSecret
-            .flatMap{ secret -> Observable<NewProductInfo> in
-                return Observable.combineLatest(
-                    input.productTitle.asObservable(),
-                    input.productPrice.asObservable(),
-                    input.prdouctDiscountedPrice.asObservable(),
-                    productCurrency,
-                    input.productStock.asObservable(),
-                    input.productDescriptionText.asObservable(),
-                    Observable.just(secret),
-                                   resultSelector: { (name, price, discountedPrice, currency, stock, descritpion, secret) -> NewProductInfo in
-                    return self.usecase.createNewProductInfo(
-                        name: name,
-                        price: price,
-                        currency: currency,
-                        discountedPrice: discountedPrice,
-                        stock: stock,
-                        description: descritpion,
-                        secret: secret) })
+            .flatMap{ secret in
+                self.usecase.requestProductRegisteration(
+                    name: input.productTitle.asObservable(),
+                    price: input.productPrice.asObservable(),
+                    currency: input.productCurrency.asObservable(),
+                    discountedPrice: input.prdouctDiscountedPrice.asObservable(),
+                    stock: input.productStock.asObservable(),
+                    description: input.productDescriptionText.asObservable(),
+                    secret: Observable.just(secret),
+                    image: productImages.asObservable())
             }
-            .withLatestFrom(productImages,
-                            resultSelector: { newProductInfo, imgaes in
-                self.usecase.createRegistrationRequest(with: newProductInfo, productImages: imgaes) })
-            .flatMap{ request in self.usecase.requestRegisterProduct(
-                reqeust: request) }
         
         let registerationSucessAlert = registerationRequestResponse
             .observe(on: MainScheduler.instance)
-            .do(onNext: { product in
-                self.productRegisterationRecorder.recordProductRegistraion(productID: product.id)
-            }, onError: { _ in
+            .do(onError: { _ in
                 registrationFailureAlert.onNext(RegistrationFailureAlertViewModel()) })
             .map{ _ in return RegistrationSuccessAlertViewModel() as AlertViewModel }
             .asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel)
@@ -151,9 +138,11 @@ final class ProductRegisterationSceneViewModel {
                       presentImagePicker: presentImagePicker,
                       productImages: productImages,
                       excessImageAlert: excessImageAlert,
-                      validationFailureAlert: validationFailAlert.asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel),
+                      validationFailureAlert: validationFailAlert.asDriver(
+                        onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel),
                       registrationSuccessAlert: registerationSucessAlert,
-                      registrationFailureAlert: registrationFailureAlert .asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel))
+                      registrationFailureAlert: registrationFailureAlert .asDriver(
+                        onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel))
     }
     
 }
