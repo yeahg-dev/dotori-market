@@ -12,10 +12,12 @@ import RxSwift
 final class RegisterdProductUsecase: ProductListUsecase {
     
     let productRepository: ProductRepository
-    private let productRegisterationRecorder = ProductRegisterationRecorder()
+    private let registredProductRepository: RegisteredProductRepository
     
-    init(productRepository: ProductRepository = MarketProductRepository()) {
+    init(productRepository: ProductRepository = MarketProductRepository(),
+         registredProductRepository: RegisteredProductRepository = MarketRegisteredProductRepository()) {
         self.productRepository = productRepository
+        self.registredProductRepository = registredProductRepository
     }
     
     private var registerdProducts = [Int]()
@@ -25,7 +27,7 @@ final class RegisterdProductUsecase: ProductListUsecase {
         pageNo: Int,
         itemsPerPage: Int) -> Observable<([ProductViewModel], Bool)> {
         if self.registerdProducts.isEmpty ||
-                self.registerdProducts != self.productRegisterationRecorder.readRegisterdProductIDs() {
+            self.registerdProducts != self.registredProductRepository.fetchRegisteredProductIDs() {
             self.readProductIDs()
         }
         
@@ -48,7 +50,7 @@ final class RegisterdProductUsecase: ProductListUsecase {
     }
     
     private func readProductIDs() {
-        self.registerdProducts = self.productRegisterationRecorder.readRegisterdProductIDs()
+        self.registerdProducts = self.registredProductRepository.fetchRegisteredProductIDs()
         self.registerdProductPages = registerdProducts.chunked(into: 20)
     }
     

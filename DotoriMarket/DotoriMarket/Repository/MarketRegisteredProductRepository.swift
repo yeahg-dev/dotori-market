@@ -1,19 +1,19 @@
 //
-//  ProductRegisterationRecorder.swift
+//  MarketRegisteredProductRepository.swift
 //  DotoriMarket
 //
-//  Created by lily on 2022/07/22.
+//  Created by lily on 2022/07/28.
 //
 
 import Foundation
 
 import RealmSwift
 
-struct ProductRegisterationRecorder {
+struct MarketRegisteredProductRepository: RegisteredProductRepository {
     
-    let realm = try! Realm()
+    private let realm = try! Realm()
     
-    func recordProductRegistraion(productID: Int) {
+    func createRegisteredProduct(productID: Int) {
         let productToRegister = RegisterdProduct()
         productToRegister.id = Int64(productID)
         
@@ -22,7 +22,7 @@ struct ProductRegisterationRecorder {
         }
     }
     
-    func readRegisterdProductIDs() -> [Int] {
+    func fetchRegisteredProductIDs() -> [Int] {
         let products = realm.objects(RegisterdProduct.self)
 
         return Array(products).compactMap{ $0.id }.map{ Int($0) }

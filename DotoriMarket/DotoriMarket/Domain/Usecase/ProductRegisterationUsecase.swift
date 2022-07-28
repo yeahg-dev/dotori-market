@@ -12,11 +12,13 @@ import RxSwift
 struct ProductRegisterationUsecase {
     
     private let productRepository: ProductRepository
+    private let registredProductRepository: RegisteredProductRepository
     private let inputChecker = ProductInputChecker()
-    private let productRegisterationRecorder = ProductRegisterationRecorder()
-    
-    init(productRepository: MarketProductRepository = MarketProductRepository()) {
+ 
+    init(productRepository: MarketProductRepository = MarketProductRepository(),
+         registredProductRepository: RegisteredProductRepository = MarketRegisteredProductRepository()) {
         self.productRepository = productRepository
+        self.registredProductRepository = registredProductRepository
     }
 
     func isValidInput(
@@ -73,7 +75,7 @@ struct ProductRegisterationUsecase {
             .flatMap { request in
                 self.request(reqeust: request) }
             .do{ productDetail in
-                self.productRegisterationRecorder.recordProductRegistraion(
+                self.registredProductRepository.createRegisteredProduct(
                     productID: productDetail.id) }
 
     }
