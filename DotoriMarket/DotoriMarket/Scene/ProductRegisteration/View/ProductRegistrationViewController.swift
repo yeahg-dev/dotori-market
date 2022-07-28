@@ -37,8 +37,8 @@ final class ProductRegistrationViewController: UIViewController {
     
     // MARK: - Property
     
-    private let coordinator: ProductRegisterationCoordinator
-    private let viewModel: ProductRegisterationSceneViewModel
+    private let coordinator: ProductRegistrationCoordinator
+    private let viewModel: ProductRegistrationSceneViewModel
     private let disposeBag = DisposeBag()
     private let pickerImage = PublishSubject<Data>()
     private let secret = PublishSubject<String>()
@@ -46,8 +46,8 @@ final class ProductRegistrationViewController: UIViewController {
     
     // MARK: - Initializer
     
-    init?(viewModel: ProductRegisterationSceneViewModel,
-          coordinator: ProductRegisterationCoordinator,
+    init?(viewModel: ProductRegistrationSceneViewModel,
+          coordinator: ProductRegistrationCoordinator,
           coder: NSCoder) {
         self.viewModel = viewModel
         self.coordinator = coordinator
@@ -83,7 +83,7 @@ final class ProductRegistrationViewController: UIViewController {
 
         guard let doneButton = self.navigationBar?.items?[0].rightBarButtonItem as? UIBarButtonItem else { return }
         
-        let input = ProductRegisterationSceneViewModel.Input(
+        let input = ProductRegistrationSceneViewModel.Input(
             viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{_ in },
             imagePickerCellDidSelected: productImageCollectionView.rx.itemSelected.map{ index in index.row }.filter{ $0 == .zero },
             imageDidSelected: self.pickerImage.asObservable(),

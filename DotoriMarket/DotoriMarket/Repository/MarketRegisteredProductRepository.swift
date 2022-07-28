@@ -11,7 +11,7 @@ import RealmSwift
 
 struct MarketRegisteredProductRepository: RegisteredProductRepository {
     
-    var realm: Realm
+    private var realm = try! Realm()
     
     init(realm: Realm = try! Realm()) {
         self.realm = realm

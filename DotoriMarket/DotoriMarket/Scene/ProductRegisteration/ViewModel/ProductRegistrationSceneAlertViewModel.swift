@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension ProductRegisterationSceneViewModel {
+extension ProductRegistrationSceneViewModel {
     
     struct ValidationFailureAlertViewModel: AlertViewModel {
         
@@ -19,7 +19,7 @@ extension ProductRegisterationSceneViewModel {
  
     struct ExecessImageAlertViewModel: AlertViewModel {
         
-        var title: String? = "사진은 최대 \(ProductRegisterationSceneViewModel.maximumProductImageCount)장까지 첨부할 수 있어요"
+        var title: String? = "사진은 최대 \(ProductRegistrationSceneViewModel.maximumProductImageCount)장까지 첨부할 수 있어요"
         var message: String? = nil
         var actionTitle: String? = "확인"
     }

@@ -1,5 +1,5 @@
 //
-//  ProductRegisterationCoordinator.swift
+//  ProductRegistrationCoordinator.swift
 //  DotoriMarket
 //
 //  Created by lily on 2022/07/23.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ProductRegisterationCoordinator: Coordinator {
+final class ProductRegistrationCoordinator: Coordinator {
     
     var childCoordinator = [Coordinator]()
     
@@ -18,18 +18,18 @@ final class ProductRegisterationCoordinator: Coordinator {
     }
     
     func start() {
-        let registerationVC = UIStoryboard.main.instantiateViewController(
+        let registrationVC = UIStoryboard.main.instantiateViewController(
             identifier: "ProductRegistrationViewController", creator:  { coder -> ProductRegistrationViewController in
-                let viewModel = ProductRegisterationSceneViewModel(usecase: ProductRegisterationUsecase())
+                let viewModel = ProductRegistrationSceneViewModel(usecase: ProductRegistrationUsecase())
                 let vc = ProductRegistrationViewController(
                     viewModel: viewModel,
                     coordinator: self,
                     coder: coder)
                 return vc!
             })
-        registerationVC.modalPresentationStyle = .fullScreen
+        registrationVC.modalPresentationStyle = .fullScreen
 
-        self.navigationController.present(registerationVC, animated: true)
+        self.navigationController.present(registrationVC, animated: true)
     }
     
     func transitionToAllProduct() {

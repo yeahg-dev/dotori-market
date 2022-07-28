@@ -40,7 +40,7 @@ final class MyProductCoordinator: ProductListCoordinator, TabCoordinator {
     }
     
     func rightNavigationItemDidTapped(from: UIViewController) {
-        let productRegisterationCoordinator = ProductRegisterationCoordinator(
+        let productRegisterationCoordinator = ProductRegistrationCoordinator(
             navigationController: self.navigationController)
         childCoordinator.append(productRegisterationCoordinator)
         productRegisterationCoordinator.start()

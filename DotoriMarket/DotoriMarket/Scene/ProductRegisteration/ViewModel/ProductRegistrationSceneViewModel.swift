@@ -10,15 +10,15 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-final class ProductRegisterationSceneViewModel {
+final class ProductRegistrationSceneViewModel {
     
-    private let usecase: ProductRegisterationUsecase
+    private let usecase: ProductRegistrationUsecase
     
     static let maximumProductImageCount = 5
     private var maximutProductImageCellCount: Int {
-        ProductRegisterationSceneViewModel.maximumProductImageCount + 1 }
+        ProductRegistrationSceneViewModel.maximumProductImageCount + 1 }
 
-    init(usecase: ProductRegisterationUsecase) {
+    init(usecase: ProductRegistrationUsecase) {
         self.usecase = usecase
     }
     

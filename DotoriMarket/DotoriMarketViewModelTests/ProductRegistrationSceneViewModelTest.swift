@@ -1,5 +1,5 @@
 //
-//  ProductRegisterationSceneViewModelTest.swift
+//  ProductRegistrationSceneViewModelTest.swift
 //  DotoriMarketViewModelTests
 //
 //  Created by 1 on 2022/07/28.
@@ -13,9 +13,9 @@ import RxCocoa
 import RxTest
 import RealmSwift
 
-class ProductRegisterationSceneViewModelTest: XCTestCase {
+class ProductRegistrationSceneViewModelTest: XCTestCase {
     
-    private var sut: ProductRegisterationSceneViewModel!
+    private var sut: ProductRegistrationSceneViewModel!
     private let scheduler = TestScheduler(initialClock: 0)
     private var disposeBag = DisposeBag()
     let apiURL = MarketAPIURL.productRegistration.url!
@@ -63,11 +63,11 @@ class ProductRegisterationSceneViewModelTest: XCTestCase {
         let mockRegisteredProductRepository = MarketRegisteredProductRepository(
             realm: try! Realm())
         
-        let testUsecase = ProductRegisterationUsecase(
+        let testUsecase = ProductRegistrationUsecase(
             productRepository: mockProductRepository,
             registredProductRepository: mockRegisteredProductRepository)
         
-        self.sut = ProductRegisterationSceneViewModel(usecase: testUsecase)
+        self.sut = ProductRegistrationSceneViewModel(usecase: testUsecase)
     }
 
     override func tearDownWithError() throws {
@@ -90,7 +90,7 @@ class ProductRegisterationSceneViewModelTest: XCTestCase {
         let doneDidTapped = PublishSubject<Void>()
         let secret = PublishSubject<String>()
         
-        let input = ProductRegisterationSceneViewModel.Input(
+        let input = ProductRegistrationSceneViewModel.Input(
             viewWillAppear: viewWillAppear,
             imagePickerCellDidSelected: imagePickerCellDidSelected.asObservable(),
             imageDidSelected: imageDidSelected.asObservable(),
@@ -106,7 +106,7 @@ class ProductRegisterationSceneViewModelTest: XCTestCase {
         let output = sut.transform(input: input)
         
         let validationObserver = scheduler.createObserver(
-            ProductRegisterationSceneViewModel.RegistrationFailureAlertViewModel.self)
+            ProductRegistrationSceneViewModel.RegistrationFailureAlertViewModel.self)
         var alertTitle: String?
         
         output.validationFailureAlert
