@@ -9,9 +9,13 @@ import Foundation
 
 import RealmSwift
 
-struct MarketFavoriteProductRepository: FavoriteProductRepository {
+struct MarketFavoriteProductRepository: RealmFavoriteProductRepository {
     
-    private let realm = try! Realm()
+    var realm: Realm
+    
+    init(realm: Realm = try! Realm()) {
+        self.realm = realm
+    }
     
     func createFavoriteProduct(productID: Int) {
         let favoriteProduct = LikeProduct()

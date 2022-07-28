@@ -11,7 +11,11 @@ import RealmSwift
 
 struct MarketRegisteredProductRepository: RegisteredProductRepository {
     
-    private let realm = try! Realm()
+    var realm: Realm
+    
+    init(realm: Realm = try! Realm()) {
+        self.realm = realm
+    }
     
     func createRegisteredProduct(productID: Int) {
         let productToRegister = RegisterdProduct()

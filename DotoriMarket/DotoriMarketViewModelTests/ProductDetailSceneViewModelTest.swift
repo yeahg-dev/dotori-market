@@ -10,6 +10,7 @@ import XCTest
 
 import RxSwift
 import RxTest
+import RealmSwift
 
 class ProductDetailSceneViewModelTest: XCTestCase {
     
@@ -55,8 +56,14 @@ class ProductDetailSceneViewModelTest: XCTestCase {
         configuration.protocolClasses = [MockURLProtocol.self]
         let mockURLSession = URLSession(configuration: configuration)
         let mockAPIService = MarketAPIService(urlSession: mockURLSession)
+        let mockProductRepository = MarketProductRepository(service: mockAPIService)
+        
+        Realm.Configuration.defaultConfiguration.inMemoryIdentifier = self.name
+        let mockFavoriteRepository = MarketFavoriteProductRepository(
+            realm: try! Realm())
         let testUsecase = LookProductDetaiUsecase(
-            productRepository: MarketProductRepository(service: mockAPIService))
+            productRepository: mockProductRepository, favoriteProductRepository: mockFavoriteRepository)
+        
         self.sut = ProductDetailSceneViewModel(usecase: testUsecase)
     }
     
@@ -84,6 +91,7 @@ class ProductDetailSceneViewModelTest: XCTestCase {
         
         let productNameObserver = scheduler.createObserver(String.self)
         let productSellingPriceObserver = scheduler.createObserver(String.self)
+        let likeButtonObserver = scheduler.createObserver(Bool.self)
         
         output.prdouctName
             .do(afterNext: { _ in
@@ -96,7 +104,13 @@ class ProductDetailSceneViewModelTest: XCTestCase {
                 expectation.fulfill() })
             .drive(productSellingPriceObserver)
             .disposed(by: disposeBag)
-                    
+                
+        output.isLikeProduct
+        .do(afterNext: { _ in
+            expectation.fulfill() })
+        .drive(likeButtonObserver)
+        .disposed(by: disposeBag)
+                
         self.scheduler.createColdObservable([(.next(5, 1000))])
             .bind(to: trigger)
             .disposed(by: disposeBag)
@@ -107,6 +121,8 @@ class ProductDetailSceneViewModelTest: XCTestCase {
                     
         XCTAssertEqual(productNameObserver.events, [.next(5, "아이폰13")])
         XCTAssertEqual(productSellingPriceObserver.events, [.next(5, "1,300,000원")])
+        XCTAssertEqual(likeButtonObserver.events, [.next(5, false)])
+            
     }
     
 }

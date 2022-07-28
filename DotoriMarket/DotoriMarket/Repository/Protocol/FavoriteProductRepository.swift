@@ -7,6 +7,8 @@
 
 import Foundation
 
+import RealmSwift
+
 protocol FavoriteProductRepository {
     
     func createFavoriteProduct(productID: Int)
@@ -16,5 +18,11 @@ protocol FavoriteProductRepository {
     func fetchFavoriteProductIDs() -> [Int]
     
     func fetchIsLikeProduct(productID: Int) -> Bool
+    
+}
+
+protocol RealmFavoriteProductRepository: FavoriteProductRepository {
+    
+    var realm: Realm { get set }
     
 }

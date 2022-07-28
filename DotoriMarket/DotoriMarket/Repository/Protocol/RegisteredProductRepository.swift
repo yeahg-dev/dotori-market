@@ -7,10 +7,19 @@
 
 import Foundation
 
+import RealmSwift
+
 protocol RegisteredProductRepository {
     
     func createRegisteredProduct(productID: Int)
     
     func fetchRegisteredProductIDs() -> [Int]
+    
+}
+
+
+protocol RealmRegisteredProductRepository: RegisteredProductRepository {
+    
+    var realm: Realm { get set }
     
 }
