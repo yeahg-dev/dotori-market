@@ -17,7 +17,7 @@ class ProductDetailSceneViewModelTest: XCTestCase {
     private var sut: ProductDetailSceneViewModel!
     private let scheduler = TestScheduler(initialClock: 0)
     private let disposeBag = DisposeBag()
-    let apiURL = URL(string: "https://[serverURL]")!
+    let apiURL = MarketAPIURL.productDetail(522).url!
     private let dummyJSONData = """
     {
         "id": 522,
@@ -66,11 +66,7 @@ class ProductDetailSceneViewModelTest: XCTestCase {
         
         self.sut = ProductDetailSceneViewModel(usecase: testUsecase)
     }
-    
-    override func tearDownWithError() throws {
-        try super.tearDownWithError()
-    }
-    
+  
     func test_viewWillAppear가_호출되면_ProductDetail을_APIService로부터받아_포맷데이터를_뷰에전달(){
         let expectation = XCTestExpectation()
         
