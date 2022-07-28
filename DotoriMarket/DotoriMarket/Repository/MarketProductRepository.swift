@@ -9,7 +9,7 @@ import Foundation
 
 import RxSwift
 
-final class MarketProductRepository: ProductRepository {
+struct MarketProductRepository: ProductRepository {
 
     private let service: MarketAPIService
     

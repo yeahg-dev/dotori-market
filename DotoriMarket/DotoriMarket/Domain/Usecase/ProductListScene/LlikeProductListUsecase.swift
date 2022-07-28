@@ -9,7 +9,7 @@ import Foundation
 
 import RxSwift
 
-final class LlikeProductListUsecase: ProductListUsecase {
+struct LlikeProductListUsecase: ProductListUsecase {
 
     let productRepository: ProductRepository
     private let favoriteProductRepository: FavoriteProductRepository
@@ -23,7 +23,7 @@ final class LlikeProductListUsecase: ProductListUsecase {
         self.favoriteProductRepository = favoriteProdcutRepository
     }
     
-    func fetchPrdoucts(
+    mutating func fetchPrdoucts(
         pageNo: Int,
         itemsPerPage: Int) -> Observable<([ProductViewModel], Bool)> {
         if self.likeProducts.isEmpty ||
@@ -49,8 +49,7 @@ final class LlikeProductListUsecase: ProductListUsecase {
                 rightBarButtonImageSystemName: ""))
     }
     
-    
-    private func readLikeProductIDs() {
+    private mutating func readLikeProductIDs() {
         self.likeProducts = self.favoriteProductRepository.fetchFavoriteProductIDs()
         self.likeProductPages = likeProducts.chunked(into: 20)
     }
@@ -72,6 +71,5 @@ final class LlikeProductListUsecase: ProductListUsecase {
             
       return productViewModels
     }
-    
     
 }

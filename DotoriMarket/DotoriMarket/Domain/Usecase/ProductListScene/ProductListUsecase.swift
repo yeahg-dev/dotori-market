@@ -13,7 +13,7 @@ protocol ProductListUsecase {
     
     var productRepository: ProductRepository { get }
      
-    func fetchPrdoucts(
+    mutating func fetchPrdoucts(
         pageNo: Int,
         itemsPerPage: Int) -> Observable<([ProductViewModel], Bool)>
     

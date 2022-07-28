@@ -1,5 +1,5 @@
 //
-//  RegisterdProductUsecase.swift
+//  RegisterdProductListUsecase.swift
 //  DotoriMarket
 //
 //  Created by lily on 2022/07/22.
@@ -9,7 +9,7 @@ import Foundation
 
 import RxSwift
 
-final class RegisterdProductUsecase: ProductListUsecase {
+struct RegisterdProductListUsecase: ProductListUsecase {
     
     let productRepository: ProductRepository
     private let registredProductRepository: RegisteredProductRepository
@@ -23,7 +23,7 @@ final class RegisterdProductUsecase: ProductListUsecase {
     private var registerdProducts = [Int]()
     private var registerdProductPages = [[Int]]()
     
-    func fetchPrdoucts(
+    mutating func fetchPrdoucts(
         pageNo: Int,
         itemsPerPage: Int) -> Observable<([ProductViewModel], Bool)> {
         if self.registerdProducts.isEmpty ||
@@ -49,7 +49,7 @@ final class RegisterdProductUsecase: ProductListUsecase {
                 rightBarButtonImageSystemName: "plus.square.on.square"))
     }
     
-    private func readProductIDs() {
+    private mutating func readProductIDs() {
         self.registerdProducts = self.registredProductRepository.fetchRegisteredProductIDs()
         self.registerdProductPages = registerdProducts.chunked(into: 20)
     }
