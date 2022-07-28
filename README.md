@@ -6,7 +6,7 @@
 ## 1) 진행
 - 개발자 : [릴리](https://github.com/yeahg-dev), [예거](https://github.com/Jager-yoo) (팀 프로젝트 + 개인 프로젝트)
 - 1차 : 2022.1. 3 ~ 1. 28 (페어프로그래밍/ MVC 설계로 네트워크 모듈, 상품 등록, 리스트 기능 구현)
-- 2차: 2022. 6. 13 ~ 7. 23 (개인/ MVVM Clean + rxSwift 설계로 리팩터링, 상품 수정, 좋아요 기능 구현)
+- 2차: 2022. 6. 13 ~ 7. 28 (개인/ MVVM Clean + rxSwift 설계로 리팩터링, 상품 수정, 좋아요 기능 구현)
 - 코드 리뷰 진행 / 리뷰어 : [찰리](https://github.com/kcharliek), [숲재](https://github.com/forestjae)
 
 <br>
@@ -85,31 +85,74 @@
 
 ## 3) 아키텍처 및 패턴 
 ### MVVM + 클린 아키텍처
-> 도입 이유 : 뷰모델에서 비지니스 로직을 분리하고, 재사용하기 위해 `ProductListUsecase`를 사용
+> **도입 이유** 
+> 
+> - 뷰모델에서 비지니스 로직을 분리하고, 재사용하기 위해 `Usecase`를 도입
+>  -  데이터 소스에 의존성을 낮추기 위해 `Repository`인터페이스 정의  
 
 - `ProductListUsecase`를 프로토콜로 정의 
 -  모든 상품, 좋아요한 상품, 등록한 상품 뷰에서 사용할 Usecase를 구체타입으로 구현 
--  뷰의 재사용성 개선
--  도메인 레이어와 데이터 레이어간의 낮은 의존성 
- <img src = "https://user-images.githubusercontent.com/81469717/180616356-3e3809cd-a748-40ad-a83a-1af73881f982.png" width = "1000" >
 
-### 화면 전환을 담당하는` Coordinator Pattern` 적용
-> 도입 이유 : 기존 뷰컨이 화면 전환을 수행하기 때문에, 뷰컨을 재사용하기 어려웠기 때문에 뷰컨에서 비지니스 로직을 분리하기 위해 도입
+<img src = "https://user-images.githubusercontent.com/81469717/181518807-612507a3-0247-48b8-89e5-f933b7e87088.png" width = "1000" >
 
-- 코디네이터는 추상적 인터페이스를 채택 (어떠한 액션이 일어나는지에 대해서만 정의)
-- 각 뷰(모든 상품/ 좋아요한 상품/ 등록 상품) 의 코디네이터를 구체타입으로 구현 
-- 뷰컨에 코디네이터를 주입하여 재사용 가능해짐
-- 각 뷰컨 간 의존성 해체 효과
+
+-  비지니스로직이 포함되지 않은 순수한 뷰 
+-  프레젠테이션, 도메인, 데이터 레이어간의 낮은 의존성 
+-  의존성 주입, 추상화로 Testable한 각 레이어
 
 <br>
 
-### `FactoryPattern`으로 동일한 뷰컨 사용하는 뷰 생성
-> 도입 이유 : - 동일한 뷰를 공유하는 Scene을 한 곳에서 관리 가능
+### 화면 전환을 담당하는` Coordinator Pattern` 적용
+> **도입 이유** 
+>
+> 뷰컨에서 화면 전환을 실행하기 때문에, 뷰컨을 뷰로서 재사용하기 어려웠기 어려웠음. 
+> 코디네이터 객체에게 화면 전환에 대한 역할을 위임하여 뷰컨에서 비지니스 로직 분리를 도모 
 
-- 모든 상품, 좋아요한 상품, 등록한 상품 뷰는 동일한 뷰컨을 사용
-- 코디네이터에서 뷰를 만들 때 usecase를 주입해야했음. 그럼 코디네이터가 도메인을 알아야함
-- 따라서 동일한VC를 사용하는 뷰를 열거형으로 정의, 팩토리패턴으로 생성
-- 코디네이터에서 비지니스로직을 분리하고, 각 뷰에 대한 결합성을 낮출 수 있음
+- 각 탭마다 코디네이터 생성하여, MainCoordinator의 child로 관리
+
+<img src = "https://user-images.githubusercontent.com/81469717/181521003-14fa2a21-81d2-47ca-8e18-f55088fdac28.png" width = "600" >
+
+
+
+### 뷰 재사용, 낮은 결합도를 위한 시도 
+
+1)  usecase를 프로토콜로 추상화
+
+2) 동일 뷰에 대한 Coordinator를 포로토콜로 추상화
+
+3)`FactoryPattern`으로 동일한 뷰컨을 공유하는 뷰 생성
+
+<img width="920" alt="스크린샷 2022-07-28 오후 9 40 11" src="https://user-images.githubusercontent.com/81469717/181519170-6f7bab8a-1860-4b53-8cc7-dce6d8095fbe.png">
+
+
+### 2) 동일 뷰에 대한 Coordinator를 포로토콜로 추상화
+
+- 코디네이터는 추상적 인터페이스를 정의 (어떠한 액션이 일어나는지에 대해서만 정의)
+
+```swift
+protocol ProductListCoordinator: Coordinator {
+    
+    func rightNavigationItemDidTapped(from: UIViewController)
+    func cellDidTapped(of productID: Int) 
+    
+}
+```
+
+- 각 뷰(모든 상품/ 좋아요한 상품/ 등록 상품) 의 코디네이터를 구체타입으로 구현 
+- 뷰컨에 코디네이터를 주입하여 뷰의 재사용성 향상
+
+
+<br>
+
+### 3)`FactoryPattern`으로 동일한 뷰컨을 공유하는 뷰 생성
+> **문제 상황** : 코디네이터에서 뷰 생성시 usecase를 주입해야하기 때문에 코디네이터가 도메인을 알게되는 문제 발생 
+
+- `모든 상품`, `좋아요한 상품`, `등록한 상품` 뷰는 동일한 뷰(뷰컨)을 사용
+- 동일한VC를 사용하는 뷰를 열거형으로 정의, 팩토리 패턴으로 생성
+
+<details>
+<summary>ProductListViewFactory 구현</summary>
+<div markdown="1">
 
 ```swift
 struct ProductListViewFactory {
@@ -122,14 +165,149 @@ struct ProductListViewFactory {
         case myProduct
     }
     
-    func make(
-        viewType: ProductListView,
-        coordinator: ProductListCoordinator) -> ProductTableViewController {
-             
-             ... 생성
-    }
+	func make(
+	        viewType: ProductListView,
+	        coordinator: ProductListCoordinator) -> ProductTableViewController {
+	        switch viewType {
+	        case .allProduct:
+	            return UIStoryboard.main.instantiateViewController(
+	                identifier: "ProductTableViewController", creator:  { coder -> ProductTableViewController in
+	                    let viewModel = ProductListSceneViewModel(usecase: AllProductListUsecase())
+	                    let vc = ProductTableViewController(
+	                        viewModel: viewModel,
+	                        coordinator: coordinator,
+	                        coder: coder)
+	                    return vc!
+	                })
+	                ... 
+	  }
 
 }
 ```
+</div>
+</details>
+
+ **결과** 
+ 
+ - 하나의 뷰를 공유하는 Scene을 한 지점에서 관리하기 위함
+- 코디네이터에서 비지니스로직을 분리하고, 각 뷰에 대한 결합성을 낮출 수 있었음
 
 
+<br>
+
+# 3. 트러블 슈팅 
+<details>
+<summary><h3>Testable한 Network Layer는 어떻게 만들까?</h3></summary>
+
+> **문제 상황** : network를 이용한 API로 데이터를 받아 사용하는  ViewModel을 테스트하기 위해선 Network객체도 테스터블하게 만들어야함
+
+- `URLProtocol` 을 상속한 `MockURLProtocol` 을 구현
+- `MockURLProtocol` 에서 서버와 통신을 통해 받은 `data`와 `response`대신  `mockResponse, data` 를 전달하도록 `startLoading() ` 오버라이딩
+- 따라서 실제 통신을 하지 않고도 작동하는 mock `APIService` 가 구현 가능
+
+➡️`APIService` 의 코드 수정 없이, `MockURLProtocol`로 설정한 urlSession configuration만 변경하여 네트워크와 무관하게 바인딩, 뷰모델 로직 테스트 가능
+
+
+[test: MockURLProtocol 구현 및 테스트 코드 적용](https://github.com/yeahg-dev/dotori-market/commit/16560b6895dc9fbdc4fc121f25bf6cb285f03d33)
+
+</details>
+
+<details>
+<summary><h3>Observable은 어떻게 테스트 해야할까?</h3></summary>
+
+Observable 타입으로 구현된 Input, Ouput을 테스트하기 위해 `rxTest` 라이브러리를 공부하여 사용했습니다.
+
+- TestScheduler로 `ColdObservable`과 `Obeserver`를 생성
+- Input을 `PublishSubject`로 정의, `ColdObservable`에서 방출하는 아이템을 바인딩
+- `Observer.events`와 기대결과 비교
+
+➡️ 뷰모델의 바인딩과 input -> output 로직을 테스트 해보았습니다.
+
+</details>
+
+<details>
+<summary><h3>RxSwift 에러 핸들링 </h3></summary>
+
+> **문제 상황** : 뷰컨에서 각 에러에 따른 노티를 사용자에게 차별적으로 보여주려면 에러를 구독해야한다. 근데 에러가 한번 방출되면 스트림은 종료되고, 다시 이벤트를 받지 못하게된다. 
+
+**시도**
+
+- `retry` 를 쓰면 에러가 방출되어도 그 즉시 dispose되고 다시 구독되기 때문에 스트림을 살릴 수 있지만, 에러가 옵저버에게 전달되지 않기 때문에 뷰에서 어떤 에러가 방출됐는지 알 수 없다. 
+- `catch(onErrorJustReturn:)`, `asDriver(onErrorJustReturn:)` 를 쓰면 에러대신 다른 값을 넥스트로 보내고 complete되기 때문에 더 이상 사용자 이벤트를 받을 수 없다. 
+- `Result`타입으로 값과 에러를 wrapping해서 next로 방출하면 뷰에서 핸들링이 가능하다. 하지만 뷰컨이 분기를 하는 것과 같은 로직을 갖게되어 역할 분리 측면에선 좋은 방법은 아닌 것 같다. 
+
+**해결 방법**
+
+- 에러에 대한 Alert을 별도의 Output으로 정의, `Subject`타입으로 구현
+- 스트림에서 error방출시 `do`에서 Subject로 `AlertViewModel`을 next로 보냄
+
+```swift
+protocol AlertViewModel {
+    
+    var title: String? { get }
+    var message: String? { get }
+    var actionTitle: String? { get }
+}
+```
+</details>
+
+<details>
+<summary><h3> 통신 절감 및 빠른 이미지 보기 위한 Cache 구현 </h3></summary>
+
+> **문제 상황** : 이미지는 용량이 크기 때문에 스크롤 할 때마다 셀에 느리게 바인딩되는 상황
+
+`UIImage+Extension`에  `NScache`를 사용해 해당 이미지 URL을 key로 데이터를 캐싱했습니다.
+
+➡️ 사용성과 통신 비용을 개선했습니다. 
+</details>
+
+<br>
+
+# 4. 학습한 내용
+
+<details>
+<summary><h3>Escaping Closure 사용시 유의 사항 </h3></summary>
+
+escapingClosure는 참조타입으로 강한 순환참조로 인한 메모리 누수를 유발할 수 있습니다. 
+
+- 객체의 `reference count`를 증가 시켜야할 상황인지 판단해 참조를 해야한다는 것, `[weak self]` `unowned`로 강한 순환참조를 해결할 수 있다는 점을 학습했습니다.
+
+- RxSwift의 operator들은 escaping closure로 정의 되어있습니다. 따라서 뷰컨트롤러를 `[weak self]`로 참조해야만 disposeBag이 작동될 때 모든 스트림이 종료되고, 뷰컨도 해제될 수 있습니다. 
+
+</details>
+
+<details>
+<summary><h3>HTTP구조와 URLSession을 사용한 통신</h3></summary>
+
+- 직접 HTTP header, body, httpMethod, boundary를 구현해보며 HTTP 프로토콜의 구조에 대해 깊게 학습할 수 있던 기회였습니다.
+- 각 API요청을 프로토콜로 공통화하여 재사용 가능한 타입을 정의했습니다.
+
+```swift
+protocol APIRequest {
+    
+    associatedtype Response: ResponseDataType
+    
+    var url: URL? { get }
+    var httpMethod: HTTPMethod { get }
+    var header: [String: String] { get }
+    var body: Data? { get }
+    
+}
+
+extension APIRequest {
+    
+    func urlRequest() -> URLRequest? {
+        guard let url = url else {
+            return nil
+        }
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = httpMethod.rawValue
+        urlRequest.allHTTPHeaderFields = header
+        urlRequest.httpBody = body
+        return urlRequest
+    }
+    
+}
+```
+</details>
