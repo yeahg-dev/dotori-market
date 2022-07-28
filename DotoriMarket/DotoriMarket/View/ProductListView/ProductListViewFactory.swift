@@ -13,7 +13,7 @@ struct ProductListViewFactory {
     
     enum ProductListView {
         case allProduct
-        case likedProuduct
+        case favoriteProuduct
         case myProduct
     }
     
@@ -31,10 +31,10 @@ struct ProductListViewFactory {
                         coder: coder)
                     return vc!
                 })
-        case .likedProuduct:
+        case .favoriteProuduct:
             return UIStoryboard.main.instantiateViewController(
                 identifier: "ProductTableViewController", creator:  { coder -> ProductTableViewController in
-                    let viewModel = ProductListSceneViewModel(usecase: LlikeProductListUsecase())
+                    let viewModel = ProductListSceneViewModel(usecase: FavoriteProductListUsecase())
                     let vc = ProductTableViewController(
                         viewModel: viewModel,
                         coordinator: coordinator,

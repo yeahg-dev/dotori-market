@@ -1,5 +1,5 @@
 //
-//  LikeProductCoordinator.swift
+//  FavoriteProductListCoordinator.swift
 //  DotoriMarket
 //
 //  Created by lily on 2022/07/21.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class LikeProductListCoordinator: ProductListCoordinator, TabCoordinator {
+final class FavoriteProductListCoordinator: ProductListCoordinator, TabCoordinator {
     
     var childCoordinator = [Coordinator]()
     
@@ -20,7 +20,7 @@ final class LikeProductListCoordinator: ProductListCoordinator, TabCoordinator {
     
     func start() {
         let productListVC = ProductListViewFactory().make(
-            viewType: .likedProuduct,
+            viewType: .favoriteProuduct,
             coordinator: self)
         self.navigationController.pushViewController(productListVC,
                                                      animated: false)

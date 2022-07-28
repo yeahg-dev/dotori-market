@@ -11,7 +11,7 @@ enum TabBar {
     
     case productList
     case myProduct
-    case liked
+    case favoriteProducts
     
     func coordinator() -> TabCoordinator {
         switch self {
@@ -19,8 +19,8 @@ enum TabBar {
             return AllProductListCoordinator()
         case .myProduct:
             return MyProductCoordinator()
-        case .liked:
-            return LikeProductListCoordinator()
+        case .favoriteProducts:
+            return FavoriteProductListCoordinator()
         }
     }
     
@@ -36,8 +36,8 @@ enum TabBar {
             let navigationVC = self.coordinator().tabViewController()
             navigationVC.tabBarItem = tabBarItem
             return navigationVC
-        case .liked:
-            let tabBarItem = LikeProductTabBarItem().tabBarItem
+        case .favoriteProducts:
+            let tabBarItem = FavoriteProductTabBarItem().tabBarItem
             let navigationVC = self.coordinator().tabViewController()
             navigationVC.tabBarItem = tabBarItem
             return navigationVC

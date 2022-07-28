@@ -1,5 +1,5 @@
 //
-//  LlikeProductListUsecase.swift
+//  FavoriteProductListUsecase.swift
 //  DotoriMarket
 //
 //  Created by lily on 2022/07/21.
@@ -9,13 +9,13 @@ import Foundation
 
 import RxSwift
 
-struct LlikeProductListUsecase: ProductListUsecase {
+struct FavoriteProductListUsecase: ProductListUsecase {
 
     let productRepository: ProductRepository
     private let favoriteProductRepository: FavoriteProductRepository
     
-    private var likeProducts = [Int]()
-    private var likeProductPages = [[Int]]()
+    private var favoriteProducts = [Int]()
+    private var favoriteProductPages = [[Int]]()
     
     init(productRepository: ProductRepository = MarketProductRepository(),
          favoriteProdcutRepository: FavoriteProductRepository = MarketFavoriteProductRepository()) {
@@ -26,13 +26,13 @@ struct LlikeProductListUsecase: ProductListUsecase {
     mutating func fetchPrdoucts(
         pageNo: Int,
         itemsPerPage: Int) -> Observable<([ProductViewModel], Bool)> {
-        if self.likeProducts.isEmpty ||
-            self.likeProducts != self.favoriteProductRepository.fetchFavoriteProductIDs() {
-            self.readLikeProductIDs()
+        if self.favoriteProducts.isEmpty ||
+            self.favoriteProducts != self.favoriteProductRepository.fetchFavoriteProductIDs() {
+            self.readFavoriteProductIDs()
         }
         
-        guard let pageToRequest = self.likeProductPages[safe: pageNo - 1],
-              let lastPage = self.likeProductPages.last  else {
+        guard let pageToRequest = self.favoriteProductPages[safe: pageNo - 1],
+              let lastPage = self.favoriteProductPages.last  else {
         return Observable.just(([ProductViewModel](), false))
         }
         
@@ -49,9 +49,9 @@ struct LlikeProductListUsecase: ProductListUsecase {
                 rightBarButtonImageSystemName: ""))
     }
     
-    private mutating func readLikeProductIDs() {
-        self.likeProducts = self.favoriteProductRepository.fetchFavoriteProductIDs()
-        self.likeProductPages = likeProducts.chunked(into: 20)
+    private mutating func readFavoriteProductIDs() {
+        self.favoriteProducts = self.favoriteProductRepository.fetchFavoriteProductIDs()
+        self.favoriteProductPages = favoriteProducts.chunked(into: 20)
     }
     
     private func fetchProductViewModels(of page: [Int]) -> Observable<[ProductViewModel]> {

@@ -18,7 +18,7 @@ final class MainCoordinator: Coordinator {
     
     func start() {
         let tabBarController = UITabBarController()
-        let tabBars: [TabBar] = [.myProduct, .productList, .liked]
+        let tabBars: [TabBar] = [.myProduct, .productList, .favoriteProducts]
         self.childCoordinator = tabBars.map { $0.coordinator() }
         
         let tabViewControllers = tabBars.map { $0.navigationControllerWithTabBarItem()}
