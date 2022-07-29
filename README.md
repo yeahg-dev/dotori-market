@@ -1,5 +1,5 @@
 # 🐿 도토리 마켓 
-> RESTAPI 통신을 이용한 오픈마켓 앱
+> Rest API 통신을 이용한 오픈마켓 앱
 
 
 # 1. 프로젝트 소개
@@ -65,21 +65,21 @@
 ### RxSwift
 - 목적 : 모델의 변화를 뷰에 자동으로 업데이트하는 리액티브한 구조 구현 
 - 선택 이유 
-	- 다양한 operator를 제공, 데이터 스트림을 컴바인하기 편리함
+	- 다양한 operator를 제공, 데이터 스트림을 컴바인 하기 편리함
 	- RxCocoa 활용시 뷰에서 생성되는 이벤트 관리, 데이터 바인딩 편리
 	- 비동기 코드를 동기 코드처럼 선언형으로 작성 가능, 가독성 향상
 - 리스크
 	- 메모리 누수 가능성 (	`weak self`,`disposeBag`사용하여 retain cycle 방지)
 
 ### RealmSwift
-- 목적 : 좋아요한 상품, 등록 상품 ID 저장을 위한 persistent DB 구현
+- 목적 : 좋아요한 상품, 등록 상품 ID 저장을 위한 persistence DB 구현
 - 선택 이유
 	- 간단한 API로 데이터의 영구적 저장 가능
-	- 안드로이드와 공유 가능, 현업에서 쓰이는 프레임워크라 학습 위해
+	- 안드로이드와 공유 가능, 현업에서 쓰이는 프레임워크라 학습 목적
 	- Object 확장성 좋음
 - 리스크
 	- 앱의 용량이 커짐
-	- 데이터 스레드간 공유 불가 (스케줄러로 강제)
+	- 데이터 스레드 간 공유 불가 (스케줄러로 강제)
 
 <br>
 
@@ -88,39 +88,42 @@
 > **도입 이유** 
 > 
 > - 뷰모델에서 비지니스 로직을 분리하고, 재사용하기 위해 `Usecase`를 도입
->  -  데이터 소스에 의존성을 낮추기 위해 `Repository`인터페이스 정의  
+> - 데이터 소스 의존성을 낮추기 위해 `Repository`인터페이스 정의  
 
 - `ProductListUsecase`를 프로토콜로 정의 
--  모든 상품, 좋아요한 상품, 등록한 상품 뷰에서 사용할 Usecase를 구체타입으로 구현 
+-  모든 상품, 좋아요한 상품, 등록한 상품 뷰에서 사용할 `Usecase`를 구체타입으로 구현 
 
 <img src = "https://user-images.githubusercontent.com/81469717/181518807-612507a3-0247-48b8-89e5-f933b7e87088.png" width = "1000" >
 
 
--  비지니스로직이 포함되지 않은 순수한 뷰 
--  프레젠테이션, 도메인, 데이터 레이어간의 낮은 의존성 
--  의존성 주입, 추상화로 Testable한 각 레이어
+-  비즈니스로직이 포함되지 않은 순수한 뷰 
+-  프레젠테이션, 도메인, 데이터 계층 간의 낮은 의존성 
+-  추상화, 의존성 주입을 통한 Unit Test 가능
 
 <br>
 
 ### 화면 전환을 담당하는` Coordinator Pattern` 적용
 > **도입 이유** 
 >
-> 뷰컨에서 화면 전환을 실행하기 때문에, 뷰컨을 뷰로서 재사용하기 어려웠기 어려웠음. 
-> 코디네이터 객체에게 화면 전환에 대한 역할을 위임하여 뷰컨에서 비지니스 로직 분리를 도모 
+> 뷰 컨트롤러에서 화면 전환을 실행하기 때문에, 뷰 컨트롤러를 뷰로써 재사용하기 어려움
+> 코디네이터 객체에게 화면 전환 역할을 위임하여 뷰 컨트롤러에서 비즈니스 로직 분리를 도모 
 
 - 각 탭마다 코디네이터 생성하여, MainCoordinator의 child로 관리
 
 <img src = "https://user-images.githubusercontent.com/81469717/181521003-14fa2a21-81d2-47ca-8e18-f55088fdac28.png" width = "600" >
 
+**결과**
 
+- 깡통 뷰로써 재사용 가능
+- 뷰 컨트롤러 간 의존성 제거
 
-### 뷰 재사용, 낮은 결합도를 위한 시도 
+<br>
 
-1)  usecase를 프로토콜로 추상화
+### 뷰 재사용, 느슨한 결합를 위한 시도 
 
-2) 동일 뷰에 대한 Coordinator를 포로토콜로 추상화
-
-3)`FactoryPattern`으로 동일한 뷰컨을 공유하는 뷰 생성
+1. 같은 뷰 모델이 사용하는 `usecase`를 프로토콜로 추상화
+2. 같은 뷰에 대한 `Coordinator`를 프로토콜로 추상화
+3. `FactoryPattern`으로 같은 뷰 컨트롤러를 공유하는 뷰 생성
 
 <img width="920" alt="스크린샷 2022-07-28 오후 9 40 11" src="https://user-images.githubusercontent.com/81469717/181519170-6f7bab8a-1860-4b53-8cc7-dce6d8095fbe.png">
 
@@ -138,8 +141,8 @@ protocol ProductListCoordinator: Coordinator {
 }
 ```
 
-- 각 뷰(모든 상품/ 좋아요한 상품/ 등록 상품) 의 코디네이터를 구체타입으로 구현 
-- 뷰컨에 코디네이터를 주입하여 뷰의 재사용성 향상
+- 각 뷰(모든 상품/ 좋아요한 상품/ 등록 상품) 의 코디네이터를 구체 타입으로 구현 
+- 뷰 컨트롤러에 코디네이터를 주입하여 각 뷰별 화면 전환 수행
 
 
 <br>
@@ -147,8 +150,8 @@ protocol ProductListCoordinator: Coordinator {
 ### 3)`FactoryPattern`으로 동일한 뷰컨을 공유하는 뷰 생성
 > **문제 상황** : 코디네이터에서 뷰 생성시 usecase를 주입해야하기 때문에 코디네이터가 도메인을 알게되는 문제 발생 
 
-- `모든 상품`, `좋아요한 상품`, `등록한 상품` 뷰는 동일한 뷰(뷰컨)을 사용
-- 동일한VC를 사용하는 뷰를 열거형으로 정의, 팩토리 패턴으로 생성
+- `모든 상품`, `좋아요한 상품`, `등록한 상품` 뷰는 동일한 뷰 컨트롤러를 사용
+- 같은 뷰 컨트롤러를 사용하는 뷰를 열거형으로 정의, 팩토리 패턴으로 생성
 
 <details>
 <summary>ProductListViewFactory 구현</summary>
@@ -187,10 +190,10 @@ struct ProductListViewFactory {
 </div>
 </details>
 
- **결과** 
- 
- - 하나의 뷰를 공유하는 Scene을 한 지점에서 관리하기 위함
-- 코디네이터에서 비지니스로직을 분리하고, 각 뷰에 대한 결합성을 낮출 수 있었음
+**결과**
+
+- 하나의 뷰를 공유하는 Scene을 하나의 control point에서 관리 할 수 있음
+- 코디네이터에서 비즈니스로직을 분리하고, 각 뷰 컨트롤러간 결합성을 낮출 수 있음
 
 
 <br>
@@ -199,13 +202,13 @@ struct ProductListViewFactory {
 <details>
 <summary><h3>Testable한 Network Layer는 어떻게 만들까?</h3></summary>
 
-> **문제 상황** : network를 이용한 API로 데이터를 받아 사용하는  ViewModel을 테스트하기 위해선 Network객체도 테스터블하게 만들어야함
+> **문제 상황** : API로 데이터를 받아 사용하는 ViewModel을 테스트하기 위해선 Network 객체도 테스터블하게 만들어야함
 
-- `URLProtocol` 을 상속한 `MockURLProtocol` 을 구현
-- `MockURLProtocol` 에서 서버와 통신을 통해 받은 `data`와 `response`대신  `mockResponse, data` 를 전달하도록 `startLoading() ` 오버라이딩
-- 따라서 실제 통신을 하지 않고도 작동하는 mock `APIService` 가 구현 가능
+- `URLProtocol`을 상속한 `MockURLProtocol`을 구현
+- `MockURLProtocol` 서 서버와 통신을 통해 받은 `data`와 `response`대신  `mockResponse, data` 를 전달하도록 `startLoading()` 오버라이딩
+- 따라서 실제 통신을 하지 않고도 작동하는 mock `APIService`구현 가능
 
-➡️`APIService` 의 코드 수정 없이, `MockURLProtocol`로 설정한 urlSession configuration만 변경하여 네트워크와 무관하게 바인딩, 뷰모델 로직 테스트 가능
+➡️ `APIService`의 코드 수정 없이, `MockURLProtocol`로 설정한 `URLSessionConfiguration`을 주입하여 네트워크와 무관하게 바인딩, 뷰 모델 로직 테스트 가능
 
 
 [test: MockURLProtocol 구현 및 테스트 코드 적용](https://github.com/yeahg-dev/dotori-market/commit/16560b6895dc9fbdc4fc121f25bf6cb285f03d33)
@@ -215,9 +218,9 @@ struct ProductListViewFactory {
 <details>
 <summary><h3>Observable은 어떻게 테스트 해야할까?</h3></summary>
 
-Observable 타입으로 구현된 Input, Ouput을 테스트하기 위해 `rxTest` 라이브러리를 공부하여 사용했습니다.
+`Observable`로 구현된 Input, Ouput을 테스트하기 위해 `rxTest` 라이브러리 학습
 
-- TestScheduler로 `ColdObservable`과 `Obeserver`를 생성
+- `TestScheduler`로 `ColdObservable`과 `Obeserver`를 생성
 - Input을 `PublishSubject`로 정의, `ColdObservable`에서 방출하는 아이템을 바인딩
 - `Observer.events`와 기대결과 비교
 
@@ -228,13 +231,13 @@ Observable 타입으로 구현된 Input, Ouput을 테스트하기 위해 `rxTest
 <details>
 <summary><h3>RxSwift 에러 핸들링 </h3></summary>
 
-> **문제 상황** : 뷰컨에서 각 에러에 따른 노티를 사용자에게 차별적으로 보여주려면 에러를 구독해야한다. 근데 에러가 한번 방출되면 스트림은 종료되고, 다시 이벤트를 받지 못하게된다. 
+> **문제 상황** : 뷰 컨트롤러에서 각 에러에 따른 알림을 사용자에게 차별적으로 보여주려면 에러를 구독해야함. 하지만 에러가 한 번 방출되면 스트림은 종료되고, 다시 이벤트를 받지 못함
 
 **시도**
 
-- `retry` 를 쓰면 에러가 방출되어도 그 즉시 dispose되고 다시 구독되기 때문에 스트림을 살릴 수 있지만, 에러가 옵저버에게 전달되지 않기 때문에 뷰에서 어떤 에러가 방출됐는지 알 수 없다. 
-- `catch(onErrorJustReturn:)`, `asDriver(onErrorJustReturn:)` 를 쓰면 에러대신 다른 값을 넥스트로 보내고 complete되기 때문에 더 이상 사용자 이벤트를 받을 수 없다. 
-- `Result`타입으로 값과 에러를 wrapping해서 next로 방출하면 뷰에서 핸들링이 가능하다. 하지만 뷰컨이 분기를 하는 것과 같은 로직을 갖게되어 역할 분리 측면에선 좋은 방법은 아닌 것 같다. 
+- `retry`를 쓰면 에러가 방출되어도 그 즉시 dispose되고 다시 구독되기 때문에 스트림을 살릴 수 있지만, 에러가 옵저버에게 전달되지 않기 때문에 뷰에서 어떤 에러가 방출됐는지 알 수 없음
+- `catch(onErrorJustReturn:)`, `asDriver(onErrorJustReturn:)` 를 쓰면 에러대신 다른 값을 넥스트로 보내고 complete되기 때문에 더 이상 사용자 이벤트를 받을 수 없음
+- `Result`타입으로 값과 에러를 wrapping해서 next로 방출하면 뷰에서 핸들링이 가능하다. 하지만 뷰컨이 분기를 하는 것과 같은 로직을 갖게되어 역할 분리 측면에선 좋은 방법은 아니라 판단
 
 **해결 방법**
 
@@ -268,19 +271,19 @@ protocol AlertViewModel {
 <details>
 <summary><h3>Escaping Closure 사용시 유의 사항 </h3></summary>
 
-escapingClosure는 참조타입으로 강한 순환참조로 인한 메모리 누수를 유발할 수 있습니다. 
+Escaping Closure는 참조타입으로 강한 순환 참조로 인한 메모리 누수를 유발할 수 있습니다. 
 
 - 객체의 `reference count`를 증가 시켜야할 상황인지 판단해 참조를 해야한다는 것, `[weak self]` `unowned`로 강한 순환참조를 해결할 수 있다는 점을 학습했습니다.
 
-- RxSwift의 operator들은 escaping closure로 정의 되어있습니다. 따라서 뷰컨트롤러를 `[weak self]`로 참조해야만 disposeBag이 작동될 때 모든 스트림이 종료되고, 뷰컨도 해제될 수 있습니다. 
+- RxSwift의 operator들은 escaping closure로 정의 되어있습니다. 따라서 뷰컨트롤러를 `[weak self]`로 참조해야만 disposeBag이 작동될 때 모든 스트림이 종료되고, 뷰 컨트롤러도 해제될 수 있습니다. 
 
 </details>
 
 <details>
 <summary><h3>HTTP구조와 URLSession을 사용한 통신</h3></summary>
 
-- 직접 HTTP header, body, httpMethod, boundary를 구현해보며 HTTP 프로토콜의 구조에 대해 깊게 학습할 수 있던 기회였습니다.
-- 각 API요청을 프로토콜로 공통화하여 재사용 가능한 타입을 정의했습니다.
+- 직접 HTTP header, body, httpMethod, boundary를 구현해보며 HTTP 프로토콜의 구조에 대해 깊게 학습한 기회였습니다.
+- 각 API 요청을 프로토콜로 공통화하여 재사용 가능한 타입을 정의했습니다.
 
 ```swift
 protocol APIRequest {
