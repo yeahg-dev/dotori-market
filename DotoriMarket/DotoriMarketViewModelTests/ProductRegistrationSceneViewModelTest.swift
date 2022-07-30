@@ -2,7 +2,7 @@
 //  ProductRegistrationSceneViewModelTest.swift
 //  DotoriMarketViewModelTests
 //
-//  Created by 1 on 2022/07/28.
+//  Created by lily on 2022/07/28.
 //
 
 import XCTest
@@ -90,7 +90,7 @@ class ProductRegistrationSceneViewModelTest: XCTestCase {
         let doneDidTapped = PublishSubject<Void>()
         let secret = PublishSubject<String>()
         
-        // UI에 연결된 ControlProperty, Control Event 대신 위에서 정의한 Subject로 Input을 세팅
+        // UI에 연결된 ControlProperty, ControlEvent 대신 위에서 정의한 Subject로 Input을 세팅
         let input = ProductRegistrationSceneViewModel.Input(
             viewWillAppear: viewWillAppear,
             imagePickerCellDidSelected: imagePickerCellDidSelected.asObservable(),
@@ -115,7 +115,6 @@ class ProductRegistrationSceneViewModelTest: XCTestCase {
                 valueSink: productDescritpionTextView),
             doneDidTapped: ControlEvent(events: doneDidTapped),
             didReceiveSecret: secret.asObservable())
-
         
         // 테스트 이벤트 생성
         self.scheduler.createColdObservable([(.next(1, "새로운 상품"))])
@@ -146,4 +145,66 @@ class ProductRegistrationSceneViewModelTest: XCTestCase {
     
     }
 
+    func test_imagePicketCell을_선택하면_ImagePicker가_뜨는지() throws {
+        
+        let viewWillAppear = PublishSubject<Void>()
+        let imagePickerCellDidSelected = PublishSubject<Int>()
+        let imageDidSelected = BehaviorSubject<Data>(value: Data())
+        let productNameTextField = BehaviorSubject<String?>(value: "")
+        let productPriceTextField = BehaviorSubject<String?>(value: "")
+        let productDiscountedPriceTextField = BehaviorSubject<String?>(value: "")
+        let productStockTextField = BehaviorSubject<String?>(value: "")
+        let productDescritpionTextView = BehaviorSubject<String?>(value: "")
+        let productCurrencySegmentedContorl = BehaviorSubject(value: 0)
+        let doneDidTapped = PublishSubject<Void>()
+        let secret = PublishSubject<String>()
+        
+        let input = ProductRegistrationSceneViewModel.Input(
+            viewWillAppear: viewWillAppear,
+            imagePickerCellDidSelected: imagePickerCellDidSelected.asObservable(),
+            imageDidSelected: imageDidSelected.asObservable(),
+            productTitle: ControlProperty(
+                values: productNameTextField,
+                valueSink: productNameTextField),
+            productCurrency: ControlProperty(
+                values: productCurrencySegmentedContorl,
+                valueSink: productCurrencySegmentedContorl),
+            productPrice: ControlProperty(
+                values: productPriceTextField,
+                valueSink: productPriceTextField),
+            prdouctDiscountedPrice: ControlProperty(
+                values: productDiscountedPriceTextField,
+                valueSink: productDiscountedPriceTextField),
+            productStock: ControlProperty(
+                values: productStockTextField,
+                valueSink: productStockTextField),
+            productDescriptionText: ControlProperty(
+                values: productDescritpionTextView,
+                valueSink: productDescritpionTextView),
+            doneDidTapped: ControlEvent(events: doneDidTapped),
+            didReceiveSecret: secret.asObservable())
+        
+        self.scheduler.createColdObservable([(.next(3, 0))])
+            .bind(to: imagePickerCellDidSelected)
+            .disposed(by: disposeBag)
+        
+        let observer = self.scheduler.createObserver(Bool.self)
+        
+        let output = sut.transform(input: input)
+        
+        output.presentImagePicker
+            .asObservable()
+            .map{ _ in true }
+            .subscribe(observer)
+            .disposed(by: disposeBag)
+        
+        self.scheduler.start()
+                    
+        XCTAssertEqual(observer.events,
+                       [(.next(3, true))])
+        
+    }
+    
 }
+
+
