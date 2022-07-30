@@ -63,11 +63,11 @@ class ProductRegistrationSceneViewModelTest: XCTestCase {
         let mockRegisteredProductRepository = MarketRegisteredProductRepository(
             realm: try! Realm())
         
-        let testUsecase = ProductRegistrationUsecase(
+        let mockUsecase = ProductRegistrationUsecase(
             productRepository: mockProductRepository,
             registredProductRepository: mockRegisteredProductRepository)
         
-        self.sut = ProductRegistrationSceneViewModel(usecase: testUsecase)
+        self.sut = ProductRegistrationSceneViewModel(usecase: mockUsecase)
     }
 
     override func tearDownWithError() throws {
@@ -76,62 +76,74 @@ class ProductRegistrationSceneViewModelTest: XCTestCase {
     }
 
     func test_상품명만_입력하면_validationFailAlert이_output으로_오는지() throws {
-        let expectation = XCTestExpectation(description: "validation Result comes out")
         
+        // 테스트 이벤트를 받을 수 있는 Subject 정의
         let viewWillAppear = PublishSubject<Void>()
         let imagePickerCellDidSelected = PublishSubject<Int>()
-        let imageDidSelected = PublishSubject<Data>()
-        let productNameTextField = PublishSubject<String?>()
-        let productPriceTextField = PublishSubject<String?>()
-        let productDiscountedPriceTextField = PublishSubject<String?>()
-        let productStockTextField = PublishSubject<String?>()
-        let productDescritpionTextView = PublishSubject<String?>()
-        let productCurrencySegmentedContorl = PublishSubject<Int>()
+        let imageDidSelected = BehaviorSubject<Data>(value: Data())
+        let productNameTextField = BehaviorSubject<String?>(value: "")
+        let productPriceTextField = BehaviorSubject<String?>(value: "")
+        let productDiscountedPriceTextField = BehaviorSubject<String?>(value: "")
+        let productStockTextField = BehaviorSubject<String?>(value: "")
+        let productDescritpionTextView = BehaviorSubject<String?>(value: "")
+        let productCurrencySegmentedContorl = BehaviorSubject(value: 0)
         let doneDidTapped = PublishSubject<Void>()
         let secret = PublishSubject<String>()
         
+        // UI에 연결된 ControlProperty, Control Event 대신 위에서 정의한 Subject로 Input을 세팅
         let input = ProductRegistrationSceneViewModel.Input(
             viewWillAppear: viewWillAppear,
             imagePickerCellDidSelected: imagePickerCellDidSelected.asObservable(),
             imageDidSelected: imageDidSelected.asObservable(),
-            productTitle: ControlProperty(values: productNameTextField, valueSink: productNameTextField),
-            productCurrency: ControlProperty(values: productCurrencySegmentedContorl, valueSink: productCurrencySegmentedContorl),
-            productPrice: ControlProperty(values: productPriceTextField, valueSink: productPriceTextField),
-            prdouctDiscountedPrice: ControlProperty(values: productDiscountedPriceTextField, valueSink: productDiscountedPriceTextField),
-            productStock: ControlProperty(values: productStockTextField, valueSink: productStockTextField),
-            productDescriptionText: ControlProperty(values: productDescritpionTextView, valueSink: productDescritpionTextView),
+            productTitle: ControlProperty(
+                values: productNameTextField,
+                valueSink: productNameTextField),
+            productCurrency: ControlProperty(
+                values: productCurrencySegmentedContorl,
+                valueSink: productCurrencySegmentedContorl),
+            productPrice: ControlProperty(
+                values: productPriceTextField,
+                valueSink: productPriceTextField),
+            prdouctDiscountedPrice: ControlProperty(
+                values: productDiscountedPriceTextField,
+                valueSink: productDiscountedPriceTextField),
+            productStock: ControlProperty(
+                values: productStockTextField,
+                valueSink: productStockTextField),
+            productDescriptionText: ControlProperty(
+                values: productDescritpionTextView,
+                valueSink: productDescritpionTextView),
             doneDidTapped: ControlEvent(events: doneDidTapped),
             didReceiveSecret: secret.asObservable())
-        
-        let output = sut.transform(input: input)
-        
-        let validationObserver = scheduler.createObserver(
-            ProductRegistrationSceneViewModel.RegistrationFailureAlertViewModel.self)
-        var alertTitle: String?
-        
-        output.validationFailureAlert
-            .do(afterNext: { _ in
-                expectation.fulfill() })
-            .drive(onNext: { viewModel in
-                alertTitle = viewModel.title })
-            .disposed(by: disposeBag)
 
-        self.scheduler.createColdObservable([(.next(3, "새로운 상품"))])
+        
+        // 테스트 이벤트 생성
+        self.scheduler.createColdObservable([(.next(1, "새로운 상품"))])
             .bind(to: productNameTextField)
             .disposed(by: disposeBag)
         
-        self.scheduler.createColdObservable([(.next(8, ()))])
-            .bind(to: doneDidTapped)
+        self.scheduler.createColdObservable([(.next(3, ()))])
+            .subscribe(doneDidTapped)
             .disposed(by: disposeBag)
-                    
+        
+        // 테스트 이벤트에 대한 Output을 관찰할 observer 정의
+        let observer = self.scheduler.createObserver(String?.self)
+        
+        let output = sut.transform(input: input)
+        
+        // Output을 observer에 바인딩
+        output.validationFailureAlert
+            .asObservable()
+            .map({ viewModel in
+                viewModel.title })
+            .subscribe(observer)
+            .disposed(by: disposeBag)
+        
         self.scheduler.start()
                     
-        wait(for: [expectation], timeout: 20)
-                    
-        XCTAssertEqual(alertTitle, "대표사진, 가격, 재고, 상세정보는 필수 입력 항목이에요")
+        XCTAssertEqual(observer.events,
+                       [(.next(3, "대표 사진, 가격, 재고, 상세정보는 필수 입력 항목이에요"))])
     
     }
-    
-
 
 }
