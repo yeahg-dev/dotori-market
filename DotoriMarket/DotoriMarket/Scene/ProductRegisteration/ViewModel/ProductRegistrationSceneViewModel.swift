@@ -15,8 +15,9 @@ final class ProductRegistrationSceneViewModel {
     private let usecase: ProductRegistrationUsecase
     
     static let maximumProductImageCount = 5
+    private let imagePickerCellCount = 1
     private var maximutProductImageCellCount: Int {
-        ProductRegistrationSceneViewModel.maximumProductImageCount + 1 }
+        ProductRegistrationSceneViewModel.maximumProductImageCount + imagePickerCellCount }
 
     init(usecase: ProductRegistrationUsecase) {
         self.usecase = usecase
@@ -60,12 +61,12 @@ final class ProductRegistrationSceneViewModel {
         let selectedImage = input.imageDidSelected
             .map{ image in return [(CellType.productImageCell, image)] }
         
-        let productImages = Observable.merge(pickerCellImage, selectedImage)
+        let productCellImages = Observable.merge(pickerCellImage, selectedImage)
             .scan(into: []) { images, addedImage in
                 images.append(contentsOf: addedImage) }
             .asDriver(onErrorJustReturn: [])
         
-        let isAbleToPickImage: Observable<Bool> = productImages
+        let isAbleToPickImage: Observable<Bool> = productCellImages
             .asObservable()
             .map{ images in
                 images.count < self.maximutProductImageCellCount }
@@ -85,7 +86,7 @@ final class ProductRegistrationSceneViewModel {
             .asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel)
         
         let isValidInput = self.usecase.isValidInput(
-            image: productImages.asObservable(),
+            image: productCellImages.asObservable().skip(imagePickerCellCount),
             name: input.productTitle.asObservable(),
             price: input.productPrice.asObservable(),
             stock: input.productStock.asObservable(),
@@ -123,11 +124,11 @@ final class ProductRegistrationSceneViewModel {
                     stock: input.productStock.asObservable(),
                     description: input.productDescriptionText.asObservable(),
                     secret: Observable.just(secret),
-                    image: productImages.asObservable())
+                    image: productCellImages.asObservable()
+                        .skip(self.imagePickerCellCount))
             }
         
         let registerationSucessAlert = registerationRequestResponse
-            .observe(on: MainScheduler.instance)
             .do(onError: { _ in
                 registrationFailureAlert.onNext(RegistrationFailureAlertViewModel()) })
             .map{ _ in return RegistrationSuccessAlertViewModel() as AlertViewModel }
@@ -136,7 +137,7 @@ final class ProductRegistrationSceneViewModel {
         return Output(textViewPlaceholder: textViewPlaceholder,
                       requireSecret: requireSecretAlert,
                       presentImagePicker: presentImagePicker,
-                      productImages: productImages,
+                      productImages: productCellImages,
                       excessImageAlert: excessImageAlert,
                       validationFailureAlert: validationFailAlert.asDriver(
                         onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel),

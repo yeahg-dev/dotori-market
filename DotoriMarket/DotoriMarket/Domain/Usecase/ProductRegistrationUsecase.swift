@@ -48,6 +48,7 @@ struct ProductRegistrationUsecase {
                 isValidStock: $3,
                 isValidDescription: $4,
                 isValidDiscountedPrice: $5) }
+            .debug()
     }
     
     func requestProductRegisteration(
@@ -74,6 +75,7 @@ struct ProductRegistrationUsecase {
                 image: image) })
             .flatMap { request in
                 self.request(reqeust: request) }
+            .observe(on: MainScheduler.instance)
             .do{ productDetail in
                 self.registredProductRepository.createRegisteredProduct(
                     productID: productDetail.id) }
@@ -97,7 +99,7 @@ struct ProductRegistrationUsecase {
             stock: stock,
             description: description,
             secret: secret)
-        let imageDatas = image.filter{ image in image.0 == .productImageCell }
+        let imageDatas = image
             .map{ image in image.1 }
         let imageFiles = imageDatas.imageFile(fileName: newProductInfo.name)
         

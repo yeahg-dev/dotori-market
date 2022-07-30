@@ -63,6 +63,16 @@
                ReferencedContainer = "container:DotoriMarket.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "63AA41DB289537AE000CEC7A"
+               BuildableName = "DotoriMarketUsecaseTests.xctest"
+               BlueprintName = "DotoriMarketUsecaseTests"
+               ReferencedContainer = "container:DotoriMarket.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
