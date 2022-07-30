@@ -18,37 +18,6 @@ class ProductDetailSceneViewModelTest: XCTestCase {
     private let scheduler = TestScheduler(initialClock: 0)
     private let disposeBag = DisposeBag()
     let apiURL = MarketAPIURL.productDetail(522).url!
-    private let dummyJSONData = """
-    {
-        "id": 522,
-        "vendor_id": 6,
-        "name": "아이폰13",
-        "thumbnail": "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/6/thumb/f9aa6e0d787711ecabfa3f1efeb4842b.jpg",
-        "currency": "KRW",
-        "price": 1300000,
-        "description": "비싸",
-        "bargain_price": 1300000,
-        "discounted_price": 0,
-        "stock": 12,
-        "created_at": "2022-01-18T00:00:00.00",
-        "issued_at": "2022-01-18T00:00:00.00",
-        "images": [
-          {
-            "id": 352,
-            "url": "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/6/origin/f9aa6e0d787711ecabfa3f1efeb4842b.jpg",
-            "thumbnail_url": "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/6/thumb/f9aa6e0d787711ecabfa3f1efeb4842b.jpg",
-            "succeed": true,
-            "issued_at": "2022-01-18T00:00:00.00"
-          }
-        ],
-        "vendors": {
-          "name": "제인",
-          "id": 6,
-          "created_at": "2022-01-10T00:00:00.00",
-          "issued_at": "2022-01-10T00:00:00.00"
-        }
-      }
-    """.data(using: .utf8)!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -70,12 +39,14 @@ class ProductDetailSceneViewModelTest: XCTestCase {
     func test_viewWillAppear가_호출되면_ProductDetail을_APIService로부터받아_포맷데이터를_뷰에전달(){
         let expectation = XCTestExpectation()
         
+        let dummyJSONData = DummyJson.productDetailResponse
+        
         MockURLProtocol.requestHandler = { request in
             let response = HTTPURLResponse(url: self.apiURL,
                                            statusCode: 200,
                                            httpVersion: nil,
                                            headerFields: nil)!
-            return (response, self.dummyJSONData)
+            return (response, dummyJSONData)
         }
         
         let trigger = PublishSubject<Int>()
