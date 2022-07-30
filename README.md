@@ -97,8 +97,8 @@
 
 
 -  비즈니스로직이 포함되지 않은 순수한 뷰 
--  프레젠테이션, 도메인, 데이터 계층 간의 낮은 의존성 
--  추상화, 의존성 주입을 통한 Unit Test 가능
+- API, 프레임워크와 도메인 레이어 의존성 분리 (프레임워크, APIService를 변경시 Repository 구현만 수정하면 되고, DTO를 통해 프레임워크와 의존성 분리 가능)
+- 추상화, 의존성 주입을 통한 각 계층 Unit Test 가능
 
 <br>
 
@@ -216,15 +216,20 @@ struct ProductListViewFactory {
 </details>
 
 <details>
-<summary><h3>Observable은 어떻게 테스트 해야할까?</h3></summary>
+<summary><h3>Observable 스트림을 갖는 ViewModel Test</h3></summary>
 
-`Observable`로 구현된 Input, Ouput을 테스트하기 위해 `rxTest` 라이브러리 학습
 
-- `TestScheduler`로 `ColdObservable`과 `Obeserver`를 생성
-- Input을 `PublishSubject`로 정의, `ColdObservable`에서 방출하는 아이템을 바인딩
-- `Observer.events`와 기대결과 비교
+> **문제 상황**
+> 1. 실제 사용자 이벤트 대신 테스트 이벤트를 조작해야합니다.
+> 2. Input에 들어갈 `ControlProperty` 타입을 만들어야합니다. 
+> 3. `ViewModel`은 `Usecase`에 의존하기 때문에 `Usecase`의 동작에 영향을 받습니다.
 
-➡️ 뷰모델의 바인딩과 input -> output 로직을 테스트 해보았습니다.
+
+- `TestScheduler` 로 `ColdObservable` 을 생성하여 사용자 이벤트를 대신할 이벤트를 예약한후, `ControlProperty`의 값을 나타낼 `BehaviorSubject`에 바인드했습니다.
+- `ControlProperty`는 최초의 `UIVaule`를 이벤트로 내보냅니다. 따라서 `BehaviorSubject`로 최초 값을 정의하고 실제와 동일한 테스트 환경을 만들었습니다.
+- input에서 output으로 변환되는 과정에서 `Usecase`를 사용해야하만 하는 경우가 있었습니다. (다수의 Field에서 input을 받아 Usecase에서 검증하는 경우) `Usecase`만을 먼저 독립적으로 테스트하고(`MockRepository` 사용) `Usecase` 의 신뢰성을 검증 한 후 `ViewModel`을 테스트했습니다.
+- `ViewModel` 과 `Usecase` 간 강한 결합이 있다는 문제를 인지했고 뷰 모델을 더 단순화해야겠다고 느꼈습니다.
+- 테스트 코드는 버그의 조기발견, 안정성뿐만 아니라 더 나은 코드를 작성하는데 도움이 된다는 것을 느낄 수 있던 경험이었습니다.
 
 </details>
 
