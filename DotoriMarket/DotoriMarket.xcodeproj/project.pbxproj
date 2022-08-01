@@ -386,6 +386,15 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		63473C0128978B5600F10D80 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				632493132887FD7000502DBE /* View */,
+				63DA9598285095D4004CB9C1 /* Scene */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
 		634B2DF828695D620076707C /* ProductEdit */ = {
 			isa = PBXGroup;
 			children = (
@@ -843,6 +852,7 @@
 		C10797B3278713C700B16C62 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				63D660E62787F86700A450DE /* Extension */,
 				C1C4FFAB2796CABD00294962 /* ImageCacheStorage.swift */,
 				C10797B42787143F00B16C62 /* JSONCodable.swift */,
 			);
@@ -879,14 +889,12 @@
 				63C978702890057900755708 /* SellerInfo.plist */,
 				63D97B642783F71E009E2516 /* AppDelegate */,
 				6396C23E28743B1B0076356D /* Domain */,
-				63DA9598285095D4004CB9C1 /* Scene */,
-				632493132887FD7000502DBE /* View */,
+				63473C0128978B5600F10D80 /* Presentation */,
 				63C97862288FCA9E00755708 /* Repository */,
-				63A202B32785C310003A1112 /* Network */,
-				634B8552285AF2AA00F931EF /* Service */,
 				63C9787428913AE400755708 /* DB */,
+				634B8552285AF2AA00F931EF /* Service */,
+				63A202B32785C310003A1112 /* Network */,
 				C10797B3278713C700B16C62 /* Utility */,
-				63D660E62787F86700A450DE /* Extension */,
 			);
 			path = DotoriMarket;
 			sourceTree = "<group>";
