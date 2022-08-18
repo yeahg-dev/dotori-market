@@ -55,10 +55,10 @@ final class ProductListSceneViewModel {
             .do(onNext: { self.resetPage()
                 willStartLoadingIndicator.onNext(()) })
                 
-        let pagination = input.willDisplayCellAtIndex
-                .map{ $0.row }
+        let willLoadNextPage = input.willDisplayCellAtIndex
+            .map{ $0.row }
             .filter{ currentRow in
-                (currentRow == self.productsViewModels.count - self.paginationBuffer) &&  self.hasNextPage }
+                (currentRow == self.productsViewModels.count - self.paginationBuffer) && self.hasNextPage }
             .map{ _ in }
             .do(onNext: { willStartLoadingIndicator.onNext(()) })
         
@@ -67,14 +67,14 @@ final class ProductListSceneViewModel {
         
         let networkErrorAlert = PublishSubject<AlertViewModel>()
                 
-        let products = Observable.merge(viewWillAppear, pagination, listViewDidStartRefresh)
+        let products = Observable.merge(
+            viewWillAppear, willLoadNextPage, listViewDidStartRefresh)
             .flatMap{ _ -> Observable<([ProductViewModel], Bool)> in
                 self.productListUsecase.fetchPrdoucts(
                     pageNo: self.currentPage + 1,
                     itemsPerPage: 20) }
             .do(onError: { _ in
-                networkErrorAlert.onNext(NetworkErrorAlertViewModel() as AlertViewModel)
-            } )
+                networkErrorAlert.onNext(NetworkErrorAlertViewModel() as AlertViewModel) })
             .do(onNext: { (viewModels, hasNextPage) in
                 self.currentPage += 1
                 self.hasNextPage = hasNextPage })
@@ -84,10 +84,11 @@ final class ProductListSceneViewModel {
             .do(onNext: { _ in willEndLoadingIndicator.onNext(()) })
             .asDriver(onErrorJustReturn: Array<ProductViewModel>())
         
-        let endRefresh = products.map { _ in }.asDriver(onErrorJustReturn: ())
+        let endRefresh = products.map { _ in }
+            .asDriver(onErrorJustReturn: ())
         
         let pushProductDetailView = input.cellDidSelectedAt
-                .map{ $0.row }
+            .map{ $0.row }
             .map{ index -> Int in
                 guard let product = self.productsViewModels[safe: index] else { return .zero }
                 return product.id }
