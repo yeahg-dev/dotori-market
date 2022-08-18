@@ -69,6 +69,7 @@ final class ProductListSceneViewModel {
                 
         let products = Observable.merge(
             viewWillAppear, willLoadNextPage, listViewDidStartRefresh)
+            .observe(on: ConcurrentDispatchQueueScheduler.init(qos: .default))
             .flatMap{ _ -> Observable<([ProductViewModel], Bool)> in
                 self.productListUsecase.fetchPrdoucts(
                     pageNo: self.currentPage + 1,
@@ -77,10 +78,11 @@ final class ProductListSceneViewModel {
                 networkErrorAlert.onNext(NetworkErrorAlertViewModel() as AlertViewModel) })
             .do(onNext: { (viewModels, hasNextPage) in
                 self.currentPage += 1
-                self.hasNextPage = hasNextPage })
-            .map{ (viewModels, hasNextPage) in
-                self.productsViewModels.append(contentsOf: viewModels)
-                return self.productsViewModels }
+                self.hasNextPage = hasNextPage
+                self.productsViewModels.append(contentsOf: viewModels) })
+            .scan(into: [ProductViewModel](),
+                  accumulator: { products, nextPageProducts in
+                products += nextPageProducts.0 })
             .do(onNext: { _ in willEndLoadingIndicator.onNext(()) })
             .asDriver(onErrorJustReturn: Array<ProductViewModel>())
         
