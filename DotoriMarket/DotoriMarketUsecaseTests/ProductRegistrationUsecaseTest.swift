@@ -28,8 +28,7 @@ class ProductRegistrationUsecaseTest: XCTestCase {
         let mockProductRepository = MarketProductRepository(service: mockAPIService)
         
         Realm.Configuration.defaultConfiguration.inMemoryIdentifier = self.name
-        let mockRegisteredProductRepository = MarketRegisteredProductRepository(
-            realm: try! Realm())
+        let mockRegisteredProductRepository = MarketRegisteredProductRepository()
         
         self.sut = ProductRegistrationUsecase(
             productRepository: mockProductRepository,
@@ -88,7 +87,6 @@ class ProductRegistrationUsecaseTest: XCTestCase {
         
         validationResult
             .map{ $0.0 }
-            .debug()
             .subscribe(observer)
             .disposed(by: disposeBag)
         

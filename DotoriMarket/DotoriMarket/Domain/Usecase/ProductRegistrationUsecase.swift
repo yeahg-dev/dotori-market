@@ -48,39 +48,37 @@ struct ProductRegistrationUsecase {
                 isValidStock: $3,
                 isValidDescription: $4,
                 isValidDiscountedPrice: $5) }
-            .debug()
     }
     
     func requestProductRegisteration(
-            name: Observable<String?>,
-            price: Observable<String?>,
-            currency: Observable<Int>,
-            discountedPrice: Observable<String?>,
-            stock: Observable<String?>,
-            description: Observable<String?>,
-            secret: Observable<String>,
-            image: Observable<[(CellType, Data)]>) -> Observable<ProductDetail> {
-        return Observable.combineLatest(name, price, currency, discountedPrice,
-                                        stock, description, secret,image,
-            resultSelector: { (name, price, currency, discountedPrice, stock,
-                descritpion, secret, image) -> ProductRegistrationRequest in
-               return self.createRegisterationRequest(
-                name: name,
-                price: price,
-                currency: currency,
-                discountedPrice: discountedPrice,
-                stock: stock,
-                description: descritpion,
-                secret: secret,
-                image: image) })
+        name: Observable<String?>,
+        price: Observable<String?>,
+        currency: Observable<Int>,
+        discountedPrice: Observable<String?>,
+        stock: Observable<String?>,
+        description: Observable<String?>,
+        secret: Observable<String>,
+        image: Observable<[(CellType, Data)]>) -> Observable<ProductDetail> {
+            return Observable.combineLatest(
+                name, price, currency, discountedPrice, stock, description, secret,
+                image,
+                resultSelector: { (name, price, currency, discountedPrice, stock,
+                                   descritpion, secret, image) -> ProductRegistrationRequest in
+                return self.createRegisterationRequest(
+                    name: name,
+                    price: price,
+                    currency: currency,
+                    discountedPrice: discountedPrice,
+                    stock: stock,
+                    description: descritpion,
+                    secret: secret,
+                    image: image) })
             .flatMap { request in
                 self.request(reqeust: request) }
-            .observe(on: MainScheduler.instance)
             .do{ productDetail in
                 self.registredProductRepository.createRegisteredProduct(
                     productID: productDetail.id) }
-
-    }
+        }
     
     private func createRegisterationRequest(
         name: String?,
@@ -101,7 +99,7 @@ struct ProductRegistrationUsecase {
             secret: secret)
         let imageDatas = image
             .map{ image in image.1 }
-        let imageFiles = imageDatas.imageFile(fileName: newProductInfo.name)
+        let imageFiles = imageDatas.imageFile(fileName: newProductInfo.name!)
         
         return ProductRegistrationRequest(
             identifier: Bundle.main.sellerIdentifier,

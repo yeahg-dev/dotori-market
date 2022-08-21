@@ -18,7 +18,7 @@ struct ProductInputChecker {
     }
     
     func isVald(image: Observable<[(CellType, Data)]>) -> Observable<Bool> {
-        return image.map { $0.count > 0 }
+        return image.map { $0.count > 1 && $0.count < 7 }
     }
     
     func isValid(name: Observable<String?>) -> Observable<Bool> {

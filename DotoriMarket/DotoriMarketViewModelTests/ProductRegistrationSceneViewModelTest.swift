@@ -41,11 +41,12 @@ class ProductRegistrationSceneViewModelTest: XCTestCase {
         let mockURLSession = URLSession(configuration: configuration)
         let mockAPIService = MarketAPIService(urlSession: mockURLSession)
         let mockProductRepository = MarketProductRepository(service: mockAPIService)
-        
+        let mockUsecase = ProductRegistrationUsecase(
+            productRepository: mockProductRepository,
+            registredProductRepository: MarketRegisteredProductRepository())
         Realm.Configuration.defaultConfiguration.inMemoryIdentifier = self.name
         let mockRegisteredProductRepository = MarketRegisteredProductRepository()
-        
-        let mockUsecase = ProductRegistrationUsecase(
+         (
             productRepository: mockProductRepository,
             registredProductRepository: mockRegisteredProductRepository)
         

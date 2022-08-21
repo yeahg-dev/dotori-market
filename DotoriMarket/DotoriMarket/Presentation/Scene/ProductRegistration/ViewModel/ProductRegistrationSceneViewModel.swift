@@ -64,16 +64,17 @@ final class ProductRegistrationSceneViewModel {
         let productCellImages = Observable.merge(pickerCellImage, selectedImage)
             .scan(into: []) { images, addedImage in
                 images.append(contentsOf: addedImage) }
-            .asDriver(onErrorJustReturn: [])
+            .share(replay: 1)
         
         let isAbleToPickImage: Observable<Bool> = productCellImages
-            .asObservable()
             .map{ images in
-                images.count < self.maximutProductImageCellCount }
+                images.count <= self.maximutProductImageCellCount }
         
         let presentImagePicker = input.imagePickerCellDidSelected
             .withLatestFrom(isAbleToPickImage) { row, isAbleToPickImage in
-                return isAbleToPickImage }
+                let isPickerCell = (row == 0)
+                let isImageFullySelected = isAbleToPickImage
+                return isPickerCell && isImageFullySelected }
             .filter{ $0 == true }
             .map{ _ in }
             .asDriver(onErrorJustReturn: ())
@@ -86,7 +87,7 @@ final class ProductRegistrationSceneViewModel {
             .asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel)
         
         let isValidInput = self.usecase.isValidInput(
-            image: productCellImages.asObservable().skip(imagePickerCellCount),
+            image: productCellImages.asObservable(),
             name: input.productTitle.asObservable(),
             price: input.productPrice.asObservable(),
             stock: input.productStock.asObservable(),
@@ -114,7 +115,7 @@ final class ProductRegistrationSceneViewModel {
     
         let registrationFailureAlert = PublishSubject<AlertViewModel>()
         
-        let registerationRequestResponse = input.didReceiveSecret
+        let registerationSucessAlert = input.didReceiveSecret
             .flatMap{ secret in
                 self.usecase.requestProductRegisteration(
                     name: input.productTitle.asObservable(),
@@ -124,20 +125,17 @@ final class ProductRegistrationSceneViewModel {
                     stock: input.productStock.asObservable(),
                     description: input.productDescriptionText.asObservable(),
                     secret: Observable.just(secret),
-                    image: productCellImages.asObservable()
-                        .skip(self.imagePickerCellCount))
-            }
-        
-        let registerationSucessAlert = registerationRequestResponse
+                    image: productCellImages.asObservable())}
             .do(onError: { _ in
                 registrationFailureAlert.onNext(RegistrationFailureAlertViewModel()) })
+            .retry(when: { _ in requireSecretAlert.asObservable() })
             .map{ _ in return RegistrationSuccessAlertViewModel() as AlertViewModel }
             .asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel)
         
         return Output(textViewPlaceholder: textViewPlaceholder,
                       requireSecret: requireSecretAlert,
                       presentImagePicker: presentImagePicker,
-                      productImages: productCellImages,
+                      productImages: productCellImages.asDriver(onErrorJustReturn: []),
                       excessImageAlert: excessImageAlert,
                       validationFailureAlert: validationFailAlert.asDriver(
                         onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel),

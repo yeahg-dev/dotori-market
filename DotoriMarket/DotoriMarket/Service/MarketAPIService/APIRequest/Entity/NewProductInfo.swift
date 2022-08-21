@@ -9,9 +9,9 @@ import Foundation
 
 struct NewProductInfo: Encodable {
     
-    let name: String
-    let descriptions: String
-    let price: Double
+    let name: String?
+    let descriptions: String?
+    let price: Double?
     let currency: CurrencyResponse
     let discountedPrice: Double?
     let stock: Int?
