@@ -9,8 +9,8 @@ import Foundation
 
 import RxSwift
 
-struct FavoriteProductListUsecase: ProductListUsecase {
-
+final class FavoriteProductListUsecase: ProductListUsecase {
+    
     let productRepository: ProductRepository
     private let favoriteProductRepository: FavoriteProductRepository
     
@@ -23,23 +23,13 @@ struct FavoriteProductListUsecase: ProductListUsecase {
         self.favoriteProductRepository = favoriteProdcutRepository
     }
     
-    mutating func fetchPrdoucts(
+    func fetchPrdoucts(
         pageNo: Int,
         itemsPerPage: Int) -> Observable<([ProductViewModel], Bool)> {
-        if self.favoriteProducts.isEmpty ||
-            self.favoriteProducts != self.favoriteProductRepository.fetchFavoriteProductIDs() {
-            self.readFavoriteProductIDs()
-        }
-        
-        guard let pageToRequest = self.favoriteProductPages[safe: pageNo - 1],
-              let lastPage = self.favoriteProductPages.last  else {
-        return Observable.just(([ProductViewModel](), false))
-        }
-        
-        let hasNext = (lastPage == pageToRequest) ? false :true
-        
-            return self.fetchProductViewModels(of: pageToRequest)
-            .map{ ($0, hasNext) }
+            return self.favoriteProductRepository.fetchFavoriteProductIDs()
+                .flatMap{ prodcutIDs in
+                    self.fetchProductViewModels(of: prodcutIDs) }
+                .map{ ($0, false) }
         }
     
     func fetchNavigationBarComponent() -> Observable<NavigationBarComponent> {
@@ -49,16 +39,11 @@ struct FavoriteProductListUsecase: ProductListUsecase {
                 rightBarButtonImageSystemName: ""))
     }
     
-    private mutating func readFavoriteProductIDs() {
-        self.favoriteProducts = self.favoriteProductRepository.fetchFavoriteProductIDs()
-        self.favoriteProductPages = favoriteProducts.chunked(into: 20)
-    }
-    
     private func fetchProductViewModels(of page: [Int]) -> Observable<[ProductViewModel]> {
         let requests = Observable.from(page)
             .flatMap({ id in
                 self.productRepository.fetchProductDetail(of: id) })
-     
+        
         let productViewModels = requests
             .map{ detail in
                 Product(id: detail.id, vendorID: detail.vendorID, name: detail.name, thumbnail: detail.thumbnail, currency: detail.currency, price: detail.price, bargainPrice: detail.bargainPrice, discountedPrice: detail.discountedPrice, stock: detail.stock) }
@@ -68,8 +53,8 @@ struct FavoriteProductListUsecase: ProductListUsecase {
             .map { array in
                 array.sorted { $0.id > $1.id }
             }
-            
-      return productViewModels
+        
+        return productViewModels
     }
     
 }

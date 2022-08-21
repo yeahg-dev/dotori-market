@@ -8,28 +8,36 @@
 import Foundation
 
 import RealmSwift
+import RxSwift
 
 struct MarketRegisteredProductRepository: RegisteredProductRepository {
     
-    private var realm = try! Realm()
-    
-    init(realm: Realm = try! Realm()) {
-        self.realm = realm
-    }
+    private let realm = RealmStorage.defaultRealm!
+    private let dispatchQueue = RealmStorage.DispatchQueueRealm!
     
     func createRegisteredProduct(productID: Int) {
-        let productToRegister = RegisterdProduct()
-        productToRegister.id = Int64(productID)
-        
-        try? realm.write {
-            realm.add(productToRegister)
+        dispatchQueue.async {
+            let productToRegister = RegisterdProduct()
+            productToRegister.id = Int64(productID)
+            
+            try? realm.write {
+                realm.add(productToRegister)
+            }
         }
     }
     
-    func fetchRegisteredProductIDs() -> [Int] {
-        let products = realm.objects(RegisterdProduct.self)
-
-        return Array(products).compactMap{ $0.id }.map{ Int($0) }
+    func fetchRegisteredProductIDs() -> Observable<[Int]> {
+        let observable = Observable<[Int]>.create{ observer in
+            dispatchQueue.async {
+                let products = realm.objects(RegisterdProduct.self)
+                let registeredProductIDs = Array(products)
+                    .compactMap{ $0.id }
+                    .map{ Int($0) }
+                observer.onNext(registeredProductIDs)
+            }
+            return Disposables.create()
+        }
+        return observable
     }
     
 }

@@ -52,10 +52,8 @@ final class ProductDetailSceneViewModel {
                 self.usecase.fetchPrdouctDetail(of: id) })
             .share(replay: 1)
         
-        let isLikeProduct = productDetail
-            .observe(on: MainScheduler.instance)
-            .map{ productDetail in
-                self.usecase.readIsLikeProduct(of: productDetail.id) }
+        let isLikeProduct = productDetail.flatMap { detail in
+            self.usecase.readIsLikeProduct(of: detail.id) }
             .asDriver(onErrorJustReturn: false)
         
         let productName = productDetail.map{ $0.name }

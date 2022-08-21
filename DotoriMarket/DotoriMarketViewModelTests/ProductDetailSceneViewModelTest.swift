@@ -28,8 +28,7 @@ class ProductDetailSceneViewModelTest: XCTestCase {
         let mockProductRepository = MarketProductRepository(service: mockAPIService)
         
         Realm.Configuration.defaultConfiguration.inMemoryIdentifier = self.name
-        let mockFavoriteRepository = MarketFavoriteProductRepository(
-            realm: try! Realm())
+        let mockFavoriteRepository = MarketFavoriteProductRepository()
         let testUsecase = LookProductDetaiUsecase(
             productRepository: mockProductRepository, favoriteProductRepository: mockFavoriteRepository)
         

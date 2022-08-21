@@ -8,18 +8,12 @@
 import Foundation
 
 import RealmSwift
+import RxSwift
 
 protocol RegisteredProductRepository {
     
     func createRegisteredProduct(productID: Int)
     
-    func fetchRegisteredProductIDs() -> [Int]
-    
-}
-
-
-protocol RealmRegisteredProductRepository: RegisteredProductRepository {
-    
-    var realm: Realm { get set }
+    func fetchRegisteredProductIDs() -> Observable<[Int]>
     
 }

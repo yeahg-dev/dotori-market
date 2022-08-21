@@ -9,11 +9,11 @@ import Foundation
 
 import RxSwift
 
-protocol ProductListUsecase {
+protocol ProductListUsecase: AnyObject {
     
     var productRepository: ProductRepository { get }
      
-    mutating func fetchPrdoucts(
+    func fetchPrdoucts(
         pageNo: Int,
         itemsPerPage: Int) -> Observable<([ProductViewModel], Bool)>
     

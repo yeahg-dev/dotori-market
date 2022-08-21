@@ -9,7 +9,7 @@ import Foundation
 
 import RxSwift
 
-struct RegisterdProductListUsecase: ProductListUsecase {
+final class RegisterdProductListUsecase: ProductListUsecase {
     
     let productRepository: ProductRepository
     private let registredProductRepository: RegisteredProductRepository
@@ -21,25 +21,15 @@ struct RegisterdProductListUsecase: ProductListUsecase {
     }
     
     private var registerdProducts = [Int]()
-    private var registerdProductPages = [[Int]]()
     
-    mutating func fetchPrdoucts(
+    func fetchPrdoucts(
         pageNo: Int,
         itemsPerPage: Int) -> Observable<([ProductViewModel], Bool)> {
-        if self.registerdProducts.isEmpty ||
-            self.registerdProducts != self.registredProductRepository.fetchRegisteredProductIDs() {
-            self.readProductIDs()
-        }
-        
-        guard let pageToRequest = self.registerdProductPages[safe: pageNo - 1],
-              let lastPage = self.registerdProductPages.last  else {
-        return Observable.just(([ProductViewModel](), false))
-        }
-        
-        let hasNext = (lastPage == pageToRequest) ? false :true
-        
-            return self.fetchProductViewModels(of: pageToRequest)
-            .map{ ($0, hasNext) }
+            
+        return self.registredProductRepository.fetchRegisteredProductIDs()
+                .flatMap{ prodcutIDs in
+                    self.fetchProductViewModels(of: prodcutIDs) }
+                .map{ ($0, false) }
         }
     
     func fetchNavigationBarComponent() -> Observable<NavigationBarComponent> {
@@ -47,11 +37,6 @@ struct RegisterdProductListUsecase: ProductListUsecase {
             NavigationBarComponent(
                 title: "등록 상품 관리",
                 rightBarButtonImageSystemName: "plus.square.on.square"))
-    }
-    
-    private mutating func readProductIDs() {
-        self.registerdProducts = self.registredProductRepository.fetchRegisteredProductIDs()
-        self.registerdProductPages = registerdProducts.chunked(into: 20)
     }
     
     private func fetchProductViewModels(of page: [Int]) -> Observable<[ProductViewModel]> {

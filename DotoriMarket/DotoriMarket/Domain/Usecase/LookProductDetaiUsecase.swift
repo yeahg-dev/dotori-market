@@ -23,12 +23,11 @@ struct LookProductDetaiUsecase {
     func fetchPrdouctDetail(
         of productID: Int) -> Observable<(ProductDetailViewModel)> {
         self.productRepository.fetchProductDetail(of: productID)
-            .map { detail in
-                return ProductDetailViewModel(product: detail)
-            }
+            .map{ detail in
+                return ProductDetailViewModel(product: detail) }
     }
     
-    func readIsLikeProduct(of productID: Int) -> Bool {
+    func readIsLikeProduct(of productID: Int) -> Observable<Bool> {
         return self.favoriteProductRepository.fetchIsLikeProduct(productID: productID)
     }
     
@@ -37,7 +36,7 @@ struct LookProductDetaiUsecase {
     }
     
     func recordUnlikeProduct(of productID: Int) {
-        self.favoriteProductRepository.deletFavoriteProduct(productID: productID)
+        self.favoriteProductRepository.deleteFavoriteProduct(productID: productID)
     }
     
 }
