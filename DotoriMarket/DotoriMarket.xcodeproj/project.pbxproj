@@ -758,7 +758,7 @@
 				63DA95AC285205F1004CB9C1 /* Common */,
 				63DA9599285095ED004CB9C1 /* ProductList */,
 				63DA959A285095F7004CB9C1 /* ProductDetail */,
-				63DA959B28509609004CB9C1 /* ProductRegisteration */,
+				63DA959B28509609004CB9C1 /* ProductRegistration */,
 				634B2DF828695D620076707C /* ProductEdit */,
 			);
 			path = Scene;
@@ -782,14 +782,14 @@
 			path = ProductDetail;
 			sourceTree = "<group>";
 		};
-		63DA959B28509609004CB9C1 /* ProductRegisteration */ = {
+		63DA959B28509609004CB9C1 /* ProductRegistration */ = {
 			isa = PBXGroup;
 			children = (
 				63AA3B10288C0C3600A8877B /* ProductRegistrationCoordinator.swift */,
 				632ADA5128607F4D000B318B /* ViewModel */,
 				63DA959F285096EA004CB9C1 /* View */,
 			);
-			path = ProductRegisteration;
+			path = ProductRegistration;
 			sourceTree = "<group>";
 		};
 		63DA959D285096CF004CB9C1 /* View */ = {
