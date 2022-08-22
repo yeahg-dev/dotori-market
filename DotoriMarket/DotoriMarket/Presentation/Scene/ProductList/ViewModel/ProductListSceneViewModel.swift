@@ -52,6 +52,7 @@ final class ProductListSceneViewModel {
                 rightBarButtonImageSystemName: "squareshape.split.2x2"))
         
         let viewWillAppear = input.viewWillAppear
+            .debug()
             .do(onNext: { self.resetPage()
                 willStartLoadingIndicator.onNext(()) })
                 
@@ -80,9 +81,7 @@ final class ProductListSceneViewModel {
                 self.currentPage += 1
                 self.hasNextPage = hasNextPage
                 self.productsViewModels.append(contentsOf: viewModels) })
-            .scan(into: [ProductViewModel](),
-                  accumulator: { products, nextPageProducts in
-                products += nextPageProducts.0 })
+            .map{ _ in self.productsViewModels}
             .do(onNext: { _ in willEndLoadingIndicator.onNext(()) })
             .asDriver(onErrorJustReturn: Array<ProductViewModel>())
         
@@ -94,7 +93,6 @@ final class ProductListSceneViewModel {
             .map{ index -> Int in
                 guard let product = self.productsViewModels[safe: index] else { return .zero }
                 return product.id }
-            .do(onNext: { _ in self.resetPage() })
             .asDriver(onErrorJustReturn: 0)
         
         return Output(navigationBarComponent: navigationBarComponent,
