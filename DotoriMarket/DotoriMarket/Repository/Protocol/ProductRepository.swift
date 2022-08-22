@@ -21,7 +21,7 @@ protocol ProductRepository {
     func requestProductEdit(
         with request: ProductEditRequest) -> Observable<ProductDetail>
     
-    func requestProductRegisteration(
+    func requestProductRegistration(
         with request: ProductRegistrationRequest) -> Observable<ProductDetail>
 
 }

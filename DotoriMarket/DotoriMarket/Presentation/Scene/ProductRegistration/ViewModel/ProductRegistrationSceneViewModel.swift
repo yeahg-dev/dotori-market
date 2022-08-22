@@ -115,9 +115,9 @@ final class ProductRegistrationSceneViewModel {
     
         let registrationFailureAlert = PublishSubject<AlertViewModel>()
         
-        let registerationSucessAlert = input.didReceiveSecret
+        let registrationSucessAlert = input.didReceiveSecret
             .flatMap{ secret in
-                self.usecase.requestProductRegisteration(
+                self.usecase.requestProductRegistration(
                     name: input.productTitle.asObservable(),
                     price: input.productPrice.asObservable(),
                     currency: input.productCurrency.asObservable(),
@@ -139,7 +139,7 @@ final class ProductRegistrationSceneViewModel {
                       excessImageAlert: excessImageAlert,
                       validationFailureAlert: validationFailAlert.asDriver(
                         onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel),
-                      registrationSuccessAlert: registerationSucessAlert,
+                      registrationSuccessAlert: registrationSucessAlert,
                       registrationFailureAlert: registrationFailureAlert .asDriver(
                         onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel))
     }

@@ -47,7 +47,7 @@ struct MarketProductRepository: ProductRepository {
             .map{ $0.toDomain() }
     }
     
-    func requestProductRegisteration(with request: ProductRegistrationRequest) -> Observable<ProductDetail> {
+    func requestProductRegistration(with request: ProductRegistrationRequest) -> Observable<ProductDetail> {
         return self.service.requestRx(request)
             .map{ data -> ProductDetailResponse? in
             guard let response: ProductDetailResponse = JSONCodable().decode(from: data) else { return nil }

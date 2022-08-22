@@ -233,7 +233,7 @@ class ProductRegistrationUsecaseTest: XCTestCase {
         let secretObservable = PublishSubject<String>()
         let imageObservable = PublishSubject<[(CellType, Data)]>()
         
-        let registeratinoResult = sut.requestProductRegisteration(
+        let registeratinoResult = sut.requestProductRegistration(
             name: nameObeservable.asObservable(),
             price: priceObeservable.asObservable(),
             currency: currencyObservable.asObservable(),

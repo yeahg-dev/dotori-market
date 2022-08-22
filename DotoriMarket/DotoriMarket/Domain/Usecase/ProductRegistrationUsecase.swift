@@ -50,7 +50,7 @@ struct ProductRegistrationUsecase {
                 isValidDiscountedPrice: $5) }
     }
     
-    func requestProductRegisteration(
+    func requestProductRegistration(
         name: Observable<String?>,
         price: Observable<String?>,
         currency: Observable<Int>,
@@ -64,7 +64,7 @@ struct ProductRegistrationUsecase {
                 image,
                 resultSelector: { (name, price, currency, discountedPrice, stock,
                                    descritpion, secret, image) -> ProductRegistrationRequest in
-                return self.createRegisterationRequest(
+                return self.createRegistrationRequest(
                     name: name,
                     price: price,
                     currency: currency,
@@ -80,7 +80,7 @@ struct ProductRegistrationUsecase {
                     productID: productDetail.id) }
         }
     
-    private func createRegisterationRequest(
+    private func createRegistrationRequest(
         name: String?,
         price: String?,
         currency: Int,
@@ -141,7 +141,7 @@ struct ProductRegistrationUsecase {
     
     private func request(
         reqeust: ProductRegistrationRequest) -> Observable<ProductDetail> {
-        self.productRepository.requestProductRegisteration(with: reqeust)
+        self.productRepository.requestProductRegistration(with: reqeust)
     }
     
 }
