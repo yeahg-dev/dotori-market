@@ -31,13 +31,10 @@ final class ProductCollectionViewController: UICollectionViewController {
     }
     
     // MARK: - View Life Cycle
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         self.setUpCollectionView()
         self.configureLoadingIndicator()
         self.configureRefreshControl()
@@ -151,4 +148,14 @@ final class ProductCollectionViewController: UICollectionViewController {
         alert.addAction(okAction)
         self.present(alert, animated: false)
     }
+}
+
+// MARK: - UIGestureRecognizerDelegate
+
+extension ProductCollectionViewController: UIGestureRecognizerDelegate {
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
 }

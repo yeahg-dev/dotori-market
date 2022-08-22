@@ -41,10 +41,11 @@ final class ProductTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        self.tableView.dataSource = nil
         self.configureLoadingIndicator()
         self.configureRefreshControl()
         self.configureTableViewLayout()
-        self.tableView.dataSource = nil
         self.bindViewModel()
     }
 
@@ -146,4 +147,13 @@ final class ProductTableViewController: UITableViewController {
         self.present(alert, animated: false)
     }
 
+}
+
+// MARK: - UIGestureRecognizerDelegate
+
+extension ProductTableViewController: UIGestureRecognizerDelegate {
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return false
+    }
 }
