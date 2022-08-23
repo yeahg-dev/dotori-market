@@ -75,13 +75,15 @@ final class ProductListSceneViewModel {
                     pageNo: self.currentPage + 1,
                     itemsPerPage: 20) }
             .do(onError: { _ in
-                networkErrorAlert.onNext(NetworkErrorAlertViewModel() as AlertViewModel) })
+                networkErrorAlert.onNext(NetworkErrorAlertViewModel() as AlertViewModel)
+                willEndLoadingIndicator.onNext(()) })
+            .retry(when: { _ in listViewDidStartRefresh })
             .do(onNext: { (viewModels, hasNextPage) in
                 self.currentPage += 1
                 self.hasNextPage = hasNextPage
-                self.productsViewModels.append(contentsOf: viewModels) })
+                self.productsViewModels.append(contentsOf: viewModels)
+                willEndLoadingIndicator.onNext(()) })
             .map{ _ in self.productsViewModels}
-            .do(onNext: { _ in willEndLoadingIndicator.onNext(()) })
             .asDriver(onErrorJustReturn: Array<ProductViewModel>())
         
         let endRefresh = products.map { _ in }

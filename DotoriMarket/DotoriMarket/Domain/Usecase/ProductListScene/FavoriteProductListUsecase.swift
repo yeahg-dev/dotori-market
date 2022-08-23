@@ -39,8 +39,12 @@ final class FavoriteProductListUsecase: ProductListUsecase {
                 rightBarButtonImageSystemName: ""))
     }
     
-    private func fetchProductViewModels(of page: [Int]) -> Observable<[ProductViewModel]> {
-        let requests = Observable.from(page)
+    private func fetchProductViewModels(of productIDs: [Int]) -> Observable<[ProductViewModel]> {
+        guard !productIDs.isEmpty else{
+            return Observable.just([ProductViewModel]())
+        }
+        
+        let requests = Observable.from(productIDs)
             .flatMap({ id in
                 self.productRepository.fetchProductDetail(of: id) })
         
@@ -48,11 +52,10 @@ final class FavoriteProductListUsecase: ProductListUsecase {
             .map{ detail in
                 Product(id: detail.id, vendorID: detail.vendorID, name: detail.name, thumbnail: detail.thumbnail, currency: detail.currency, price: detail.price, bargainPrice: detail.bargainPrice, discountedPrice: detail.discountedPrice, stock: detail.stock) }
             .map{ ProductViewModel(product: $0) }
-            .take(page.count)
+            .take(productIDs.count)
             .reduce([]) { acc, element in return acc + [element] }
             .map { array in
-                array.sorted { $0.id > $1.id }
-            }
+                array.sorted { $0.id > $1.id } }
         
         return productViewModels
     }
