@@ -205,6 +205,7 @@ final class ProductDetailViewController: UIViewController {
         guard let productID = self.productID else {
             return
         }
+        likeButton?.isSelected.toggle()
         
         if sender.isSelected {
             self.productDidLike.onNext(productID)
