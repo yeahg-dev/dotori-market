@@ -52,7 +52,6 @@ final class ProductListSceneViewModel {
                 rightBarButtonImageSystemName: "squareshape.split.2x2"))
         
         let viewWillAppear = input.viewWillAppear
-            .debug()
             .do(onNext: { self.resetPage()
                 willStartLoadingIndicator.onNext(()) })
                 
