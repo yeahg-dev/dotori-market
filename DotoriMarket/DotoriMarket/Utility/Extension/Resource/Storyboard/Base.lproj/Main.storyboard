@@ -329,7 +329,7 @@
                                 <viewLayoutGuide key="contentLayoutGuide" id="FeW-hR-noL"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="pXQ-Ys-4Y8"/>
                             </scrollView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1c5-zM-MK5">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1c5-zM-MK5">
                                 <rect key="frame" x="354" y="778" width="30" height="34"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                             </button>
@@ -366,7 +366,6 @@
         <!--Product Registration View Controller-->
         <scene sceneID="MrP-Cb-goH">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zdz-2S-o0K" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="ProductRegistrationViewController" id="Fin-Xs-O08" customClass="ProductRegistrationViewController" customModule="DotoriMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KrM-WY-Hm3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
@@ -566,6 +565,7 @@
                         <outlet property="stockTextField" destination="QmY-25-3xz" id="6Ug-Ty-8op"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zdz-2S-o0K" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="837.68115942028987" y="69.642857142857139"/>
         </scene>
