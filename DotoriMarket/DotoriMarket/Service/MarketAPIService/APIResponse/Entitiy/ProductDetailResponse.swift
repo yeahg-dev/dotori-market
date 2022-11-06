@@ -50,19 +50,5 @@ extension ProductDetailResponse {
                              stock: self.stock,
                              images: self.images.map{ $0.toDomain() })
     }
-    
-    static let dummy = ProductDetailResponse(id: 30,
-                                             vendorID: 3,
-                                             name: "lily",
-                                             description: "description",
-                                             thumbnail: "",
-                                             currency: .krw,
-                                             price: 0,
-                                             bargainPrice: 0,
-                                             discountedPrice: 0,
-                                             stock: 0,
-                                             images: [],
-                                             vendors: VendorResponse(name: "lily", id: 10),
-                                             createdAt: Date(),
-                                             issuedAt: Date())
+  
 }
