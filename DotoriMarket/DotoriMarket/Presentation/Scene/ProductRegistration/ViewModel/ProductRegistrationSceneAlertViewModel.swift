@@ -46,4 +46,11 @@ extension ProductRegistrationSceneViewModel {
         var actionTitle: String? = "확인"
     }
     
+    struct RegistrationSuccessWithParsingFailureAlertViewModel: AlertViewModel {
+        
+        var title: String? = "나의 상품 등록에 실패했습니다."
+        var message: String? = "상품은 정상적으로 마켓에 등록되었으나, 내 상품으로 등록하는데는 실패했습니다. 개발자에게 문의해주세요"
+        var actionTitle: String? = "확인"
+    }
+    
 }

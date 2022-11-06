@@ -12,14 +12,13 @@ struct ImageResponse: Codable {
     let id: Int
     let url: String
     let thumbnailURL: String
-    let succeed: Bool
-    let issuedAt: Date
+    let issuedAt: String
     
     private enum CodingKeys: String, CodingKey {
         
         case thumbnailURL = "thumbnail_url"
         case issuedAt = "issued_at"
-        case id, url, succeed
+        case id, url
     }
 }
 

@@ -10,7 +10,9 @@ import Foundation
 struct ProductResponse: Codable {
     let id: Int
     let vendorID: Int
+    let vendorName: String
     let name: String
+    let description: String
     let thumbnail: String
     let currency: CurrencyResponse
     let price: Double
@@ -27,7 +29,7 @@ struct ProductResponse: Codable {
         case discountedPrice = "discounted_price"
         case createdAt = "created_at"
         case issuedAt = "issued_at"
-        case id, name, thumbnail, currency, price, stock
+        case id, vendorName, name, description, thumbnail, currency, price, stock
     }
 }
 

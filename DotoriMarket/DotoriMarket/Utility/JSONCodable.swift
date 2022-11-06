@@ -13,13 +13,16 @@ struct JSONCodable {
     private let encoder = JSONEncoder()
     private let dateFormatter = DateFormatter()
 
-    func decode<T: Decodable>(from data: Data) -> T? {
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SS"
+    func decode<T: Decodable>(from data: Data, dateFormat: DateFormat) -> T? {
+        dateFormatter.dateFormat = dateFormat.formatString
         decoder.dateDecodingStrategy = .formatted(dateFormatter)
-        guard let data = try? decoder.decode(T.self, from: data) else {
-            return nil
+        do {
+            let data = try decoder.decode(T.self, from: data)
+            return data
+        } catch {
+            print("Error decoding with type :\(T.self), \(error.localizedDescription)")
         }
-        return data
+        return nil
     }
     
     func decode<T: Decodable>(from fileName: String) -> T? {
@@ -39,4 +42,20 @@ struct JSONCodable {
         }
         return object
     }
+}
+
+enum DateFormat {
+    
+    case short
+    case long
+    
+    var formatString: String {
+        switch self {
+        case .short:
+            return "yyyy-MM-dd'T'HH:mm:ss"
+        case .long:
+            return "yyyy-MM-dd'T'HH:mm:ss.SS"
+        }
+    }
+    
 }

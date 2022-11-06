@@ -126,7 +126,10 @@ final class ProductRegistrationSceneViewModel {
                     description: input.productDescriptionText.asObservable(),
                     secret: Observable.just(secret),
                     image: productCellImages.asObservable())}
-            .do(onError: { _ in
+            .do(onError: { error in
+                if error is MarketProductRepository.MarketProductRepositorError {
+                    registrationFailureAlert.onNext(RegistrationSuccessWithParsingFailureAlertViewModel())
+                }
                 registrationFailureAlert.onNext(RegistrationFailureAlertViewModel()) })
             .retry(when: { _ in requireSecretAlert.asObservable() })
             .map{ _ in return RegistrationSuccessAlertViewModel() as AlertViewModel }

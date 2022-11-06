@@ -20,7 +20,7 @@ struct ProductDetailResponse: Codable, ResponseDataType {
     let discountedPrice: Double
     let stock: Int
     let images: [ImageResponse]
-    let vendor: VendorResponse
+    let vendors: VendorResponse
     let createdAt: Date
     let issuedAt: Date
     
@@ -29,10 +29,9 @@ struct ProductDetailResponse: Codable, ResponseDataType {
         case vendorID = "vendor_id"
         case bargainPrice = "bargain_price"
         case discountedPrice = "discounted_price"
-        case vendor = "vendors"
         case createdAt = "created_at"
         case issuedAt = "issued_at"
-        case id, name, description, thumbnail, currency, price, stock, images
+        case id, name, description, thumbnail, currency, price, stock, images, vendors
     }
 }
 
@@ -51,4 +50,19 @@ extension ProductDetailResponse {
                              stock: self.stock,
                              images: self.images.map{ $0.toDomain() })
     }
+    
+    static let dummy = ProductDetailResponse(id: 30,
+                                             vendorID: 3,
+                                             name: "lily",
+                                             description: "description",
+                                             thumbnail: "",
+                                             currency: .krw,
+                                             price: 0,
+                                             bargainPrice: 0,
+                                             discountedPrice: 0,
+                                             stock: 0,
+                                             images: [],
+                                             vendors: VendorResponse(name: "lily", id: 10),
+                                             createdAt: Date(),
+                                             issuedAt: Date())
 }

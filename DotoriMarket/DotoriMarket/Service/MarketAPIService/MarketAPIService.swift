@@ -38,6 +38,7 @@ struct MarketAPIService: APIServcie {
         completion: @escaping (Result<Data, Error>
         ) -> Void) {
         guard let urlRequest = request.urlRequest() else {
+            print("URL Request creation failed")
             completion(.failure(APIError.URLRequestCreationFail))
             return
         }
@@ -51,18 +52,18 @@ struct MarketAPIService: APIServcie {
         ) -> Void ) {
         let dataTask = session.dataTask(with: request) { data, response, error in
             if let error = error {
+                print("\(error.localizedDescription)")
                 completion(.failure(error))
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
+                print("\(error.debugDescription)")
                 completion(.failure(APIError.invalidResponseDate))
                 return
             }
-            
             guard let data = data else { return }
-
             completion(.success(data))
         }
         dataTask.resume()

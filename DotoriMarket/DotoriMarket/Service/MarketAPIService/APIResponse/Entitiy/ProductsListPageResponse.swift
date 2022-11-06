@@ -21,12 +21,12 @@ struct ProductsListPageResponse: Codable, ResponseDataType {
     
     private enum CodingKeys: String, CodingKey {
         
-        case pageNo = "page_no"
-        case itemsPerPage = "items_per_page"
-        case totalCount = "total_count"
-        case lastPage = "last_page"
-        case hasNext = "has_next"
-        case hasPrev = "has_prev"
+        case pageNo
+        case itemsPerPage
+        case totalCount
+        case lastPage
+        case hasNext
+        case hasPrev
         case offset, limit, pages
     }
 }

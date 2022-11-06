@@ -73,7 +73,8 @@ final class ProductListSceneViewModel {
             .flatMap{ _ -> Observable<([ProductViewModel], Bool)> in
                 self.productListUsecase.fetchPrdoucts(
                     pageNo: self.currentPage + 1,
-                    itemsPerPage: 20) }
+                    itemsPerPage: 20,
+                    searchValue: nil) }
             .do(onError: { _ in
                 networkErrorAlert.onNext(NetworkErrorAlertViewModel() as AlertViewModel)
                 willEndLoadingIndicator.onNext(()) })

@@ -15,9 +15,10 @@ struct ProductsListPageRequest: APIRequest {
     
     private let pageNo: Int
     private let itemsPerPage: Int
+    private let searchValue: String?
     private let boundary: String
     var url: URL? {
-        return MarketAPIURL.productsListPage(pageNo, itemsPerPage).url
+        return MarketAPIURL.productsListPage(pageNo, itemsPerPage, searchValue).url
     }
     var httpMethod: HTTPMethod {
         return .get
@@ -29,9 +30,10 @@ struct ProductsListPageRequest: APIRequest {
         return nil
     }
     
-    init(pageNo: Int, itemsPerPage: Int) {
+    init(pageNo: Int, itemsPerPage: Int, searchValue: String?) {
         self.pageNo = pageNo
         self.itemsPerPage = itemsPerPage
+        self.searchValue = searchValue
         self.boundary = "--\(UUID().uuidString)"
     }
 }

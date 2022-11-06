@@ -25,7 +25,8 @@ final class FavoriteProductListUsecase: ProductListUsecase {
     
     func fetchPrdoucts(
         pageNo: Int,
-        itemsPerPage: Int) -> Observable<([ProductViewModel], Bool)> {
+        itemsPerPage: Int,
+        searchValue: String?) -> Observable<([ProductViewModel], Bool)> {
             return self.favoriteProductRepository.fetchFavoriteProductIDs()
                 .flatMap{ prodcutIDs in
                     self.fetchProductViewModels(of: prodcutIDs) }

@@ -121,7 +121,7 @@ struct ProductRegistrationUsecase {
               let stock = stock,
               let description = description else {
             return NewProductInfo(name: "",
-                                  descriptions: "",
+                                  description: "",
                                   price: 0,
                                   currency: .usd,
                                   discountedPrice: 0,
@@ -131,7 +131,7 @@ struct ProductRegistrationUsecase {
 
         return NewProductInfo(
             name: name,
-            descriptions: description,
+            description: description,
             price: (price as NSString).doubleValue,
             currency: currency.toEntity(),
             discountedPrice: ( discountedPrice as NSString).doubleValue,

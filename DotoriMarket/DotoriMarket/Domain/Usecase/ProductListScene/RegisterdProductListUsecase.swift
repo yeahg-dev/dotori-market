@@ -24,7 +24,8 @@ final class RegisterdProductListUsecase: ProductListUsecase {
     
     func fetchPrdoucts(
         pageNo: Int,
-        itemsPerPage: Int) -> Observable<([ProductViewModel], Bool)> {
+        itemsPerPage: Int,
+        searchValue: String?) -> Observable<([ProductViewModel], Bool)> {
             
         return self.registredProductRepository.fetchRegisteredProductIDs()
                 .flatMap{ prodcutIDs in
