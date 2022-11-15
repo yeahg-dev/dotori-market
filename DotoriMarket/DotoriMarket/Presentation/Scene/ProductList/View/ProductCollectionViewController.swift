@@ -17,14 +17,14 @@ final class ProductCollectionViewController: UICollectionViewController {
     private let loadingIndicator = UIActivityIndicatorView()
     
     // MARK: - Property
-    private var coordinator: AllProductListCoordinator?
+    private var coordinator: AllProductsCoordinator?
     
     private let viewModel = ProductListSceneViewModel(usecase: AllProductGridUsecase())
     private let disposeBag = DisposeBag()
     
     // MARK: - Load from Storyboard
     
-    static func make(coordinator: AllProductListCoordinator) -> ProductCollectionViewController {
+    static func make(coordinator: AllProductsCoordinator) -> ProductCollectionViewController {
         let productListVC = UIStoryboard.initiateViewController(ProductCollectionViewController.self)
         productListVC.coordinator = coordinator
         return productListVC

@@ -1,5 +1,5 @@
 //
-//  MyProductTabBarItem.swift
+//  RegisteredProductsTabBarItem.swift
 //  DotoriMarket
 //
 //  Created by lily on 2022/07/19.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MyProductTabBarItem {
+final class RegisteredProductsTabBarItem {
   
     lazy var tabBarItem: UITabBarItem  = {
         let list = UITabBarItem(title: "내 상품",
