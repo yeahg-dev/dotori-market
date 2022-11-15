@@ -17,8 +17,8 @@ final class RegisteredProductsCoordinator: TabCoordinator {
     }
     
     func start() {
-        let productListVC = ProductListViewFactory().make(
-            viewType: .myProduct,
+        let productListVC = ProductListViewFactory.make(
+            viewType: .registeredProducts,
             coordinator: self)
         self.desingNavigationController()
         self.navigationController.pushViewController(

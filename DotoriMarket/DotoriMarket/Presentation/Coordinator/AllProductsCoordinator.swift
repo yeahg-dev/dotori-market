@@ -11,9 +11,10 @@ final class AllProductsCoordinator: TabCoordinator {
     
     var childCoordinator = [Coordinator]()
     var navigationController: UINavigationController
+    
     lazy var productCollectionViewContorller = ProductCollectionViewController.make(coordinator: self)
-    lazy var productTableViewController = ProductListViewFactory().make(
-        viewType: .allProduct,
+    lazy var productTableViewController = ProductListViewFactory.make(
+        viewType: .allProducts,
         coordinator: self)
     
     init () {

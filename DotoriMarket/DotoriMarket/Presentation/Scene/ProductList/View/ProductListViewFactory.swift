@@ -12,16 +12,16 @@ struct ProductListViewFactory {
     // MARK: - ProductListView Type
     
     enum ProductListView {
-        case allProduct
-        case favoriteProuduct
-        case myProduct
+        case allProducts
+        case favoriteProuducts
+        case registeredProducts
     }
     
-    func make(
+    static func make(
         viewType: ProductListView,
         coordinator: ProductListCoordinator) -> ProductTableViewController {
         switch viewType {
-        case .allProduct:
+        case .allProducts:
             return UIStoryboard.main.instantiateViewController(
                 identifier: "ProductTableViewController", creator:  { coder -> ProductTableViewController in
                     let viewModel = ProductListSceneViewModel(usecase: AllProductListUsecase())
@@ -31,7 +31,7 @@ struct ProductListViewFactory {
                         coder: coder)
                     return vc!
                 })
-        case .favoriteProuduct:
+        case .favoriteProuducts:
             return UIStoryboard.main.instantiateViewController(
                 identifier: "ProductTableViewController", creator:  { coder -> ProductTableViewController in
                     let viewModel = ProductListSceneViewModel(usecase: FavoriteProductListUsecase())
@@ -41,7 +41,7 @@ struct ProductListViewFactory {
                         coder: coder)
                     return vc!
                 })
-        case .myProduct:
+        case .registeredProducts:
             return UIStoryboard.main.instantiateViewController(
                 identifier: "ProductTableViewController", creator:  { coder -> ProductTableViewController in
                     let viewModel = ProductListSceneViewModel(usecase: RegisterdProductListUsecase())

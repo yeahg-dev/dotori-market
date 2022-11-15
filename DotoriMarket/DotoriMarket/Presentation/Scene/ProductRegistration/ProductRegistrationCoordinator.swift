@@ -19,7 +19,8 @@ final class ProductRegistrationCoordinator: Coordinator {
     
     func start() {
         let registrationVC = UIStoryboard.main.instantiateViewController(
-            identifier: "ProductRegistrationViewController", creator:  { coder -> ProductRegistrationViewController in
+            identifier: "ProductRegistrationViewController",
+            creator:  { coder -> ProductRegistrationViewController in
                 let viewModel = ProductRegistrationSceneViewModel(usecase: ProductRegistrationUsecase())
                 let vc = ProductRegistrationViewController(
                     viewModel: viewModel,

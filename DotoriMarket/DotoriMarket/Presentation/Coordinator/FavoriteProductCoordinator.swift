@@ -5,7 +5,6 @@
 //  Created by lily on 2022/07/21.
 //
 
-
 import UIKit
 
 final class FavoriteProductsCoordinator: TabCoordinator {
@@ -18,8 +17,8 @@ final class FavoriteProductsCoordinator: TabCoordinator {
     }
     
     func start() {
-        let productListVC = ProductListViewFactory().make(
-            viewType: .favoriteProuduct,
+        let productListVC = ProductListViewFactory.make(
+            viewType: .favoriteProuducts,
             coordinator: self)
         self.navigationController.pushViewController(
             productListVC,

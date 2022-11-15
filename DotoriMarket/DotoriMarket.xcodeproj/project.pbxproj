@@ -379,6 +379,9 @@
 		63473C0128978B5600F10D80 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				63AA3B0D288BF4A900A8877B /* Design */,
+				63DA95AC285205F1004CB9C1 /* Common */,
+				63BD697C2885A67D0011ECAE /* Coordinator */,
 				63856EC12923783000AE3939 /* TabBar */,
 				63DA9598285095D4004CB9C1 /* Scene */,
 			);
@@ -740,9 +743,6 @@
 		63DA9598285095D4004CB9C1 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
-				63DA95AC285205F1004CB9C1 /* Common */,
-				63AA3B0D288BF4A900A8877B /* Design */,
-				63BD697C2885A67D0011ECAE /* Coordinator */,
 				63DA9599285095ED004CB9C1 /* ProductList */,
 				63DA959A285095F7004CB9C1 /* ProductDetail */,
 				63DA959B28509609004CB9C1 /* ProductRegistration */,

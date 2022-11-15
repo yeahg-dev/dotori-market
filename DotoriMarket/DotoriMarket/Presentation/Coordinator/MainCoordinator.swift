@@ -21,10 +21,10 @@ final class MainCoordinator: Coordinator {
         let tabBarChilds: [TabBarChilds] = [.registeredProducts, .allProducts, .favoriteProducts]
         self.childCoordinator = tabBarChilds.map { $0.coordinator }
         
-        let tabViewControllers = tabBarChilds.map { $0.navigationControllerWithTabBarItem}
+        let childViewControllers = tabBarChilds.map { $0.navigationControllerWithTabBarItem}
         
         tabBarController.setViewControllers(
-            tabViewControllers,
+            childViewControllers,
             animated: false)
         tabBarController.selectedIndex = 1
         let designedVC = self.designTabBarController(tabBarController)
