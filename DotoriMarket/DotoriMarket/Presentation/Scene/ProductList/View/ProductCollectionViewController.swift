@@ -125,7 +125,7 @@ final class ProductCollectionViewController: UICollectionViewController {
         self.collectionView.refreshControl = UIRefreshControl()
     }
     
-    private func confiureNavigationItem(with navigationBarComponent: NavigationBarComponent) {
+    private func confiureNavigationItem(with navigationBarComponent: NavigationBarComponentViewModel) {
         let toggleViewModeButton = UIBarButtonItem(
             image: UIImage(systemName: navigationBarComponent.rightBarButtonImageSystemName),
             style: .plain,

@@ -34,7 +34,7 @@ final class ProductDetailViewController: UIViewController {
     
     private var productID: Int?
     private let viewModel = ProductDetailSceneViewModel(
-        usecase: LookProductDetaiUsecase())
+        usecase: ProductDetaiUsecase())
     private let disposeBag = DisposeBag()
     
     private let productDidLike = PublishSubject<Int>()

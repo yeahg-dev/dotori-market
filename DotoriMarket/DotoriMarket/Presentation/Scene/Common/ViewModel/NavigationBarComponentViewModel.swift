@@ -1,5 +1,5 @@
 //
-//  NavigationBarComponent.swift
+//  NavigationBarComponentViewModel.swift
 //  DotoriMarket
 //
 //  Created by lily on 2022/07/20.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct NavigationBarComponent {
+struct NavigationBarComponentViewModel {
     
     let title: String
     let rightBarButtonImageSystemName: String

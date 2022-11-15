@@ -12,10 +12,10 @@ import RxCocoa
 
 final class ProductDetailSceneViewModel {
     
-    private let usecase: LookProductDetaiUsecase
+    private let usecase: ProductDetaiUsecase
     private let disposeBag = DisposeBag()
     
-    init(usecase: LookProductDetaiUsecase) {
+    init(usecase: ProductDetaiUsecase) {
         self.usecase = usecase
     }
     
@@ -57,17 +57,17 @@ final class ProductDetailSceneViewModel {
             .asDriver(onErrorJustReturn: false)
         
         let productName = productDetail.map{ $0.name }
-            .asDriver(onErrorJustReturn: MarketCommon.downloadErrorPlacehodler.rawValue)
+            .asDriver(onErrorJustReturn: MarketCommonNamespace.downloadErrorPlacehodler.rawValue)
         let productPrice = productDetail.map{ $0.price }
-            .asDriver(onErrorJustReturn: MarketCommon.downloadErrorPlacehodler.rawValue)
+            .asDriver(onErrorJustReturn: MarketCommonNamespace.downloadErrorPlacehodler.rawValue)
         let productSellingPrice = productDetail.map{ $0.sellingPrice }
-            .asDriver(onErrorJustReturn: MarketCommon.downloadErrorPlacehodler.rawValue)
+            .asDriver(onErrorJustReturn: MarketCommonNamespace.downloadErrorPlacehodler.rawValue)
         let productDiscountedRate = productDetail.map{ $0.discountedRate }
-            .asDriver(onErrorJustReturn: MarketCommon.downloadErrorPlacehodler.rawValue)
+            .asDriver(onErrorJustReturn: MarketCommonNamespace.downloadErrorPlacehodler.rawValue)
         let productStock = productDetail.map{ $0.stock }
-            .asDriver(onErrorJustReturn: MarketCommon.downloadErrorPlacehodler.rawValue)
+            .asDriver(onErrorJustReturn: MarketCommonNamespace.downloadErrorPlacehodler.rawValue)
         let prodcutDescription = productDetail.map{ $0.description }
-            .asDriver(onErrorJustReturn: MarketCommon.downloadErrorPlacehodler.rawValue)
+            .asDriver(onErrorJustReturn: MarketCommonNamespace.downloadErrorPlacehodler.rawValue)
         let productImageURLs = productDetail.map{ $0.images }
             .map{ $0.map{ $0.thumbnailURL } }
             .asDriver(onErrorJustReturn: [])

@@ -63,14 +63,14 @@ extension ProductViewModel {
         switch stock {
         case .zero:
             let soldOut = NSAttributedString(
-                string: MarketCommon.soldout.rawValue,
+                string: MarketCommonNamespace.soldout.rawValue,
                 attributes: [.font: UIFont.preferredFont(forTextStyle: .headline),
                              .foregroundColor: UIColor.systemYellow]
             )
             return soldOut
         default:
             let remainStock = NSAttributedString(
-                string: "\(MarketCommon.remainingStock.rawValue) \(stock.decimalFormatted)",
+                string: "\(MarketCommonNamespace.remainingStock.rawValue) \(stock.decimalFormatted)",
                 attributes: [.font: UIFont.preferredFont(forTextStyle: .body),
                              .foregroundColor: UIColor.systemGray]
             )

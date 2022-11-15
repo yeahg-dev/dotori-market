@@ -118,7 +118,7 @@ final class ProductTableViewController: UITableViewController {
         self.tableView.refreshControl = UIRefreshControl()
     }
     
-    private func confiureNavigationItem(with navigationBarComponent: NavigationBarComponent) {
+    private func confiureNavigationItem(with navigationBarComponent: NavigationBarComponentViewModel) {
         let toggleViewModeButton = UIBarButtonItem(
             image: UIImage(systemName: navigationBarComponent.rightBarButtonImageSystemName),
             style: .plain,

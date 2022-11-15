@@ -42,7 +42,7 @@ struct ProductInputChecker {
     func isValid(description: Observable<String?>) -> Observable<Bool> {
         return description.map{ description -> Bool in
             guard let text = description else { return false }
-            if text == MarketCommon.descriptionTextViewPlaceHolder.rawValue { return false }
+            if text == MarketCommonNamespace.descriptionTextViewPlaceHolder.rawValue { return false }
             return text.count >= 10 && text.count <= 1000 ? true : false }
     }
     

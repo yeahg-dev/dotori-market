@@ -29,7 +29,7 @@ class ProductDetailSceneViewModelTest: XCTestCase {
         
         Realm.Configuration.defaultConfiguration.inMemoryIdentifier = self.name
         let mockFavoriteRepository = MarketFavoriteProductRepository()
-        let testUsecase = LookProductDetaiUsecase(
+        let testUsecase = ProductDetaiUsecase(
             productRepository: mockProductRepository, favoriteProductRepository: mockFavoriteRepository)
         
         self.sut = ProductDetailSceneViewModel(usecase: testUsecase)

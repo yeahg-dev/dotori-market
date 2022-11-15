@@ -32,7 +32,7 @@ final class ProductListSceneViewModel {
     }
     
     struct Output {
-        let navigationBarComponent: Driver<NavigationBarComponent>
+        let navigationBarComponent: Driver<NavigationBarComponentViewModel>
         let willStartLoadingIndicator: Driver<Void>
         let willEndLoadingIndicator: Driver<Void>
         let products: Driver<[ProductViewModel]>
@@ -47,7 +47,7 @@ final class ProductListSceneViewModel {
         
         let navigationBarComponent = self.productListUsecase
             .fetchNavigationBarComponent()
-            .asDriver(onErrorJustReturn: NavigationBarComponent(
+            .asDriver(onErrorJustReturn: NavigationBarComponentViewModel(
                 title: "보기",
                 rightBarButtonImageSystemName: "squareshape.split.2x2"))
         

@@ -1,5 +1,5 @@
 //
-//  MarketCommon.swift
+//  MarketCommonNamespace.swift
 //  OpenMarket
 //
 //  Created by lily on 2022/06/09.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum MarketCommon: String {
+enum MarketCommonNamespace: String {
     
     case soldout = "SOLD OUT"
     case remainingStock = "재고"

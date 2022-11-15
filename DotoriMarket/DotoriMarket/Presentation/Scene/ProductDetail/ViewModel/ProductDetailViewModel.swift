@@ -86,10 +86,10 @@ extension ProductDetailViewModel {
     
     private func toProductStockLabelText(stock: Int) -> String {
         if stock == .zero {
-            return MarketCommon.soldout.rawValue
+            return MarketCommonNamespace.soldout.rawValue
         }
         let stockFormatted = stock.decimalFormatted
-        return "\(MarketCommon.remainingStock.rawValue) \(stockFormatted)"
+        return "\(MarketCommonNamespace.remainingStock.rawValue) \(stockFormatted)"
     }
     
 }

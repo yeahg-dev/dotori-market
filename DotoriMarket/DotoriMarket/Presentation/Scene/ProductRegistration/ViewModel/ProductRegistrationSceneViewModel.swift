@@ -49,7 +49,7 @@ final class ProductRegistrationSceneViewModel {
     }
     
     func transform(input: Input) -> Output {
-        let textViewPlaceholderText = MarketCommon.descriptionTextViewPlaceHolder.rawValue
+        let textViewPlaceholderText = MarketCommonNamespace.descriptionTextViewPlaceHolder.rawValue
         
         let textViewPlaceholder = input.viewWillAppear
             .map{ textViewPlaceholderText }
@@ -110,7 +110,7 @@ final class ProductRegistrationSceneViewModel {
             .map{ ValidationFailureAlertViewModel(
                 title: $0.1,
                 message: nil,
-                actionTitle: MarketCommon.confirm.rawValue) as AlertViewModel }
+                actionTitle: MarketCommonNamespace.confirm.rawValue) as AlertViewModel }
             .asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel)
     
         let registrationFailureAlert = PublishSubject<AlertViewModel>()

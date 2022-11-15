@@ -1,5 +1,5 @@
 //
-//  LookProductDetaiUsecase.swift
+//  ProductDetaiUsecase.swift
 //  DotoriMarket
 //
 //  Created by lily on 2022/07/22.
@@ -9,7 +9,7 @@ import Foundation
 
 import RxSwift
 
-struct LookProductDetaiUsecase {
+struct ProductDetaiUsecase {
     
     private let productRepository: ProductRepository
     private let favoriteProductRepository: FavoriteProductRepository

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 import RxSwift
 
 class AllProductListUsecase: ProductListUsecase {
@@ -30,9 +31,9 @@ class AllProductListUsecase: ProductListUsecase {
             }
         }
     
-    func fetchNavigationBarComponent() -> Observable<NavigationBarComponent> {
+    func fetchNavigationBarComponent() -> Observable<NavigationBarComponentViewModel> {
         return Observable.just(
-            NavigationBarComponent(
+            NavigationBarComponentViewModel(
                 title: "상품 보기",
                 rightBarButtonImageSystemName: "square.grid.2x2.fill"))
     }
