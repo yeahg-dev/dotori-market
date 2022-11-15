@@ -11,33 +11,30 @@ enum DummyJson {
 
     static let productDetailResponse: Data = """
     {
-        "id": 522,
-        "vendor_id": 6,
-        "name": "아이폰13",
-        "thumbnail": "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/6/thumb/f9aa6e0d787711ecabfa3f1efeb4842b.jpg",
+        "id": 1,
+        "vendor_id": 1,
+        "name": "test",
+        "description": "",
+        "thumbnail": "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/1/20221004/bd56d3d443bc11ed8b9b2de3d2728a0b_thumb.png",
         "currency": "KRW",
-        "price": 1300000,
-        "description": "비싸",
-        "bargain_price": 1300000,
-        "discounted_price": 0,
-        "stock": 12,
-        "created_at": "2022-01-18T00:00:00.00",
-        "issued_at": "2022-01-18T00:00:00.00",
+        "price": 0.0,
+        "bargain_price": 0.0,
+        "discounted_price": 0.0,
+        "stock": 1,
+        "created_at": "2022-10-04T00:00:00",
+        "issued_at": "2022-10-04T00:00:00",
         "images": [
-          {
-            "id": 352,
-            "url": "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/6/origin/f9aa6e0d787711ecabfa3f1efeb4842b.jpg",
-            "thumbnail_url": "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/6/thumb/f9aa6e0d787711ecabfa3f1efeb4842b.jpg",
-            "succeed": true,
-            "issued_at": "2022-01-18T00:00:00.00"
-          }
+            {
+                "id": 1,
+                "url": "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/1/20221004/bd56d3d343bc11ed8b9bcd162d39eb8e_origin.png",
+                "thumbnail_url": "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/1/20221004/bd56d3d443bc11ed8b9b2de3d2728a0b_thumb.png",
+                "issued_at": "2022-10-04T00:00:00"
+            }
         ],
         "vendors": {
-          "name": "제인",
-          "id": 6,
-          "created_at": "2022-01-10T00:00:00.00",
-          "issued_at": "2022-01-10T00:00:00.00"
+            "id": 1,
+            "name": "soobak1234"
         }
-      }
+    }
     """.data(using: .utf8)!
 }

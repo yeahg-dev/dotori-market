@@ -85,8 +85,8 @@ class ProductDetailSceneViewModelTest: XCTestCase {
                     
         wait(for: [expectation], timeout: 10)
                     
-        XCTAssertEqual(productNameObserver.events, [.next(5, "아이폰13")])
-        XCTAssertEqual(productSellingPriceObserver.events, [.next(5, "1,300,000원")])
+        XCTAssertEqual(productNameObserver.events, [.next(5, "test")])
+        XCTAssertEqual(productSellingPriceObserver.events, [.next(5, "0원")])
         XCTAssertEqual(likeButtonObserver.events, [.next(5, false)])
             
     }
