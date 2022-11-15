@@ -14,15 +14,19 @@ protocol ProductRepository {
     func fetchProductListPage(
         of page: Int,
         itemsPerPage: Int,
-        searchValue: String?) -> Observable<ProductListPage>
+        searchValue: String?)
+    -> Observable<ProductListPage>
     
     func fetchProductDetail(
-        of productID: Int) -> Observable<ProductDetail>
+        of productID: Int)
+    -> Observable<ProductDetail>
     
     func requestProductEdit(
-        with request: ProductEditRequest) -> Observable<ProductDetail>
+        with request: ProductEditRequest)
+    -> Observable<ProductDetail>
     
     func requestProductRegistration(
-        with request: ProductRegistrationRequest) -> Observable<ProductDetail>
+        with request: ProductRegistrationRequest)
+    -> Observable<ProductDetail>
 
 }

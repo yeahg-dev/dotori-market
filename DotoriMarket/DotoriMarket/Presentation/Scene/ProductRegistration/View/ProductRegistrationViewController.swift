@@ -46,9 +46,11 @@ final class ProductRegistrationViewController: UIViewController {
     
     // MARK: - Initializer
     
-    init?(viewModel: ProductRegistrationSceneViewModel,
-          coordinator: ProductRegistrationCoordinator,
-          coder: NSCoder) {
+    init?(
+        viewModel: ProductRegistrationSceneViewModel,
+        coordinator: ProductRegistrationCoordinator,
+        coder: NSCoder)
+    {
         self.viewModel = viewModel
         self.coordinator = coordinator
         super.init(coder: coder)
@@ -80,12 +82,14 @@ final class ProductRegistrationViewController: UIViewController {
               let descriptionsTextView = self.descriptionsTextView else {
             return
         }
-
+        
         guard let doneButton = self.navigationBar?.items?[0].rightBarButtonItem as? UIBarButtonItem else { return }
         
         let input = ProductRegistrationSceneViewModel.Input(
-            viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{_ in },
-            imagePickerCellDidSelected: productImageCollectionView.rx.itemSelected.map{ index in index.row }.filter{ $0 == .zero },
+            viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:)))
+                .map{_ in },
+            imagePickerCellDidSelected: productImageCollectionView.rx.itemSelected
+                .map{ index in index.row }.filter{ $0 == .zero },
             imageDidSelected: self.pickerImage.asObservable(),
             productTitle: nameTextField.rx.text,
             productCurrency: currencySegmentedControl.rx.value,
@@ -108,12 +112,14 @@ final class ProductRegistrationViewController: UIViewController {
             .drive(onNext: { [weak self] (placeholder: String) in
                 self?.textViewPlaceHolder = placeholder
                 self?.descriptionsTextView?.text = placeholder
-                self?.descriptionsTextView?.font = .preferredFont(forTextStyle: .footnote)
+                self?.descriptionsTextView?.font = .preferredFont(
+                    forTextStyle: .footnote)
                 self?.descriptionsTextView?.textColor = .systemGray2 })
             .disposed(by: disposeBag)
         
         output.productImages
-            .drive(productImageCollectionView.rx.items) { [weak self] (tableView, row, element) in
+            .drive(productImageCollectionView.rx.items) {
+                [weak self] (tableView, row, element) in
                 let indexPath = IndexPath(row: row, section: 0)
                 let cellType = element.0
                 
@@ -122,21 +128,30 @@ final class ProductRegistrationViewController: UIViewController {
                     guard let cell = self?.productImageCollectionView?.dequeueReusableCell(
                         withClass: ImagePickerCollectionViewCell.self,
                         for: indexPath
-                    ) else { return ImagePickerCollectionViewCell() }
-                    cell.updateAddedImageCountLabel(productImageCount: (self?.cells.count ?? 1) - 1)
+                    ) else {
+                        return ImagePickerCollectionViewCell() }
+                    cell.updateAddedImageCountLabel(
+                        productImageCount: (self?.cells.count ?? 1) - 1)
                     return cell
                 default:
-                    guard let cell = self?.productImageCollectionView?.dequeueReusableCell(withReuseIdentifier: "ProductImageCollectionViewCell", for: indexPath) as? ProductImageCollectionViewCell else {
+                    guard let cell = self?.productImageCollectionView?.dequeueReusableCell(
+                        withReuseIdentifier: "ProductImageCollectionViewCell",
+                        for: indexPath) as? ProductImageCollectionViewCell else {
                         return ProductImageCollectionViewCell()
                     }
-                    let image = UIImage(data: element.1) ?? UIImage(systemName: "exclamationmark.icloud")
+                    let image = UIImage(data: element.1) ?? UIImage(
+                        systemName: "exclamationmark.icloud")
                     if row == 1 {
-                        cell.updateProductImageView(image: image, isRepresentaion: true)
+                        cell.updateProductImageView(
+                            image: image,
+                            isRepresentaion: true)
                     } else {
-                        cell.updateProductImageView(image: image, isRepresentaion: false)
+                        cell.updateProductImageView(
+                            image: image,
+                            isRepresentaion: false)
                     }
                     return cell }}
-                .disposed(by: disposeBag)
+            .disposed(by: disposeBag)
         
         output.excessImageAlert
             .drive{ [weak self] excessImageAlert in
@@ -150,19 +165,19 @@ final class ProductRegistrationViewController: UIViewController {
         
         output.requireSecret
             .drive(onNext:{ [weak self] viewModel in
-                self?.presentRequireSecretAlert(viewModel: viewModel) }) 
+                self?.presentRequireSecretAlert(viewModel: viewModel) })
             .disposed(by: disposeBag)
         
         output.registrationFailureAlert
             .drive(onNext:{ [weak self] viewModel in
                 self?.presentAlertWithDismiss(alertViewModel: viewModel) })
             .disposed(by: disposeBag)
-
+        
         output.registrationSuccessAlert
             .drive(onNext: { [weak self] viewModel in
                 self?.presentRegistrationSuccessAlert(viewModel: viewModel) })
             .disposed(by: disposeBag)
-                
+        
     }
     
     // MARK: - Configure UI
@@ -191,7 +206,7 @@ final class ProductRegistrationViewController: UIViewController {
         self.flowLayout.minimumLineSpacing = 10
         self.flowLayout.sectionInset = UIEdgeInsets(top: .zero, left: 10, bottom: .zero, right: 10)
     }
-
+    
     // MARK: - IBaction Method
     
     @IBAction func cancelButtonTapped(_ sender: Any) {
@@ -201,45 +216,60 @@ final class ProductRegistrationViewController: UIViewController {
     // MARK: - Present Alert
     
     private func presentAlertWithDismiss(alertViewModel: AlertViewModel) {
-        let alert = UIAlertController(title: alertViewModel.title,
-                                      message: alertViewModel.message,
-                                      preferredStyle: .alert)
-        let action = UIAlertAction(title: alertViewModel.actionTitle,
-                                   style: .default) { _ in
-            alert.dismiss(animated: false)
-        }
-        action.setValue(DotoriColorPallete.identityHighlightColor,
-                        forKey: "titleTextColor")
+        let alert = UIAlertController(
+            title: alertViewModel.title,
+            message: alertViewModel.message,
+            preferredStyle: .alert)
+        let action = UIAlertAction(
+            title: alertViewModel.actionTitle,
+            style: .default) { _ in
+                alert.dismiss(animated: false)
+            }
+        action.setValue(
+            DotoriColorPallete.identityHighlightColor,
+            forKey: "titleTextColor")
         alert.addAction(action)
         self.present(alert, animated: false)
     }
     
     private func presentRequireSecretAlert(viewModel: AlertViewModel) {
-        let alert = UIAlertController(title: viewModel.title, message: nil, preferredStyle: .alert)
+        let alert = UIAlertController(
+            title: viewModel.title,
+            message: nil,
+            preferredStyle: .alert)
         alert.addTextField()
         alert.textFields?[0].isSecureTextEntry = true
-        let sendAction = UIAlertAction(title: viewModel.actionTitle, style: .default) { _ in
-            guard let secret = alert.textFields?[0].text else { return }
-            self.secret.onNext(secret)
-            alert.dismiss(animated: false)
-        }
-        sendAction.setValue(DotoriColorPallete.identityHighlightColor,
-                            forKey: "titleTextColor")
+        let sendAction = UIAlertAction(
+            title: viewModel.actionTitle,
+            style: .default) { _ in
+                guard let secret = alert.textFields?[0].text else { return }
+                self.secret.onNext(secret)
+                alert.dismiss(animated: false)
+            }
+        sendAction.setValue(
+            DotoriColorPallete.identityHighlightColor,
+            forKey: "titleTextColor")
         alert.addAction(sendAction)
         
         self.present(alert, animated: false)
     }
     
     private func presentRegistrationSuccessAlert(viewModel: AlertViewModel) {
-        let alert = UIAlertController(title: viewModel.title, message: nil, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: viewModel.actionTitle, style: .default) { [weak self] _ in
-            alert.dismiss(animated: false)
-            self?.coordinator.transitionToAllProduct()
-            self?.coordinator.childDidFinish(self?.coordinator)
-            self?.dismiss(animated: false)
-        }
-        okAction.setValue(DotoriColorPallete.identityHighlightColor,
-                          forKey: "titleTextColor")
+        let alert = UIAlertController(
+            title: viewModel.title,
+            message: nil,
+            preferredStyle: .alert)
+        let okAction = UIAlertAction(
+            title: viewModel.actionTitle,
+            style: .default) { [weak self] _ in
+                alert.dismiss(animated: false)
+                self?.coordinator.transitionToAllProduct()
+                self?.coordinator.childDidFinish(self?.coordinator)
+                self?.dismiss(animated: false)
+            }
+        okAction.setValue(
+            DotoriColorPallete.identityHighlightColor,
+            forKey: "titleTextColor")
         alert.addAction(okAction)
         self.present(alert, animated: false)
     }
@@ -296,8 +326,8 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UI
     
     func imagePickerController(
         _ picker: UIImagePickerController,
-        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any])
+    {
         if let possibleImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage,
            let data = possibleImage.jpegData(compressionQuality: 1) {
             self.pickerImage.onNext(data)

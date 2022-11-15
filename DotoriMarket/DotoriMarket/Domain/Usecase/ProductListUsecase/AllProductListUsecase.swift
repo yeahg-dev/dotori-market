@@ -20,7 +20,9 @@ class AllProductListUsecase: ProductListUsecase {
     func fetchPrdoucts(
         pageNo: Int,
         itemsPerPage: Int,
-        searchValue: String? = nil) -> Observable<([ProductViewModel], Bool)> {
+        searchValue: String? = nil)
+    -> Observable<([ProductViewModel], Bool)>
+    {
             self.productRepository.fetchProductListPage(
                 of: pageNo,
                 itemsPerPage: itemsPerPage,

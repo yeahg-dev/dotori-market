@@ -11,7 +11,9 @@ import RxSwift
 
 final class AllProductGridUsecase: AllProductListUsecase {
     
-    override func fetchNavigationBarComponent() -> Observable<NavigationBarComponentViewModel> {
+    override func fetchNavigationBarComponent()
+    -> Observable<NavigationBarComponentViewModel>
+    {
         return Observable.just(
             NavigationBarComponentViewModel(
                 title: "상품 보기",

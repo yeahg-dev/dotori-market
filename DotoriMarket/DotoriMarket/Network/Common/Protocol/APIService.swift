@@ -13,14 +13,14 @@ protocol APIServcie {
     
     func request<T: APIRequest>(
         _ request: T,
-        completion: @escaping (Result<Data, Error>
-        ) -> Void)
+        completion: @escaping (Result<Data, Error>) -> Void)
     
     func executeURLRequest(
         of request: URLRequest,
-        _ completion: @escaping (Result<Data, Error>
-        ) -> Void )
+        _ completion: @escaping (Result<Data, Error>) -> Void)
     
     func requestRx<T: APIRequest>(
-        _ request: T) -> Observable<Data>
+        _ request: T)
+    -> Observable<Data>
+    
 }

@@ -36,14 +36,15 @@ struct ProductResponse: Codable {
 extension ProductResponse {
     
     func toDomain() -> Product {
-        return Product(id: self.id,
-                       vendorID: self.vendorID,
-                       name: self.name,
-                       thumbnail: self.thumbnail,
-                       currency: self.currency.toDomain(),
-                       price: self.price,
-                       bargainPrice: self.bargainPrice,
-                       discountedPrice: self.discountedPrice,
-                       stock: self.stock)
+        return Product(
+            id: self.id,
+            vendorID: self.vendorID,
+            name: self.name,
+            thumbnail: self.thumbnail,
+            currency: self.currency.toDomain(),
+            price: self.price,
+            bargainPrice: self.bargainPrice,
+            discountedPrice: self.discountedPrice,
+            stock: self.stock)
     }
 }

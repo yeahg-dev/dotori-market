@@ -359,12 +359,12 @@
 			path = Usecase;
 			sourceTree = "<group>";
 		};
-		632493122887FC3C00502DBE /* Validation */ = {
+		632493122887FC3C00502DBE /* InputValidation */ = {
 			isa = PBXGroup;
 			children = (
 				634D897B287C4398005B3661 /* ProductInputChecker.swift */,
 			);
-			path = Validation;
+			path = InputValidation;
 			sourceTree = "<group>";
 		};
 		632ADA5128607F4D000B318B /* ViewModel */ = {
@@ -501,10 +501,9 @@
 		6396C23E28743B1B0076356D /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				63ABC449288AF75C00A2ED63 /* SellerInformation */,
 				63D97B682783F754009E2516 /* Model */,
 				6324930B2887A9A300502DBE /* Usecase */,
-				632493122887FC3C00502DBE /* Validation */,
+				632493122887FC3C00502DBE /* InputValidation */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -588,13 +587,6 @@
 			path = ProductListUsecase;
 			sourceTree = "<group>";
 		};
-		63ABC449288AF75C00A2ED63 /* SellerInformation */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = SellerInformation;
-			sourceTree = "<group>";
-		};
 		63ABC44A288AF7F800A2ED63 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
@@ -612,6 +604,7 @@
 				63ABC446288AE14C00A2ED63 /* RegisteredProductsCoordinator.swift */,
 				634EAD0028868E5100668A56 /* AllProductsCoordinator.swift */,
 				6364A972288994BC00B97DD8 /* FavoriteProductCoordinator.swift */,
+				63AA3B10288C0C3600A8877B /* ProductRegistrationCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -772,7 +765,6 @@
 		63DA959B28509609004CB9C1 /* ProductRegistration */ = {
 			isa = PBXGroup;
 			children = (
-				63AA3B10288C0C3600A8877B /* ProductRegistrationCoordinator.swift */,
 				632ADA5128607F4D000B318B /* ViewModel */,
 				63DA959F285096EA004CB9C1 /* View */,
 			);

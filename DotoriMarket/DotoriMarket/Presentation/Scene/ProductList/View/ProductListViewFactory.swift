@@ -19,12 +19,16 @@ struct ProductListViewFactory {
     
     static func make(
         viewType: ProductListView,
-        coordinator: ProductListCoordinator) -> ProductTableViewController {
+        coordinator: ProductListCoordinator)
+    -> ProductTableViewController
+    {
         switch viewType {
         case .allProducts:
             return UIStoryboard.main.instantiateViewController(
-                identifier: "ProductTableViewController", creator:  { coder -> ProductTableViewController in
-                    let viewModel = ProductListSceneViewModel(usecase: AllProductListUsecase())
+                identifier: "ProductTableViewController",
+                creator:  { coder -> ProductTableViewController in
+                    let viewModel = ProductListSceneViewModel(
+                        usecase: AllProductListUsecase())
                     let vc = ProductTableViewController(
                         viewModel: viewModel,
                         coordinator: coordinator,
@@ -33,8 +37,10 @@ struct ProductListViewFactory {
                 })
         case .favoriteProuducts:
             return UIStoryboard.main.instantiateViewController(
-                identifier: "ProductTableViewController", creator:  { coder -> ProductTableViewController in
-                    let viewModel = ProductListSceneViewModel(usecase: FavoriteProductListUsecase())
+                identifier: "ProductTableViewController",
+                creator:  { coder -> ProductTableViewController in
+                    let viewModel = ProductListSceneViewModel(
+                        usecase: FavoriteProductListUsecase())
                     let vc = ProductTableViewController(
                         viewModel: viewModel,
                         coordinator: coordinator,
@@ -43,8 +49,10 @@ struct ProductListViewFactory {
                 })
         case .registeredProducts:
             return UIStoryboard.main.instantiateViewController(
-                identifier: "ProductTableViewController", creator:  { coder -> ProductTableViewController in
-                    let viewModel = ProductListSceneViewModel(usecase: RegisterdProductListUsecase())
+                identifier: "ProductTableViewController",
+                creator:  { coder -> ProductTableViewController in
+                    let viewModel = ProductListSceneViewModel(
+                        usecase: RegisterdProductListUsecase())
                     let vc = ProductTableViewController(
                         viewModel: viewModel,
                         coordinator: coordinator,

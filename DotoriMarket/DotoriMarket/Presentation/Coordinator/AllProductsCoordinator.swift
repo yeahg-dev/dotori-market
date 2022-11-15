@@ -17,7 +17,7 @@ final class AllProductsCoordinator: TabCoordinator {
         viewType: .allProducts,
         coordinator: self)
     
-    init () {
+    init() {
         self.navigationController = UINavigationController()
     }
     

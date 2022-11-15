@@ -14,21 +14,23 @@ struct ProductRegistrationUsecase {
     private let productRepository: ProductRepository
     private let registredProductRepository: RegisteredProductRepository
     private let inputChecker = ProductInputChecker()
- 
-    init(productRepository: MarketProductRepository = MarketProductRepository(),
-         registredProductRepository: RegisteredProductRepository = MarketRegisteredProductRepository()) {
-        self.productRepository = productRepository
-        self.registredProductRepository = registredProductRepository
-    }
-
+    
+    init(
+        productRepository: MarketProductRepository = MarketProductRepository(),
+        registredProductRepository: RegisteredProductRepository = MarketRegisteredProductRepository()) {
+            self.productRepository = productRepository
+            self.registredProductRepository = registredProductRepository
+        }
+    
     func isValidInput(
         image: Observable<[(CellType, Data)]>,
         name: Observable<String?>,
         price: Observable<String?>,
         stock: Observable<String?>,
         description: Observable<String?>,
-        discountedPrice: Observable<String?> )
-    -> Observable<(ProductInputChecker.ValidationResult, String?)> {
+        discountedPrice: Observable<String?>)
+    -> Observable<(ProductInputChecker.ValidationResult, String?)>
+    {
         let isValidImage = self.inputChecker.isVald(image: image)
         let isValdName = self.inputChecker.isValid(name: name)
         let isValidPrice = self.inputChecker.isValid(price: price)
@@ -40,7 +42,7 @@ struct ProductRegistrationUsecase {
             price: price)
         
         return Observable.combineLatest(isValidImage, isValdName, isValidPrice,
-            isValidStock, isValidDescription, isValidDiscountedPrice) {
+                                        isValidStock, isValidDescription, isValidDiscountedPrice) {
             self.inputChecker.validationResultOf(
                 isValidImage: $0,
                 isValidName: $1,
@@ -58,12 +60,14 @@ struct ProductRegistrationUsecase {
         stock: Observable<String?>,
         description: Observable<String?>,
         secret: Observable<String>,
-        image: Observable<[(CellType, Data)]>) -> Observable<ProductDetail> {
-            return Observable.combineLatest(
-                name, price, currency, discountedPrice, stock, description, secret,
-                image,
-                resultSelector: { (name, price, currency, discountedPrice, stock,
-                                   descritpion, secret, image) -> ProductRegistrationRequest in
+        image: Observable<[(CellType, Data)]>)
+    -> Observable<ProductDetail>
+    {
+        return Observable.combineLatest(
+            name, price, currency, discountedPrice, stock, description, secret,
+            image,
+            resultSelector: { (name, price, currency, discountedPrice, stock,
+                               descritpion, secret, image) -> ProductRegistrationRequest in
                 return self.createRegistrationRequest(
                     name: name,
                     price: price,
@@ -73,12 +77,12 @@ struct ProductRegistrationUsecase {
                     description: descritpion,
                     secret: secret,
                     image: image) })
-            .flatMap { request in
-                self.request(reqeust: request) }
-            .do{ productDetail in
-                self.registredProductRepository.createRegisteredProduct(
-                    productID: productDetail.id) }
-        }
+        .flatMap { request in
+            self.request(reqeust: request) }
+        .do{ productDetail in
+            self.registredProductRepository.createRegisteredProduct(
+                productID: productDetail.id) }
+    }
     
     private func createRegistrationRequest(
         name: String?,
@@ -88,7 +92,9 @@ struct ProductRegistrationUsecase {
         stock: String?,
         description: String?,
         secret: String,
-        image: [(CellType, Data)]) -> ProductRegistrationRequest {
+        image: [(CellType, Data)])
+    -> ProductRegistrationRequest
+    {
         let newProductInfo = self.createNewProductInfo(
             name: name,
             price: price,
@@ -107,13 +113,16 @@ struct ProductRegistrationUsecase {
             images: imageFiles)
     }
     
-    private func createNewProductInfo(name: String?,
-                                      price: String?,
-                                      currency: Int,
-                                      discountedPrice: String?,
-                                      stock: String?,
-                                      description: String?,
-                                      secret: String) -> NewProductInfo {
+    private func createNewProductInfo(
+        name: String?,
+        price: String?,
+        currency: Int,
+        discountedPrice: String?,
+        stock: String?,
+        description: String?,
+        secret: String)
+    -> NewProductInfo
+    {
         let currency: Currency = currency == .zero ? .krw : .usd
         guard let name = name,
               let price = price,
@@ -128,7 +137,7 @@ struct ProductRegistrationUsecase {
                                   stock: 0,
                                   secret: "")
         }
-
+        
         return NewProductInfo(
             name: name,
             description: description,
@@ -140,7 +149,9 @@ struct ProductRegistrationUsecase {
     }
     
     private func request(
-        reqeust: ProductRegistrationRequest) -> Observable<ProductDetail> {
+        reqeust: ProductRegistrationRequest)
+    -> Observable<ProductDetail>
+    {
         self.productRepository.requestProductRegistration(with: reqeust)
     }
     

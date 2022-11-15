@@ -73,7 +73,8 @@ final class ProductDetailViewController: UIViewController {
         }
         
         let input = ProductDetailSceneViewModel.Input(
-            viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in productID },
+            viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:)))
+                .map{ _ in productID },
             productDidLike: self.productDidLike.asObservable(),
             productDidUnlike: self.productDidUnlike.asObservable())
         let output = viewModel.transform(input: input)
@@ -185,12 +186,14 @@ final class ProductDetailViewController: UIViewController {
     private func configureLikeButton() {
         let image = UIImage(systemName: "heart.circle.fill")?
             .resizeImageTo(size: CGSize(width: 55, height: 55))
-        let coloredImage = image?.withTintColor(DotoriColorPallete.likeColor,
-                             renderingMode: .alwaysTemplate)
+        let coloredImage = image?.withTintColor(
+            DotoriColorPallete.likeColor,
+            renderingMode: .alwaysTemplate)
         let selectedImage = UIImage(systemName: "heart.circle")?
             .resizeImageTo(size: CGSize(width: 55, height: 55))
-        let coloredSelectedImage = selectedImage?.withTintColor(DotoriColorPallete.likeColor,
-                                     renderingMode: .alwaysTemplate)
+        let coloredSelectedImage = selectedImage?.withTintColor(
+            DotoriColorPallete.likeColor,
+            renderingMode: .alwaysTemplate)
         self.likeButton?.setImage(coloredImage, for: .normal)
         self.likeButton?.setImage(coloredSelectedImage, for: .selected)
         self.likeButton?.tintColor = DotoriColorPallete.likeColor
@@ -239,7 +242,11 @@ extension ProductDetailViewController: UICollectionViewDelegate {
 
 extension ProductDetailViewController: UIScrollViewDelegate {
     
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    func scrollViewWillEndDragging(
+        _ scrollView: UIScrollView,
+        withVelocity velocity: CGPoint,
+        targetContentOffset: UnsafeMutablePointer<CGPoint>)
+    {
         let page = Int(targetContentOffset.pointee.x / self.view.frame.width)
         self.imagePageControl.currentPage = page
     }

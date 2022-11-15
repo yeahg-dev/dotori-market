@@ -33,7 +33,10 @@ final class MainCoordinator: Coordinator {
         self.navigationController.pushViewController(designedVC, animated: false)
     }
     
-    private func designTabBarController(_ vc: UITabBarController) -> UITabBarController {
+    private func designTabBarController(
+        _ vc: UITabBarController)
+    -> UITabBarController
+    {
         vc.tabBar.unselectedItemTintColor = DotoriColorPallete.identityColor
         vc.tabBar.tintColor = DotoriColorPallete.identityHighlightColor
         vc.tabBar.barTintColor = DotoriColorPallete.identityBackgroundColor

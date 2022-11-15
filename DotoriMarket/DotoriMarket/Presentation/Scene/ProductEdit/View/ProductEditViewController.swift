@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 
 final class ProductEditViewController: UIViewController {
-
+    
     // MARK: - IBOutlet
     
     @IBOutlet weak var scrollView: UIScrollView?
@@ -61,7 +61,8 @@ final class ProductEditViewController: UIViewController {
         }
         
         let input = ProductEditSceneViewModel.Input(
-            viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in productID},
+            viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:)))
+                .map{ _ in productID},
             productName: productNameField.rx.text,
             productPrice: productPriceField.rx.text,
             productDiscountedPrice: productDisconutPriceField.rx.text,
@@ -82,13 +83,13 @@ final class ProductEditViewController: UIViewController {
                 cellIdentifier: "PrdouctImageCollectionViewCell",
                 cellType: ProductImageCollectionViewCell.self))
         { (row, element, cell) in
-                guard let imageURL = URL(string: element) else { return }
-                if row == .zero {
-                    cell.update(image: nil, url: imageURL, isRepresentaion: true)
-                } else {
-                    cell.update(image: nil, url: imageURL, isRepresentaion: false)
-                } }
-            .disposed(by: disposeBag)
+            guard let imageURL = URL(string: element) else { return }
+            if row == .zero {
+                cell.update(image: nil, url: imageURL, isRepresentaion: true)
+            } else {
+                cell.update(image: nil, url: imageURL, isRepresentaion: false)
+            } }
+        .disposed(by: disposeBag)
         
         output.productPrice
             .drive(productPriceField.rx.text)
@@ -114,7 +115,7 @@ final class ProductEditViewController: UIViewController {
             .drive(onNext: { [weak self] description in
                 self?.presentAlertWithDismiss(viewModel: description) })
             .disposed(by: disposeBag)
-
+        
         output.requireSecret
             .drive(onNext:{ [weak self] viewModel in
                 self?.presentRequireSecretAlert(viewModel: viewModel) })
@@ -124,7 +125,7 @@ final class ProductEditViewController: UIViewController {
             .drive(onNext:{ [weak self] viewModel in
                 self?.presentAlertWithDismiss(viewModel: viewModel) })
             .disposed(by: disposeBag)
-
+        
         output.registrationSuccessAlert
             .drive(onNext: { [weak self] _ in
                 self?.navigationController?.popViewController(animated: true) })
@@ -146,39 +147,55 @@ final class ProductEditViewController: UIViewController {
         let cellWidth = view.bounds.size.width / 4
         flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth)
         flowLayout.minimumLineSpacing = 10
-        flowLayout.sectionInset = UIEdgeInsets(top: .zero, left: 10, bottom: .zero, right: 10)
+        flowLayout.sectionInset = UIEdgeInsets(
+            top: .zero,
+            left: 10,
+            bottom: .zero,
+            right: 10)
         self.productImageCollectionView?.collectionViewLayout = flowLayout
     }
     
     private func configureDelegate() {
         self.productNameField?.delegate = self
     }
-
+    
     // MARK: - Present Alert
     
     private func presentAlertWithDismiss(viewModel: AlertViewModel) {
-        let alert = UIAlertController(title: viewModel.title, message: viewModel.message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: viewModel.actionTitle, style: .default) { _ in
-            alert.dismiss(animated: false)
-        }
-        okAction.setValue(DotoriColorPallete.identityHighlightColor,
-                          forKey: "titleTextColor")
+        let alert = UIAlertController(
+            title: viewModel.title,
+            message: viewModel.message,
+            preferredStyle: .alert)
+        let okAction = UIAlertAction(
+            title: viewModel.actionTitle,
+            style: .default) { _ in
+                alert.dismiss(animated: false)
+            }
+        okAction.setValue(
+            DotoriColorPallete.identityHighlightColor,
+            forKey: "titleTextColor")
         alert.addAction(okAction)
         
         self.present(alert, animated: false)
     }
     
     private func presentRequireSecretAlert(viewModel: AlertViewModel) {
-        let alert = UIAlertController(title: viewModel.title, message: viewModel.message, preferredStyle: .alert)
+        let alert = UIAlertController(
+            title: viewModel.title,
+            message: viewModel.message,
+            preferredStyle: .alert)
         alert.addTextField()
         alert.textFields?[0].isSecureTextEntry = true
-        let sendAction = UIAlertAction(title: viewModel.actionTitle, style: .default) { [weak self] _ in
-            guard let secret = alert.textFields?[0].text else { return }
-            self?.secret.onNext(secret)
-            alert.dismiss(animated: false)
-        }
-        sendAction.setValue(DotoriColorPallete.identityHighlightColor,
-                            forKey: "titleTextColor")
+        let sendAction = UIAlertAction(
+            title: viewModel.actionTitle,
+            style: .default) { [weak self] _ in
+                guard let secret = alert.textFields?[0].text else { return }
+                self?.secret.onNext(secret)
+                alert.dismiss(animated: false)
+            }
+        sendAction.setValue(
+            DotoriColorPallete.identityHighlightColor,
+            forKey: "titleTextColor")
         alert.addAction(sendAction)
         
         self.present(alert, animated: false)
@@ -187,7 +204,7 @@ final class ProductEditViewController: UIViewController {
     @objc func cancelButtonTapped() {
         self.dismiss(animated: true)
     }
-
+    
     // MARK: - API
     
     func setProduct(_ productID: Int) {

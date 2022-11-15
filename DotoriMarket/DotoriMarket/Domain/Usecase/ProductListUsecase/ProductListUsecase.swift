@@ -16,7 +16,8 @@ protocol ProductListUsecase: AnyObject {
     func fetchPrdoucts(
         pageNo: Int,
         itemsPerPage: Int,
-        searchValue: String?) -> Observable<([ProductViewModel], Bool)>
+        searchValue: String?)
+    -> Observable<([ProductViewModel], Bool)>
     
     func fetchNavigationBarComponent() -> Observable<NavigationBarComponentViewModel>
     

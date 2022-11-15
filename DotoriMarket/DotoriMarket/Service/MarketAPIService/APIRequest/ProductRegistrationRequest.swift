@@ -43,8 +43,9 @@ struct ProductRegistrationRequest: APIRequest {
     private func createBody(
         params productInfo: NewProductInfo,
         images: [ImageFile?],
-        encodingStyle: String.Encoding
-    ) -> Data? {
+        encodingStyle: String.Encoding)
+    -> Data?
+    {
         var body = Data()
         let boundary = "--" + boundary
         let lineBreak = "\r\n"

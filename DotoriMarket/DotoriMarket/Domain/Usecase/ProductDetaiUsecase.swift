@@ -14,14 +14,17 @@ struct ProductDetaiUsecase {
     private let productRepository: ProductRepository
     private let favoriteProductRepository: FavoriteProductRepository
     
-    init(productRepository: MarketProductRepository = MarketProductRepository(),
-         favoriteProductRepository: FavoriteProductRepository = MarketFavoriteProductRepository()) {
+    init(
+        productRepository: MarketProductRepository = MarketProductRepository(),
+        favoriteProductRepository: FavoriteProductRepository = MarketFavoriteProductRepository()) {
         self.productRepository = productRepository
         self.favoriteProductRepository = favoriteProductRepository
     }
     
     func fetchPrdouctDetail(
-        of productID: Int) -> Observable<(ProductDetailViewModel)> {
+        of productID: Int)
+    -> Observable<(ProductDetailViewModel)>
+    {
         self.productRepository.fetchProductDetail(of: productID)
             .map{ detail in
                 return ProductDetailViewModel(product: detail) }

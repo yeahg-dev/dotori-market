@@ -24,14 +24,18 @@ final class ProductCollectionViewController: UICollectionViewController {
     
     // MARK: - Load from Storyboard
     
-    static func make(coordinator: AllProductsCoordinator) -> ProductCollectionViewController {
-        let productListVC = UIStoryboard.initiateViewController(ProductCollectionViewController.self)
+    static func make(
+        coordinator: AllProductsCoordinator)
+    -> ProductCollectionViewController
+    {
+        let productListVC = UIStoryboard.initiateViewController(
+            ProductCollectionViewController.self)
         productListVC.coordinator = coordinator
         return productListVC
     }
     
     // MARK: - View Life Cycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
@@ -49,7 +53,8 @@ final class ProductCollectionViewController: UICollectionViewController {
         }
         
         let input = ProductListSceneViewModel.Input(
-            viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in },
+            viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:)))
+                .map{ _ in },
             willDisplayCellAtIndex: self.collectionView.rx.willDisplayCell.map{ $1 },
             listViewDidStartRefresh: refreshControl.rx.controlEvent(.valueChanged).asObservable(),
             cellDidSelectedAt: self.collectionView.rx.itemSelected.asObservable())
@@ -71,11 +76,12 @@ final class ProductCollectionViewController: UICollectionViewController {
             .disposed(by: disposeBag)
         
         output.products
-            .drive(collectionView.rx.items(cellIdentifier: "ProductCollectionViewCell",
-                                              cellType: ProductCollectionViewCell.self))
-            { (_, element, cell) in
-                cell.fillContent(of: element) }
-            .disposed(by: disposeBag)
+            .drive(collectionView.rx.items(
+                cellIdentifier: "ProductCollectionViewCell",
+                cellType: ProductCollectionViewCell.self))
+        { (_, element, cell) in
+            cell.fillContent(of: element) }
+        .disposed(by: disposeBag)
         
         output.networkErrorAlert
             .drive{ [weak self] viewModel in
@@ -117,15 +123,17 @@ final class ProductCollectionViewController: UICollectionViewController {
         let safeArea = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate(
             [loadingIndicator.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor),
-            loadingIndicator.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor)]
+             loadingIndicator.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor)]
         )
     }
-
+    
     private func configureRefreshControl() {
         self.collectionView.refreshControl = UIRefreshControl()
     }
     
-    private func confiureNavigationItem(with navigationBarComponent: NavigationBarComponentViewModel) {
+    private func confiureNavigationItem(
+        with navigationBarComponent: NavigationBarComponentViewModel)
+    {
         let toggleViewModeButton = UIBarButtonItem(
             image: UIImage(systemName: navigationBarComponent.rightBarButtonImageSystemName),
             style: .plain,
@@ -139,7 +147,7 @@ final class ProductCollectionViewController: UICollectionViewController {
     @objc func toggleViewMode() {
         coordinator?.rightNavigationItemDidTapped(from: self)
     }
-
+    
     // MARK: - Present Alert
     
     private func presentNetworkErrorAlert(viewModel: AlertViewModel) {
@@ -154,7 +162,11 @@ final class ProductCollectionViewController: UICollectionViewController {
 
 extension ProductCollectionViewController: UIGestureRecognizerDelegate {
     
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(
+        _ gestureRecognizer: UIGestureRecognizer,
+        shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer)
+    -> Bool
+    {
         return true
     }
     

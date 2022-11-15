@@ -53,27 +53,35 @@ final class ProductEditSceneViewModel {
             .do(onNext: { self.productID = $0.id })
             .share(replay: 1)
         
-        let productName = productDetail.map{ $0.name }
+        let productName = productDetail
+            .map{ $0.name }
             .asDriver(onErrorJustReturn: MarketCommonNamespace.downloadErrorPlacehodler.rawValue)
-        let productPrice = productDetail.map{ $0.price }
+        let productPrice = productDetail
+            .map{ $0.price }
             .asDriver(onErrorJustReturn: MarketCommonNamespace.downloadErrorPlacehodler.rawValue)
-        let productDiscountedPrice = productDetail.map{ $0.discountedPrice }
+        let productDiscountedPrice = productDetail
+            .map{ $0.discountedPrice }
             .asDriver(onErrorJustReturn: MarketCommonNamespace.downloadErrorPlacehodler.rawValue)
-        let productStock = productDetail.map{ $0.stock }
+        let productStock = productDetail
+            .map{ $0.stock }
             .asDriver(onErrorJustReturn: MarketCommonNamespace.downloadErrorPlacehodler.rawValue)
-        let prodcutDescription = productDetail.map{ $0.description }
+        let prodcutDescription = productDetail
+            .map{ $0.description }
             .asDriver(onErrorJustReturn: MarketCommonNamespace.downloadErrorPlacehodler.rawValue)
-        let productImagesURL = productDetail.map{ $0.images }.map{ $0.map{ $0.thumbnailURL }}
+        let productImagesURL = productDetail
+            .map{ $0.images }
+            .map{ $0.map{ $0.thumbnailURL }}
             .asDriver(onErrorJustReturn: [])
-        let productCurrencyIndex = productDetail.map{ $0.currency }
+        let productCurrencyIndex = productDetail
+            .map{ $0.currency }
             .map{ currency -> Int in
                 switch currency {
                 case .krw:
                     return 0
                 case .usd:
                     return 1
-                }
-            }.asDriver(onErrorJustReturn: 0)
+                } }
+            .asDriver(onErrorJustReturn: 0)
         
         let isValidInput = input.doneDidTapped
             .flatMap { self.usecase.isValidInput(
@@ -115,17 +123,19 @@ final class ProductEditSceneViewModel {
             .map{ _ in }
             .asDriver(onErrorJustReturn: ())
         
-        return Output(prdouctName: productName,
-                      productImagesURL: productImagesURL,
-                      productPrice: productPrice,
-                      productDiscountedPrice: productDiscountedPrice,
-                      productCurrencyIndex: productCurrencyIndex,
-                      productStock: productStock,
-                      productDescription: prodcutDescription,
-                      validationFailureAlert: validationFailureAlert,
-                      requireSecret: requireSecret,
-                      registrationSuccessAlert: registerationResponse,
-                      registrationFailureAlert: registrationFailureAlert.asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel))
+        return Output(
+            prdouctName: productName,
+            productImagesURL: productImagesURL,
+            productPrice: productPrice,
+            productDiscountedPrice: productDiscountedPrice,
+            productCurrencyIndex: productCurrencyIndex,
+            productStock: productStock,
+            productDescription: prodcutDescription,
+            validationFailureAlert: validationFailureAlert,
+            requireSecret: requireSecret,
+            registrationSuccessAlert: registerationResponse,
+            registrationFailureAlert: registrationFailureAlert
+                .asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel))
     }
     
 }

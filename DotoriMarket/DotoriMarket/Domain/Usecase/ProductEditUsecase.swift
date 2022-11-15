@@ -19,7 +19,9 @@ struct ProductEditUsecase {
     }
     
     func fetchPrdouctDetail(
-        of productID: Int) -> Observable<ProductDetail> {
+        of productID: Int)
+    -> Observable<ProductDetail>
+    {
         return self.productRepository.fetchProductDetail(of: productID)
     }
     
@@ -28,7 +30,9 @@ struct ProductEditUsecase {
         price: Observable<String?>,
         stock: Observable<String?>,
         description: Observable<String?>,
-        discountedPrice: Observable<String?> ) -> Observable<(ProductInputChecker.ValidationResult, String?)> {
+        discountedPrice: Observable<String?>)
+    -> Observable<(ProductInputChecker.ValidationResult, String?)>
+    {
         let isValdName = self.inputChecker.isValid(name: name)
         let isValidPrice = self.inputChecker.isValid(price: price)
         let isValidStock = self.inputChecker.isValid(stock: stock)
@@ -46,7 +50,9 @@ struct ProductEditUsecase {
         discountedPrice: Observable<String?>,
         stock: Observable<String?>,
         secret: Observable<String>,
-        productID: Int?) -> Observable<ProductDetail> {
+        productID: Int?)
+    -> Observable<ProductDetail>
+    {
             Observable.combineLatest(
                 name,
                 price,
@@ -77,7 +83,9 @@ struct ProductEditUsecase {
         currencyIndex: Int,
         discountedPrice: String?,
         stock: String?,
-        secret: String) -> EditProductInfo? {
+        secret: String)
+    -> EditProductInfo?
+    {
         guard let name = name,
               let description = description,
               let price = price,
@@ -91,14 +99,15 @@ struct ProductEditUsecase {
         } else {
             currency = .usd
         }
-        return EditProductInfo(name: name,
-                               descriptions: description,
-                               thumbnailID: nil,
-                               price: (price as NSString).doubleValue,
-                               currency: currency.toEntity(),
-                               discountedPrice: ((discountedPrice ?? "0") as NSString).doubleValue,
-                               stock: (stock as NSString).integerValue,
-                               secret: secret)
+        return EditProductInfo(
+            name: name,
+            descriptions: description,
+            thumbnailID: nil,
+            price: (price as NSString).doubleValue,
+            currency: currency.toEntity(),
+            discountedPrice: ((discountedPrice ?? "0") as NSString).doubleValue,
+            stock: (stock as NSString).integerValue,
+            secret: secret)
     }
     
     private func createEditRequest(

@@ -4,7 +4,7 @@
 //
 //  Created by lily on 2022/06/20.
 //
- 
+
 import Foundation
 
 import RxSwift
@@ -12,13 +12,13 @@ import RxCocoa
 
 final class ProductRegistrationSceneViewModel {
     
-    private let usecase: ProductRegistrationUsecase
-    
     static let maximumProductImageCount = 5
+    
+    private let usecase: ProductRegistrationUsecase
     private let imagePickerCellCount = 1
     private var maximutProductImageCellCount: Int {
         ProductRegistrationSceneViewModel.maximumProductImageCount + imagePickerCellCount }
-
+    
     init(usecase: ProductRegistrationUsecase) {
         self.usecase = usecase
     }
@@ -102,7 +102,7 @@ final class ProductRegistrationSceneViewModel {
             .withLatestFrom(validationSuccess)
             .map{ _ in RequireSecretAlertViewModel() as AlertViewModel }
             .asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel)
-    
+        
         let validationFailAlert = input.doneDidTapped
             .withLatestFrom(isValidInput) { (request, validationResult) in
                 return validationResult }
@@ -112,7 +112,7 @@ final class ProductRegistrationSceneViewModel {
                 message: nil,
                 actionTitle: MarketCommonNamespace.confirm.rawValue) as AlertViewModel }
             .asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel)
-    
+        
         let registrationFailureAlert = PublishSubject<AlertViewModel>()
         
         let registrationSucessAlert = input.didReceiveSecret
@@ -131,20 +131,21 @@ final class ProductRegistrationSceneViewModel {
                     registrationFailureAlert.onNext(RegistrationSuccessWithParsingFailureAlertViewModel())
                 }
                 registrationFailureAlert.onNext(RegistrationFailureAlertViewModel()) })
-            .retry(when: { _ in requireSecretAlert.asObservable() })
-            .map{ _ in return RegistrationSuccessAlertViewModel() as AlertViewModel }
-            .asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel)
+                .retry(when: { _ in requireSecretAlert.asObservable() })
+                .map{ _ in return RegistrationSuccessAlertViewModel() as AlertViewModel }
+                .asDriver(onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel)
         
-        return Output(textViewPlaceholder: textViewPlaceholder,
-                      requireSecret: requireSecretAlert,
-                      presentImagePicker: presentImagePicker,
-                      productImages: productCellImages.asDriver(onErrorJustReturn: []),
-                      excessImageAlert: excessImageAlert,
-                      validationFailureAlert: validationFailAlert.asDriver(
-                        onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel),
-                      registrationSuccessAlert: registrationSucessAlert,
-                      registrationFailureAlert: registrationFailureAlert .asDriver(
-                        onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel))
+        return Output(
+            textViewPlaceholder: textViewPlaceholder,
+            requireSecret: requireSecretAlert,
+            presentImagePicker: presentImagePicker,
+            productImages: productCellImages.asDriver(onErrorJustReturn: []),
+            excessImageAlert: excessImageAlert,
+            validationFailureAlert: validationFailAlert.asDriver(
+                onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel),
+            registrationSuccessAlert: registrationSucessAlert,
+            registrationFailureAlert: registrationFailureAlert .asDriver(
+                onErrorJustReturn: ErrorAlertViewModel() as AlertViewModel))
     }
     
 }

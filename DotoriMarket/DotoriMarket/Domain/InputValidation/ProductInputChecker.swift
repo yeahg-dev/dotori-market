@@ -46,7 +46,11 @@ struct ProductInputChecker {
             return text.count >= 10 && text.count <= 1000 ? true : false }
     }
     
-    func isValid(discountedPrice: Observable<String?>, price: Observable<String?>) -> Observable<Bool> {
+    func isValid(
+        discountedPrice: Observable<String?>,
+        price: Observable<String?>)
+    -> Observable<Bool>
+    {
         return Observable.combineLatest(discountedPrice, price) { (discountedPrice, price) -> Bool in
             let disconutPrice = Int(discountedPrice ?? "") ?? 0
             let price = Int(price ?? "") ?? 0
@@ -54,12 +58,15 @@ struct ProductInputChecker {
         }
     }
     
-    func validationResultOf(isValidImage: Bool = true,
-                  isValidName: Bool,
-                  isValidPrice: Bool,
-                  isValidStock: Bool,
-                  isValidDescription: Bool,
-                  isValidDiscountedPrice: Bool) -> (ValidationResult, String?) {
+    func validationResultOf(
+        isValidImage: Bool = true,
+        isValidName: Bool,
+        isValidPrice: Bool,
+        isValidStock: Bool,
+        isValidDescription: Bool,
+        isValidDiscountedPrice: Bool)
+    -> (ValidationResult, String?)
+    {
         let category = [isValidImage, isValidName, isValidPrice, isValidStock, isValidDescription, isValidDiscountedPrice]
         
         if !isValidDiscountedPrice {
@@ -67,22 +74,26 @@ struct ProductInputChecker {
         }
         
         if category.contains(false) {
-            let description = self.alertDescriptionOf(isValidImage: isValidImage,
-                                                        isValidName: isValidName,
-                                                        isValidPrice: isValidPrice,
-                                                        isValidStock: isValidStock,
-                                                        isValidDescription: isValidDescription)
+            let description = self.alertDescriptionOf(
+                isValidImage: isValidImage,
+                isValidName: isValidName,
+                isValidPrice: isValidPrice,
+                isValidStock: isValidStock,
+                isValidDescription: isValidDescription)
             return (ValidationResult.failure, description)
         } else {
             return (ValidationResult.success, nil)
         }
     }
     
-    private func alertDescriptionOf(isValidImage: Bool,
-                              isValidName: Bool,
-                              isValidPrice: Bool,
-                              isValidStock: Bool,
-                              isValidDescription: Bool) -> String {
+    private func alertDescriptionOf(
+        isValidImage: Bool,
+        isValidName: Bool,
+        isValidPrice: Bool,
+        isValidStock: Bool,
+        isValidDescription: Bool)
+    -> String
+    {
         let image = isValidImage ? "" : "대표 사진"
         let name = isValidName ? "" : "상품명"
         let price = isValidPrice ? "" : "가격"

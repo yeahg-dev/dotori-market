@@ -42,13 +42,15 @@ struct ProductDetailViewModel {
     }
     
     var sellingPrice: String {
-        return self.toProductSellingPriceLabelText(bargainPrice: self.bargainPriceData,
-                                                   currency: self.currency)
+        return self.toProductSellingPriceLabelText(
+            bargainPrice: self.bargainPriceData,
+            currency: self.currency)
     }
     
     var price: String? {
-        return self.toProductPriceLabelText(price: self.priceData,
-                                            currency: self.currency)
+        return self.toProductPriceLabelText(
+            price: self.priceData,
+            currency: self.currency)
     }
     
     var stock: String {
@@ -70,7 +72,11 @@ struct ProductDetailViewModel {
 
 extension ProductDetailViewModel {
     
-    private func toProductPriceLabelText(price: Double, currency: Currency) -> String? {
+    private func toProductPriceLabelText(
+        price: Double,
+        currency: Currency)
+    -> String?
+    {
         if price.isZero {
             return nil
         }
@@ -79,7 +85,11 @@ extension ProductDetailViewModel {
         return currency.composePriceTag(of: price)
     }
     
-    private func toProductSellingPriceLabelText(bargainPrice: Double, currency: Currency) -> String {
+    private func toProductSellingPriceLabelText(
+        bargainPrice: Double,
+        currency: Currency)
+    -> String
+    {
         let price = bargainPrice.decimalFormatted
         return currency.composePriceTag(of: price)
     }

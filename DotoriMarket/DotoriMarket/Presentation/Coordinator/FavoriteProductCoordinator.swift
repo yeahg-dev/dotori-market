@@ -12,7 +12,7 @@ final class FavoriteProductsCoordinator: TabCoordinator {
     var childCoordinator = [Coordinator]()
     var navigationController: UINavigationController
     
-    init () {
+    init() {
         self.navigationController = UINavigationController()
     }
     

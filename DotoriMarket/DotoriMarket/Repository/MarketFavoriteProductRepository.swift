@@ -63,14 +63,13 @@ struct MarketFavoriteProductRepository: FavoriteProductRepository {
                 let products = realm.objects(LikeProduct.self)
                 
                 guard products.count > 0,
-                      let product = Array(products.where { $0.id == Int64(productID) })[safe: 0]else {
+                      let product = Array(products.where { $0.id == Int64(productID) })[safe: 0] else {
                     observer.onNext(false)
                     return
                 }
                 
                 let favoriteProduct = product.toDomain()
                 observer.onNext(favoriteProduct.isLike)
-               
             }
             return Disposables.create()
         }

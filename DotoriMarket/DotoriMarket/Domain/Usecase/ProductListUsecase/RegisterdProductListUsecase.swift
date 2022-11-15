@@ -10,9 +10,10 @@ import Foundation
 import RxSwift
 
 final class RegisterdProductListUsecase: ProductListUsecase {
+
+    private let registredProductRepository: RegisteredProductRepository
     
     let productRepository: ProductRepository
-    private let registredProductRepository: RegisteredProductRepository
     
     init(productRepository: ProductRepository = MarketProductRepository(),
          registredProductRepository: RegisteredProductRepository = MarketRegisteredProductRepository()) {
@@ -25,26 +26,32 @@ final class RegisterdProductListUsecase: ProductListUsecase {
     func fetchPrdoucts(
         pageNo: Int,
         itemsPerPage: Int,
-        searchValue: String?) -> Observable<([ProductViewModel], Bool)> {
-            
+        searchValue: String?)
+    -> Observable<([ProductViewModel], Bool)>
+    {
         return self.registredProductRepository.fetchRegisteredProductIDs()
-                .flatMap{ prodcutIDs in
-                    self.fetchProductViewModels(of: prodcutIDs) }
-                .map{ ($0, false) }
-        }
+            .flatMap{ prodcutIDs in
+                self.fetchProductViewModels(of: prodcutIDs) }
+            .map{ ($0, false) }
+    }
     
-    func fetchNavigationBarComponent() -> Observable<NavigationBarComponentViewModel> {
+    func fetchNavigationBarComponent()
+    -> Observable<NavigationBarComponentViewModel>
+    {
         return Observable.just(
             NavigationBarComponentViewModel(
                 title: "등록 상품 관리",
                 rightBarButtonImageSystemName: "plus.square.on.square"))
     }
     
-    private func fetchProductViewModels(of page: [Int]) -> Observable<[ProductViewModel]> {
+    private func fetchProductViewModels(
+        of page: [Int])
+    -> Observable<[ProductViewModel]>
+    {
         let requests = Observable.from(page)
             .flatMap({ id in
                 self.productRepository.fetchProductDetail(of: id) })
-     
+        
         let productViewModels = requests
             .map{ detail in
                 Product(id: detail.id, vendorID: detail.vendorID, name: detail.name, thumbnail: detail.thumbnail, currency: detail.currency, price: detail.price, bargainPrice: detail.bargainPrice, discountedPrice: detail.discountedPrice, stock: detail.stock) }
@@ -54,8 +61,8 @@ final class RegisterdProductListUsecase: ProductListUsecase {
             .map { array in
                 array.sorted { $0.id > $1.id }
             }
-            
-      return productViewModels
+        
+        return productViewModels
     }
     
 }

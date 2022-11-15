@@ -17,8 +17,10 @@ final class FavoriteProductListUsecase: ProductListUsecase {
     private var favoriteProducts = [Int]()
     private var favoriteProductPages = [[Int]]()
     
-    init(productRepository: ProductRepository = MarketProductRepository(),
-         favoriteProdcutRepository: FavoriteProductRepository = MarketFavoriteProductRepository()) {
+    init(
+        productRepository: ProductRepository = MarketProductRepository(),
+        favoriteProdcutRepository: FavoriteProductRepository = MarketFavoriteProductRepository())
+    {
         self.productRepository = productRepository
         self.favoriteProductRepository = favoriteProdcutRepository
     }
@@ -26,12 +28,14 @@ final class FavoriteProductListUsecase: ProductListUsecase {
     func fetchPrdoucts(
         pageNo: Int,
         itemsPerPage: Int,
-        searchValue: String?) -> Observable<([ProductViewModel], Bool)> {
-            return self.favoriteProductRepository.fetchFavoriteProductIDs()
-                .flatMap{ prodcutIDs in
-                    self.fetchProductViewModels(of: prodcutIDs) }
-                .map{ ($0, false) }
-        }
+        searchValue: String?)
+    -> Observable<([ProductViewModel], Bool)>
+    {
+        return self.favoriteProductRepository.fetchFavoriteProductIDs()
+            .flatMap{ prodcutIDs in
+                self.fetchProductViewModels(of: prodcutIDs) }
+            .map{ ($0, false) }
+    }
     
     func fetchNavigationBarComponent() -> Observable<NavigationBarComponentViewModel> {
         return Observable.just(
@@ -40,7 +44,10 @@ final class FavoriteProductListUsecase: ProductListUsecase {
                 rightBarButtonImageSystemName: ""))
     }
     
-    private func fetchProductViewModels(of productIDs: [Int]) -> Observable<[ProductViewModel]> {
+    private func fetchProductViewModels(
+        of productIDs: [Int])
+    -> Observable<[ProductViewModel]>
+    {
         guard !productIDs.isEmpty else{
             return Observable.just([ProductViewModel]())
         }

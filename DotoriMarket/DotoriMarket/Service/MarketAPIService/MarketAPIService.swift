@@ -18,38 +18,39 @@ struct MarketAPIService: APIServcie {
     }
     
     func requestRx<T: APIRequest>(
-        _ request: T) -> Observable<Data> {
-            let observable = Observable<Data>.create{ observer in
-                self.request(request) { result in
-                    switch result {
-                    case.success(let response):
-                        observer.onNext(response)
-                    case .failure(let error):
-                        observer.onError(error)
-                    }
+        _ request: T)
+    -> Observable<Data>
+    {
+        let observable = Observable<Data>.create{ observer in
+            self.request(request) { result in
+                switch result {
+                case.success(let response):
+                    observer.onNext(response)
+                case .failure(let error):
+                    observer.onError(error)
                 }
-                return Disposables.create()
             }
-            return observable
+            return Disposables.create()
         }
+        return observable
+    }
     
     func request<T: APIRequest>(
         _ request: T,
-        completion: @escaping (Result<Data, Error>
-        ) -> Void) {
+        completion: @escaping (Result<Data, Error>) -> Void)
+    {
         guard let urlRequest = request.urlRequest() else {
             print("URL Request creation failed")
             completion(.failure(APIError.URLRequestCreationFail))
             return
         }
-        
         self.executeURLRequest(of: urlRequest, completion)
     }
-
+    
     func executeURLRequest(
         of request: URLRequest,
-        _ completion: @escaping (Result<Data, Error>
-        ) -> Void ) {
+        _ completion: @escaping (Result<Data, Error>) -> Void )
+    {
         let dataTask = session.dataTask(with: request) { data, response, error in
             if let error = error {
                 print("\(error.localizedDescription)")

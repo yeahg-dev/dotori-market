@@ -48,7 +48,7 @@ final class ProductTableViewController: UITableViewController {
         self.configureTableViewLayout()
         self.bindViewModel()
     }
-
+    
     // MARK: - binding
     
     private func bindViewModel() {
@@ -57,7 +57,8 @@ final class ProductTableViewController: UITableViewController {
         }
         
         let input = ProductListSceneViewModel.Input(
-            viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))).map{ _ in },
+            viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:)))
+                .map{ _ in },
             willDisplayCellAtIndex: self.tableView.rx.willDisplayCell.map{ $1 },
             listViewDidStartRefresh: refreshControl.rx.controlEvent(.valueChanged).asObservable(),
             cellDidSelectedAt: self.tableView.rx.itemSelected.asObservable())
@@ -77,13 +78,13 @@ final class ProductTableViewController: UITableViewController {
             .drive{ [weak self] _ in
                 self?.loadingIndicator.stopAnimating() }
             .disposed(by: disposeBag)
-
+        
         output.products
             .drive(tableView.rx.items(cellIdentifier: "ProductTableViewCell",
-                                         cellType: ProductTableViewCell.self))
-            { (_, element, cell) in
-                cell.fillContent(of: element) }
-            .disposed(by: disposeBag)
+                                      cellType: ProductTableViewCell.self))
+        { (_, element, cell) in
+            cell.fillContent(of: element) }
+        .disposed(by: disposeBag)
         
         output.networkErrorAlert
             .drive{ [weak self] viewModel in
@@ -118,7 +119,9 @@ final class ProductTableViewController: UITableViewController {
         self.tableView.refreshControl = UIRefreshControl()
     }
     
-    private func confiureNavigationItem(with navigationBarComponent: NavigationBarComponentViewModel) {
+    private func confiureNavigationItem(
+        with navigationBarComponent: NavigationBarComponentViewModel)
+    {
         let toggleViewModeButton = UIBarButtonItem(
             image: UIImage(systemName: navigationBarComponent.rightBarButtonImageSystemName),
             style: .plain,
@@ -128,7 +131,7 @@ final class ProductTableViewController: UITableViewController {
         
         self.navigationItem.title = navigationBarComponent.title
     }
- 
+    
     @objc func toggleViewMode() {
         coordinator?.rightNavigationItemDidTapped(from: self)
     }
@@ -146,14 +149,18 @@ final class ProductTableViewController: UITableViewController {
         alert.addAction(okAction)
         self.present(alert, animated: false)
     }
-
+    
 }
 
 // MARK: - UIGestureRecognizerDelegate
 
 extension ProductTableViewController: UIGestureRecognizerDelegate {
     
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(
+        _ gestureRecognizer: UIGestureRecognizer,
+        shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer)
+    -> Bool
+    {
         return false
     }
 }
