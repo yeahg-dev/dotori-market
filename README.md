@@ -202,13 +202,13 @@ struct ProductListViewFactory {
 <details>
 <summary><h3>Testable한 Network Layer는 어떻게 만들까?</h3></summary>
 
-> **문제 상황** : API로 데이터를 받아 사용하는 ViewModel을 테스트하기 위해선 Network 객체도 테스터블하게 만들어야함
+> **문제 상황** : API로 데이터를 받아 사용하는 ViewModel을 테스트하기 위해선 Network 객체도 테스터블하게 만들어야했습니다.
 
-- `URLProtocol`을 상속한 `MockURLProtocol`을 구현
-- `MockURLProtocol` 서 서버와 통신을 통해 받은 `data`와 `response`대신  `mockResponse, data` 를 전달하도록 `startLoading()` 오버라이딩
-- 따라서 실제 통신을 하지 않고도 작동하는 mock `APIService`구현 가능
+- `URLProtocol`을 상속한 `MockURLProtocol`을 구현했습니다.
+- `MockURLProtocol`에 서버와 통신을 통해 받은 `data`와 `response`대신 `mockResponse, data` 를 전달하도록 `startLoading()` 오버라이딩했습니다.
+- 따라서 실제 통신을 하지 않고도 작동하는 mock `APIService`구현할 수 있었습니다.
 
-➡️ `APIService`의 코드 수정 없이, `MockURLProtocol`로 설정한 `URLSessionConfiguration`을 주입하여 네트워크와 무관하게 바인딩, 뷰 모델 로직 테스트 가능
+➡️ `APIService`의 코드 수정 없이, `MockURLProtocol`로 설정한 `URLSessionConfiguration`을 주입하여 네트워크와 무관하게 바인딩, 뷰 모델 로직 테스트 가능해졌습니다.
 
 
 [test: MockURLProtocol 구현 및 테스트 코드 적용](https://github.com/yeahg-dev/dotori-market/commit/16560b6895dc9fbdc4fc121f25bf6cb285f03d33)
@@ -236,18 +236,18 @@ struct ProductListViewFactory {
 <details>
 <summary><h3>RxSwift 에러 핸들링 </h3></summary>
 
-> **문제 상황** : 뷰 컨트롤러에서 각 에러에 따른 알림을 사용자에게 차별적으로 보여주려면 에러를 구독해야함. 하지만 에러가 한 번 방출되면 스트림은 종료되고, 다시 이벤트를 받지 못함
+> **문제 상황** : 뷰 컨트롤러에서 각 에러에 따른 알림을 사용자에게 차별적으로 보여주려면 에러를 구독해합니다. 하지만 에러가 한 번 방출되면 스트림은 종료되고, 다시 이벤트를 받지 못합니다.
 
 **시도**
 
-- `retry`를 쓰면 에러가 방출되어도 그 즉시 dispose되고 다시 구독되기 때문에 스트림을 살릴 수 있지만, 에러가 옵저버에게 전달되지 않기 때문에 뷰에서 어떤 에러가 방출됐는지 알 수 없음
-- `catch(onErrorJustReturn:)`, `asDriver(onErrorJustReturn:)` 를 쓰면 에러대신 다른 값을 넥스트로 보내고 complete되기 때문에 더 이상 사용자 이벤트를 받을 수 없음
-- `Result`타입으로 값과 에러를 wrapping해서 next로 방출하면 뷰에서 핸들링이 가능하다. 하지만 뷰컨이 분기를 하는 것과 같은 로직을 갖게되어 역할 분리 측면에선 좋은 방법은 아니라 판단
+- `retry`를 쓰면 에러가 방출되어도 그 즉시 dispose되고 다시 구독되기 때문에 스트림을 살릴 수 있지만, 에러가 옵저버에게 전달되지 않기 때문에 뷰에서 어떤 에러가 방출됐는지 알 수 없습니다.
+- `catch(onErrorJustReturn:)`, `asDriver(onErrorJustReturn:)` 를 쓰면 에러대신 다른 값을 넥스트로 보내고 complete되기 때문에 더 이상 사용자 이벤트를 받을 수 없습니다.
+- `Result`타입으로 값과 에러를 wrapping해서 next로 방출하면 뷰에서 핸들링이 가능합니다. 하지만 뷰컨이 분기를 하는 것과 같은 로직을 갖게되어 역할 분리 측면에선 좋은 방법은 아니라 판단했습니다.
 
 **해결 방법**
 
-- 에러에 대한 Alert을 별도의 Output으로 정의, `Subject`타입으로 구현
-- 스트림에서 error방출시 `do`에서 Subject로 `AlertViewModel`을 next로 보냄
+- 뷰에 AlertController의 뷰모델을 전달하는 스트림을 `Subject`타입으로 구현했습니다.
+- 스트림에서 error방출시 `do`에서 `Subject`에게 `AlertViewModel`을 next로 보냈습니다. 
 
 ```swift
 protocol AlertViewModel {
@@ -262,7 +262,7 @@ protocol AlertViewModel {
 <details>
 <summary><h3> 통신 절감 및 빠른 이미지 보기 위한 Cache 구현 </h3></summary>
 
-> **문제 상황** : 이미지는 용량이 크기 때문에 스크롤 할 때마다 셀에 느리게 바인딩되는 상황
+> **문제 상황** : 이미지는 용량이 크기 때문에 스크롤 할 때마다 셀에 느리게 바인딩되는 상황이었습니다.
 
 `UIImage+Extension`에  `NScache`를 사용해 해당 이미지 URL을 key로 데이터를 캐싱했습니다.
 
@@ -287,8 +287,9 @@ Escaping Closure는 참조타입으로 강한 순환 참조로 인한 메모리 
 <details>
 <summary><h3>HTTP구조와 URLSession을 사용한 통신</h3></summary>
 
-- 직접 HTTP header, body, httpMethod, boundary를 구현해보며 HTTP 프로토콜의 구조에 대해 깊게 학습한 기회였습니다.
-- 각 API 요청을 프로토콜로 공통화하여 재사용 가능한 타입을 정의했습니다.
+- 직접 HTTP header, body, httpMethod, boundary를 구현해보며 HTTP 프로토콜의 구조에 대해 학습할 수 있었습니다.
+- APIRequest를 프로토콜로 정의하여, 개별 Request 생성시 프로토콜을 구현했습니다.
+- POP의 
 
 ```swift
 protocol APIRequest {
