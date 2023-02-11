@@ -289,11 +289,11 @@ Escaping Closure는 참조타입으로 강한 순환 참조로 인한 메모리 
 
 - 직접 HTTP header, body, httpMethod, boundary를 구현해보며 HTTP 프로토콜의 구조에 대해 학습할 수 있었습니다.
 - APIRequest를 프로토콜로 정의하여, 개별 Request 생성시 프로토콜을 구현했습니다.
-- POP의 
+- POP를 직접 적용해봄으로싸 확장성과 유연성을 이해할 수 있었습니다.
 
 ```swift
 protocol APIRequest {
-    
+   // Request에 대한 Response Parsing Type을 연관 타입으로 정의
     associatedtype Response: ResponseDataType
     
     var url: URL? { get }
@@ -305,6 +305,7 @@ protocol APIRequest {
 
 extension APIRequest {
     
+    // 프로토콜 기본 구현을 활용해 편리하게 URLRequest를 생성하는 API 제공
     func urlRequest() -> URLRequest? {
         guard let url = url else {
             return nil
