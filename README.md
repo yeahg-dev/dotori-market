@@ -204,6 +204,7 @@ struct ProductListViewFactory {
 
 > **문제 상황** : API로 데이터를 받아 사용하는 ViewModel을 테스트하기 위해선 Network 객체도 테스터블하게 만들어야했습니다.
 
+**해결 방법**
 - `URLProtocol`을 상속한 `MockURLProtocol`을 구현했습니다.
 - `MockURLProtocol`에 서버와 통신을 통해 받은 `data`와 `response`대신 `mockResponse, data` 를 전달하도록 `startLoading()` 오버라이딩했습니다.
 - 따라서 실제 통신을 하지 않고도 작동하는 mock `APIService`구현할 수 있었습니다.
@@ -224,6 +225,7 @@ struct ProductListViewFactory {
 > 2. Input에 들어갈 `ControlProperty` 타입을 만들어야합니다. 
 > 3. `ViewModel`은 `Usecase`에 의존하기 때문에 `Usecase`의 동작에 영향을 받습니다.
 
+**해결 방법**
 
 - `TestScheduler` 로 `ColdObservable` 을 생성하여 사용자 이벤트를 대신할 이벤트를 예약한후, `ControlProperty`의 값을 나타낼 `BehaviorSubject`에 바인드했습니다.
 - `ControlProperty`는 최초의 `UIVaule`를 이벤트로 내보냅니다. 따라서 `BehaviorSubject`로 최초 값을 정의하고 실제와 동일한 테스트 환경을 만들었습니다.
@@ -264,7 +266,9 @@ protocol AlertViewModel {
 
 > **문제 상황** : 이미지는 용량이 크기 때문에 스크롤 할 때마다 셀에 느리게 바인딩되는 상황이었습니다.
 
-`UIImage+Extension`에  `NScache`를 사용해 해당 이미지 URL을 key로 데이터를 캐싱했습니다.
+**해결 방법**
+
+- `UIImage+Extension`에  `NScache`를 사용해 해당 이미지 URL을 key로 데이터를 캐싱했습니다.
 
 ➡️ 사용성과 통신 비용을 개선했습니다. 
 </details>
@@ -274,7 +278,7 @@ protocol AlertViewModel {
 # 4. 학습한 내용
 
 <details>
-<summary><h3>Escaping Closure 사용시 유의 사항 </h3></summary>
+<summary><h3>Escaping Closure 사용시 강한 순환 참조 해결 방법 </h3></summary>
 
 Escaping Closure는 참조타입으로 강한 순환 참조로 인한 메모리 누수를 유발할 수 있습니다. 
 
